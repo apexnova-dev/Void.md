@@ -22,6 +22,7 @@ description: Use when managing tasks, the system is a Kanban task manager based 
 
 **Priority**: [Critical|High|Medium|Low] | **Category**: [Value] | **Assigned**: @user1, @user2
 **Created**: YYYY-MM-DD | **Started**: YYYY-MM-DD | **Due**: YYYY-MM-DD | **Finished**: YYYY-MM-DD
+**Author**: Claude Code | **Session**: [SESSION_ID] | **AI Version**: claude-3-sonnet
 **Tags**: #tag1 #tag2 #tag3
 
 Free text description. **NO `##` or `###` headings allowed**.
@@ -139,11 +140,15 @@ What was done.
 
 1. Create task BEFORE coding
 2. Strict format (no `##` inside tasks)
-3. Break down if complex (3+ steps)
-4. Update in real-time
-5. Document result in `**Notes**:`
-6. Reference tasks in commits (`TASK-XXX`)
-7. Leave in "Done" (archive only on user request)
+3. **MANDATORY**: Include author tracking:
+   - `**Author**:` Claude Code
+   - `**Session**:` [Generate unique session ID]
+   - `**AI Version**:` claude-3-sonnet
+4. Break down if complex (3+ steps)
+5. Update in real-time
+6. Document result in `**Notes**:`
+7. Reference tasks in commits (`TASK-XXX`)
+8. Leave in "Done" (archive only on user request)
 
 ### ❌ NEVER
 
@@ -192,6 +197,7 @@ What was done.
 
 **Priority**: Critical | **Category**: Backend | **Assigned**: @bob
 **Created**: 2025-01-20 | **Due**: 2025-01-21
+**Author**: Claude Code | **Session**: ses_1705123456 | **AI Version**: claude-3-sonnet
 **Tags**: #bug #urgent
 
 Users cannot log in. Error 500 in logs.
@@ -207,6 +213,7 @@ Check Redis, related to yesterday's deployment.
 
 **Priority**: High | **Category**: Backend | **Assigned**: @alice
 **Created**: 2025-01-15 | **Started**: 2025-01-18 | **Finished**: 2025-01-22
+**Author**: Claude Code | **Session**: ses_1705123456 | **AI Version**: claude-3-sonnet
 **Tags**: #feature
 
 Real-time notifications with WebSockets.
@@ -244,11 +251,23 @@ When using this skill, you must:
 
 1. **Read kanban.md** to understand current state and get last ID
 2. **Create tasks** following strict format
-3. **Update tasks** by moving between sections
-4. **Check off subtasks** progressively
-5. **Document result** in Notes before marking Done
-6. **Increment Last Task ID** in config comment
-7. **Never archive** unless explicitly requested
+3. **Generate unique session ID** (format: `ses_[timestamp]`)
+4. **Include author tracking** in every task created
+5. **Update tasks** by moving between sections
+6. **Check off subtasks** progressively
+7. **Document result** in Notes before marking Done
+8. **Increment Last Task ID** in config comment
+9. **Never archive** unless explicitly requested
+
+### Session ID Generation
+
+Generate a unique session ID for each interaction:
+```
+Format: ses_[UNIX_TIMESTAMP]
+Example: ses_1705123456
+```
+
+This enables tracing all work back to the specific AI session that created it.
 
 ## 📘 Git Integration
 

@@ -46,7 +46,7 @@ You're completely right. I should have documented the existing system state firs
 
 ## 🚨 Self-Correction Plan
 
-I apologize for the unprofessional approach. The change logging system should have been implemented **after** documenting the existing state, with clear rationale for **why** each component was needed
+> I apologize for the unprofessional approach. The change logging system should have been implemented **after** documenting the existing state, with clear rationale for **why** each component was needed
 ---
 
 ## 🎯 Current Action Items

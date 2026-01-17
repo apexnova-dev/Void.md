@@ -13,6 +13,7 @@ This file contains general guidelines for all AI assistants (Claude, ChatGPT, Co
 
 **Priority**: [Value] | **Category**: [Value] | **Assigned**: @user1, @user2
 **Created**: YYYY-MM-DD | **Started**: YYYY-MM-DD | **Due**: YYYY-MM-DD | **Finished**: YYYY-MM-DD
+**Author**: [Name/AI] | **Session**: [Session ID] | **AI Version**: [Model if applicable]
 **Tags**: #tag1 #tag2 #tag3
 
 Free text description. **NO `##` or `###` headings allowed**.
@@ -33,9 +34,19 @@ What was done.
 
 ### Fields
 
-**REQUIRED**: `### TASK-XXX |`, `**Priority**:`, `**Category**:`, `**Created**:`
+**REQUIRED**: `### TASK-XXX |`, `**Priority**:`, `**Category**:`, `**Created**:`, `**Author**:`
 
-**OPTIONAL**: `**Assigned**:`, `**Started**:`, `**Due**:`, `**Finished**:`, `**Tags**:`, Description, `**Subtasks**:`, `**Notes**:`
+**STRONGLY RECOMMENDED**: `**Session**:` (for AI sessions) or `**Author**:` for humans
+
+**OPTIONAL**: `**Assigned**:`, `**Started**:`, `**Due**:`, `**Finished**:`, `**AI Version**:`, `**Tags**:`, Description, `**Subtasks**:`, `**Notes**:`
+
+### Author Tracking Fields
+
+| Field | Format | When to Use | Examples |
+|-------|--------|-------------|----------|
+| `**Author**:` | Human name or AI identity | ALWAYS | `John Doe`, `Claude Code`, `ChatGPT-4` |
+| `**Session**:` | Session identifier | AI sessions | `ses_abc123`, `cli_20240115_001` |
+| `**AI Version**:` | Model/version | AI tasks only | `claude-3-sonnet`, `gpt-4-turbo` |
 
 ### ❌ FORBIDDEN
 
@@ -51,7 +62,10 @@ What was done.
 ### 1. New request
 1. Create task in `kanban.md` → "📝 To Do"
 2. Unique ID (TASK-XXX) auto-incremented
-3. Break down into subtasks if needed
+3. Add author tracking information:
+   - Humans: `**Author**:` with name
+   - AI: `**Author**:` + `**Session**:` + optional `**AI Version**:`
+4. Break down into subtasks if needed
 
 ### 2. Start work
 1. Move → "🚀 In Progress"
@@ -79,13 +93,14 @@ What was done.
 
 ## 📝 Examples
 
-### Simple Task
+### Simple Task (Human Created)
 
 ```markdown
 ### TASK-001 | Fix login bug
 
 **Priority**: Critical | **Category**: Backend | **Assigned**: @bob
 **Created**: 2025-01-20 | **Due**: 2025-01-21
+**Author**: John Doe
 **Tags**: #bug #urgent
 
 Users cannot log in. Error 500 in logs.
@@ -94,13 +109,69 @@ Users cannot log in. Error 500 in logs.
 Check Redis, related to yesterday's deployment.
 ```
 
-### Complete Task
+### Simple Task (AI Created)
+
+```markdown
+### TASK-001 | Fix login bug
+
+**Priority**: Critical | **Category**: Backend | **Assigned**: @bob
+**Created**: 2025-01-20 | **Due**: 2025-01-21
+**Author**: Claude Code | **Session**: ses_abc123 | **AI Version**: claude-3-sonnet
+**Tags**: #bug #urgent
+
+Users cannot log in. Error 500 in logs.
+
+**Notes**:
+Check Redis, related to yesterday's deployment.
+```
+
+### Complete Task (Human Created)
 
 ```markdown
 ### TASK-042 | Notification system
 
 **Priority**: High | **Category**: Backend | **Assigned**: @alice
 **Created**: 2025-01-15 | **Started**: 2025-01-18 | **Finished**: 2025-01-22
+**Author**: Sarah Chen
+**Tags**: #feature
+
+Real-time notifications with WebSockets.
+
+**Subtasks**:
+- [x] Setup WebSocket server
+- [x] REST API
+- [x] Email sending
+- [x] Notifications UI
+- [x] E2E tests
+
+**Notes**:
+
+**Result**:
+✅ Functional system with WebSocket, REST API and emails.
+
+**Modified files**:
+- src/websocket/server.js (lines 1-150)
+- src/api/notifications.js (lines 20-85)
+
+**Technical decisions**:
+- Socket.io for WebSockets
+- SendGrid for emails
+- 30-day history in MongoDB
+
+**Tests performed**:
+- ✅ 100 simultaneous connections
+- ✅ Auto-reconnection
+- ✅ Emails < 2s
+```
+
+### Complete Task (AI Created)
+
+```markdown
+### TASK-042 | Notification system
+
+**Priority**: High | **Category**: Backend | **Assigned**: @alice
+**Created**: 2025-01-15 | **Started**: 2025-01-18 | **Finished**: 2025-01-22
+**Author**: Claude Code | **Session**: ses_def456 | **AI Version**: claude-3-sonnet
 **Tags**: #feature
 
 Real-time notifications with WebSockets.
@@ -138,12 +209,13 @@ Real-time notifications with WebSockets.
 
 ### ✅ ALWAYS
 1. Create task BEFORE coding
-2. Strict format (no `##` in tasks)
-3. Break down if complex
-4. Real-time progress
-5. Document result in `**Notes**:`
-6. Reference tasks in commits (`TASK-XXX`)
-7. Leave in "Done" (archive only on user request)
+2. Strict format (no `##` inside tasks)
+3. Include author tracking (`**Author**:` required, `**Session**:` for AI)
+4. Break down if complex
+5. Real-time progress
+6. Document result in `**Notes**:`
+7. Reference tasks in commits (`TASK-XXX`)
+8. Leave in "Done" (archive only on user request)
 
 ### ❌ NEVER
 1. `## Title` in a task
@@ -246,6 +318,80 @@ git commit -m "fix: Bug fix (TASK-001)"
 
 # Branches
 git checkout -b feature/TASK-042-notifications
+```
+
+---
+
+## 🔍 Session Tracking & Audit Trail
+
+### Why Session Tracking Matters
+
+1. **Debugging broken code**: Trace back through AI sessions that introduced bugs
+2. **Context recovery**: Understand decisions made in previous sessions
+3. **Performance analysis**: Compare different AI models/sessions
+4. **Accountability**: Know which AI/human made which changes
+5. **Learning**: Identify patterns in successful vs problematic sessions
+
+### Session ID Format
+
+| Type | Format | Example | When to Use |
+|------|--------|---------|-------------|
+| **Claude Code** | `ses_[timestamp]` | `ses_1705123456` | CLI sessions |
+| **Web Interface** | `web_[timestamp]_[random]` | `web_1705123456_abc` | Browser-based AI |
+| **API/CLI** | `[tool]_[date]_[sequence]` | `openai_20240115_001` | API-based tools |
+| **Human** | `human_[initials]_[date]` | `human_jd_20240115` | Manual creation |
+
+### AI Version Tracking
+
+| AI | Version Format | Example |
+|----|----------------|---------|
+| **Claude** | `claude-3-[model]` | `claude-3-sonnet`, `claude-3-haiku` |
+| **GPT** | `gpt-[version]` | `gpt-4-turbo`, `gpt-3.5-turbo` |
+| **Gemini** | `gemini-[version]` | `gemini-pro`, `gemini-advanced` |
+| **Local Models** | `[name]-[version]` | `llama2-7b`, `mistral-7b` |
+
+### Audit Trail Benefits
+
+#### When Things Go Wrong
+```bash
+# Search for all tasks from problematic session
+grep "Session: ses_1705123456" kanban.md
+
+# Find what AI worked on when
+grep "Author: Claude Code" kanban.md | grep "Session:"
+```
+
+#### When Things Go Right
+```bash
+# Find successful patterns from top-performing AI
+grep "AI Version: claude-3-sonnet" kanban.md | grep -A5 "Result:"
+
+# Track human vs AI productivity
+grep -c "Author: human" kanban.md
+grep -c "Author: Claude Code" kanban.md
+```
+
+#### Session Continuity
+```markdown
+### TASK-007 | Continue session ses_1705123456 work
+
+**Priority**: Medium | **Category**: Maintenance
+**Created**: 2025-01-16
+**Author**: Claude Code | **Session**: ses_1705123456 | **AI Version**: claude-3-sonnet
+
+Continuing work from previous session where we implemented notification system.
+Previous session completed TASK-042.
+
+**Notes**:
+**Previous session context**:
+- TASK-042: Notification system completed
+- All tests passing
+- Ready for deployment
+
+**Next steps**:
+- Deploy notification system
+- Monitor performance
+- Document API usage
 ```
 
 ---

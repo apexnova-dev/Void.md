@@ -1,30 +1,30 @@
-# 📚 Format Markdown et Exemples
+# 📚 Markdown Format and Examples
 
-Ce dossier contient des fichiers exemples complets pour le Markdown Task Manager, ainsi que la documentation détaillée du format Markdown utilisé.
+This folder contains complete example files for the Markdown Task Manager, along with detailed documentation of the Markdown format used.
 
-## 📁 Fichiers d'exemple
+## 📁 Example Files
 
 ```
 examples/
-├── kanban.md      # Fichier principal avec config et tâches actives
-├── archive.md     # Archives des tâches terminées
-└── README.md      # Ce fichier (documentation du format)
+├── kanban.md      # Main file with config and active tasks
+├── archive.md     # Archived completed tasks
+└── README.md      # This file (format documentation)
 ```
 
-## 🎯 Vue d'ensemble
+## 🎯 Overview
 
-Le Markdown Task Manager utilise **deux fichiers Markdown** pour organiser vos tâches :
+The Markdown Task Manager uses **two Markdown files** to organize your tasks:
 
-| Fichier | Rôle | Chargement |
-|---------|------|------------|
-| `kanban.md` | Configuration + Tâches actives | Au démarrage |
-| `archive.md` | Tâches archivées | À la demande |
+| File | Role | Loaded |
+|------|------|--------|
+| `kanban.md` | Configuration + Active tasks | At startup |
+| `archive.md` | Archived tasks | On demand |
 
 ---
 
-## 📄 Structure de `kanban.md`
+## 📄 Structure of `kanban.md`
 
-### 1. Commentaire de configuration (obligatoire)
+### 1. Configuration comment (required)
 
 ```markdown
 # Kanban Board
@@ -32,174 +32,179 @@ Le Markdown Task Manager utilise **deux fichiers Markdown** pour organiser vos t
 <!-- Config: Last Task ID: 42 -->
 ```
 
-- **Obligatoire** : Compteur d'ID auto-incrémenté
-- L'application lit ce nombre pour générer le prochain ID de tâche
-- Modifié automatiquement par l'application
+- **Required**: Auto-incrementing ID counter
+- The app reads this number to generate the next task ID
+- Automatically modified by the app
 
-### 2. Section Configuration (obligatoire)
+### 2. Configuration section (required)
 
 ```markdown
 ## ⚙️ Configuration
 
-**Colonnes**: 📝 À faire (todo) | 🚀 En cours (in-progress) | 👀 En revue (in-review) | ✅ Terminé (done)
+**Columns**: 📝 To Do | 🚀 In Progress | 👀 In Review | ✅ Done
 
-**Catégories**: Frontend, Backend, Design, DevOps, Tests, Documentation
+**Categories**: Frontend, Backend, Design, DevOps, Tests, Documentation
 
-**Utilisateurs**: @alice (Alice Martin), @bob (Bob Dupont), @charlie (Charlie Dubois)
+**Users**: @alice (Alice Martin), @bob (Bob Dupont), @charlie (Charlie Dubois)
 
-**Priorités**: 🔴 Critique | 🟠 Haute | 🟡 Moyenne | 🟢 Basse
+**Priority**: 🔴 Critical | 🟠 High | 🟡 Medium | 🟢 Low
 
 **Tags**: #bug #feature #ui #backend #urgent #refactor #docs #test #performance
 
 ---
 ```
 
-#### Format des colonnes
+#### Columns format
 
 ```
-{Emoji} {Nom affiché} ({id-unique})
+{Emoji} {Display Name} (unique-id)
 ```
 
-- **Emoji** : Optionnel mais recommandé pour l'interface
-- **Nom affiché** : Texte visible dans le Kanban
-- **ID unique** : Identifiant interne (lettres, chiffres, tirets)
+- **Emoji**: Optional but recommended for the UI
+- **Display Name**: Visible text in the Kanban
+- **Unique ID**: Internal identifier (letters, numbers, hyphens)
 
-**Exemples** :
+**Examples**:
+
 ```markdown
-📝 À faire (todo)
-🚀 En cours (in-progress)
-✅ Terminé (done)
+📝 To Do (todo)
+🚀 In Progress (in-progress)
+✅ Done (done)
 ```
 
-#### Format des catégories
+#### Categories format
 
-Liste séparée par des virgules :
+Comma-separated list:
+
 ```markdown
-**Catégories**: Frontend, Backend, Design
+**Categories**: Frontend, Backend, Design
 ```
 
-#### Format des utilisateurs
+#### Users format
 
 ```
-@username (Nom Complet), @autre (Autre Nom)
+@username (Full Name), @other (Other Name)
 ```
 
-- **@username** : Identifiant court pour mention
-- **Nom Complet** : Nom complet entre parenthèses
+- **@username**: Short identifier for mentions
+- **Full Name**: Full name in parentheses
 
-#### Format des priorités
+#### Priority format
 
 ```
-{Emoji} {Nom} | {Emoji} {Nom} | ...
+{Emoji} {Name} | {Emoji} {Name} | ...
 ```
 
-Les 4 priorités standard :
+The 4 standard priorities:
+
 ```markdown
-🔴 Critique | 🟠 Haute | 🟡 Moyenne | 🟢 Basse
+🔴 Critical | 🟠 High | 🟡 Medium | 🟢 Low
 ```
 
-#### Format des tags
+#### Tags format
 
-Liste de tags séparés par des espaces :
+Space-separated tags list:
+
 ```markdown
 **Tags**: #bug #feature #ui #backend
 ```
 
-### 3. Sections de colonnes
+### 3. Column sections
 
-Chaque colonne Kanban a sa propre section :
+Each Kanban column has its own section:
 
 ```markdown
-## 📝 À faire
+## 📝 To Do
 
-{Tâches de cette colonne...}
+{Tasks in this column...}
 
-## 🚀 En cours
+## 🚀 In Progress
 
-{Tâches de cette colonne...}
+{Tasks in this column...}
 
-## ✅ Terminé
+## ✅ Done
 
-{Tâches de cette colonne...}
+{Tasks in this column...}
 ```
 
-**Important** :
-- Le titre de la section doit correspondre au nom défini dans la configuration
-- L'ordre des sections définit l'ordre d'affichage dans le Kanban
+**Important**:
+
+- Section title must match the name defined in configuration
+- Section order defines display order in Kanban
 
 ---
 
-## 📝 Format d'une tâche
+## 📝 Task Format
 
-### Structure complète
+### Complete structure
 
 ```markdown
-### TASK-001 | Titre de ma tâche
+### TASK-001 | My task title
 
-**Priorité**: Haute | **Catégorie**: Frontend | **Assigné**: @alice, @bob
-**Créé**: 2025-01-20 | **Échéance**: 2025-02-15
+**Priority**: High | **Category**: Frontend | **Assigned**: @alice, @bob
+**Created**: 2025-01-20 | **Due**: 2025-02-15
 **Tags**: #feature #ui
 
-Description détaillée de la tâche en Markdown.
+Detailed task description in Markdown.
 
-Vous pouvez utiliser **tout le Markdown standard** :
-- Listes
-- **Gras** et *italique*
-- `Code inline`
-- [Liens](https://example.com)
+You can use **all standard Markdown**:
+- Lists
+- **Bold** and *italic*
+- `Inline code`
+- [Links](https://example.com)
 
-**Sous-tâches**:
-- [ ] Première étape à faire
-- [x] Étape terminée
-- [ ] Dernière étape
+**Subtasks**:
+- [ ] First step to do
+- [x] Completed step
+- [ ] Last step
 
 **Notes**:
-Notes additionnelles ou contexte...
+Additional notes or context...
 
 ---
 ```
 
-### Champs obligatoires
+### Required fields
 
-| Champ | Format | Description |
+| Field | Format | Description |
 |-------|--------|-------------|
-| **ID** | `TASK-XXX` | Numéro unique auto-incrémenté |
-| **Titre** | Texte après `\|` | Titre court de la tâche |
-| **Priorité** | Critique\|Haute\|Moyenne\|Basse | Niveau de priorité |
-| **Catégorie** | Texte libre | Catégorie/projet |
-| **Créé** | YYYY-MM-DD | Date de création |
+| **ID** | `TASK-XXX` | Unique auto-incremented number |
+| **Title** | Text after `\|` | Short task title |
+| **Priority** | Critical\|High\|Medium\|Low | Priority level |
+| **Category** | Free text | Category/project |
+| **Created** | YYYY-MM-DD | Creation date |
 
-### Champs optionnels
+### Optional fields
 
-| Champ | Format | Description |
+| Field | Format | Description |
 |-------|--------|-------------|
-| **Assigné** | `@user1, @user2` | Utilisateurs assignés (séparés par virgules) |
-| **Commencé** | YYYY-MM-DD | Date de début effectif |
-| **Échéance** | YYYY-MM-DD | Date limite |
-| **Terminé** | YYYY-MM-DD | Date de complétion |
-| **Tags** | `#tag1 #tag2` | Tags (avec #, séparés par espaces) |
-| **Sous-tâches** | `- [ ]` ou `- [x]` | Checklist Markdown |
-| **Notes** | Texte libre | Notes additionnelles |
+| **Assigned** | `@user1, @user2` | Assigned users (comma-separated) |
+| **Started** | YYYY-MM-DD | Actual start date |
+| **Due** | YYYY-MM-DD | Deadline |
+| **Finished** | YYYY-MM-DD | Completion date |
+| **Tags** | `#tag1 #tag2` | Tags (with #, space-separated) |
+| **Subtasks** | `- [ ]` or `- [x]` | Markdown checklist |
+| **Notes** | Free text | Additional notes |
 
-### Métadonnées inline (ligne Priorité)
+### Inline metadata (Priority line)
 
 ```markdown
-**Priorité**: Haute | **Catégorie**: Backend | **Assigné**: @alice, @bob
+**Priority**: High | **Category**: Backend | **Assigned**: @alice, @bob
 ```
 
-- Séparées par ` | ` (pipe entouré d'espaces)
-- Ordre flexible
-- Les champs manquants sont omis
+- Separated by ` | ` (pipe with spaces)
+- Flexible order
+- Missing fields are omitted
 
-### Dates (ligne Créé)
+### Dates (Created line)
 
 ```markdown
-**Créé**: 2025-01-20 | **Commencé**: 2025-01-22 | **Échéance**: 2025-02-15
+**Created**: 2025-01-20 | **Started**: 2025-01-22 | **Due**: 2025-02-15
 ```
 
-- Format **obligatoire** : `YYYY-MM-DD` (ISO 8601)
-- Séparées par ` | `
-- Seul `**Créé**` est obligatoire
+- **Required** format: `YYYY-MM-DD` (ISO 8601)
+- Separated by ` | `
+- Only `**Created**` is required
 
 ### Tags
 
@@ -207,176 +212,176 @@ Notes additionnelles ou contexte...
 **Tags**: #bug #urgent #frontend
 ```
 
-- Commencent par `#`
-- Séparés par des espaces
-- Pas de virgules
+- Start with `#`
+- Space-separated
+- No commas
 
-### Sous-tâches
+### Subtasks
 
 ```markdown
-**Sous-tâches**:
-- [ ] Tâche non commencée
-- [x] Tâche terminée
-- [ ] Autre tâche
+**Subtasks**:
+- [ ] Not started task
+- [x] Completed task
+- [ ] Another task
 ```
 
-- Format standard Markdown checkbox
-- `[ ]` = non fait
-- `[x]` = fait
-- L'application calcule automatiquement la progression
+- Standard Markdown checkbox format
+- `[ ]` = not done
+- `[x]` = done
+- App automatically calculates progress
 
-### Séparateur de fin
+### End separator
 
 ```markdown
 ---
 ```
 
-- **Obligatoire** entre chaque tâche
-- Trois tirets sur une ligne seule
-- Permet au parser de délimiter les tâches
+- **Required** between each task
+- Three dashes on a single line
+- Allows parser to delimit tasks
 
 ---
 
-## 🗄️ Structure de `archive.md`
+## 🗄️ Structure of `archive.md`
 
 ```markdown
-# Archive des Tâches
+# Task Archive
 
-> Ce fichier contient toutes les tâches terminées et archivées.
+> This file contains all completed and archived tasks.
 
-## ✅ Janvier 2025
+## ✅ January 2025
 
-### TASK-098 | Tâche archivée
+### TASK-098 | Archived task
 
-**Priorité**: Haute | **Catégorie**: Frontend | **Assigné**: @alice
-**Créé**: 2024-12-20 | **Commencé**: 2024-12-28 | **Terminé**: 2025-01-05
+**Priority**: High | **Category**: Frontend | **Assigned**: @alice
+**Created**: 2024-12-20 | **Started**: 2024-12-28 | **Finished**: 2025-01-05
 **Tags**: #feature #ui
 
-Description de la tâche...
+Task description...
 
-**Résultat**:
-La tâche a été complétée avec succès.
+**Result**:
+The task was completed successfully.
 
 ---
 
-### TASK-097 | Autre tâche archivée
+### TASK-097 | Another archived task
 
 ...
 
 ---
 
-## ✅ Décembre 2024
+## ✅ December 2024
 
-### TASK-090 | Tâche plus ancienne
+### TASK-090 | Older task
 
 ...
 ```
 
-### Organisation chronologique
+### Chronological organization
 
-- **Sections par mois** : `## ✅ Janvier 2025`
-- **Plus récent en haut** : Les nouveaux mois sont ajoutés en haut
-- **Tâches par mois** : Triées par date de fin décroissante
+- **Monthly sections**: `## ✅ January 2025`
+- **Newest at top**: New months are added at top
+- **Tasks per month**: Sorted by completion date descending
 
-### Différences avec kanban.md
+### Differences from kanban.md
 
-1. **Pas de section Configuration** : Non nécessaire
-2. **Sections par date** : Plutôt que par colonne
-3. **Champ Terminé obligatoire** : Date de fin de la tâche
-4. **Chargement différé** : Fichier non lu au démarrage
+1. **No Configuration section**: Not needed
+2. **Date sections**: Instead of by column
+3. **Finished field required**: Task end date
+4. **Lazy loading**: File not read at startup
 
 ---
 
-## 🔧 Édition manuelle
+## 🔧 Manual Editing
 
-### Créer une nouvelle tâche
+### Create a new task
 
-1. Ouvrir `kanban.md` dans votre éditeur
-2. Trouver le commentaire `<!-- Config: Last Task ID: X -->`
-3. Noter le numéro (ex: 42)
-4. Aller dans la section de colonne appropriée (ex: `## 📝 À faire`)
-5. Copier ce template :
+1. Open `kanban.md` in your editor
+2. Find the `<!-- Config: Last Task ID: X -->` comment
+3. Note the number (e.g., 42)
+4. Go to the appropriate column section (e.g., `## 📝 To Do`)
+5. Copy this template:
 
 ```markdown
-### TASK-043 | Mon nouveau titre
+### TASK-043 | My new task title
 
-**Priorité**: Moyenne | **Catégorie**: Backend | **Assigné**: @alice
-**Créé**: 2025-01-20 | **Échéance**: 2025-02-01
+**Priority**: Medium | **Category**: Backend | **Assigned**: @alice
+**Created**: 2025-01-20 | **Due**: 2025-02-01
 **Tags**: #feature
 
-Description de ma nouvelle tâche...
+Description of my new task...
 
-**Sous-tâches**:
-- [ ] Étape 1
-- [ ] Étape 2
-
----
-```
-
-6. Incrémenter le compteur dans le commentaire : `<!-- Config: Last Task ID: 43 -->`
-7. Sauvegarder
-
-### Déplacer une tâche entre colonnes
-
-1. Couper toute la section (de `###` jusqu'au `---` inclus)
-2. Coller dans une autre section de colonne
-3. Optionnel : Ajouter `**Commencé**` si vous passez en "En cours"
-4. Sauvegarder
-
-### Archiver une tâche
-
-1. Couper la tâche complète de `kanban.md`
-2. Ouvrir `archive.md`
-3. Trouver ou créer la section du mois (ex: `## ✅ Janvier 2025`)
-4. Coller la tâche
-5. Ajouter le champ `**Terminé**: 2025-01-20` dans la ligne des dates
-6. Sauvegarder les deux fichiers
-
-### Marquer une sous-tâche terminée
-
-Remplacer `[ ]` par `[x]` :
-
-```markdown
-**Sous-tâches**:
-- [x] Étape terminée
-- [ ] Étape en cours
-```
+**Subtasks**:
+- [ ] Step 1
+- [ ] Step 2
 
 ---
-
-## 🎨 Personnalisation
-
-### Colonnes personnalisées
-
-Vous pouvez créer vos propres colonnes :
-
-```markdown
-**Colonnes**: 📋 Backlog (backlog) | 📝 À faire (todo) | 🏗️ Dev (dev) | 🧪 Test (test) | ✅ Prod (prod)
 ```
 
-Puis créez les sections correspondantes :
+1. Increment the counter in the comment: `<!-- Config: Last Task ID: 43 -->`
+2. Save
+
+### Move a task between columns
+
+1. Cut the entire section (from `###` to `---` inclusive)
+2. Paste into another column section
+3. Optional: Add `**Started**` if moving to "In Progress"
+4. Save
+
+### Archive a task
+
+1. Cut the complete task from `kanban.md`
+2. Open `archive.md`
+3. Find or create the month section (e.g., `## ✅ January 2025`)
+4. Paste the task
+5. Add the `**Finished**: 2025-01-20` field to the dates line
+6. Save both files
+
+### Mark a subtask complete
+
+Replace `[ ]` with `[x]`:
+
+```markdown
+**Subtasks**:
+- [x] Completed step
+- [ ] Step in progress
+```
+
+---
+
+## 🎨 Customization
+
+### Custom columns
+
+You can create your own columns:
+
+```markdown
+**Columns**: 📋 Backlog (backlog) | 📝 To Do (todo) | 🏗️ Dev (dev) | 🧪 Test (test) | ✅ Prod (prod)
+```
+
+Then create the corresponding sections:
 
 ```markdown
 ## 📋 Backlog
 
 ...
 
-## 📝 À faire
+## 📝 To Do
 
 ...
 ```
 
-### Catégories personnalisées
+### Custom categories
 
-Adaptez les catégories à votre projet :
+Adapt categories to your project:
 
 ```markdown
-**Catégories**: Interface, API, Base de données, Sécurité, Documentation, Infrastructure
+**Categories**: Interface, API, Database, Security, Documentation, Infrastructure
 ```
 
-### Tags personnalisés
+### Custom tags
 
-Créez vos propres conventions de tags :
+Create your own tag conventions:
 
 ```markdown
 **Tags**: #p0 #p1 #p2 #sprint-5 #customer-request #tech-debt #security
@@ -384,79 +389,79 @@ Créez vos propres conventions de tags :
 
 ---
 
-## 📊 Exemples complets
+## 📊 Complete Examples
 
-### Tâche simple
+### Simple task
 
 ```markdown
-### TASK-001 | Corriger le bug de connexion
+### TASK-001 | Fix connection bug
 
-**Priorité**: Critique | **Catégorie**: Backend | **Assigné**: @bob
-**Créé**: 2025-01-20 | **Échéance**: 2025-01-21
+**Priority**: Critical | **Category**: Backend | **Assigned**: @bob
+**Created**: 2025-01-20 | **Due**: 2025-01-21
 **Tags**: #bug #urgent
 
-Les utilisateurs ne peuvent pas se connecter depuis ce matin.
+Users cannot log in since this morning.
 
 ---
 ```
 
-### Tâche avec sous-tâches
+### Task with subtasks
 
 ```markdown
-### TASK-002 | Implémenter l'authentification OAuth
+### TASK-002 | Implement OAuth authentication
 
-**Priorité**: Haute | **Catégorie**: Backend | **Assigné**: @alice, @bob
-**Créé**: 2025-01-15 | **Commencé**: 2025-01-18 | **Échéance**: 2025-02-01
+**Priority**: High | **Category**: Backend | **Assigned**: @alice, @bob
+**Created**: 2025-01-15 | **Started**: 2025-01-18 | **Due**: 2025-02-01
 **Tags**: #feature #security
 
-Ajouter le support OAuth 2.0 pour Google et GitHub.
+Add OAuth 2.0 support for Google and GitHub.
 
-**Sous-tâches**:
-- [x] Recherche des librairies
+**Subtasks**:
+- [x] Research libraries
 - [x] Setup passport.js
-- [ ] Implémenter Google OAuth
-- [ ] Implémenter GitHub OAuth
-- [ ] Tests d'intégration
+- [ ] Implement Google OAuth
+- [ ] Implement GitHub OAuth
+- [ ] Integration tests
 - [ ] Documentation
 
 **Notes**:
-Utiliser passport-google-oauth20 et passport-github2
+Use passport-google-oauth20 and passport-github2
 
 ---
 ```
 
-### Tâche archivée
+### Archived task
 
 ```markdown
-### TASK-050 | Migration vers PostgreSQL
+### TASK-050 | PostgreSQL migration
 
-**Priorité**: Haute | **Catégorie**: Infrastructure | **Assigné**: @charlie
-**Créé**: 2024-12-01 | **Commencé**: 2024-12-05 | **Terminé**: 2024-12-20
+**Priority**: High | **Category**: Infrastructure | **Assigned**: @charlie
+**Created**: 2024-12-01 | **Started**: 2024-12-05 | **Finished**: 2024-12-20
 **Tags**: #database #migration
 
-Migration complète de MySQL vers PostgreSQL 14.
+Complete migration from MySQL to PostgreSQL 14.
 
-**Résultat**:
-- Migration réussie sans perte de données
-- Performance améliorée de 40%
-- Tous les tests passent
+**Result**:
+- Migration successful with no data loss
+- Performance improved by 40%
+- All tests passing
 
 ---
 ```
 
 ---
 
-## 🔍 Parser le format (pour développeurs)
+## 🔍 Parsing the Format (for Developers)
 
-### Extraire la configuration
+### Extract configuration
 
 ```javascript
 // Last Task ID
 const idMatch = content.match(/<!-- Config: Last Task ID: (\d+) -->/);
 const lastTaskId = idMatch ? parseInt(idMatch[1]) : 0;
 
-// Colonnes
-const colMatch = content.match(/\*\*Colonnes\*\*:\s*(.+)/);
+// Columns
+const colMatch = content.match(/\*\*Columns\*\*:\s*(.+)/);
 const columns = colMatch[1].split('|').map(col => {
     const match = col.trim().match(/(.+?)\s*\(([^)]+)\)/);
     return {
@@ -465,31 +470,31 @@ const columns = colMatch[1].split('|').map(col => {
     };
 });
 
-// Catégories
-const catMatch = content.match(/\*\*Catégories\*\*:\s*(.+)/);
+// Categories
+const catMatch = content.match(/\*\*Categories\*\*:\s*(.+)/);
 const categories = catMatch ? catMatch[1].split(',').map(c => c.trim()) : [];
 
-// Utilisateurs
-const userMatch = content.match(/\*\*Utilisateurs\*\*:\s*(.+)/);
+// Users
+const userMatch = content.match(/\*\*Users\*\*:\s*(.+)/);
 const users = userMatch[1].split(',').map(u => {
     const match = u.trim().match(/@(\w+)\s*\(([^)]+)\)/);
     return match ? { id: match[1], name: match[2] } : { id: u.trim(), name: u.trim() };
 });
 ```
 
-### Extraire les tâches
+### Extract tasks
 
 ```javascript
-// Split par sections de colonnes
+// Split by column sections
 const sections = content.split(/^## /m).slice(1);
 
-// Pour chaque section
+// For each section
 sections.forEach(section => {
     const [header, ...taskLines] = section.split('\n');
     const columnMatch = header.match(/[📝🚀👀✅]\s*(.+)/);
     const columnName = columnMatch ? columnMatch[1].trim() : header.trim();
 
-    // Split par tâches
+    // Split by tasks
     const taskContent = taskLines.join('\n');
     const tasks = taskContent.split(/^### TASK-/m).slice(1);
 
@@ -500,23 +505,23 @@ sections.forEach(section => {
 });
 ```
 
-### Parser une tâche
+### Parse a task
 
 ```javascript
 function parseTask(content) {
-    // ID et titre
+    // ID and title
     const titleMatch = content.match(/^(\d+)\s*\|\s*(.+)/m);
     const id = 'TASK-' + titleMatch[1];
     const title = titleMatch[2].trim();
 
-    // Priorité, catégorie, assignés
-    const metaMatch = content.match(/\*\*Priorité\*\*:\s*(\w+)(?:\s*\|\s*\*\*Catégorie\*\*:\s*([^|]+))?(?:\s*\|\s*\*\*Assigné\*\*:\s*([^\n]+))?/);
+    // Priority, category, assignees
+    const metaMatch = content.match(/\*\*Priority\*\*:\s*(\w+)(?:\s*\|\s*\*\*Category\*\*:\s*([^|]+))?(?:\s*\|\s*\*\*Assigned\*\*:\s*([^\n]+))?/);
     const priority = metaMatch[1];
     const category = metaMatch[2] ? metaMatch[2].trim() : '';
     const assignees = metaMatch[3] ? metaMatch[3].split(',').map(a => a.trim()) : [];
 
     // Dates
-    const dateMatch = content.match(/\*\*Créé\*\*:\s*(\d{4}-\d{2}-\d{2})(?:\s*\|\s*\*\*Commencé\*\*:\s*(\d{4}-\d{2}-\d{2}))?(?:\s*\|\s*\*\*Échéance\*\*:\s*(\d{4}-\d{2}-\d{2}))?/);
+    const dateMatch = content.match(/\*\*Created\*\*:\s*(\d{4}-\d{2}-\d{2})(?:\s*\|\s*\*\*Started\*\*:\s*(\d{4}-\d{2}-\d{2}))?(?:\s*\|\s*\*\*Due\*\*:\s*(\d{4}-\d{2}-\d{2}))?/);
     const created = dateMatch[1];
     const started = dateMatch[2] || null;
     const due = dateMatch[3] || null;
@@ -529,7 +534,7 @@ function parseTask(content) {
     const descMatch = content.match(/\*\*Tags\*\*:.*?\n\n([\s\S]*?)(?:\n\*\*|---)/);
     const description = descMatch ? descMatch[1].trim() : '';
 
-    // Sous-tâches
+    // Subtasks
     const subtasks = [];
     const subtaskMatches = content.matchAll(/- \[([ x])\] (.+)/g);
     for (const match of subtaskMatches) {
@@ -544,48 +549,48 @@ function parseTask(content) {
 
 ## ⚡ Performance
 
-### Recommandations
+### Recommendations
 
-| Fichier | Taille max | Tâches max | Parsing |
-|---------|-----------|------------|---------|
+| File | Max size | Max tasks | Parsing |
+|------|----------|-----------|---------|
 | kanban.md | 500 KB | 1000 | < 100ms |
-| archive.md | Illimité | Illimité | Lazy load |
+| archive.md | Unlimited | Unlimited | Lazy load |
 
-### Optimisations
+### Optimizations
 
-- **Archivage régulier** : Déplacez les vieilles tâches vers archive.md
-- **Sections courtes** : Pas plus de 200-300 tâches par colonne
-- **Cache** : L'application garde les tâches en mémoire
-- **Lazy loading** : archive.md n'est chargé qu'à la demande
+- **Regular archiving**: Move old tasks to archive.md
+- **Short sections**: No more than 200-300 tasks per column
+- **Cache**: App keeps tasks in memory
+- **Lazy loading**: archive.md is only loaded on demand
 
 ---
 
-## ✅ Validation du format
+## ✅ Format Validation
 
 ### Checklist
 
-- [ ] Commentaire `<!-- Config: Last Task ID: X -->` présent
-- [ ] Section `## ⚙️ Configuration` avec toutes les colonnes
-- [ ] Chaque colonne a sa section `## {Nom Colonne}`
-- [ ] Chaque tâche commence par `### TASK-{num} |`
-- [ ] Toutes les tâches ont Priorité, Catégorie, Créé
-- [ ] Dates au format YYYY-MM-DD
-- [ ] Séparateur `---` après chaque tâche
-- [ ] Pas d'ID dupliqué
+- [ ] `<!-- Config: Last Task ID: X -->` comment present
+- [ ] `## ⚙️ Configuration` section with all columns
+- [ ] Each column has its own `## {Column Name}` section
+- [ ] Each task starts with `### TASK-{num} |`
+- [ ] All tasks have Priority, Category, Created
+- [ ] Dates in YYYY-MM-DD format
+- [ ] `---` separator after each task
+- [ ] No duplicate IDs
 
 ---
 
-## 💡 Conseils et bonnes pratiques
+## 💡 Tips and Best Practices
 
-1. **IDs séquentiels** : Ne sautez jamais de numéro, n'en réutilisez jamais
-2. **Dates ISO** : Toujours YYYY-MM-DD pour la cohérence
-3. **Archivage régulier** : Au moins une fois par mois
-4. **Git-friendly** : Committez après chaque batch de modifications
-5. **Catégories cohérentes** : Définissez-les dans la config d'abord
-6. **Tags normalisés** : Créez une convention pour votre équipe
-7. **Backup** : Vos fichiers MD sont précieux, sauvegardez-les
+1. **Sequential IDs**: Never skip numbers, never reuse them
+2. **ISO dates**: Always YYYY-MM-DD for consistency
+3. **Regular archiving**: At least once a month
+4. **Git-friendly**: Commit after each batch of changes
+5. **Consistent categories**: Define them in config first
+6. **Standardized tags**: Create a convention for your team
+7. **Backup**: Your MD files are valuable, back them up
 
 ---
 
-**Version du format** : 1.0
-**Dernière mise à jour** : 2025-11-08
+**Format version**: 1.0
+**Last updated**: 2025-11-08

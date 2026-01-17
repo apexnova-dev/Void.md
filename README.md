@@ -19,6 +19,7 @@
 **Design Philosophy:** English is the primary language. French translations are a feature, not a default.
 
 **Related Documentation:**
+
 - `SESSION_DOCUMENTATION_2026-01-16.md` - Detailed session documentation
 - `RELEASE_NOTES_v1.1.1.md` - Release notes
 
@@ -55,6 +56,7 @@ Markdown Task Manager is a **standalone web application** contained in a single 
 ```
 
 **Advantages:**
+
 - ✅ **Single file**: Easy to copy, share and maintain
 - ✅ **100% local**: Your data stays on your machine
 - ✅ **Git compatible**: Versionable, syncable, diffable
@@ -82,6 +84,7 @@ That's all! 🎉
 ### First use
 
 On first launch:
+
 1. The application requests access to a folder
 2. If the folder is empty, it automatically creates:
    - `kanban.md` - Your active tasks
@@ -107,6 +110,7 @@ my-project/
 ```
 
 **Minimal kanban.md template:**
+
 ```markdown
 # Kanban Board
 
@@ -125,6 +129,7 @@ my-project/
 ```
 
 **Minimal archive.md template:**
+
 ```markdown
 # Task Archive
 
@@ -134,6 +139,7 @@ my-project/
 ```
 
 Then:
+
 1. Open `task-manager.html` in your browser
 2. Select the `my-project/` folder
 3. Start creating tasks!
@@ -188,11 +194,13 @@ project-2/
 ```
 
 **Advantages:**
+
 - ✅ Complete autonomy for each project
 - ✅ Works even if central file is modified
 - ✅ Can be versioned with the project
 
 **Disadvantages:**
+
 - ❌ HTML file duplication
 - ❌ Manual update in each project
 
@@ -215,14 +223,17 @@ project-2/
 ```
 
 **Advantages:**
+
 - ✅ Single file to maintain
 - ✅ Automatic updates for all projects
 - ✅ Disk space savings
 
 **Disadvantages:**
+
 - ❌ Dependency on external file
 
 **How to use it:**
+
 1. Keep `task-manager.html` in an accessible folder (e.g., `~/tools/`)
 2. Create a shortcut/bookmark in your browser
 3. Open it and select the desired project folder
@@ -246,6 +257,7 @@ This system is designed to work with AI assistants to achieve **complete traceab
 ### Principle
 
 AI assistants (Claude, ChatGPT, Copilot, Gemini, etc.) can:
+
 1. ✅ Create tasks with strict format in `kanban.md`
 2. ✅ Break down complex tasks into subtasks
 3. ✅ Update progress in real time
@@ -268,6 +280,7 @@ Each AI has its own configuration file that should reference `AI_WORKFLOW.md`:
 | **Codeium / Windsurf** | `instructions.md` | `.windsurf/` or `.codeium/` |
 
 **Available templates:**
+
 - `CLAUDE.md.exemple`
 - `COPILOT.md.exemple`
 - `CHATGPT.md.exemple`
@@ -290,11 +303,13 @@ cp archive.md your-project/
 **Step 2: Configure your preferred AI**
 
 For **Claude**:
+
 ```bash
 cp CLAUDE.md.exemple your-project/CLAUDE.md
 ```
 
 **For Claude Code (CLI)**: A dedicated skill is available!
+
 ```bash
 # Copy the skill directory (metadata lives in SKILL.md)
 cp -R .claude/skills/markdown-task-manager ~/.claude/skills/
@@ -305,6 +320,7 @@ Claude Code reads the `SKILL.md` metadata inside this directory, which is why th
 
 **Using the Claude Code skill:**
 Once the skill is installed and Claude Code is restarted, the skill will automatically detect projects containing `kanban.md` and `archive.md`. You can simply ask:
+
 - "Create a task to implement authentication"
 - "Update TASK-007 with results"
 - "List all tasks in progress"
@@ -313,34 +329,40 @@ Once the skill is installed and Claude Code is restarted, the skill will automat
 Claude Code will automatically follow the strict format and manage your tasks correctly.
 
 For **GitHub Copilot**:
+
 ```bash
 mkdir -p your-project/.github
 cp COPILOT.md.exemple your-project/.github/copilot-instructions.md
 ```
 
 For **ChatGPT**:
+
 ```bash
 cp CHATGPT.md.exemple your-project/CHATGPT.md
 ```
 
 For **Gemini**:
+
 ```bash
 mkdir -p your-project/.gemini
 cp GEMINI.md.exemple your-project/.gemini/instructions.md
 ```
 
 For **Windsurf / Codeium**:
+
 ```bash
 mkdir -p your-project/.windsurf
 cp CODEIUM.md.exemple your-project/.windsurf/instructions.md
 ```
 
 For **OpenAI CLI**:
+
 ```bash
 cp OPENAI_CLI.md.exemple your-project/OPENAI_CLI.md
 ```
 
 For **Qwen**:
+
 ```bash
 cp QWEN.md.exemple your-project/QWEN.md
 ```
@@ -365,35 +387,42 @@ your-project/
 ### First Use
 
 **For Claude:**
+
 ```
 "Read CLAUDE.md and use the task system"
 ```
 
 **For GitHub Copilot:**
+
 ```
 @workspace Read AI_WORKFLOW.md and create a task for [feature]
 ```
 
 **For ChatGPT:**
+
 1. Upload `CHATGPT.md` and `AI_WORKFLOW.md`
 2. Say: `"Read these files and use the task system"`
 
 **For Gemini:**
+
 ```
 @workspace Read AI_WORKFLOW.md and plan [feature]
 ```
 
 **For Windsurf / Codeium:**
+
 ```
 Read AI_WORKFLOW.md and create TASK-001 for [feature]
 ```
 
 **For OpenAI CLI:**
+
 ```bash
 openai --system-file OPENAI_CLI.md "Read AI_WORKFLOW.md and create a task for [feature]"
 ```
 
 **For Qwen:**
+
 ```bash
 qwen --system-file QWEN.md "Read AI_WORKFLOW.md and plan [feature]"
 ```
@@ -401,6 +430,7 @@ qwen --system-file QWEN.md "Read AI_WORKFLOW.md and plan [feature]"
 ### What AI does automatically
 
 The AI will:
+
 1. ✅ Read `AI_WORKFLOW.md` to understand format and workflow
 2. ✅ Create tasks in `kanban.md` with strict format
 3. ✅ Move tasks between columns according to progress
@@ -468,11 +498,13 @@ With this system, you have:
 *Complete task creation and editing modal with all metadata fields and subtasks*
 
 **Creation:**
+
 - Complete form with all fields
 - Auto-generated ID (TASK-XXX)
 - Required field validation
 
 **Rich metadata:**
+
 - **Title**: Unique identifier and short description
 - **Priority**: Critical, High, Medium, Low (color coded)
 - **Category**: Customizable (Frontend, Backend, etc.)
@@ -482,12 +514,14 @@ With this system, you have:
 - **Description**: Free text with Markdown support
 
 **Subtasks:**
+
 - Create, edit, delete subtasks
 - Check/uncheck in real time
 - Visual progress bar
 - Counter (e.g., "3/5 subtasks completed")
 
 **Editing:**
+
 - Detailed editing modal for each task
 - Modification of all fields
 - Instant preview
@@ -518,6 +552,7 @@ With this system, you have:
    - Example: @alice, @bob
 
 **How it works:**
+
 - Select a filter via dropdowns
 - Click on a badge in a task to filter instantly
 - Combine multiple filters (AND logic)
@@ -525,6 +560,7 @@ With this system, you have:
 - Clear all filters at once
 
 **Smart autocomplete:**
+
 - Filters remember history
 - Even archived values remain available
 - Contextual suggestions during input
@@ -535,39 +571,46 @@ With this system, you have:
 *Archive view showing completed tasks with search and restoration capabilities*
 
 **Archiving:**
+
 - Move completed tasks to `archive.md`
 - Manual archiving (button in task)
 - Organization by sections (e.g., by month, by sprint)
 
 **Consultation:**
+
 - Dedicated archive view ("📦 Archives" button)
 - Search in archives
 - Detailed display of each archived task
 
 **Restoration:**
+
 - Restore a task to kanban
 - Task returns to its original column
 - Metadata preserved
 
 **Persistent history:**
+
 - Tags/categories/users from archived tasks remain in autocomplete
 - Allows maintaining consistency between projects
 
 ### 5. Global Search
 
 **Powerful search functionality:**
+
 - Search across all active tasks
 - Search through archived tasks
 - Real-time filtering as you type
 - Search in task titles, descriptions, and metadata
 
 **Search features:**
+
 - Find tasks by ID (e.g., "TASK-042")
 - Search by keywords in title or description
 - Filter results by column
 - View archived tasks matching your search
 
 **Accessibility:**
+
 - Quick access via search button in header
 - Dedicated search modal
 - Clear results presentation
@@ -575,12 +618,14 @@ With this system, you have:
 ### 6. Interface Translation
 
 **Multi-language support:**
+
 - English and French languages available
 - Language selector in application settings
 - Complete interface translation
 - Seamless language switching
 
 **Translated elements:**
+
 - All UI buttons and labels
 - Form fields and placeholders
 - Column names and status messages
@@ -595,17 +640,20 @@ With this system, you have:
 *Quick project switcher showing recent projects with custom names*
 
 **Project management:**
+
 - Memorization of last 10 projects used
 - Quick selector in header (dropdown)
 - Custom names for each project
 - Memorized file paths
 
 **Navigation:**
+
 - Instant project change
 - Auto-restore last project on launch
 - "✏️" button to rename current project
 
 **Storage:**
+
 - Uses IndexedDB to store directory handles
 - No need to re-select folder each time
 - Persistent browser permissions
@@ -744,6 +792,7 @@ Real-time notification system with WebSockets.
 ```
 
 Buttons:
+
 - **[Project ▼]**: Recent project selector
 - **[✏️]**: Rename current project
 - **[📁 Open folder]**: Select/change folder
@@ -828,6 +877,7 @@ Customize your columns in `kanban.md`:
 Format: `Emoji Name (id) | ...`
 
 Examples:
+
 - Simple development: `To Do | In Progress | Done`
 - Scrum: `Backlog | Sprint | In Progress | Review | Done`
 - Extended Kanban: `Icebox | Backlog | Analysis | Dev | QA | Deploy | Done`
@@ -841,6 +891,7 @@ Define your project categories:
 ```
 
 Adapt to your context:
+
 - Web: `UI, API, Database, DevOps`
 - Mobile: `iOS, Android, Backend, Design`
 - Data: `ETL, Analysis, ML, Visualization`
@@ -877,6 +928,7 @@ Priorities support a wide range of emojis that automatically map to colors. You 
 - **Symbols**: ❗ ❓ ❕ ❔
 
 **Examples of priority systems:**
+
 ```markdown
 # Traditional severity levels
 **Priorities**: 🔴 Critical | 🟠 High | 🟡 Medium | 🟢 Low
@@ -899,6 +951,7 @@ Create an adapted tag system:
 ```
 
 Examples of tag systems:
+
 - By type: `#bug`, `#feature`, `#refactor`, `#docs`
 - By priority: `#urgent`, `#important`, `#nice-to-have`
 - By status: `#blocked`, `#waiting`, `#in-review`
@@ -911,16 +964,19 @@ Examples of tag systems:
 ### 1. Software Development
 
 **Backlog management:**
+
 - Create tasks from GitHub issues
 - Plan sprints
 - Track team velocity
 
 **Bug tracking:**
+
 - Tag `#bug` + critical priority
 - Assignment to developers
 - Resolution documentation
 
 **Code reviews:**
+
 - Dedicated column "👀 Review"
 - Review checklist in subtasks
 - Archiving with technical decisions
@@ -928,16 +984,19 @@ Examples of tag systems:
 ### 2. Project Management
 
 **Product roadmap:**
+
 - Create tasks for each feature
 - Deadlines and milestones
 - Progress tracking
 
 **Team collaboration:**
+
 - Multi-user assignment
 - Filter by person
 - Real-time visibility via Git
 
 **Retrospectives:**
+
 - Search in archives
 - Statistics on completed tasks
 - Velocity analysis
@@ -945,16 +1004,19 @@ Examples of tag systems:
 ### 3. Personal Use
 
 **Advanced ToDo lists:**
+
 - Organize tasks by project
 - Subtasks to break down
 - Archives for history
 
 **Personal projects:**
+
 - Track side-projects
 - Notes and learnings
 - Goals with deadlines
 
 **Journaling:**
+
 - Task = journal entry
 - Tags to categorize
 - Archives = complete journal
@@ -962,6 +1024,7 @@ Examples of tag systems:
 ### 4. Distributed Teams
 
 **Git synchronization:**
+
 ```bash
 git pull origin main          # Get updates
 # Work in the application
@@ -971,6 +1034,7 @@ git push origin main          # Share with team
 ```
 
 **Conflict resolution:**
+
 ```bash
 # In case of conflict on kanban.md
 git checkout --theirs kanban.md  # Take remote version
@@ -980,6 +1044,7 @@ git checkout --ours kanban.md    # Keep local version
 ```
 
 **Branch workflow:**
+
 ```bash
 # Create a branch per feature
 git checkout -b feature/TASK-042-notifications
@@ -1040,6 +1105,7 @@ git merge feature/TASK-042-notifications
 ### Templates
 
 Download blank templates:
+
 - [`kanban.md`](/examples/kanban.md) - Base template
 - [`archive.md`](/examples/archive.md) - Archive template
 - [`AI_WORKFLOW.md`](/AI_WORKFLOW.md) - Guidelines for AIs
@@ -1048,6 +1114,7 @@ Download blank templates:
 ### Markdown Format
 
 Detailed format documentation in [`/examples/README.md`](/examples/README.md):
+
 - Task structure
 - Required/optional metadata
 - Subtasks and notes
@@ -1069,6 +1136,7 @@ Detailed format documentation in [`/examples/README.md`](/examples/README.md):
 ### Required permissions
 
 The application only requests:
+
 - **File Read/Write**: To access your Markdown files
 - **IndexedDB**: To remember recent projects (local to browser)
 
@@ -1121,11 +1189,13 @@ open /path/to/task-manager.html
 ### Migration from existing system
 
 **From Trello/Jira/Linear:**
+
 1. Export your tasks to CSV
 2. Use a script to convert to Markdown format
 3. Import into `kanban.md`
 
 **From GitHub Issues:**
+
 ```bash
 # Use GitHub CLI
 gh issue list --state all --json number,title,body,labels
@@ -1133,6 +1203,7 @@ gh issue list --state all --json number,title,body,labels
 ```
 
 **From Notion/Obsidian:**
+
 1. Export to Markdown
 2. Adjust format to match template
 3. Import into application
@@ -1180,7 +1251,7 @@ Contributions welcome! Here's how to help:
 
 ## 📝 Roadmap
 
-### Current version: 1.1.1
+### Version: 1.1
 
 - ✅ Interactive Kanban
 - ✅ Complete task management
@@ -1189,6 +1260,9 @@ Contributions welcome! Here's how to help:
 - ✅ Multi-project
 - ✅ Auto-save
 - ✅ AI integration
+
+### Version 1.1.1 (Current)
+
 - ✅ Dark mode
 - ✅ Professional change logging system
 - ✅ Semantic version management
@@ -1198,18 +1272,21 @@ Contributions welcome! Here's how to help:
 ### Next versions
 
 **v1.2 (Short term)**
-- [x] Dark mode
+
+- [ ] UI/Ux Update
 - [ ] Keyboard shortcuts
 - [ ] PDF/HTML export
 - [ ] Visual statistics (charts)
 
 **v1.3 (Medium term)**
+
 - [ ] File drag & drop (attachments)
 - [ ] Mentions in comments (@user)
 - [ ] Reminder notifications (deadlines)
 - [ ] Task templates
 
 **v2.0 (Long term)**
+
 - [ ] Complete offline mode (Service Worker)
 - [ ] Cross-device synchronization (via automatic Git)
 - [ ] System plugin (IDE integration)
@@ -1222,11 +1299,13 @@ Contributions welcome! Here's how to help:
 Mozilla Public License 2.0 (MPL-2.0)
 
 This project is distributed under MPL-2.0 license. You are free to:
+
 - Use code in commercial and private projects
 - Modify source code
 - Distribute modified or unmodified code
 
 Under condition of:
+
 - Publishing modifications to files under MPL-2.0 license
 - Including a copy of MPL-2.0 license
 - Preserving copyright notices
@@ -1238,6 +1317,7 @@ See `LICENSE` file for more details.
 ## 🙏 Acknowledgments
 
 Thanks to open-source community for:
+
 - File System Access API (Google Chrome team)
 - Markdown standards (CommonMark)
 - User feedback and suggestions

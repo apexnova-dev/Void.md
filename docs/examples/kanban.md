@@ -9,505 +9,505 @@
 
 ## 📝 Backlog
 
-### TASK-015 | Ajouter système de recommandations produits
+### TASK-015 | Add product recommendations system
 
 **Priority**: Low | **Category**: Backend | **Assigned**: @alice
 **Created**: 2025-11-02
-**Tags**: #feature #ai #recommandations
+**Tags**: #feature #ai #recommendations
 
-Implémenter un moteur de recommandations basé sur l'historique d'achats et les produits consultés.
+Implement a recommendation engine based on purchase history and viewed products.
 
 **Subtasks**:
-- [ ] Analyser les algorithmes de recommandation (collaborative filtering, content-based)
-- [ ] Choisir la solution technique (service externe ou algo interne)
-- [ ] Implémenter la collecte de données utilisateur
-- [ ] Créer l'API de recommandations
-- [ ] Intégrer dans l'interface produit
-- [ ] Tests A/B pour mesurer l'impact
+- [ ] Analyze recommendation algorithms (collaborative filtering, content-based)
+- [ ] Choose technical solution (external service or internal algo)
+- [ ] Implement user data collection
+- [ ] Create recommendations API
+- [ ] Integrate into product interface
+- [ ] A/B tests to measure impact
 
 **Notes**:
-Possibilité d'utiliser un service tiers comme AWS Personalize ou implémenter un algo simple avec des similarités cosinus.
+Possibility to use a third-party service like AWS Personalize or implement a simple algo with cosine similarities.
 
 ---
 
-### TASK-016 | Mode sombre complet
+### TASK-016 | Complete dark mode
 
 **Priority**: Medium | **Category**: Frontend | **Assigned**: @diana
 **Created**: 2025-11-03
 **Tags**: #feature #ui #design
 
-Ajouter un thème sombre pour toute l'application avec toggle de préférence utilisateur.
+Add a dark theme for the entire application with user preference toggle.
 
 **Subtasks**:
-- [ ] Définir la palette de couleurs dark mode
-- [ ] Créer les variables CSS pour les deux thèmes
-- [ ] Implémenter le toggle switch
-- [ ] Sauvegarder la préférence utilisateur
-- [ ] Tester sur toutes les pages
-- [ ] Respecter la préférence système (prefers-color-scheme)
+- [ ] Define dark mode color palette
+- [ ] Create CSS variables for both themes
+- [ ] Implement toggle switch
+- [ ] Save user preference
+- [ ] Test on all pages
+- [ ] Respect system preference (prefers-color-scheme)
 
 ---
 
-### TASK-017 | Export rapports analytics PDF
+### TASK-017 | Analytics reports PDF export
 
 **Priority**: Low | **Category**: Backend | **Assigned**: @bob
 **Created**: 2025-11-04
 **Tags**: #feature #reporting #pdf
 
-Permettre aux admins d'exporter les statistiques de vente en PDF.
+Allow admins to export sales statistics as PDF.
 
 **Subtasks**:
-- [ ] Choisir librairie PDF (jsPDF, PDFKit, etc.)
-- [ ] Designer le template PDF
-- [ ] Implémenter génération côté serveur
-- [ ] Ajouter graphiques et tableaux
-- [ ] Bouton d'export dans le dashboard
-- [ ] Tests avec gros volumes de données
+- [ ] Choose PDF library (jsPDF, PDFKit, etc.)
+- [ ] Design PDF template
+- [ ] Implement server-side generation
+- [ ] Add charts and tables
+- [ ] Export button in dashboard
+- [ ] Tests with large data volumes
 
 ---
 
 ## 📋 To Do
 
-### TASK-012 | Corriger bug de calcul de taxes
+### TASK-012 | Fix tax calculation bug
 
 **Priority**: Critical | **Category**: Backend | **Assigned**: @bob
 **Created**: 2025-11-05 | **Due**: 2025-11-08
 **Tags**: #bug #urgent #taxes #payment
 
-Les taxes ne sont pas calculées correctement pour les livraisons internationales. Clients canadiens facturés avec TVA française.
+Taxes are not calculated correctly for international shipments. Canadian customers charged with French VAT.
 
 **Subtasks**:
-- [ ] Reproduire le bug avec commandes test
-- [ ] Identifier la logique de calcul de taxes actuelle
-- [ ] Créer table de mapping pays → taux de taxe
-- [ ] Implémenter la correction
-- [ ] Tests unitaires pour chaque pays
-- [ ] Tests end-to-end sur le checkout
+- [ ] Reproduce bug with test orders
+- [ ] Identify current tax calculation logic
+- [ ] Create country → tax rate mapping table
+- [ ] Implement the fix
+- [ ] Unit tests for each country
+- [ ] End-to-end tests on checkout
 
 **Notes**:
-Bug signalé par 12 clients. Impact financier potentiel. À corriger en priorité absolue.
+Bug reported by 12 customers. Potential financial impact. Fix with absolute priority.
 
 ---
 
-### TASK-013 | Optimiser temps de chargement page produit
+### TASK-013 | Optimize product page load time
 
 **Priority**: High | **Category**: Performance | **Assigned**: @alice
 **Created**: 2025-11-06 | **Due**: 2025-11-12
 **Tags**: #performance #optimization #frontend
 
-Page produit charge en 2.8s, objectif < 1s. Images trop lourdes, requêtes API multiples non optimisées.
+Product page loads in 2.8s, target < 1s. Images too heavy, multiple unoptimized API requests.
 
 **Subtasks**:
-- [ ] Profiler avec Lighthouse et DevTools
-- [ ] Optimiser images (WebP, lazy loading, responsive)
-- [ ] Grouper les requêtes API (GraphQL ou batch endpoint)
-- [ ] Implémenter cache côté client
-- [ ] Code splitting pour réduire bundle JS
-- [ ] Tests de performance avant/après
+- [ ] Profile with Lighthouse and DevTools
+- [ ] Optimize images (WebP, lazy loading, responsive)
+- [ ] Group API requests (GraphQL or batch endpoint)
+- [ ] Implement client-side cache
+- [ ] Code splitting to reduce JS bundle
+- [ ] Performance tests before/after
 
 **Notes**:
 
-**Métriques actuelles** :
-- LCP: 2.8s (objectif: < 1s)
-- FID: 120ms (objectif: < 100ms)
-- CLS: 0.18 (objectif: < 0.1)
+**Current metrics** :
+- LCP: 2.8s (target: < 1s)
+- FID: 120ms (target: < 100ms)
+- CLS: 0.18 (target: < 0.1)
 
 ---
 
-### TASK-014 | Ajouter filtres avancés catalogue
+### TASK-014 | Add advanced catalog filters
 
 **Priority**: High | **Category**: Frontend | **Assigned**: @diana
 **Created**: 2025-11-07
-**Tags**: #feature #ui #catalogue
+**Tags**: #feature #ui #catalog
 
-Permettre de filtrer les produits par prix, marque, couleur, taille, note, disponibilité avec combinaisons multiples.
+Allow filtering products by price, brand, color, size, rating, availability with multiple combinations.
 
 **Subtasks**:
-- [ ] Designer l'interface des filtres (sidebar ou top bar)
-- [ ] Implémenter les composants de filtres (checkboxes, range slider, etc.)
-- [ ] Ajouter logique de filtrage côté client
-- [ ] Pagination avec filtres actifs
-- [ ] URL query params pour partager filtres
-- [ ] Tests avec différentes combinaisons
+- [ ] Design filter interface (sidebar or top bar)
+- [ ] Implement filter components (checkboxes, range slider, etc.)
+- [ ] Add client-side filtering logic
+- [ ] Pagination with active filters
+- [ ] URL query params to share filters
+- [ ] Test with different combinations
 
 ---
 
 ## 🚀 In Progress
 
-### TASK-009 | Implémenter paiement Stripe
+### TASK-009 | Implement Stripe payment
 
 **Priority**: Critical | **Category**: Backend | **Assigned**: @bob, @charlie
 **Created**: 2025-10-28 | **Started**: 2025-11-01 | **Due**: 2025-11-10
 **Tags**: #feature #payment #stripe #api
 
-Intégrer Stripe pour gérer les paiements CB, Apple Pay, Google Pay.
+Integrate Stripe to manage card payments, Apple Pay, Google Pay.
 
 **Subtasks**:
-- [x] Créer compte Stripe et obtenir clés API
-- [x] Setup SDK Stripe côté serveur
-- [x] Créer endpoints payment intent et confirmation
-- [x] Implémenter webhook pour événements Stripe
-- [ ] Intégrer Stripe Elements côté frontend
-- [ ] Gérer les erreurs de paiement (carte refusée, etc.)
-- [ ] Tests avec cartes de test Stripe
-- [ ] Passer en mode production
+- [x] Create Stripe account and get API keys
+- [x] Setup Stripe SDK server-side
+- [x] Create payment intent and confirmation endpoints
+- [x] Implement webhook for Stripe events
+- [ ] Integrate Stripe Elements frontend
+- [ ] Handle payment errors (card declined, etc.)
+- [ ] Tests with Stripe test cards
+- [ ] Go live to production
 
 **Notes**:
 
-**API endpoints créés** :
+**API endpoints created** :
 - POST /api/payment/create-intent
 - POST /api/payment/confirm
 - POST /api/webhooks/stripe
 
-**En cours** : Intégration frontend avec Stripe Elements (sous-tâche 5/8).
+**In progress** : Frontend integration with Stripe Elements (subtask 5/8).
 
 ---
 
-### TASK-010 | Migration base de données PostgreSQL
+### TASK-010 | PostgreSQL database migration
 
 **Priority**: High | **Category**: Database | **Assigned**: @alice
 **Created**: 2025-10-30 | **Started**: 2025-11-04
 **Tags**: #database #migration #postgresql
 
-Migrer de SQLite vers PostgreSQL pour supporter la montée en charge.
+Migrate from SQLite to PostgreSQL to support scaling.
 
 **Subtasks**:
-- [x] Setup PostgreSQL sur serveur staging
-- [x] Créer schéma de migration
-- [x] Script d'export SQLite
-- [x] Script d'import PostgreSQL
-- [ ] Migration données de production (prévu demain)
-- [ ] Tests de validation des données
-- [ ] Basculement production
-- [ ] Monitoring post-migration
+- [x] Setup PostgreSQL on staging server
+- [x] Create migration schema
+- [x] SQLite export script
+- [x] PostgreSQL import script
+- [ ] Production data migration (planned for tomorrow)
+- [ ] Data validation tests
+- [ ] Production switchover
+- [ ] Post-migration monitoring
 
 **Notes**:
 
-**Blocage actuel** :
-Migration en staging OK (15,000 produits, 8,000 utilisateurs, 12,000 commandes).
-Prêt pour migration prod demain matin 6h (trafic faible).
+**Current blocker** :
+Staging migration OK (15,000 products, 8,000 users, 12,000 orders).
+Ready for prod migration tomorrow morning 6am (low traffic).
 
-**Backup** : Snapshot complet avant migration.
+**Backup** : Complete snapshot before migration.
 
 ---
 
-### TASK-011 | Dashboard admin analytics
+### TASK-011 | Admin analytics dashboard
 
 **Priority**: Medium | **Category**: Frontend | **Assigned**: @diana, @charlie
 **Created**: 2025-11-01 | **Started**: 2025-11-05
 **Tags**: #feature #dashboard #admin #analytics
 
-Créer un dashboard pour les admins avec statistiques de vente, graphiques, KPIs.
+Create an admin dashboard with sales statistics, charts, KPIs.
 
 **Subtasks**:
-- [x] Designer la maquette du dashboard
-- [x] Créer les composants de graphiques (Chart.js)
-- [x] API endpoint pour statistiques
-- [ ] Intégrer les graphiques dans l'interface
-- [ ] Ajouter filtres par date
-- [ ] Export CSV des données
-- [ ] Tests avec données réelles
+- [x] Design dashboard mockup
+- [x] Create chart components (Chart.js)
+- [x] API endpoint for statistics
+- [ ] Integrate charts into interface
+- [ ] Add date filters
+- [ ] CSV export of data
+- [ ] Tests with real data
 
 **Notes**:
 
-**KPIs à afficher** :
-- CA total et évolution
-- Nombre de commandes
-- Panier moyen
-- Produits les plus vendus
-- Top clients
-- Taux de conversion
+**KPIs to display** :
+- Total revenue and trends
+- Number of orders
+- Average cart value
+- Top selling products
+- Top customers
+- Conversion rate
 
-Progression : 60% (4/7 sous-tâches).
+Progress: 60% (4/7 subtasks completed).
 
 ---
 
 ## 👀 In Review
 
-### TASK-007 | Système de wishlist
+### TASK-007 | Wishlist system
 
 **Priority**: Medium | **Category**: Frontend | **Assigned**: @diana
 **Created**: 2025-10-25 | **Started**: 2025-10-28 | **Finished**: 2025-11-03
 **Tags**: #feature #wishlist #ui
 
-Permettre aux utilisateurs de sauvegarder des produits favoris dans une wishlist.
+Allow users to save favorite products to a wishlist.
 
 **Subtasks**:
-- [x] Créer modèle Wishlist en BDD
-- [x] API CRUD pour wishlist
-- [x] Bouton "Ajouter aux favoris" sur page produit
-- [x] Page dédiée "Mes favoris"
-- [x] Partage de wishlist par lien
-- [x] Tests unitaires et e2e
+- [x] Create Wishlist model in DB
+- [x] CRUD API for wishlist
+- [x] "Add to favorites" button on product page
+- [x] Dedicated "My favorites" page
+- [x] Share wishlist by link
+- [x] Unit and e2e tests
 
 **Notes**:
 
-**Résultat** :
-✅ Fonctionnalité complète et testée. En attente de review de @bob.
+**Result** :
+✅ Complete functionality and tested. Awaiting review from @bob.
 
-**Fichiers modifiés** :
-- src/api/wishlist.js (nouveau)
-- src/components/WishlistButton.jsx (nouveau)
-- src/pages/Wishlist.jsx (nouveau)
-- src/models/Wishlist.js (nouveau)
+**Modified files** :
+- src/api/wishlist.js (new)
+- src/components/WishlistButton.jsx (new)
+- src/pages/Wishlist.jsx (new)
+- src/models/Wishlist.js (new)
 
-**Tests effectués** :
-- ✅ Ajout/suppression produits
-- ✅ Affichage liste
-- ✅ Partage par lien unique
-- ✅ Synchronisation multi-devices
+**Tests performed** :
+- ✅ Add/remove products
+- ✅ List display
+- ✅ Share by unique link
+- ✅ Multi-device synchronization
 
 ---
 
-### TASK-008 | Système de reviews produits
+### TASK-008 | Product reviews system
 
 **Priority**: High | **Category**: Backend | **Assigned**: @bob, @alice
 **Created**: 2025-10-26 | **Started**: 2025-10-30 | **Finished**: 2025-11-04
 **Tags**: #feature #reviews #moderation
 
-Permettre aux clients de laisser des avis et notes sur les produits.
+Allow customers to leave reviews and ratings on products.
 
 **Subtasks**:
-- [x] Créer modèle Review en BDD
-- [x] API pour CRUD reviews
-- [x] Système de modération (validation admin)
-- [x] Affichage reviews sur page produit
-- [x] Calcul note moyenne
-- [x] Upload photos dans reviews
-- [x] Tri reviews (plus utiles, récents, etc.)
-- [x] Tests complets
+- [x] Create Review model in DB
+- [x] CRUD API for reviews
+- [x] Moderation system (admin validation)
+- [x] Display reviews on product page
+- [x] Calculate average rating
+- [x] Upload photos in reviews
+- [x] Sort reviews (most helpful, recent, etc.)
+- [x] Complete tests
 
 **Notes**:
 
-**Résultat** :
-✅ Système complet avec modération, photos, et tri. En review finale.
+**Result** :
+✅ Complete system with moderation, photos, and sorting. In final review.
 
-**Fichiers modifiés** :
-- src/api/reviews.js (nouveau)
-- src/models/Review.js (nouveau)
-- src/components/ReviewList.jsx (nouveau)
-- src/components/ReviewForm.jsx (nouveau)
-- src/admin/ModerationPanel.jsx (nouveau)
+**Modified files** :
+- src/api/reviews.js (new)
+- src/models/Review.js (new)
+- src/components/ReviewList.jsx (new)
+- src/components/ReviewForm.jsx (new)
+- src/admin/ModerationPanel.jsx (new)
 
-**Décisions techniques** :
-- Modération automatique + manuelle (filtrage mots-clés puis validation admin)
-- Upload photos via Cloudinary
-- Calcul note moyenne en temps réel avec trigger BDD
+**Technical decisions** :
+- Automatic + manual moderation (keyword filtering then admin validation)
+- Photo uploads via Cloudinary
+- Real-time average rating calculation with DB trigger
 
-**Tests effectués** :
-- ✅ CRUD reviews complet
-- ✅ Modération auto/manuelle
-- ✅ Upload 5 photos max par review
-- ✅ Performance avec 10,000 reviews
+**Tests performed** :
+- ✅ Complete CRUD reviews
+- ✅ Auto/manual moderation
+- ✅ Max 5 photos per review
+- ✅ Performance with 10,000 reviews
 
 ---
 
 ## ✅ Done
 
-### TASK-001 | Setup projet et architecture
+### TASK-001 | Project setup and architecture
 
 **Priority**: Critical | **Category**: DevOps | **Assigned**: @alice, @bob
 **Created**: 2025-10-15 | **Started**: 2025-10-15 | **Finished**: 2025-10-18
 **Tags**: #setup #architecture #devops
 
-Initialiser le projet avec stack technique, CI/CD, et environnements dev/staging/prod.
+Initialize project with tech stack, CI/CD, and dev/staging/prod environments.
 
 **Subtasks**:
-- [x] Initialiser repo Git
+- [x] Initialize Git repo
 - [x] Setup Node.js + Express backend
 - [x] Setup React frontend
-- [x] Configuration Docker + docker-compose
+- [x] Docker + docker-compose configuration
 - [x] Setup GitHub Actions CI/CD
-- [x] Environnements dev/staging/prod
-- [x] Documentation architecture
+- [x] Dev/staging/prod environments
+- [x] Architecture documentation
 
 **Notes**:
 
-**Résultat** :
-✅ Projet complètement setupé et déployable.
+**Result** :
+✅ Project completely setup and deployable.
 
-**Stack technique** :
+**Tech stack** :
 - Backend: Node.js 20 + Express + TypeScript
 - Frontend: React 18 + Vite + TailwindCSS
 - Database: PostgreSQL 15
 - Cache: Redis 7
 - Hosting: AWS (EC2 + RDS + S3)
 
-**Fichiers modifiés** :
+**Modified files** :
 - package.json, Dockerfile, docker-compose.yml
 - .github/workflows/ci.yml
 - docs/ARCHITECTURE.md
 
 ---
 
-### TASK-002 | Authentification JWT
+### TASK-002 | JWT authentication
 
 **Priority**: Critical | **Category**: Backend | **Assigned**: @bob
 **Created**: 2025-10-18 | **Started**: 2025-10-19 | **Finished**: 2025-10-22
 **Tags**: #security #auth #jwt
 
-Implémenter système d'authentification avec JWT, refresh tokens, et sécurité renforcée.
+Implement authentication system with JWT, refresh tokens, and enhanced security.
 
 **Subtasks**:
-- [x] Créer modèle User
-- [x] Hash passwords avec bcrypt
-- [x] Génération JWT access + refresh tokens
-- [x] Middleware d'authentification
-- [x] Endpoints login/logout/refresh
-- [x] Rate limiting anti-bruteforce
-- [x] Tests sécurité
+- [x] Create User model
+- [x] Hash passwords with bcrypt
+- [x] Generate JWT access + refresh tokens
+- [x] Authentication middleware
+- [x] Login/logout/refresh endpoints
+- [x] Anti-brute force rate limiting
+- [x] Security tests
 
 **Notes**:
 
-**Résultat** :
-✅ Système d'auth sécurisé et testé.
+**Result** :
+✅ Secure and tested auth system.
 
-**Décisions techniques** :
+**Technical decisions** :
 - Access token: 15 min (JWT)
-- Refresh token: 7 jours (stocké en BDD)
-- Rate limiting: 5 tentatives / 15 min par IP
-- HTTPS obligatoire en production
+- Refresh token: 7 days (stored in DB)
+- Rate limiting: 5 attempts / 15 min per IP
+- HTTPS mandatory in production
 
-**Tests effectués** :
+**Tests performed** :
 - ✅ Login/logout/refresh
 - ✅ Token expiration
 - ✅ Rate limiting
-- ✅ Tests de pénétration basiques
+- ✅ Basic penetration tests
 
 ---
 
-### TASK-003 | Catalogue produits avec recherche
+### TASK-003 | Product catalog with search
 
 **Priority**: High | **Category**: Backend | **Assigned**: @alice
 **Created**: 2025-10-20 | **Started**: 2025-10-23 | **Finished**: 2025-10-27
 **Tags**: #feature #catalogue #search
 
-Créer le catalogue produits avec recherche full-text et filtres de base.
+Create product catalog with full-text search and basic filters.
 
 **Subtasks**:
-- [x] Modèle Product en BDD
-- [x] API CRUD produits
-- [x] Index full-text pour recherche
-- [x] Pagination et tri
-- [x] Upload images produits (S3)
-- [x] Cache Redis pour requêtes fréquentes
-- [x] Tests performance
+- [x] Product model in DB
+- [x] CRUD API for products
+- [x] Full-text index for search
+- [x] Pagination and sorting
+- [x] Product image uploads (S3)
+- [x] Redis cache for frequent queries
+- [x] Performance tests
 
 **Notes**:
 
-**Résultat** :
-✅ 500 produits ajoutés, recherche < 50ms.
+**Result** :
+✅ 500 products added, search < 50ms.
 
-**Fichiers modifiés** :
+**Modified files** :
 - src/models/Product.js
 - src/api/products.js
 - src/services/s3.js
 
-**Performances** :
-- Recherche full-text: 35ms moyenne
-- Listing avec pagination: 20ms
+**Performance** :
+- Full-text search: 35ms average
+- Listing with pagination: 20ms
 - Cache hit rate: 85%
 
 ---
 
-### TASK-004 | Panier d'achat
+### TASK-004 | Shopping cart
 
 **Priority**: High | **Category**: Frontend | **Assigned**: @diana
 **Created**: 2025-10-22 | **Started**: 2025-10-25 | **Finished**: 2025-10-29
 **Tags**: #feature #cart #ui
 
-Implémenter le panier d'achat avec ajout/suppression, quantités, calcul total.
+Implement shopping cart with add/remove, quantities, total calculation.
 
 **Subtasks**:
-- [x] Modèle Cart en BDD
-- [x] API gestion panier
-- [x] Composant CartIcon avec badge
-- [x] Page panier détaillée
-- [x] Calcul automatique totaux (HT, TVA, TTC)
-- [x] Persistence panier (localStorage + BDD si connecté)
-- [x] Tests e2e
+- [x] Cart model in DB
+- [x] Cart management API
+- [x] CartIcon component with badge
+- [x] Detailed cart page
+- [x] Automatic totals calculation (subtotal, VAT, total)
+- [x] Cart persistence (localStorage + DB if logged in)
+- [x] E2e tests
 
 **Notes**:
 
-**Résultat** :
-✅ Panier fonctionnel avec sync multi-devices.
+**Result** :
+✅ Functional cart with multi-device sync.
 
-**Fichiers modifiés** :
+**Modified files** :
 - src/components/Cart.jsx
 - src/api/cart.js
 - src/hooks/useCart.js
 
-**Tests effectués** :
-- ✅ Ajout/suppression produits
-- ✅ Modification quantités
-- ✅ Calcul totaux avec taxes
-- ✅ Sync entre devices pour users connectés
+**Tests performed** :
+- ✅ Add/remove products
+- ✅ Quantity changes
+- ✅ Total calculation with taxes
+- ✅ Sync between devices for logged-in users
 
 ---
 
-### TASK-005 | Interface utilisateur responsive
+### TASK-005 | Responsive user interface
 
 **Priority**: High | **Category**: Design | **Assigned**: @diana
 **Created**: 2025-10-24 | **Started**: 2025-10-27 | **Finished**: 2025-11-01
 **Tags**: #design #responsive #ui #mobile
 
-Créer une interface moderne, responsive (mobile-first) avec TailwindCSS.
+Create modern, responsive (mobile-first) interface with TailwindCSS.
 
 **Subtasks**:
-- [x] Définir design system (couleurs, fonts, spacing)
-- [x] Composants header/footer/navigation
-- [x] Page d'accueil
-- [x] Page produit détail
-- [x] Page catalogue avec grille responsive
-- [x] Tests sur mobile, tablette, desktop
-- [x] Accessibilité (WCAG AA)
+- [x] Define design system (colors, fonts, spacing)
+- [x] Header/footer/navigation components
+- [x] Homepage
+- [x] Product detail page
+- [x] Catalog page with responsive grid
+- [x] Tests on mobile, tablet, desktop
+- [x] Accessibility (WCAG AA)
 
 **Notes**:
 
-**Résultat** :
-✅ Interface complète, responsive, accessible.
+**Result** :
+✅ Complete, responsive, accessible interface.
 
 **Design system** :
-- Couleurs: Palette bleue (primary: #3b82f6)
+- Colors: Blue palette (primary: #3b82f6)
 - Font: Inter
 - Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
 
-**Tests effectués** :
+**Tests performed** :
 - ✅ iPhone 13 Pro, iPad Air, Desktop 1920px
-- ✅ Score Lighthouse Accessibility: 98/100
+- ✅ Lighthouse Accessibility score: 98/100
 
 ---
 
-### TASK-006 | Tests unitaires et e2e
+### TASK-006 | Unit and e2e tests
 
 **Priority**: High | **Category**: Tests | **Assigned**: @charlie
 **Created**: 2025-10-26 | **Started**: 2025-10-30 | **Finished**: 2025-11-02
 **Tags**: #tests #quality #ci
 
-Mettre en place suite de tests complète : unitaires (Jest), e2e (Playwright).
+Set up complete test suite: unit (Jest), e2e (Playwright).
 
 **Subtasks**:
-- [x] Setup Jest pour backend
-- [x] Setup Vitest + Testing Library pour frontend
-- [x] Tests unitaires API (80%+ couverture)
+- [x] Setup Jest for backend
+- [x] Setup Vitest + Testing Library for frontend
+- [x] API unit tests (80%+ coverage)
 - [x] Setup Playwright
-- [x] Tests e2e parcours utilisateur
-- [x] Intégration dans CI/CD
+- [x] E2E user journey tests
+- [x] Integration in CI/CD
 - [x] Coverage reporting
 
 **Notes**:
 
-**Résultat** :
-✅ 240 tests, couverture 87%, CI green.
+**Result** :
+✅ 240 tests, 87% coverage, CI green.
 
-**Métriques** :
-- Tests unitaires: 182 (backend: 95, frontend: 87)
-- Tests e2e: 58 scénarios
-- Couverture: Backend 92%, Frontend 81%
-- Durée CI: 4min 30s
+**Metrics** :
+- Unit tests: 182 (backend: 95, frontend: 87)
+- E2E tests: 58 scenarios
+- Coverage: Backend 92%, Frontend 81%
+- CI duration: 4min 30s
 
-**Fichiers modifiés** :
-- tests/ (nouveau dossier, 240 fichiers de tests)
+**Modified files** :
+- tests/ (new folder, 240 test files)
 - jest.config.js, vitest.config.js, playwright.config.js
 
 ---
