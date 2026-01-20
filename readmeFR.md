@@ -4,20 +4,38 @@
 
 ---
 
-## 📝 Dernières Mises à Jour (16 janvier 2026)
+## 📝 Dernières Mises à Jour (20 janvier 2026)
 
-### Système de Langue Corrigé
+### Améliorations Complètes de l'Interface Utilisateur
 
-**Problème** : L'interface s'affichait en français même quand l'anglais était sélectionné.
+**🎨 Reconception Complète du Mode Sombre**
+- Hiérarchie de couleurs à 7 niveaux pour une apparence riche et dimensionnelle
+- Séparation visuelle claire entre l'arrière-plan, les colonnes, les cartes et les modales
+- Ombres améliorées et perception de profondeur
+- Apparence professionnelle et soignée
 
-**Cause Racine** : Texte français codé en dur dans le HTML s'affichait avant le système de traduction JavaScript.
+**🧹 Nettoyage de l'En-tête et Consolidation des Paramètres**
+- En-tête simplifié avec uniquement les boutons essentiels
+- Langue, Thème, Archives, Colonnes déplacés vers la modale Paramètres
+- Interface plus propre et mieux organisée
 
-**Solution** : Toutes les valeurs par défaut du HTML sont maintenant en **anglais**. Le système de traduction commute correctement vers le français quand sélectionné.
+**📁 Sélecteur de Projets sur l'Écran d'Accueil**
+- Changement rapide de projet depuis l'écran d'accueil
+- Affiche tous les projets récents avec la date de dernière utilisation
+- Accès instantané sans navigation dans les dossiers
 
-**Philosophie de Conception** : L'anglais est la langue principale. Les traductions françaises sont une fonctionnalité, pas une valeur par défaut.
+**✅ Stabilité à Toute ÉPREUVE**
+- Correction de la création de tâches (fonction generateId manquante)
+- Correction de la fermeture des modales (mauvaise fonction de fermeture)
+- Ajout de 8+ vérifications de null pour un accès DOM plus sûr
+- Zéro erreurs de console au chargement
 
-**Documentation Associée** :
-- `SESSION_DOCUMENTATION_2026-01-16.md` - Documentation détaillée de la session
+### Documentation Associée :
+- `RELEASE_NOTES_v1.1.1.md` - Notes de version complètes
+- `FIXES-SUMMARY.md` - Corrections de bugs détaillées
+- `DARK-MODE-ENHANCEMENTS.md` - Améliorations du mode sombre
+- `HEADER-CLEANUP.md` - Modifications de l'en-tête
+- `WELCOME-PROJECT-SELECTOR.md` - Détails du sélecteur de projets
 
 ---
 
@@ -454,7 +472,7 @@ Avec ce système, vous avez :
 
 - **Colonnes personnalisables** : Créez et organisez vos propres colonnes
   - Par défaut : 📝 À faire, 🚀 En cours, 👀 Review, ✅ Terminé
-  - Modifiables via le bouton "⚙️ Colonnes"
+  - Modifiables via "⚙️ Paramètres" → "⚙️ Colonnes"
 - **Drag & Drop** : Déplacez les tâches entre colonnes en glissant-déposant
 - **Layout adaptatif** : Colonnes centrées utilisant toute la largeur de l'écran
 - **Compteurs** : Nombre de tâches affiché dans chaque colonne
@@ -537,7 +555,7 @@ Avec ce système, vous avez :
 - Organisation par sections (ex: par mois, par sprint)
 
 **Consultation :**
-- Vue dédiée des archives (bouton "📦 Archives")
+- Vue dédiée des archives ("⚙️ Paramètres" → "📦 Archives")
 - Recherche dans les archives
 - Affichage détaillé de chaque tâche archivée
 
@@ -736,17 +754,17 @@ Système de notifications en temps réel avec WebSockets.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ 📋 Task Manager  [Projet ▼] [✏️] [📁] [➕] [📦] [⚙️]          │
+│ 📋 Task Manager  [⚙️ Paramètres ▼]  [Projet ▼]  [✏️]  [📁 Dossier]  [➕ Tâche]  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 Boutons :
+
+- **[⚙️ Paramètres ▼]** : Paramètres et options (Langue, Thème, Archives, Colonnes)
 - **[Projet ▼]** : Sélecteur de projets récents
 - **[✏️]** : Renommer le projet actuel
-- **[📁 Ouvrir dossier]** : Sélectionner/changer de dossier
-- **[➕ Nouvelle tâche]** : Créer une tâche
-- **[📦 Archives]** : Voir les tâches archivées
-- **[⚙️ Colonnes]** : Gérer les colonnes du Kanban
+- **[📁 Dossier]** : Sélectionner/changer de dossier
+- **[➕ Tâche]** : Créer une nouvelle tâche
 
 ### Barre de filtres
 

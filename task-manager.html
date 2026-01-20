@@ -12,15 +12,26 @@
         }
 
         :root {
+            /* Light theme - clean and bright */
             --bg-primary: #f5f5f5;
             --bg-secondary: #ffffff;
+            --bg-tertiary: #fafafa;
+            --surface-column: #ffffff;
+            --surface-card: #ffffff;
+            --surface-modal: #ffffff;
             --border-color: #e0e0e0;
+            --border-subtle: #f0f0f0;
             --text-primary: #212121;
             --text-secondary: #757575;
+            --text-muted: #9e9e9e;
             --accent: #2196F3;
             --accent-hover: #1976D2;
+            --accent-subtle: #e3f2fd;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow: 0 2px 4px rgba(0,0,0,0.1);
-            --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-hover: 0 6px 12px rgba(0,0,0,0.15);
 
             /* Priority colors */
             --priority-default: #888888;
@@ -34,19 +45,38 @@
             --priority-black: #1F2937;
         }
 
-        /* Dark theme variables */
+        /* Dark theme - rich and dimensional */
         [data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --border-color: #404040;
-            --text-primary: #e5e5e5;
-            --text-secondary: #a0a0a0;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --shadow: 0 2px 4px rgba(0,0,0,0.3);
-            --shadow-hover: 0 4px 8px rgba(0,0,0,0.4);
+            /* Background layers - creating depth from darkest to lightest */
+            --bg-primary: #0a0a0a;           /* Main background - darkest */
+            --bg-secondary: #141414;         /* Header - slightly lighter */
+            --bg-tertiary: #1a1a1a;          /* Secondary surfaces */
+            --surface-column: #1e1e1e;       /* Kanban columns - distinct from bg */
+            --surface-card: #252525;         /* Task cards - lighter than columns */
+            --surface-modal: #2a2a2a;        /* Modals - distinct and elevated */
 
-            /* Priority colors - slightly adjusted for dark mode */
+            /* Borders - visible but subtle */
+            --border-color: #333333;         /* Primary borders */
+            --border-subtle: #2a2a2a;        /* Subtle borders */
+
+            /* Text - clear hierarchy */
+            --text-primary: #e5e5e5;         /* Primary text - bright white */
+            --text-secondary: #a0a0a0;       /* Secondary text - muted */
+            --text-muted: #666666;           /* Muted text - very subtle */
+
+            /* Accent colors */
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+            --accent-subtle: #1e3a5f;
+
+            /* Shadows - more pronounced for dark mode depth */
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow: 0 2px 4px rgba(0,0,0,0.4);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.5);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.5);
+            --shadow-hover: 0 8px 16px rgba(0,0,0,0.6);
+
+            /* Priority colors - adjusted for dark mode visibility */
             --priority-default: #888888;
             --priority-red: #f87171;
             --priority-orange: #fb923c;
@@ -102,39 +132,39 @@
 
         .btn {
             padding: 0.6rem 1.2rem;
-            border: none;
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
             background: var(--accent);
             color: white;
+            border: none;
         }
 
         .btn-primary:hover {
             background: var(--accent-hover);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .btn-secondary {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            background: #e8e8e8;
+            box-shadow: var(--shadow-md);
         }
 
         [data-theme="dark"] .btn-secondary:hover {
-            background: #404040;
+            background: #333333;
+            border-color: #444444;
         }
 
         /* Dark mode toggle switch with icons */
@@ -232,9 +262,59 @@
             font-size: 1.1rem;
         }
 
+        .welcome-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .welcome-steps {
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .step-number {
+            background: var(--accent);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .step-text {
+            flex: 1;
+        }
+
+        .welcome-actions {
+            margin-top: 2rem;
+        }
+
+        .browser-warning {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
         #kanbanView {
             margin: 0;
             padding: 0;
+            background: var(--bg-tertiary);
+            min-height: calc(100vh - 200px);
         }
 
         .kanban-board {
@@ -247,14 +327,20 @@
         }
 
         .kanban-column {
-            background: var(--bg-secondary);
-            border-radius: 8px;
+            background: var(--surface-column);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 1rem;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
             min-width: 280px;
             flex: 1 1 0;
             display: flex;
             flex-direction: column;
+        }
+
+        [data-theme="dark"] .kanban-column {
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
         }
 
         .column-header {
@@ -272,36 +358,49 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--text-primary);
         }
 
         .column-count {
-            background: var(--bg-primary);
+            background: var(--bg-tertiary);
             padding: 0.25rem 0.6rem;
             border-radius: 12px;
             font-size: 0.85rem;
             color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .task-list {
             min-height: 100px;
-            flex: 1; /* Grow to fill column height */
+            flex: 1;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
         }
 
         .task-card {
-            background: var(--bg-secondary);
+            background: var(--surface-card);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 1rem;
             cursor: move;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
         }
 
         .task-card:hover {
             box-shadow: var(--shadow-hover);
             transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        [data-theme="dark"] .task-card {
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .task-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-hover);
         }
 
         .task-card.dragging {
@@ -451,10 +550,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        [data-theme="dark"] .modal {
+            background: rgba(0, 0, 0, 0.85);
         }
 
         .modal.active {
@@ -462,12 +566,20 @@
         }
 
         .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 8px;
+            background: var(--surface-modal);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 2rem;
             width: 80%;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        [data-theme="dark"] .modal-content {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 1px solid var(--border-color);
         }
 
         .modal-header {
@@ -508,23 +620,129 @@
             border: 1px solid var(--border-color);
             border-radius: 6px;
             font-size: 0.95rem;
-            font-family: inherit;
-            background: var(--bg-secondary);
+        }
+
+        /* Settings Modal Styles */
+        .settings-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .settings-section h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .setting-item label {
+            font-weight: 500;
             color: var(--text-primary);
         }
 
+        .setting-item .toggle-label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .setting-item .toggle-label span {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .setting-item .toggle-label small {
+            color: var(--text-secondary);
+            font-weight: normal;
+            font-size: 0.85rem;
+        }
+
         /* Form elements outside form-group */
-        input:not(.btn):not(.theme-toggle),
+        /* Form elements - consistent styling across the app */
+        input:not(.btn):not(.theme-toggle):not([type="button"]):not([type="submit"]):not([type="reset"]),
         textarea,
         select {
-            background: var(--bg-secondary) !important;
+            background: var(--surface-card) !important;
             color: var(--text-primary) !important;
-            border-color: var(--border-color) !important;
+            border: 2px solid var(--border-color) !important;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        input:not(.btn):not(.theme-toggle):not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 3px var(--accent-subtle);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted) !important;
         }
 
         /* Form labels */
         label {
             color: var(--text-primary) !important;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        [data-theme="dark"] input::placeholder,
+        [data-theme="dark"] textarea::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        /* Modal specific form improvements */
+        .modal-content form {
+            background: var(--surface-modal);
+        }
+
+        .modal-content form > div {
+            background: transparent;
+        }
+
+        /* Ensure select dropdowns look good */
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a0a0a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2.5rem;
+        }
+
+        [data-theme="dark"] select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a0a0a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        }
+
+        /* Date input improvements */
+        input[type="date"] {
+            cursor: pointer;
+        }
+
+        /* Ensure datalist dropdowns work well */
+        datalist {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
         }
 
         .form-group textarea {
@@ -621,33 +839,148 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+
+        /* Toggle Switch Styles */
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch:hover {
+            border-color: var(--accent);
+        }
+
+        .toggle-switch.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .toggle-switch .toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-thumb {
+            left: calc(100% - 22px);
+        }
+
+        /* Settings modal specific styles */
+        .settings-modal-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .settings-section {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .settings-section h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .setting-row:not(:last-child) {
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .setting-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        .setting-info span {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .setting-info small {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 1rem;
+        }
+
+        .about-section {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .about-section strong {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .about-section p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--accent-subtle);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
-            <h1 id="headerTitle">📋 Task Manager</h1>
+            <h1 id="headerTitle">📋 Task Manager <span style="font-size: 0.7em; color: var(--text-secondary); font-weight: normal;">v. 1.1.2</span></h1>
             <div style="display: flex; gap: 0.75rem; align-items: center;">
-                <select id="languageSelector" onchange="setLanguage(this.value)" style="padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer;">
-                    <option value="en">English</option>
-                    <option value="fr">Français</option>
-                </select>
-                <button id="themeToggle" class="theme-toggle" onclick="(function(){const t=document.documentElement,a=t.getAttribute('data-theme')||'light';const n=a==='light'?'dark':'light';t.setAttribute('data-theme',n);t.classList.add('theme-transition');setTimeout(()=>t.classList.remove('theme-transition'),300);localStorage.setItem('preferredTheme',n);document.getElementById('themeToggle').title=n==='light'?'Switch to dark mode':'Switch to light mode'})()" title="Toggle dark mode">
-                    <span class="icon sun-icon">☀️</span>
-                    <span class="icon moon-icon">🌙</span>
-                </button>
+                <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" style="padding: 0.6rem;">⚙️ Settings</button>
                 <select id="projectSelector" style="display: none; padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; min-width: 180px;">
                 </select>
                 <button id="renameProjectBtn" class="btn btn-secondary" style="display: none; padding: 0.6rem;" title="Rename project" onclick="renameCurrentProject()">✏️</button>
                 <button id="deleteProjectBtn" class="btn btn-secondary" style="display: none; padding: 0.6rem;" title="Remove project from list" onclick="deleteCurrentProject()">🗑️</button>
                 <button id="selectFolderBtn" class="btn btn-primary">📁 Folder</button>
                 <button id="newTaskBtn" class="btn btn-secondary" style="display: none;">➕ Task</button>
-                <button id="archiveBtn" class="btn btn-secondary" style="display: none;">📦 Archives</button>
-                <button id="manageColsBtn" class="btn btn-secondary" style="display: none;">⚙️ Columns</button>
-            </div>
-        </div>
-    </header>
-    <div id="filterBar" style="display: none; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
+</div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div id="filterBar" style="display: none; background: var(--bg-tertiary); border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
             <!-- Global Search -->
             <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
@@ -656,7 +989,7 @@
                         type="text"
                         id="globalSearchInput"
                         placeholder="Search in tasks..."
-                        style="width: 100%; padding: 0.75rem 3rem 0.75rem 1rem; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; background: var(--bg-secondary); color: var(--text-primary);"
+                        style="width: 100%; padding: 0.75rem 3rem 0.75rem 1rem; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; background: var(--surface-card); color: var(--text-primary);"
                         oninput="applyGlobalSearch()"
                     >
                     <button
@@ -670,28 +1003,28 @@
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.75rem; justify-content: center;">
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <label style="font-weight: 500; font-size: 0.9rem;">Tags:</label>
-                    <select id="filterTagSelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--bg-secondary); color: var(--text-primary);">
+                    <select id="filterTagSelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
                         <option value="">Select...</option>
                     </select>
                     <button onclick="addFilter('tag')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
                 </div>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <label style="font-weight: 500; font-size: 0.9rem;">Category:</label>
-                    <select id="filterCategorySelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--bg-secondary); color: var(--text-primary);">
+                    <select id="filterCategorySelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
                         <option value="">Select...</option>
                     </select>
                     <button onclick="addFilter('category')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
                 </div>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <label style="font-weight: 500; font-size: 0.9rem;">User:</label>
-                    <select id="filterUserSelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--bg-secondary); color: var(--text-primary);">
+                    <select id="filterUserSelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
                         <option value="">Select...</option>
                     </select>
                     <button onclick="addFilter('user')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
                 </div>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <label style="font-weight: 500; font-size: 0.9rem;">Priority:</label>
-                    <select id="filterPrioritySelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--bg-secondary); color: var(--text-primary);">
+                    <select id="filterPrioritySelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
                         <option value="">Select...</option>
                     </select>
                     <button onclick="addFilter('priority')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
@@ -702,32 +1035,161 @@
         </div>
     </div>
 
-    <div class="container">
-        <div id="welcomeScreen" class="welcome">
-            <h2>Welcome! 👋</h2>
-            <p>Select the folder containing your Markdown files (kanban.md and archive.md)</p>
-            <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.8rem 2rem;">
-                📁 Get Started
-            </button>
-            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 8px; max-width: 600px; margin-left: auto; margin-right: auto; text-align: left; border: 1px solid var(--border-color);">
-                <h3 style="margin-bottom: 1rem;">💡 How does it work?</h3>
-                <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
-                    <li>Click "Get Started" above</li>
-                    <li>Select the folder containing your Markdown files</li>
-                    <li>The app automatically loads kanban.md</li>
-                    <li>Manage your tasks visually with Kanban</li>
-                    <li>Changes are saved to Markdown files</li>
-                </ol>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                    ⚠️ <strong>Supported browsers</strong>: Chrome 86+, Edge 86+, Opera 72+
-                </p>
+    <!-- Main Content Area -->
+    <main id="mainContent">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome" style="display: none;">
+            <div class="welcome-content">
+                <h2 id="welcomeTitle">Welcome! 👋</h2>
+                <p id="welcomeDescription">Select the folder containing your Markdown files (kanban.md and archive.md)</p>
+
+                <!-- Project Selector for Welcome Screen -->
+                <div id="welcomeProjectSelector" style="margin: 1.5rem 0; display: none;">
+                    <label for="welcomeProjectSelect" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">📁 Recent Projects</label>
+                    <select id="welcomeProjectSelect" onchange="handleWelcomeProjectSwitch(this.value)" style="width: 100%; max-width: 400px; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); cursor: pointer;">
+                        <option value="">Loading projects...</option>
+                    </select>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        Or <a href="#" onclick="document.getElementById('selectFolderBtn').click(); return false;" style="color: var(--primary-color);">select a new folder</a> to create a new project
+                    </p>
+                </div>
+
+                <div class="welcome-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-text" id="welcome.step1">Click "Get Started" above</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text" id="welcome.step2">Select the folder containing your Markdown files</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-text" id="welcome.step3">The app automatically loads kanban.md</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-text" id="welcome.step4">Manage your tasks visually with Kanban</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-text" id="welcome.step5">Changes are saved to Markdown files</div>
+                    </div>
+                </div>
+                
+                <div class="welcome-actions">
+                    <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" id="welcomeGetStarted" style="font-size: 1.1rem; padding: 0.8rem 2rem;">
+                        📁 Get Started
+                    </button>
+                </div>
+                
+                <div class="browser-warning" id="welcome.browserWarning">
+                    ⚠️ Supported browsers: Chrome 86+, Edge 86+, Opera 72+
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="kanbanView" style="display: none;">
-        <div id="debugInfo" class="debug-info" style="display: none;"></div>
-        <div class="kanban-board" id="kanbanBoard"></div>
+        <!-- Kanban View -->
+        <div id="kanbanView" style="display: none;">
+            <div class="kanban-board" id="kanbanBoard"></div>
+        </div>
+    </main>
+
+    <!-- Modal Settings -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Settings</h2>
+                <button class="close-btn" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="settings-modal-body">
+                <!-- Appearance Section -->
+                <div class="settings-section">
+                    <h3>🎨 Appearance</h3>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Theme</span>
+                            <small>Toggle between light and dark mode</small>
+                        </div>
+                        <div class="toggle-switch" id="themeToggleSwitch" onclick="toggleThemeFromToggle()">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Language</span>
+                            <small>Select your preferred language</small>
+                        </div>
+                        <select id="settingsLanguageSelector" onchange="setLanguage(this.value)" style="padding: 0.5rem 2rem 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; min-width: 140px;">
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Board Management Section -->
+                <div class="settings-section">
+                    <h3>📋 Board Management</h3>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Manage Columns</span>
+                            <small>Add, rename, or delete board columns</small>
+                        </div>
+                        <button onclick="openColumnsModalFromSettings()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">⚙️ Columns</button>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Archives</span>
+                            <small>View and restore archived tasks</small>
+                        </div>
+                        <button onclick="openArchiveModalFromSettings()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">📦 Archives</button>
+                    </div>
+                </div>
+
+                <!-- Debugging Section -->
+                <div class="settings-section">
+                    <h3>🛠️ Debugging</h3>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Debug Mode</span>
+                            <small>Enable verbose console logging for troubleshooting</small>
+                        </div>
+                        <div class="toggle-switch" id="debugToggleSwitch" onclick="toggleDebugMode()">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Management Section -->
+                <div class="settings-section">
+                    <h3>📁 Project Management</h3>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Export Project</span>
+                            <small>Download project data as JSON</small>
+                        </div>
+                        <button onclick="exportProject()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">📤 Export</button>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Clear All Data</span>
+                            <small>Remove all local storage data</small>
+                        </div>
+                        <button onclick="clearAllData()" class="btn btn-secondary" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Clear</button>
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="settings-section about-section">
+                    <strong>Markdown Task Manager</strong>
+                    <p>A single-file Kanban task manager that works with local Markdown files.</p>
+                    <span class="version-badge">v. 1.1.2</span>
+                </div>
+            </div>
+            <div class="settings-actions">
+                <button class="btn btn-primary" onclick="closeSettingsModal()">Close</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Task Detail -->
@@ -754,21 +1216,21 @@
                 <h2>New Task</h2>
                 <button class="close-btn" onclick="closeTaskModal()">&times;</button>
             </div>
-            <form id="newTaskForm" style="padding: 1.5rem; background: var(--bg-primary);">
+            <form id="newTaskForm" style="padding: 1.5rem; background: var(--surface-modal);">
                 <input type="hidden" id="taskEditId">
                 <div style="margin-bottom: 1rem;">
-                    <label for="taskTitle" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Title *</label>
-                    <input type="text" id="taskTitle" required style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; box-sizing: border-box;">
+                    <label for="taskTitle">Title *</label>
+                    <input type="text" id="taskTitle" required>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label for="taskStatus" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">Column *</label>
-                    <select id="taskStatus" required style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; box-sizing: border-box;">
+                    <label for="taskStatus">Column *</label>
+                    <select id="taskStatus" required>
                     </select>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                     <div>
-                        <label for="taskPriority" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Priority</label>
-                        <select id="taskPriority" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority">
                             <option value="">None</option>
                             <option value="Critical">🔴 Critical</option>
                             <option value="High">🟠 High</option>
@@ -777,52 +1239,55 @@
                         </select>
                     </div>
                     <div>
-                        <label for="taskCategory" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Category</label>
-                        <input type="text" id="taskCategory" list="categoriesList" placeholder="Frontend, Backend..." style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                        <label for="taskCategory">Category</label>
+                        <input type="text" id="taskCategory" list="categoriesList" placeholder="Frontend, Backend...">
                     </div>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label for="taskAssignee" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Assigned to</label>
-                    <input type="text" id="taskAssignee" list="usersList" placeholder="@alice" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                    <label for="taskAssignee">Assigned to</label>
+                    <input type="text" id="taskAssignee" list="usersList" placeholder="@alice">
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                     <div>
-                        <label for="taskCreated" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Created</label>
-                        <input type="date" id="taskCreated" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                        <label for="taskCreated">Created</label>
+                        <input type="date" id="taskCreated">
                     </div>
                     <div>
-                        <label for="taskStarted" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Started</label>
-                        <input type="date" id="taskStarted" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                        <label for="taskStarted">Started</label>
+                        <input type="date" id="taskStarted">
                     </div>
                     <div>
-                        <label for="taskDue" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Due</label>
-                        <input type="date" id="taskDue" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                        <label for="taskDue">Due</label>
+                        <input type="date" id="taskDue">
                     </div>
                     <div>
-                        <label for="taskCompleted" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Completed</label>
-                        <input type="date" id="taskCompleted" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                        <label for="taskCompleted">Completed</label>
+                        <input type="date" id="taskCompleted">
                     </div>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label for="taskTags" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Tags</label>
-                    <input type="text" id="taskTags" list="tagsList" placeholder="#bug #feature" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; background: white; box-sizing: border-box;">
+                    <label for="taskTags">Tags</label>
+                    <input type="text" id="taskTags" list="tagsList" placeholder="#bug #feature">
                     <small style="color: var(--text-secondary); font-size: 0.85rem;">Separate with spaces</small>
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label for="taskDescription" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Description</label>
-                    <textarea id="taskDescription" rows="4" style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; resize: vertical; background: white; box-sizing: border-box;"></textarea>
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" rows="4" placeholder="Describe the task..."></textarea>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Subtasks</label>
+                    <label>Subtasks</label>
                     <ul id="formSubtasksList" style="list-style: none; padding: 0; margin: 0 0 0.5rem 0; max-height: 150px; overflow-y: auto;"></ul>
                     <div style="display: flex; gap: 0.5rem;">
-                        <input type="text" id="formSubtaskInput" placeholder="Add a subtask..." style="flex: 1; padding: 0.5rem; border: 2px solid #cbd5e0; border-radius: 4px; font-size: 0.9rem; background: white;">
+                        <input type="text" id="formSubtaskInput" placeholder="Add a subtask...">
                         <button type="button" onclick="addFormSubtask()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">+ Add</button>
                     </div>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
-                    <label for="taskNotes" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Notes</label>
-                    <textarea id="taskNotes" rows="6" placeholder="Technical notes, results, decisions, etc.&#10;&#10;You can use Markdown:&#10;**Bold**, *Italic*, `code`, lists, links..." style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem; resize: vertical; background: white; box-sizing: border-box; font-family: monospace;"></textarea>
+                    <label for="taskNotes">Notes</label>
+                    <textarea id="taskNotes" rows="6" placeholder="Technical notes, results, decisions, etc.
+
+You can use Markdown:
+**Bold**, *Italic*, `code`, lists, links..."></textarea>
                     <small style="color: var(--text-secondary); font-size: 0.85rem;">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
                 </div>
                 <div class="actions">
@@ -860,14 +1325,13 @@
             </div>
             <div style="padding: 1.5rem;">
                 <div style="margin-bottom: 1rem;">
-                    <input type="text" id="archiveSearch" placeholder="Search in archives..." style="width: 100%; padding: 0.75rem; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95rem;">
+                    <input type="text" id="archiveSearch" placeholder="Search in archives...">
                 </div>
                 <div id="archiveList" style="max-height: 500px; overflow-y: auto;"></div>
             </div>
         </div>
     </div>
 
-    <!-- Notification -->
     <div id="notification" class="notification">
         <span id="notificationText"></span>
     </div>
@@ -886,9 +1350,464 @@
         let formSubtasks = [];
         let archivedTasks = [];
         let archiveFileHandle = null;
+        
+        // ===== DEBUGGING =====
+        let debugMode = true; // Enable verbose console logging for troubleshooting
 
-        // ===== CHANGE LOG SYSTEM =====
-        let currentVersion = '1.1.1'; // Updated version
+        // ===== GLOBAL ONCLICK FUNCTIONS =====
+// Global function for settings modal - CRITICAL for onclick handlers
+function openSettingsModal() {
+    const modal = document.getElementById('settingsModal');
+    if (modal) {
+        modal.classList.add('active');
+        console.log('✅ Settings modal opened');
+    }
+}
+
+// Global function to close settings modal
+function closeSettingsModal() {
+    const modal = document.getElementById('settingsModal');
+    if (modal) {
+        modal.classList.remove('active');
+        console.log('✅ Settings modal closed');
+    }
+}
+
+// Helper function to open Columns modal from Settings
+function openColumnsModalFromSettings() {
+    closeSettingsModal();
+    setTimeout(() => {
+        openColumnsModal();
+    }, 100);
+}
+
+// Helper function to open Archives modal from Settings
+function openArchiveModalFromSettings() {
+    closeSettingsModal();
+    setTimeout(() => {
+        openArchiveModal();
+    }, 100);
+}
+
+// Global function for clear all data
+function clearAllData() {
+    if (confirm('Are you sure you want to clear all local data? This will remove project history and preferences.')) {
+        localStorage.clear();
+        projects = [];
+        currentProjectIndex = 0;
+        showNotification('All local data cleared', 'success');
+        console.log('🗑️ All local data cleared');
+    }
+}
+
+// Global function to export project data
+function exportProject() {
+    if (!directoryHandle) {
+        showNotification('No project loaded to export', 'warning');
+        return;
+    }
+    
+    const projectData = {
+        name: projects[currentProjectIndex]?.name || 'Untitled Project',
+        exported: new Date().toISOString(),
+        kanban: currentKanbanContent,
+        tasks: tasks
+    };
+    
+    const blob = new Blob([JSON.stringify(projectData, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `project-export-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showNotification('Project data exported', 'success');
+    console.log('📤 Project data exported');
+}
+
+// Global function for rename project (already called by onclick)
+function renameCurrentProject() {
+    const projectName = prompt('Enter new project name:');
+    if (projectName && projectName.trim()) {
+        // Implementation needed
+        console.log('📝 Rename project to:', projectName.trim());
+        showNotification('Project rename not yet implemented', 'warning');
+    }
+}
+
+// Global function for delete project (already called by onclick)
+function deleteCurrentProject() {
+    if (confirm('Are you sure you want to remove this project from the list?')) {
+        // Implementation needed
+        console.log('🗑️ Delete current project from list');
+        showNotification('Project deletion not yet implemented', 'warning');
+    }
+}
+
+// ===== MODAL FUNCTIONS =====
+
+// Task Detail Modal Functions
+function closeModal() {
+    const modal = document.getElementById('taskModal');
+    if (modal) {
+        modal.classList.remove('active');
+        console.log('✅ Task detail modal closed');
+    }
+}
+
+function deleteCurrentTask() {
+    if (currentDetailTask) {
+        const confirmDelete = confirm(t('confirm.deleteTask').replace('{title}', currentDetailTask.title));
+        if (confirmDelete) {
+            // Remove task from array
+            const index = tasks.findIndex(t => t.id === currentDetailTask.id);
+            if (index > -1) {
+                tasks.splice(index, 1);
+                renderKanban();
+                autoSave();
+                closeModal();
+                showNotification(t('notif.taskDeleted'), 'success');
+                console.log('🗑️ Task deleted:', currentDetailTask.id);
+            }
+        }
+    }
+}
+
+function archiveCurrentTask() {
+    if (currentDetailTask) {
+        const confirmArchive = confirm(t('confirm.archiveTask').replace('{title}', currentDetailTask.title));
+        if (confirmArchive) {
+            // Move task to archivedTasks
+            const index = tasks.findIndex(t => t.id === currentDetailTask.id);
+            if (index > -1) {
+                const task = tasks.splice(index, 1)[0];
+                task.archived = true;
+                task.archivedDate = new Date().toISOString();
+                archivedTasks.push(task);
+                
+                renderKanban();
+                saveArchive();
+                autoSave();
+                closeModal();
+                showNotification(t('notif.taskArchived'), 'success');
+                console.log('📦 Task archived:', task.id);
+            }
+        }
+    }
+}
+
+function editCurrentTask() {
+    if (currentDetailTask) {
+        isEditMode = true;
+        openTaskModal(currentDetailTask);
+    }
+}
+
+// New Task Modal Functions
+function openTaskModal(task = null) {
+    const modal = document.getElementById('newTaskModal');
+    const form = document.getElementById('newTaskForm');
+    const title = modal ? modal.querySelector('.modal-header h2') : null;
+    const submitBtn = document.getElementById('taskFormSubmitBtn');
+
+    // Reset form
+    form.reset();
+    document.getElementById('taskEditId').value = '';
+    formSubtasks = [];
+
+    if (task) {
+        // Edit mode
+        if (title) title.textContent = t('taskForm.editTask');
+        if (submitBtn) submitBtn.textContent = t('taskForm.save');
+        document.getElementById('taskEditId').value = task.id;
+        
+        // Fill form with task data
+        document.getElementById('taskTitle').value = task.title || '';
+        document.getElementById('taskStatus').value = task.status || '';
+        document.getElementById('taskPriority').value = task.priority || '';
+        document.getElementById('taskCategory').value = task.category || '';
+        document.getElementById('taskAssignee').value = task.assignees ? task.assignees.join(', ') : '';
+        document.getElementById('taskCreated').value = task.created || '';
+        document.getElementById('taskStarted').value = task.started || '';
+        document.getElementById('taskDue').value = task.due || '';
+        document.getElementById('taskCompleted').value = task.completed || '';
+        document.getElementById('taskTags').value = task.tags ? task.tags.join(' ') : '';
+        document.getElementById('taskDescription').value = task.description || '';
+        document.getElementById('taskNotes').value = task.notes || '';
+        
+        formSubtasks = task.subtasks ? [...task.subtasks] : [];
+        renderFormSubtasks();
+    } else {
+        // Create mode
+        if (title) title.textContent = t('taskForm.newTask');
+        if (submitBtn) submitBtn.textContent = t('taskForm.create');
+        
+        // Set default dates
+        document.getElementById('taskCreated').value = new Date().toISOString().split('T')[0];
+    }
+    
+    // Populate status dropdown
+    const statusSelect = document.getElementById('taskStatus');
+    if (statusSelect) {
+        statusSelect.innerHTML = '';
+        if (config.columns && config.columns.length > 0) {
+            config.columns.forEach(col => {
+                const option = document.createElement('option');
+                option.value = col.id;
+                option.textContent = col.name;
+                if (task && task.status === col.id) {
+                    option.selected = true;
+                }
+                statusSelect.appendChild(option);
+            });
+        } else {
+        // Default columns if none configured
+        const defaultColumns = [
+            { id: 'todo', name: '📝 To Do' },
+            { id: 'in-progress', name: '🚀 In Progress' },
+            { id: 'review', name: '👀 Review' },
+            { id: 'done', name: '✅ Done' }
+        ];
+        defaultColumns.forEach(col => {
+            const option = document.createElement('option');
+            option.value = col.id;
+            option.textContent = col.name;
+            statusSelect.appendChild(option);
+            });
+        }
+    }
+
+    if (modal) modal.classList.add('active');
+    console.log(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
+}
+
+function closeTaskModal() {
+    const modal = document.getElementById('newTaskModal');
+    if (modal) {
+        modal.classList.remove('active');
+        isEditMode = false;
+        formSubtasks = [];
+        console.log('✅ Task modal closed');
+    }
+}
+
+function addFormSubtask() {
+    const input = document.getElementById('formSubtaskInput');
+    const text = input.value.trim();
+    if (text) {
+        formSubtasks.push({ text, completed: false });
+        input.value = '';
+        renderFormSubtasks();
+    }
+}
+
+function renderFormSubtasks() {
+    const list = document.getElementById('formSubtasksList');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    formSubtasks.forEach((subtask, index) => {
+        const li = document.createElement('li');
+        li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-secondary); border-radius: 4px; margin-bottom: 0.5rem;';
+        li.innerHTML = `
+            <span style="flex: 1; ${subtask.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${subtask.text}</span>
+            <div style="display: flex; gap: 0.5rem;">
+                <button onclick="toggleFormSubtask(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">${subtask.completed ? '↩️' : '✅'}</button>
+                <button onclick="removeFormSubtask(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; background: #ef4444; color: white; border: none; border-radius: 3px;">×</button>
+            </div>
+        `;
+        list.appendChild(li);
+    });
+}
+
+function toggleFormSubtask(index) {
+    formSubtasks[index].completed = !formSubtasks[index].completed;
+    renderFormSubtasks();
+}
+
+function removeFormSubtask(index) {
+    formSubtasks.splice(index, 1);
+    renderFormSubtasks();
+}
+
+// Columns Modal Functions
+function openColumnsModal() {
+    const modal = document.getElementById('columnsModal');
+    if (modal) {
+        modal.classList.add('active');
+        renderColumnsList();
+        console.log('✅ Columns modal opened');
+    }
+}
+
+function closeColumnsModal() {
+    const modal = document.getElementById('columnsModal');
+    if (modal) {
+        modal.classList.remove('active');
+        console.log('✅ Columns modal closed');
+    }
+}
+
+function renderColumnsList() {
+    const list = document.getElementById('columnsList');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    if (config.columns && config.columns.length > 0) {
+        config.columns.forEach((col, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem;';
+            div.innerHTML = `
+                <span style="font-weight: 500;">${col.name}</span>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="renameColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">✏️</button>
+                    ${config.columns.length > 1 ? `<button onclick="deleteColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>` : ''}
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    } else {
+        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No columns configured</p>';
+    }
+}
+
+function addColumn() {
+    const name = prompt(t('prompt.columnName'));
+    if (name) {
+        const id = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        if (!config.columns) config.columns = [];
+        config.columns.push({ name, id });
+        renderColumnsList();
+        autoSave();
+        console.log('➕ Column added:', name);
+    }
+}
+
+function renameColumn(index) {
+    const col = config.columns[index];
+    const newName = prompt(t('prompt.columnName'), col.name);
+    if (newName && newName.trim()) {
+        config.columns[index].name = newName;
+        renderColumnsList();
+        autoSave();
+        console.log('✏️ Column renamed:', newName);
+    }
+}
+
+function deleteColumn(index) {
+    if (confirm(t('confirm.deleteColumn'))) {
+        config.columns.splice(index, 1);
+        renderColumnsList();
+        autoSave();
+        renderKanban();
+        console.log('🗑️ Column deleted');
+    }
+}
+
+// Archives Modal Functions
+function openArchiveModal() {
+    const modal = document.getElementById('archiveModal');
+    if (modal) {
+        modal.classList.add('active');
+        renderArchiveList();
+        console.log('✅ Archives modal opened');
+    }
+}
+
+function closeArchiveModal() {
+    const modal = document.getElementById('archiveModal');
+    if (modal) {
+        modal.classList.remove('active');
+        console.log('✅ Archives modal closed');
+    }
+}
+
+function renderArchiveList(searchTerm = '') {
+    const list = document.getElementById('archiveList');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    const filtered = archivedTasks.filter(task => {
+        if (!searchTerm) return true;
+        const search = searchTerm.toLowerCase();
+        return task.title.toLowerCase().includes(search) || 
+               (task.description && task.description.toLowerCase().includes(search)) ||
+               (task.notes && task.notes.toLowerCase().includes(search));
+    });
+    
+    if (filtered.length === 0) {
+        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">' + t('archives.empty') + '</p>';
+        return;
+    }
+    
+    filtered.forEach(task => {
+        const div = document.createElement('div');
+        div.style.cssText = 'padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.75rem;';
+        
+        let metaHtml = '';
+        if (task.priority) {
+            metaHtml += `<span class="badge badge-priority ${task.priority}" style="margin-right: 0.5rem;">${task.priority}</span>`;
+        }
+        if (task.category) {
+            metaHtml += `<span class="badge badge-category" style="margin-right: 0.5rem;">${task.category}</span>`;
+        }
+        if (task.tags && task.tags.length > 0) {
+            metaHtml += task.tags.map(tag => `<span class="tag" style="margin-right: 0.25rem;">${tag}</span>`).join('');
+        }
+        
+        div.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <span style="font-weight: 600;">${task.id}: ${task.title}</span>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="restoreFromArchive('${task.id}')" title="${t('action.restore')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">↩️</button>
+                    <button onclick="deleteFromArchive('${task.id}')" title="${t('action.delete')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>
+                </div>
+            </div>
+            ${task.description ? `<p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">${task.description.substring(0, 100)}${task.description.length > 100 ? '...' : ''}</p>` : ''}
+            <div style="margin-top: 0.5rem;">${metaHtml}</div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function restoreFromArchive(taskId) {
+    const index = archivedTasks.findIndex(t => t.id === taskId);
+    if (index > -1) {
+        const task = archivedTasks.splice(index, 1)[0];
+        delete task.archived;
+        delete task.archivedDate;
+        tasks.push(task);
+        saveArchive();
+        renderKanban();
+        renderArchiveList();
+        autoSave();
+        showNotification(t('notif.taskRestored'), 'success');
+        console.log('↩️ Task restored from archive:', taskId);
+    }
+}
+
+function deleteFromArchive(taskId) {
+    const task = archivedTasks.find(t => t.id === taskId);
+    if (task) {
+        const confirmDelete = confirm(t('confirm.deleteTaskFromArchive').replace('{title}', task.title));
+        if (confirmDelete) {
+            const index = archivedTasks.findIndex(t => t.id === taskId);
+            if (index > -1) {
+                archivedTasks.splice(index, 1);
+                saveArchive();
+                renderArchiveList();
+                showNotification(t('notif.taskDeleted'), 'success');
+                console.log('🗑️ Task permanently deleted from archive:', taskId);
+            }
+        }
+    }
+}
+
+// ===== CHANGE LOG SYSTEM =====
+        let currentVersion = '1.1.2'; // Major UI/UX improvements
         let changeLog = []; // In-memory change log
 
         const ChangeLogManager = {
@@ -1521,26 +2440,42 @@
             // Update page title
             document.title = t('page.title');
 
-            // Update header
-            document.getElementById('headerTitle').textContent = t('header.title');
-            document.getElementById('renameProjectBtn').title = t('header.renameProject');
-            document.getElementById('deleteProjectBtn').title = t('header.deleteProject');
-            document.getElementById('selectFolderBtn').innerHTML = t('header.folder');
-            document.getElementById('newTaskBtn').innerHTML = t('header.newTask');
-            document.getElementById('archiveBtn').innerHTML = t('header.archives');
-            document.getElementById('manageColsBtn').innerHTML = t('header.columns');
+            // Update header with null checks
+            const headerTitle = document.getElementById('headerTitle');
+            if (headerTitle) headerTitle.textContent = t('header.title');
+
+            const renameProjectBtn = document.getElementById('renameProjectBtn');
+            if (renameProjectBtn) renameProjectBtn.title = t('header.renameProject');
+
+            const deleteProjectBtn = document.getElementById('deleteProjectBtn');
+            if (deleteProjectBtn) deleteProjectBtn.title = t('header.deleteProject');
+
+            const selectFolderBtn = document.getElementById('selectFolderBtn');
+            if (selectFolderBtn) selectFolderBtn.innerHTML = t('header.folder');
+
+            const newTaskBtn = document.getElementById('newTaskBtn');
+            if (newTaskBtn) newTaskBtn.innerHTML = t('header.newTask');
 
             // Update language selector to match current language
-            document.getElementById('languageSelector').value = currentLanguage;
+            const languageSelector = document.getElementById('languageSelector');
+            if (languageSelector) languageSelector.value = currentLanguage;
 
             // Update welcome screen
             renderWelcomeScreen();
 
-            // Update modals
+            // Update modals - with debug logging
+            if (debugMode) {
+                console.log('🔄 Updating modals...');
+            }
+            
             renderTaskDetailModal();
             updateTaskFormLabels();
             renderColumnsModal();
             renderArchivesModal();
+
+            if (debugMode) {
+                console.log('✅ Modal updates complete');
+            }
 
             // Update filters
             updateFilterLabels();
@@ -1573,9 +2508,104 @@
             }
         }
 
+        // Update welcome screen project selector
+        async function updateWelcomeProjectSelector() {
+            try {
+                const selectorContainer = document.getElementById('welcomeProjectSelector');
+                const selector = document.getElementById('welcomeProjectSelect');
+
+                if (!selectorContainer || !selector) {
+                    return;
+                }
+
+                // Load projects from IndexedDB
+                const savedProjects = await loadProjects();
+                projects = savedProjects;
+
+                if (projects.length === 0) {
+                    // No projects - hide selector
+                    selectorContainer.style.display = 'none';
+                    return;
+                }
+
+                // Build dropdown options
+                let optionsHtml = '';
+                projects.forEach((project, index) => {
+                    const isCurrent = index === currentProjectIndex ? ' (current)' : '';
+                    const lastUsed = project.lastUsed ?
+                        new Date(project.lastUsed).toLocaleDateString() : 'Unknown';
+                    optionsHtml += `<option value="${index}">📁 ${project.name}${isCurrent} - ${lastUsed}</option>`;
+                });
+
+                // Add separator and "Add new project" option
+                optionsHtml += '<option value="new">➕ Add new project...</option>';
+
+                selector.innerHTML = optionsHtml;
+
+                // Show the selector
+                selectorContainer.style.display = 'block';
+            } catch (error) {
+                console.error('❌ Error updating welcome project selector:', error);
+            }
+        }
+
+        // Handle project switching from welcome screen
+        async function handleWelcomeProjectSwitch(value) {
+            if (!value) {
+                return;
+            }
+
+            if (value === 'new') {
+                // User wants to add a new project
+                document.getElementById('selectFolderBtn').click();
+                return;
+            }
+
+            const projectIndex = parseInt(value);
+            if (projectIndex >= 0 && projectIndex < projects.length) {
+                // Switch to selected project
+                currentProjectIndex = projectIndex;
+                const project = projects[projectIndex];
+
+                try {
+                    // Request permission for the project
+                    if (project.directoryHandle) {
+                        console.log(`🔄 Switching to project: ${project.name}`);
+
+                        // Update last used
+                        project.lastUsed = Date.now();
+                        await saveProjects(projects);
+
+                        // Load the project
+                        directoryHandle = project.directoryHandle;
+                        await loadKanbanFile();
+
+                        // Show kanban view
+                        document.getElementById('welcomeScreen').style.display = 'none';
+                        document.getElementById('kanbanView').style.display = 'block';
+                        document.getElementById('filterBar').style.display = 'block';
+                        document.getElementById('newTaskBtn').style.display = 'inline-flex';
+
+                        // Update UI
+                        await updateProjectSelector();
+                        showNotification(`Switched to ${project.name}`, 'success');
+                        console.log(`✅ Successfully switched to project: ${project.name}`);
+                    }
+                } catch (error) {
+                    console.error('❌ Error switching to project:', error);
+                    if (error.name !== 'AbortError') {
+                        showNotification('Error loading project: ' + error.message, 'error');
+                    }
+                }
+            }
+        }
+
         // Render task detail modal structure with translations
         function renderTaskDetailModal() {
             const modalTitle = document.getElementById('modalTitle');
+            if (debugMode) {
+                console.log('📋 Task detail modal exists:', !!modalTitle);
+            }
             if (modalTitle) {
                 modalTitle.textContent = t('taskDetail.title');
             }
@@ -1657,9 +2687,11 @@
             const notesHelp = document.querySelector('#taskNotes + small');
             if (notesHelp) notesHelp.textContent = t('taskForm.notesHelp');
 
-            // Update subtasks label
-            const subtasksLabel = document.querySelector('#formSubtasksList').previousElementSibling;
-            if (subtasksLabel) subtasksLabel.textContent = t('taskForm.subtasksLabel');
+            // Update subtasks label - with null check
+            const subtasksList = document.querySelector('#formSubtasksList');
+            if (subtasksList && subtasksList.previousElementSibling) {
+                subtasksList.previousElementSibling.textContent = t('taskForm.subtasksLabel');
+            }
 
             // Update subtask add button
             const subtaskBtn = document.querySelector('#formSubtaskInput + button');
@@ -1698,6 +2730,9 @@
         // Render columns modal structure with translations
         function renderColumnsModal() {
             const modalTitle = document.getElementById('columnsModalTitle');
+            if (debugMode) {
+                console.log('⚙️ Columns modal exists:', !!modalTitle);
+            }
             if (modalTitle) modalTitle.textContent = t('columns.title');
 
             const addBtn = document.getElementById('addColumnBtn');
@@ -1707,6 +2742,9 @@
         // Render archives modal structure with translations
         function renderArchivesModal() {
             const modalTitle = document.getElementById('archiveModalTitle');
+            if (debugMode) {
+                console.log('📦 Archives modal exists:', !!modalTitle);
+            }
             if (modalTitle) modalTitle.textContent = t('archives.title');
 
             const searchInput = document.getElementById('archiveSearch');
@@ -1715,16 +2753,71 @@
 
         // ===== THEME FUNCTIONS =====
         
-        // Toggle between light and dark themes
+        // Toggle between light and dark themes (called from header toggle)
         function toggleTheme() {
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             setTheme(newTheme);
-            
-            ChangeLogManager.logChange('feature', 
-                `Toggled theme from ${currentTheme} to ${newTheme}`, 
-                'ui', 
-                'enhancement', 
+
+            ChangeLogManager.logChange('feature',
+                `Toggled theme from ${currentTheme} to ${newTheme}`,
+                'ui',
+                'enhancement',
                 false);
+        }
+
+        // Toggle theme from settings modal toggle switch
+        function toggleThemeFromToggle() {
+            toggleTheme();
+        }
+
+        // Update theme toggle button appearance
+        function updateThemeToggle() {
+            const headerToggle = document.getElementById('themeToggle');
+            if (headerToggle) {
+                headerToggle.title = currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
+            }
+
+            // Update the settings modal toggle switch
+            const settingsToggle = document.getElementById('themeToggleSwitch');
+            if (settingsToggle) {
+                if (currentTheme === 'dark') {
+                    settingsToggle.classList.add('active');
+                } else {
+                    settingsToggle.classList.remove('active');
+                }
+            }
+        }
+
+        // Toggle debug mode
+        function toggleDebugMode() {
+            debugMode = !debugMode;
+            localStorage.setItem('debugMode', debugMode.toString());
+            updateDebugToggle();
+            console.log(`🔧 Debug mode ${debugMode ? 'enabled' : 'disabled'}`);
+            showNotification(`Debug mode ${debugMode ? 'enabled' : 'disabled'}`, 'success');
+        }
+
+        // Update debug toggle appearance
+        function updateDebugToggle() {
+            const debugToggle = document.getElementById('debugToggleSwitch');
+            if (debugToggle) {
+                if (debugMode) {
+                    debugToggle.classList.add('active');
+                } else {
+                    debugToggle.classList.remove('active');
+                }
+            }
+        }
+
+        // Initialize debug mode from localStorage
+        function initDebugMode() {
+            const savedDebugMode = localStorage.getItem('debugMode');
+            if (savedDebugMode !== null) {
+                debugMode = savedDebugMode === 'true';
+            }
+            // Default to false for production, but the variable is initialized to true at the top
+            // This allows users to disable it
+            updateDebugToggle();
         }
 
         // Set theme and save to localStorage
@@ -1771,6 +2864,16 @@
             if (toggle) {
                 // Toggle button position is handled by CSS based on data-theme attribute
                 toggle.title = currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
+            }
+
+            // Update the settings modal toggle switch
+            const settingsToggle = document.getElementById('themeToggleSwitch');
+            if (settingsToggle) {
+                if (currentTheme === 'dark') {
+                    settingsToggle.classList.add('active');
+                } else {
+                    settingsToggle.classList.remove('active');
+                }
             }
         }
 
@@ -2087,11 +3190,10 @@
                     updateProjectSelector();
                     // Show welcome screen again
                     document.getElementById('welcomeScreen').style.display = 'block';
+                    updateWelcomeProjectSelector();
                     document.getElementById('kanbanView').style.display = 'none';
                     document.getElementById('filterBar').style.display = 'none';
                     document.getElementById('newTaskBtn').style.display = 'none';
-                    document.getElementById('archiveBtn').style.display = 'none';
-                    document.getElementById('manageColsBtn').style.display = 'none';
                     document.getElementById('projectSelector').style.display = 'none';
                     document.getElementById('renameProjectBtn').style.display = 'none';
                     document.getElementById('deleteProjectBtn').style.display = 'none';
@@ -2157,8 +3259,6 @@
                 document.getElementById('kanbanView').style.display = 'block';
                 document.getElementById('filterBar').style.display = 'block';
                 document.getElementById('newTaskBtn').style.display = 'inline-flex';
-                document.getElementById('archiveBtn').style.display = 'inline-flex';
-                document.getElementById('manageColsBtn').style.display = 'inline-flex';
 
                 await updateProjectSelector();
 
@@ -2214,8 +3314,9 @@
         
         // Initialize theme on page load
         initTheme();
-        // Update static texts after DOM loads
-        document.addEventListener('DOMContentLoaded', updateStaticTexts);
+        // Initialize debug mode
+        initDebugMode();
+        // Static text update will be handled by main DOMContentLoaded listener
 
         // ===== CONSOLE COMMANDS FOR DOCUMENTATION =====
         // Expose documentation functions to console
@@ -2307,7 +3408,35 @@
 
         // Main initialization
         window.addEventListener('DOMContentLoaded', async () => {
-            await tryRestorePreviousDirectory();
+            console.log('🚀 DOMContentLoaded fired - starting initialization');
+            console.log('📍 Current URL:', window.location.href);
+            
+            if (debugMode) {
+                console.log('🔧 Debug mode enabled');
+                console.log('📋 User agent:', navigator.userAgent);
+                console.log('🌐 Browser support - File System Access API:', !!window.showDirectoryPicker);
+            }
+            
+            console.log('🔄 Attempting to restore previous directory...');
+            const restored = await tryRestorePreviousDirectory();
+            
+            if (restored) {
+                console.log('✅ Previous session restored successfully');
+            } else {
+                console.log('ℹ️ No previous session found - showing welcome screen');
+                // Show welcome screen
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                if (welcomeScreen) {
+                    welcomeScreen.style.display = 'block';
+                    updateWelcomeProjectSelector();
+                    console.log('✅ Welcome screen displayed');
+                } else {
+                    console.error('❌ Welcome screen element not found!');
+                }
+            }
+            
+            // Update static texts after initialization
+            updateStaticTexts();
 
             // Add event listener for project selector
             document.getElementById('projectSelector').addEventListener('change', async (e) => {
@@ -2324,6 +3453,14 @@
 
             // Select folder button
             document.getElementById('selectFolderBtn').addEventListener('click', async () => {
+                console.log('👆 Select folder button clicked');
+                if (debugMode) {
+                    console.log('📍 Current state:');
+                    console.log('   - directoryHandle exists:', !!directoryHandle);
+                    console.log('   - projects count:', projects.length);
+                    console.log('   - currentProjectIndex:', currentProjectIndex);
+                }
+                
                 try {
                     // Check browser compatibility first
                     console.log('🌐 Checking browser compatibility...');
@@ -2339,6 +3476,9 @@
                     const options = {};
                     if (directoryHandle) {
                         options.startIn = directoryHandle;
+                        if (debugMode) {
+                            console.log('📁 Using existing directoryHandle as starting point:', directoryHandle.name);
+                        }
                     }
 
                     directoryHandle = await window.showDirectoryPicker(options);
@@ -2346,6 +3486,9 @@
                     console.log('  Directory name:', directoryHandle.name);
 
                     const folderName = directoryHandle.name || 'Unnamed Project';
+                    if (debugMode) {
+                        console.log('📂 Selected folder:', folderName);
+                    }
 
                     // Check if this folder is already in our project list
                     const existingIndex = projects.findIndex(p => {
@@ -2385,46 +3528,84 @@
                     await loadKanbanFile();
                     console.log('✅ Step 2: Kanban file loaded');
 
-                    document.getElementById('welcomeScreen').style.display = 'none';
-                    document.getElementById('kanbanView').style.display = 'block';
-                    document.getElementById('filterBar').style.display = 'block';
-                    document.getElementById('newTaskBtn').style.display = 'inline-flex';
-                    document.getElementById('archiveBtn').style.display = 'inline-flex';
-                    document.getElementById('manageColsBtn').style.display = 'inline-flex';
+                    // Update UI elements with null checks
+                    const welcomeScreen = document.getElementById('welcomeScreen');
+                    if (welcomeScreen) welcomeScreen.style.display = 'none';
+                    
+                    const kanbanView = document.getElementById('kanbanView');
+                    if (kanbanView) kanbanView.style.display = 'block';
+                    
+                    const filterBar = document.getElementById('filterBar');
+                    if (filterBar) filterBar.style.display = 'block';
+                    
+                    const newTaskBtn = document.getElementById('newTaskBtn');
+                    if (newTaskBtn) newTaskBtn.style.display = 'inline-flex';
+                    
+                    if (debugMode) {
+                        console.log('✅ UI elements updated - Kanban view should now be visible');
+                    }
 
                     // Update project selector now that kanban is visible
                     await updateProjectSelector();
 
                     showNotification(t('notif.folderLoaded'), 'success');
                     console.log('✅ All steps completed successfully!');
+                    
+                    if (debugMode) {
+                        console.log('📊 Final state:');
+                        console.log('   - Kanban view visible:', kanbanView && kanbanView.style.display !== 'none');
+                        console.log('   - Task count:', tasks.length);
+                        console.log('   - Column count:', config.columns?.length || 0);
+                    }
                 } catch (error) {
-                    if (error.name !== 'AbortError') {
-                        console.error('❌ ERROR DETAILS:');
-                        console.error('Error name:', error.name);
-                        console.error('Error message:', error.message);
-                        console.error('Error stack:', error.stack);
+                    console.error('❌ Folder selection failed:', error.message);
+                    showNotification('Folder selection failed: ' + error.message, 'error');
+                    console.log('Error details:', error.name, error.message);
 
-                        // Show more detailed error message
-                        const errorMsg = `${error.name}: ${error.message}`;
-                        showNotification(errorMsg, 'error');
-
-                        // Also show generic error for translation compatibility
-                        showNotification(t('notif.folderError'), 'error');
-
-                        // Additional help for common errors
-                        if (error.name === 'NotAllowedError') {
-                            showNotification('ℹ️ Permission denied. Try again and allow access.', 'info');
-                        } else if (error.name === 'NotFoundError') {
-                            showNotification('ℹ️ File not found in selected folder', 'info');
+                    // Additional help for common errors
+                    if (debugMode) {
+                        console.log('🔍 Debug: Processing error type:', error.name);
+                    }
+                    
+                    if (error.name === 'NotAllowedError') {
+                        console.log('🔐 Permission denied - user needs to allow access');
+                        showNotification('ℹ️ Permission denied. Try again and allow access.', 'info');
+                    } else if (error.name === 'NotFoundError') {
+                        console.log('📁 File not found in selected folder');
+                        showNotification('ℹ️ File not found in selected folder', 'info');
+                    } else if (error.name === 'AbortError') {
+                        console.log('🚫 User cancelled directory picker');
+                        if (debugMode) {
+                            console.log('ℹ️ User cancelled directory picker - this is normal behavior');
                         }
                     } else {
-                        console.log('ℹ️ User cancelled directory picker');
+                        console.log('⚠️ Unknown error type:', error.name);
+                        if (debugMode) {
+                            console.log('📋 Full error object:', error);
+                        }
                     }
                 }
             });
 
-            // New task form submission
-            document.getElementById('newTaskForm').addEventListener('submit', async (e) => {
+        // Generate unique task ID
+        function generateTaskId(lastTaskId) {
+            let num = 0;
+            if (typeof lastTaskId === 'string') {
+                const match = lastTaskId.match(/TASK-(\d+)/);
+                if (match) {
+                    num = parseInt(match[1]);
+                } else {
+                    num = parseInt(lastTaskId) || 0;
+                }
+            } else {
+                num = parseInt(lastTaskId) || 0;
+            }
+            const nextNum = num + 1;
+            return 'TASK-' + String(nextNum).padStart(3, '0');
+        }
+
+        // New task form submission
+        document.getElementById('newTaskForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
 
                 const isEdit = !!document.getElementById('taskEditId').value;
@@ -2493,7 +3674,7 @@
 
                 renderKanban();
                 autoSave();
-                closeModal();
+                closeTaskModal();  // Close the new task form modal
             });
 
             // Archive search
@@ -2502,17 +3683,42 @@
             });
 
             // Event listeners for buttons
-            document.getElementById('newTaskBtn').addEventListener('click', () => openTaskModal());
-            document.getElementById('archiveBtn').addEventListener('click', openArchiveModal);
-            document.getElementById('manageColsBtn').addEventListener('click', openColumnsModal);
+            if (debugMode) {
+                console.log('🎯 Attaching button event listeners...');
+            }
+            
+            const newTaskBtn = document.getElementById('newTaskBtn');
+            const archiveBtn = document.getElementById('archiveBtn');
+            const manageColsBtn = document.getElementById('manageColsBtn');
+            
+            if (debugMode) {
+                console.log('   - newTaskBtn exists:', !!newTaskBtn);
+            }
+            
+            if (newTaskBtn) {
+                newTaskBtn.addEventListener('click', () => openTaskModal());
+                if (debugMode) console.log('   ✅ newTaskBtn listener attached');
+            }
+            
+            if (debugMode) {
+                console.log('✅ All event listeners attached');
+            }
         });
 
         // Restore previous directory handle from IndexedDB
         async function tryRestorePreviousDirectory() {
+            console.log('🔍 tryRestorePreviousDirectory() called');
+            if (debugMode) {
+                console.log('📁 Checking for saved projects...');
+            }
+            
             try {
                 console.log('🔍 Attempting to restore previous directory...');
 
                 // Load projects from IndexedDB
+                if (debugMode) {
+                    console.log('📂 Loading projects from IndexedDB...');
+                }
                 const savedProjects = await loadProjects();
                 projects = savedProjects;
 
@@ -2522,6 +3728,9 @@
                 }
 
                 console.log(`  📁 Found ${projects.length} projects in memory`);
+                if (debugMode) {
+                    console.log('📋 Projects:', projects.map(p => p.name));
+                }
 
                 // Sort by last used (most recent first)
                 projects.sort((a, b) => (b.lastUsed || 0) - (a.lastUsed || 0));
@@ -2529,10 +3738,16 @@
                 // Try to restore the most recent project
                 const mostRecent = projects[0];
                 console.log(`  → Most recent project: ${mostRecent.name}`);
+                if (debugMode) {
+                    console.log('🕐 Last used:', new Date(mostRecent.lastUsed).toLocaleString());
+                }
 
                 try {
                     // Request permission to access the stored handle
                     console.log('  → Requesting permission...');
+                    if (debugMode) {
+                        console.log('🔐 Requesting filesystem access permission...');
+                    }
                     const permission = await mostRecent.directoryHandle.requestPermission();
 
                     if (permission === 'granted') {
@@ -2552,8 +3767,6 @@
                         document.getElementById('kanbanView').style.display = 'block';
                         document.getElementById('filterBar').style.display = 'block';
                         document.getElementById('newTaskBtn').style.display = 'inline-flex';
-                        document.getElementById('archiveBtn').style.display = 'inline-flex';
-                        document.getElementById('manageColsBtn').style.display = 'inline-flex';
 
                         // Update project selector now that kanban is visible
                         await updateProjectSelector();
@@ -2562,6 +3775,9 @@
                         return true;
                     } else {
                         console.log('⚠️ Permission denied for most recent project');
+                        if (debugMode) {
+                            console.log('🗑️ Removing inaccessible project from list...');
+                        }
                         // Remove this project from the list
                         projects.shift();
                         await saveProjects(projects);
@@ -2577,6 +3793,9 @@
                     }
                 } catch (permError) {
                     console.warn('⚠️ Could not get permission for project:', permError);
+                    if (debugMode) {
+                        console.log('🗑️ Removing inaccessible project from list...');
+                    }
                     // Remove this project from the list
                     projects.shift();
                     await saveProjects(projects);
@@ -2592,6 +3811,10 @@
                 }
             } catch (error) {
                 console.error('❌ Error restoring directory:', error);
+                if (debugMode) {
+                    console.log('📋 Full error:', error);
+                    console.log('📍 Error stack:', error.stack);
+                }
                 return false;
             }
         }
@@ -3276,21 +4499,40 @@ ${t('markdown.archiveSection')}
             const { categories, users, tags } = extractUniqueValues();
 
             // Update form datalists (keep full format for proper storage)
-            document.getElementById('categoriesList').innerHTML = categories.map(c => `<option value="${c}">`).join('');
-            document.getElementById('usersList').innerHTML = users.map(u => `<option value="${u}">`).join('');
-            document.getElementById('tagsList').innerHTML = tags.map(t => `<option value="${t}">`).join('');
+            const categoriesList = document.getElementById('categoriesList');
+            if (categoriesList) categoriesList.innerHTML = categories.map(c => `<option value="${c}">`).join('');
+            
+            const usersList = document.getElementById('usersList');
+            if (usersList) usersList.innerHTML = users.map(u => `<option value="${u}">`).join('');
+            
+            const tagsList = document.getElementById('tagsList');
+            if (tagsList) tagsList.innerHTML = tags.map(t => `<option value="${t}">`).join('');
 
-            // Update filter selects
-            document.getElementById('filterTagSelect').innerHTML = `<option value="">${t('filters.select')}</option>` + tags.map(t => `<option value="${t}">${t}</option>`).join('');
-            document.getElementById('filterCategorySelect').innerHTML = `<option value="">${t('filters.select')}</option>` + categories.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('filterUserSelect').innerHTML = `<option value="">${t('filters.select')}</option>` + users.map(u => {
-                const normalizedId = normalizeUserId(u);
-                return `<option value="${normalizedId}">${u}</option>`;
-            }).join('');
+            // Update filter selects - with null checks
+            const filterTagSelect = document.getElementById('filterTagSelect');
+            if (filterTagSelect) {
+                filterTagSelect.innerHTML = `<option value="">${t('filters.select')}</option>` + tags.map(t => `<option value="${t}">${t}</option>`).join('');
+            }
+            
+            const filterCategorySelect = document.getElementById('filterCategorySelect');
+            if (filterCategorySelect) {
+                filterCategorySelect.innerHTML = `<option value="">${t('filters.select')}</option>` + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+            }
+            
+            const filterUserSelect = document.getElementById('filterUserSelect');
+            if (filterUserSelect) {
+                filterUserSelect.innerHTML = `<option value="">${t('filters.select')}</option>` + users.map(u => {
+                    const normalizedId = normalizeUserId(u);
+                    return `<option value="${normalizedId}">${u}</option>`;
+                }).join('');
+            }
 
             // Update priority filter select from config
-            const priorities = (config.priorities || []);
-            document.getElementById('filterPrioritySelect').innerHTML = `<option value="">${t('filters.select')}</option>` + priorities.map((p, i) => `<option value="${clean(p)}">${displayPriority(p)}</option>`).join('');
+            const filterPrioritySelect = document.getElementById('filterPrioritySelect');
+            if (filterPrioritySelect) {
+                const priorities = (config.priorities || []);
+                filterPrioritySelect.innerHTML = `<option value="">${t('filters.select')}</option>` + priorities.map((p, i) => `<option value="${clean(p)}">${displayPriority(p)}</option>`).join('');
+            }
         }
 
         // Filter functions
@@ -3490,26 +4732,32 @@ ${t('markdown.archiveSection')}
             renderKanban();
         }
 
-        // Task edit/create modal
+            // Task edit/create modal
         function openTaskModal(task = null) {
             isEditMode = !!task;
             const modal = document.getElementById('newTaskModal');
             const form = document.getElementById('newTaskForm');
-            const title = modal.querySelector('h2');
+            const title = modal ? modal.querySelector('h2') : null;
             const submitBtn = document.getElementById('taskFormSubmitBtn');
 
-            title.textContent = isEditMode ? t('taskForm.editTask') : t('taskForm.newTask');
-            submitBtn.textContent = isEditMode ? t('taskForm.save') : t('taskForm.create');
+            if (title) title.textContent = isEditMode ? t('taskForm.editTask') : t('taskForm.newTask');
+            if (submitBtn) submitBtn.textContent = isEditMode ? t('taskForm.save') : t('taskForm.create');
 
             // Populate columns select
-            document.getElementById('taskStatus').innerHTML = config.columns.map(col =>
-                `<option value="${col.id}">${col.name}</option>`
-            ).join('');
+            const taskStatus = document.getElementById('taskStatus');
+            if (taskStatus) {
+                taskStatus.innerHTML = config.columns.map(col =>
+                    `<option value="${col.id}">${col.name}</option>`
+                ).join('');
+            }
 
             // Populate priorities select
-            document.getElementById('taskPriority').innerHTML = config.priorities.map(priority =>
-                `<option value="${clean(priority)}">${displayPriority(priority)}</option>`
-            ).join('');
+            const taskPriority = document.getElementById('taskPriority');
+            if (taskPriority) {
+                taskPriority.innerHTML = config.priorities.map(priority =>
+                    `<option value="${clean(priority)}">${displayPriority(priority)}</option>`
+                ).join('');
+            }
 
             // Update autocomplete
             updateAutocomplete();
@@ -3582,13 +4830,19 @@ ${t('markdown.archiveSection')}
         // Render Kanban board
         function renderKanban() {
             const board = document.getElementById('kanbanBoard');
+            if (!board) {
+                console.error('❌ Kanban board element not found!');
+                return;
+            }
             board.innerHTML = '';
 
             console.log('Rendering kanban with', tasks.length, 'tasks');
 
-            // Debug info
+            // Debug info - with null check
             const debugInfo = document.getElementById('debugInfo');
-            debugInfo.textContent = `Loaded ${tasks.length} tasks\nColumns: ${config.columns.map(c => c.name).join(', ')}`;
+            if (debugInfo) {
+                debugInfo.textContent = `Loaded ${tasks.length} tasks\nColumns: ${config.columns.map(c => c.name).join(', ')}`;
+            }
             // debugInfo.style.display = 'block'; // Uncomment to show debug info
 
             config.columns.forEach(column => {
@@ -4241,8 +5495,8 @@ ${t('markdown.archiveSection')}
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
 
-            notificationText.textContent = message;
-            notification.className = `notification ${type} show`;
+            if (notificationText) notificationText.textContent = message;
+            if (notification) notification.className = `notification ${type} show`;
 
             setTimeout(() => {
                 notification.classList.remove('show');
