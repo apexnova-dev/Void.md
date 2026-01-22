@@ -962,6 +962,118 @@
             font-weight: 500;
             margin-top: 0.5rem;
         }
+
+        /* Tiptap Editor Styles */
+        .tiptap-toolbar {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .tiptap-toolbar-btn {
+            padding: 0.4rem 0.6rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
+        }
+
+        .tiptap-toolbar-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .tiptap-toolbar-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tiptap-toolbar-btn.is-active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        #tiptapContainer {
+            min-height: 150px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            background: var(--bg-primary);
+            overflow: hidden;
+        }
+
+        #tiptapContainer:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-subtle);
+        }
+
+        .tiptap-editor-content {
+            padding: 0.75rem;
+            min-height: 100px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tiptap-editor-content:focus {
+            outline: none;
+        }
+
+        .tiptap-editor-content p {
+            margin: 0 0 0.5rem 0;
+        }
+
+        .tiptap-editor-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tiptap internal element styles */
+        .tiptap-editor-content ul,
+        .tiptap-editor-content ol {
+            margin: 0 0 0.5rem 1.5rem;
+        }
+
+        .tiptap-editor-content code {
+            background: var(--bg-secondary);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+        }
+
+        .tiptap-editor-content pre {
+            background: var(--bg-secondary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .tiptap-editor-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .tiptap-editor-content blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .tiptap-editor-content strong {
+            font-weight: 600;
+        }
+
+        .tiptap-editor-content em {
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -1339,17 +1451,40 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
-                    <label for="taskNotes">Notes 
-                        <span id="editorModeBadge" style="display: none; margin-left: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: normal;">
-                            <!-- Editor mode badge will be inserted here -->
+                    <label for="taskNotes">Notes
+                        <span id="editorModeBadge" style="display: none; margin-left: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: normal; background: var(--accent-color, #4a90d9); color: white;">
+                            Rich Text
                         </span>
                     </label>
+
+                    <!-- Formatting Toolbar (shown when rich mode is active) -->
+                    <div id="editorToolbar" class="tiptap-toolbar" style="display: none; margin-bottom: 0.5rem; padding: 0.5rem; background: var(--bg-secondary, #f5f5f5); border-radius: 6px 6px 0 0; border: 1px solid var(--border-color, #ddd); border-bottom: none; gap: 0.25rem;">
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.toggleBold()" title="Bold (Ctrl+B)" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: all 0.2s ease;"><strong>B</strong></button>
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.toggleItalic()" title="Italic (Ctrl+I)" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-style: italic; transition: all 0.2s ease;"><em>I</em></button>
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.toggleCode()" title="Inline Code" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-family: monospace; transition: all 0.2s ease;">&lt;/&gt;</button>
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.toggleCodeBlock()" title="Code Block" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease;">{ }</button>
+                        <span style="width: 1px; height: 24px; background: var(--border-color, #ddd); margin: 0 0.25rem;"></span>
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.toggleBulletList()" title="Bullet List" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease;">• List</button>
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.toggleOrderedList()" title="Ordered List" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease;">1. List</button>
+                        <span style="width: 1px; height: 24px; background: var(--border-color, #ddd); margin: 0 0.25rem;"></span>
+                        <button type="button" class="tiptap-toolbar-btn" onclick="TiptapEditor.clearFormatting()" title="Clear Formatting" style="padding: 0.4rem 0.6rem; background: var(--bg-primary, #fff); border: 1px solid var(--border-color, #ddd); border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s ease;">Clear</button>
+                        <span style="flex-grow: 1;"></span>
+                        <span id="editorStats" style="font-size: 0.75rem; color: var(--text-secondary, #888);"></span>
+                    </div>
+
+                    <!-- Tiptap Editor Container (hidden by default) -->
+                    <div id="tiptapContainer" style="display: none; min-height: 150px; border: 1px solid var(--border-color, #ddd); border-radius: 0 0 6px 6px; background: var(--bg-primary, #fff);">
+                        <!-- Tiptap will initialize here -->
+                    </div>
+
+                    <!-- Fallback Textarea (always present for plain text mode) -->
                     <textarea id="taskNotes" rows="6" placeholder="Technical notes, results, decisions, etc.
 
 You can use Markdown:
-**Bold**, *Italic*, `code`, lists, links..."></textarea>
-                    <small style="color: var(--text-secondary); font-size: 0.85rem;">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
-                    <div id="editorStatus" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);"></div>
+**Bold**, *Italic*, `code`, lists, links..." style="display: block; width: 100%;"></textarea>
+
+                    <small style="color: var(--text-secondary, #888); font-size: 0.85rem;">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
+                    <div id="editorStatus" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary, #888);"></div>
                 </div>
                 <div class="actions">
                     <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
@@ -1609,7 +1744,11 @@ function openTaskModal(task = null) {
         // Set default dates
         document.getElementById('taskCreated').value = new Date().toISOString().split('T')[0];
     }
-    
+
+    // ===== TIPTAP EDITOR INTEGRATION =====
+    // Initialize Tiptap editor if rich mode is active
+    initializeEditorForTask(task);
+
     // Populate status dropdown
     const statusSelect = document.getElementById('taskStatus');
     if (statusSelect) {
@@ -1646,6 +1785,20 @@ function openTaskModal(task = null) {
 }
 
 function closeTaskModal() {
+    // ===== TIPTAP EDITOR CLEANUP =====
+    // Save any unsaved rich content before destroying editor
+    if (TiptapEditor.hasInstance()) {
+        const editId = document.getElementById('taskEditId').value;
+        if (editId) {
+            const richContent = TiptapEditor.getContent();
+            if (richContent) {
+                RichContentStorage.saveRichNotes(editId, richContent);
+            }
+        }
+        // Destroy editor instance
+        TiptapEditor.destroy();
+    }
+
     const modal = document.getElementById('newTaskModal');
     if (modal) {
         modal.classList.remove('active');
@@ -1692,6 +1845,110 @@ function toggleFormSubtask(index) {
 function removeFormSubtask(index) {
     formSubtasks.splice(index, 1);
     renderFormSubtasks();
+}
+
+/**
+ * Initialize Tiptap editor for task form
+ * @param {object|null} task - Task object (null for new task)
+ */
+function initializeEditorForTask(task = null) {
+    const editId = document.getElementById('taskEditId').value;
+    const isRichMode = getEditorMode() === 'rich' && isRichTextAvailable();
+
+    // Get UI elements
+    const toolbar = document.getElementById('editorToolbar');
+    const container = document.getElementById('tiptapContainer');
+    const textarea = document.getElementById('taskNotes');
+    const badge = document.getElementById('editorModeBadge');
+    const status = document.getElementById('editorStatus');
+
+    if (isRichMode) {
+        // Switch to rich text mode
+        toolbar.style.display = 'flex';
+        container.style.display = 'block';
+        textarea.style.display = 'none';
+        badge.style.display = 'inline-block';
+
+        // Destroy any existing editor instance
+        if (TiptapEditor.hasInstance()) {
+            TiptapEditor.destroy();
+        }
+
+        // Create new editor instance
+        const created = TiptapEditor.create('tiptapContainer');
+
+        if (created) {
+            // Load content based on mode
+            if (editId) {
+                // Editing existing task - load rich content or fall back to plain text
+                const richContent = RichContentStorage.loadRichNotes(editId);
+                if (richContent) {
+                    TiptapEditor.setContent(richContent);
+                } else {
+                    // No rich content found, load plain text from task
+                    TiptapEditor.setContent(task?.notes || '');
+                }
+            } else {
+                // New task - start empty
+                TiptapEditor.setContent('');
+            }
+
+            updateEditorStatus('Rich text editor ready');
+            updateEditorStats();
+        } else {
+            // Failed to create editor, fall back to plain text
+            console.warn('Failed to initialize Tiptap editor, falling back to plain text');
+            toolbar.style.display = 'none';
+            container.style.display = 'none';
+            textarea.style.display = 'block';
+            badge.style.display = 'none';
+            updateEditorStatus('Editor unavailable, using plain text');
+        }
+    } else {
+        // Plain text mode
+        toolbar.style.display = 'none';
+        container.style.display = 'none';
+        textarea.style.display = 'block';
+        badge.style.display = 'none';
+
+        // Destroy any existing editor instance
+        if (TiptapEditor.hasInstance()) {
+            TiptapEditor.destroy();
+        }
+
+        updateEditorStatus('');
+    }
+}
+
+/**
+ * Update editor status message
+ * @param {string} message - Status message
+ */
+function updateEditorStatus(message) {
+    const status = document.getElementById('editorStatus');
+    if (status) {
+        status.textContent = message;
+        if (message) {
+            status.style.display = 'block';
+        } else {
+            status.style.display = 'none';
+        }
+    }
+}
+
+/**
+ * Update editor statistics display
+ */
+function updateEditorStats() {
+    const statsEl = document.getElementById('editorStats');
+    if (statsEl && TiptapEditor.hasInstance()) {
+        const stats = TiptapEditor.getStats();
+        if (stats.words > 0) {
+            statsEl.textContent = `${stats.words} word${stats.words !== 1 ? 's' : ''}, ${stats.characters} char${stats.characters !== 1 ? 's' : ''}`;
+        } else {
+            statsEl.textContent = '';
+        }
+    }
 }
 
 // Columns Modal Functions
@@ -3337,6 +3594,257 @@ function deleteFromArchive(taskId) {
             return { success: false, error: errorMsg, fallback: 'plain-text' };
         }
 
+        // ===== TIPTAP EDITOR CLASS =====
+
+        /**
+         * TiptapEditor - Wrapper class for Tiptap rich text editor
+         * Provides easy integration with task notes editing
+         */
+        class TiptapEditor {
+            constructor() {
+                this.editor = null;
+                this.container = null;
+                this._isActive = false;
+            }
+
+            /**
+             * Initialize editor in a container element
+             * @param {string} containerId - ID of the container element
+             * @returns {boolean} - Success status
+             */
+            create(containerId) {
+                // Check if Tiptap library is loaded
+                if (typeof window.Tiptap === 'undefined') {
+                    console.warn('Tiptap library not loaded');
+                    return false;
+                }
+
+                const container = document.getElementById(containerId);
+                if (!container) {
+                    console.error(`TiptapEditor: Container "${containerId}" not found`);
+                    return false;
+                }
+
+                this.container = container;
+
+                // Clear any existing content
+                container.innerHTML = '';
+
+                try {
+                    // Create editor instance with StarterKit extensions
+                    this.editor = window.Tiptap.Editor.create({
+                        element: container,
+                        extensions: [
+                            window.Tiptap.StarterKit
+                        ],
+                        content: '',
+                        editorProps: {
+                            attributes: {
+                                class: 'tiptap-editor-content'
+                            }
+                        },
+                        onUpdate: ({ editor }) => {
+                            // Optional: Auto-save or update status
+                            if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                                // console.log('Editor content updated');
+                            }
+                        },
+                        onSelectionUpdate: ({ editor }) => {
+                            // Optional: Update toolbar state based on selection
+                        }
+                    });
+
+                    this._isActive = true;
+                    console.log('✅ Tiptap editor initialized successfully');
+                    return true;
+                } catch (error) {
+                    console.error('TiptapEditor: Failed to create editor:', error);
+                    this._isActive = false;
+                    return false;
+                }
+            }
+
+            /**
+             * Destroy editor and cleanup
+             */
+            destroy() {
+                if (this.editor) {
+                    try {
+                        this.editor.destroy();
+                        this.editor = null;
+                        this._isActive = false;
+                        console.log('🔄 Tiptap editor destroyed');
+                    } catch (error) {
+                        console.error('TiptapEditor: Error destroying editor:', error);
+                    }
+                }
+            }
+
+            /**
+             * Set HTML content
+             * @param {string} html - HTML content to set
+             */
+            setContent(html) {
+                if (this.editor && this.editor.commands) {
+                    try {
+                        this.editor.commands.setContent(html || '');
+                    } catch (error) {
+                        console.error('TiptapEditor: Error setting content:', error);
+                    }
+                }
+            }
+
+            /**
+             * Get HTML content
+             * @returns {string} - HTML content
+             */
+            getContent() {
+                if (this.editor) {
+                    try {
+                        return this.editor.getHTML() || '';
+                    } catch (error) {
+                        console.error('TiptapEditor: Error getting content:', error);
+                        return '';
+                    }
+                }
+                return '';
+            }
+
+            /**
+             * Get plain text content
+             * @returns {string} - Plain text content
+             */
+            getText() {
+                if (this.editor) {
+                    try {
+                        return this.editor.getText() || '';
+                    } catch (error) {
+                        console.error('TiptapEditor: Error getting text:', error);
+                        return '';
+                    }
+                }
+                return '';
+            }
+
+            /**
+             * Check if editor is active
+             * @returns {boolean}
+             */
+            isActive() {
+                return this._isActive && this.editor !== null;
+            }
+
+            /**
+             * Check if editor instance exists
+             * @returns {boolean}
+             */
+            hasInstance() {
+                return this.editor !== null;
+            }
+
+            /**
+             * Toggle bold formatting
+             */
+            toggleBold() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().toggleBold().run();
+                }
+            }
+
+            /**
+             * Toggle italic formatting
+             */
+            toggleItalic() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().toggleItalic().run();
+                }
+            }
+
+            /**
+             * Toggle code formatting (inline code)
+             */
+            toggleCode() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().toggleCode().run();
+                }
+            }
+
+            /**
+             * Toggle code block formatting
+             */
+            toggleCodeBlock() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().toggleCodeBlock().run();
+                }
+            }
+
+            /**
+             * Toggle bullet list
+             */
+            toggleBulletList() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().toggleBulletList().run();
+                }
+            }
+
+            /**
+             * Toggle ordered list
+             */
+            toggleOrderedList() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().toggleOrderedList().run();
+                }
+            }
+
+            /**
+             * Clear all formatting and nodes
+             */
+            clearFormatting() {
+                if (this.editor && this.editor.chain) {
+                    this.editor.chain().focus().clearNodes().unsetAllMarks().run();
+                }
+            }
+
+            /**
+             * Focus the editor
+             */
+            focus() {
+                if (this.editor) {
+                    this.editor.commands.focus();
+                }
+            }
+
+            /**
+             * Check if current selection has specific mark
+             * @param {string} type - Mark type name
+             * @returns {boolean}
+             */
+            hasMark(type) {
+                if (this.editor && this.editor.can) {
+                    return this.editor.can('toggleMark', type);
+                }
+                return false;
+            }
+
+            /**
+             * Get editor statistics
+             * @returns {object} - Word count, character count
+             */
+            getStats() {
+                if (this.editor) {
+                    return {
+                        text: this.editor.getText(),
+                        words: this.editor.getText().split(/\s+/).filter(w => w).length,
+                        characters: this.editor.getText().length
+                    };
+                }
+                return { text: '', words: 0, characters: 0 };
+            }
+        }
+
+        // Create global instance
+        window.TiptapEditor = new TiptapEditor();
+
         // ===== END FEATURE FLAG SYSTEM =====
 
         // Set theme and save to localStorage
@@ -4227,16 +4735,34 @@ function deleteFromArchive(taskId) {
                 const completed = document.getElementById('taskCompleted').value;
                 const tagsInput = document.getElementById('taskTags').value.trim();
                 const description = document.getElementById('taskDescription').value.trim();
-                const notes = document.getElementById('taskNotes').value.trim();
+
+                // ===== TIPTAP RICH CONTENT HANDLING =====
+                let notes = '';
+                let richContent = null;
+                const isRichMode = getEditorMode() === 'rich' && TiptapEditor.hasInstance();
+
+                if (isRichMode) {
+                    // Get rich HTML content from Tiptap
+                    richContent = TiptapEditor.getContent();
+                    // Get plain text for the task notes field
+                    notes = TiptapEditor.getText().trim();
+                } else {
+                    // Plain text mode - get from textarea
+                    notes = document.getElementById('taskNotes').value.trim();
+                }
 
                 // Parse tags and assignees
                 const tags = tagsInput ? tagsInput.split(/\s+/).filter(t => t.startsWith('#') || t).map(t => t.startsWith('#') ? t : '#' + t) : [];
                 const assignees = assignee ? assignee.split(',').map(a => a.trim()) : [];
 
+                // Store task ID for rich content saving
+                let currentTaskId = null;
+
                 if (isEditMode) {
                     // Update existing task
                     const editId = document.getElementById('taskEditId').value;
                     const task = tasks.find(t => t.id === editId);
+                    currentTaskId = editId;
 
                     if (task) {
                         task.title = title;
@@ -4275,6 +4801,20 @@ function deleteFromArchive(taskId) {
 
                     tasks.push(task);
                     config.lastTaskId = newId;
+                    currentTaskId = newId;
+                }
+
+                // ===== SAVE RICH CONTENT =====
+                if (richContent && currentTaskId) {
+                    try {
+                        const saveResult = await RichContentStorage.saveRichNotes(currentTaskId, richContent);
+                        if (!saveResult.success) {
+                            console.error('Failed to save rich content:', saveResult.error);
+                            showNotification('Warning: Rich content could not be saved', 'warning');
+                        }
+                    } catch (error) {
+                        console.error('Error saving rich content:', error);
+                    }
                 }
 
                 renderKanban();
@@ -4304,7 +4844,34 @@ function deleteFromArchive(taskId) {
                 newTaskBtn.addEventListener('click', () => openTaskModal());
                 if (debugMode) console.log('   ✅ newTaskBtn listener attached');
             }
-            
+
+            // Click outside to close modals (e.g., settings modal)
+            document.addEventListener('click', (e) => {
+                // Check each active modal
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    // Only close if clicking directly on the modal overlay (not on content)
+                    const modalContent = modal.querySelector('.modal-content');
+                    if (modalContent && !modalContent.contains(e.target) && e.target === modal) {
+                        modal.classList.remove('active');
+
+                        // Call appropriate close function based on modal type
+                        if (modal.id === 'settingsModal' && typeof closeSettingsModal === 'function') {
+                            closeSettingsModal();
+                        } else if (modal.id === 'newTaskModal' && typeof closeTaskModal === 'function') {
+                            closeTaskModal();
+                        } else if (modal.id === 'columnsModal' && typeof closeColumnsModal === 'function') {
+                            closeColumnsModal();
+                        } else if (modal.id === 'archiveModal' && typeof closeArchiveModal === 'function') {
+                            closeArchiveModal();
+                        } else if (modal.id === 'taskModal' && typeof closeModal === 'function') {
+                            closeModal();
+                        }
+
+                        if (debugMode) console.log('✅ Modal closed via click-outside');
+                    }
+                });
+            });
+
             if (debugMode) {
                 console.log('✅ All event listeners attached');
             }
@@ -5393,6 +5960,20 @@ ${t('markdown.archiveSection')}
         }
 
         function closeTaskModal() {
+            // ===== TIPTAP EDITOR CLEANUP =====
+            // Save any unsaved rich content before destroying editor
+            if (TiptapEditor.hasInstance()) {
+                const editId = document.getElementById('taskEditId').value;
+                if (editId) {
+                    const richContent = TiptapEditor.getContent();
+                    if (richContent) {
+                        RichContentStorage.saveRichNotes(editId, richContent);
+                    }
+                }
+                // Destroy editor instance
+                TiptapEditor.destroy();
+            }
+
             document.getElementById('newTaskModal').classList.remove('active');
             document.getElementById('newTaskForm').reset();
             formSubtasks = [];
