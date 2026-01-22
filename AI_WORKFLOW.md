@@ -60,6 +60,7 @@ What was done.
 ## 🔄 Workflow
 
 ### 1. New request
+
 1. Create task in `kanban.md` → "📝 To Do"
 2. Unique ID (TASK-XXX) auto-incremented
 3. Add author tracking information:
@@ -68,11 +69,13 @@ What was done.
 4. Break down into subtasks if needed
 
 ### 2. Start work
+
 1. Move → "🚀 In Progress"
 2. Add `**Started**: YYYY-MM-DD`
 3. Check off subtasks progressively
 
 ### 3. Finish work
+
 1. Move → "✅ Done"
 2. Add `**Finished**: YYYY-MM-DD`
 3. Document in `**Notes**:`:
@@ -208,6 +211,7 @@ Real-time notifications with WebSockets.
 ## 🎯 Golden Rules
 
 ### ✅ ALWAYS
+
 1. Create task BEFORE coding
 2. Strict format (no `##` inside tasks)
 3. Include author tracking (`**Author**:` required, `**Session**:` for AI)
@@ -218,6 +222,7 @@ Real-time notifications with WebSockets.
 8. Leave in "Done" (archive only on user request)
 
 ### ❌ NEVER
+
 1. `## Title` in a task
 2. Code without creating task
 3. Forget to check off subtasks
@@ -353,6 +358,7 @@ git checkout -b feature/TASK-042-notifications
 ### Audit Trail Benefits
 
 #### When Things Go Wrong
+
 ```bash
 # Search for all tasks from problematic session
 grep "Session: ses_1705123456" kanban.md
@@ -362,6 +368,7 @@ grep "Author: Claude Code" kanban.md | grep "Session:"
 ```
 
 #### When Things Go Right
+
 ```bash
 # Find successful patterns from top-performing AI
 grep "AI Version: claude-3-sonnet" kanban.md | grep -A5 "Result:"
@@ -372,6 +379,7 @@ grep -c "Author: Claude Code" kanban.md
 ```
 
 #### Session Continuity
+
 ```markdown
 ### TASK-007 | Continue session ses_1705123456 work
 
@@ -411,6 +419,7 @@ Each AI has its own configuration file:
 | **Codeium / Windsurf** | `instructions.md` | `.windsurf/` or `.codeium/` |
 
 **These files must:**
+
 1. Reference this file `AI_WORKFLOW.md`
 2. Be adapted to each AI's specifics
 3. Remain minimalist (only a few lines)
@@ -456,6 +465,7 @@ On your first interaction with the AI:
 ```
 
 The AI will automatically:
+
 1. Read `AI_WORKFLOW.md`
 2. Understand the complete format and workflow
 3. Be ready to manage tasks according to defined rules
@@ -463,21 +473,25 @@ The AI will automatically:
 ### Usage Examples
 
 **Create a task:**
+
 ```
 "Plan adding a real-time notification system"
 ```
 
 **Work on a task:**
+
 ```
 "Do TASK-007"
 ```
 
 **Status update:**
+
 ```
 "Where are we?"
 ```
 
 **Archive:**
+
 ```
 "Archive completed tasks"
 ```
