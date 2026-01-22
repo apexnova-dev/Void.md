@@ -967,7 +967,7 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <h1 id="headerTitle">📋 Task Manager <span style="font-size: 0.7em; color: var(--text-secondary); font-weight: normal;">v. 1.1.2</span></h1>
+            <h1 id="headerTitle">📋 Task Manager <span id="versionBadge" style="font-size: 0.7em; color: var(--text-secondary); font-weight: normal;">v. 1.1.2</span></h1>
             <div style="display: flex; gap: 0.75rem; align-items: center;">
                 <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" style="padding: 0.6rem;">⚙️ Settings</button>
                 <select id="projectSelector" style="display: none; padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; min-width: 180px;">
@@ -1160,6 +1160,62 @@
                     </div>
                 </div>
 
+                <!-- Experimental Features Section (1.2.0) -->
+                <div class="settings-section">
+                    <h3>🚀 Experimental Features (v1.2.0)</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        ⚠️ These features are experimental and disabled by default. Enable at your own risk.
+                    </p>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Rich Text Editor</span>
+                            <small>Enhanced notes with Tiptap editor and formatting toolbar</small>
+                            <div id="featureRichTextStatus" style="font-size: 0.8rem; margin-top: 0.25rem;"></div>
+                        </div>
+                        <div class="toggle-switch" id="featureRichTextSwitch" onclick="toggleFeature('ENABLE_RICH_TEXT_EDITOR')">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                    <!-- Editor Mode Toggle (only visible when Rich Text Editor is enabled) -->
+                    <div class="setting-row" id="editorModeRow" style="display: none; margin-left: 1rem; padding-left: 1rem; border-left: 2px solid var(--border-color);">
+                        <div class="setting-info">
+                            <span>Editor Mode</span>
+                            <small>Choose between plain text or rich text editor</small>
+                        </div>
+                        <select id="editorModeSelect" onchange="changeEditorMode(this.value)" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px;">
+                            <option value="plain">Plain Text</option>
+                            <option value="rich">Rich Text (Tiptap)</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Comments System</span>
+                            <small>Threaded comments with @mentions and reactions</small>
+                        </div>
+                        <div class="toggle-switch" id="featureCommentsSwitch" onclick="toggleFeature('ENABLE_COMMENTS')">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Slash Commands</span>
+                            <small>Notion-style "/" commands for quick formatting</small>
+                        </div>
+                        <div class="toggle-switch" id="featureSlashCommandsSwitch" onclick="toggleFeature('ENABLE_SLASH_COMMANDS')">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>Performance Logging</span>
+                            <small>Log performance metrics for new features</small>
+                        </div>
+                        <div class="toggle-switch" id="featurePerformanceSwitch" onclick="toggleFeature('ENABLE_PERFORMANCE_LOGGING')">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Project Management Section -->
                 <div class="settings-section">
                     <h3>📁 Project Management</h3>
@@ -1283,12 +1339,17 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
-                    <label for="taskNotes">Notes</label>
+                    <label for="taskNotes">Notes 
+                        <span id="editorModeBadge" style="display: none; margin-left: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: normal;">
+                            <!-- Editor mode badge will be inserted here -->
+                        </span>
+                    </label>
                     <textarea id="taskNotes" rows="6" placeholder="Technical notes, results, decisions, etc.
 
 You can use Markdown:
 **Bold**, *Italic*, `code`, lists, links..."></textarea>
                     <small style="color: var(--text-secondary); font-size: 0.85rem;">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
+                    <div id="editorStatus" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);"></div>
                 </div>
                 <div class="actions">
                     <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
@@ -2440,9 +2501,16 @@ function deleteFromArchive(taskId) {
             // Update page title
             document.title = t('page.title');
 
-            // Update header with null checks
+            // Update header - preserve version badge if present
             const headerTitle = document.getElementById('headerTitle');
-            if (headerTitle) headerTitle.textContent = t('header.title');
+            if (headerTitle) {
+                // Check if version span exists, preserve it
+                const versionSpan = headerTitle.querySelector('span[id="versionBadge"]');
+                const versionText = versionSpan ? versionSpan.outerHTML : '';
+
+                // Update only the text content, then re-add version span
+                headerTitle.innerHTML = t('header.title') + (versionText ? ' ' + versionText : '');
+            }
 
             const renameProjectBtn = document.getElementById('renameProjectBtn');
             if (renameProjectBtn) renameProjectBtn.title = t('header.renameProject');
@@ -2581,10 +2649,14 @@ function deleteFromArchive(taskId) {
                         await loadKanbanFile();
 
                         // Show kanban view
-                        document.getElementById('welcomeScreen').style.display = 'none';
-                        document.getElementById('kanbanView').style.display = 'block';
-                        document.getElementById('filterBar').style.display = 'block';
-                        document.getElementById('newTaskBtn').style.display = 'inline-flex';
+                        const welcomeScreen = document.getElementById('welcomeScreen');
+                        if (welcomeScreen) welcomeScreen.style.display = 'none';
+                        const kanbanView = document.getElementById('kanbanView');
+                        if (kanbanView) kanbanView.style.display = 'block';
+                        const filterBar = document.getElementById('filterBar');
+                        if (filterBar) filterBar.style.display = 'block';
+                        const newTaskBtn = document.getElementById('newTaskBtn');
+                        if (newTaskBtn) newTaskBtn.style.display = 'inline-flex';
 
                         // Update UI
                         await updateProjectSelector();
@@ -2819,6 +2891,453 @@ function deleteFromArchive(taskId) {
             // This allows users to disable it
             updateDebugToggle();
         }
+
+        // ===== FEATURE FLAG SYSTEM (v1.2.0) =====
+        
+        // Feature flags configuration - all disabled by default for safety
+        const FEATURE_FLAGS = {
+            ENABLE_RICH_TEXT_EDITOR: {
+                enabled: false,
+                key: 'featureRichText',
+                name: 'Rich Text Editor',
+                description: 'Enhanced notes with Tiptap editor and formatting toolbar'
+            },
+            ENABLE_COMMENTS: {
+                enabled: false,
+                key: 'featureComments',
+                name: 'Comments System',
+                description: 'Threaded comments with @mentions and reactions'
+            },
+            ENABLE_SLASH_COMMANDS: {
+                enabled: false,
+                key: 'featureSlashCommands',
+                name: 'Slash Commands',
+                description: 'Notion-style "/" commands for quick formatting'
+            },
+            ENABLE_PERFORMANCE_LOGGING: {
+                enabled: false,
+                key: 'featurePerformance',
+                name: 'Performance Logging',
+                description: 'Log performance metrics for new features'
+            }
+        };
+
+        // Initialize feature flags from localStorage
+        function initFeatureFlags() {
+            for (const [flag, config] of Object.entries(FEATURE_FLAGS)) {
+                const saved = localStorage.getItem(flag);
+                if (saved !== null) {
+                    FEATURE_FLAGS[flag].enabled = saved === 'true';
+                }
+            }
+            updateFeatureToggles();
+            updateRichTextStatus(); // Show initial status
+            updateEditorBadge(); // Update badge in task form
+            console.log('🎛️ Feature flags initialized:', Object.entries(FEATURE_FLAGS).filter(([_, f]) => f.enabled).map(([k]) => k));
+        }
+
+        // Toggle a specific feature flag
+        function toggleFeature(flagName) {
+            if (!FEATURE_FLAGS[flagName]) {
+                console.warn(`Unknown feature flag: ${flagName}`);
+                return;
+            }
+            
+            FEATURE_FLAGS[flagName].enabled = !FEATURE_FLAGS[flagName].enabled;
+            localStorage.setItem(flagName, FEATURE_FLAGS[flagName].enabled.toString());
+            
+            const status = FEATURE_FLAGS[flagName].enabled ? 'enabled' : 'disabled';
+            console.log(`🎛️ Feature ${flagName} ${status}`);
+            showNotification(`${FEATURE_FLAGS[flagName].name} ${status}`, 'success');
+            
+            // If enabling rich text editor, load the Tiptap library
+            if (flagName === 'ENABLE_RICH_TEXT_EDITOR' && FEATURE_FLAGS[flagName].enabled) {
+                updateRichTextStatus(); // Show loading state immediately
+                loadTiptapLibrary().then(() => {
+                    updateRichTextStatus(); // Update status after load
+                }).catch(() => {
+                    updateRichTextStatus(); // Update status on error
+                });
+            }
+            
+            updateFeatureToggles();
+        }
+
+        // Update all feature toggle switches in the UI
+        function updateFeatureToggles() {
+            for (const [flag, config] of Object.entries(FEATURE_FLAGS)) {
+                const toggle = document.getElementById(`${config.key}Switch`);
+                if (toggle) {
+                    if (FEATURE_FLAGS[flag].enabled) {
+                        toggle.classList.add('active');
+                    } else {
+                        toggle.classList.remove('active');
+                    }
+                }
+            }
+            
+            // Update rich text editor status display
+            updateRichTextStatus();
+        }
+
+        // Update rich text editor status display
+        function updateRichTextStatus() {
+            const statusEl = document.getElementById('featureRichTextStatus');
+            const modeRow = document.getElementById('editorModeRow');
+            const modeSelect = document.getElementById('editorModeSelect');
+            
+            if (!statusEl) return;
+            
+            if (typeof window.Tiptap !== 'undefined') {
+                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Editor loaded and ready</span>';
+                statusEl.style.display = 'block';
+                
+                // Show editor mode toggle
+                if (modeRow) modeRow.style.display = 'flex';
+                if (modeSelect) {
+                    const savedMode = localStorage.getItem('editorMode') || 'plain';
+                    modeSelect.value = savedMode;
+                }
+            } else if (window._tiptapLoading) {
+                statusEl.innerHTML = '<span style="color: #f59e0b;">⏳ Loading editor...</span>';
+                statusEl.style.display = 'block';
+                if (modeRow) modeRow.style.display = 'none';
+            } else if (FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
+                statusEl.innerHTML = '<span style="color: #ef4444;">⚠️ Failed to load - using plain text</span>';
+                statusEl.style.display = 'block';
+                if (modeRow) modeRow.style.display = 'none';
+            } else {
+                statusEl.style.display = 'none';
+                if (modeRow) modeRow.style.display = 'none';
+            }
+            
+            // Update badge in task form
+            updateEditorBadge();
+        }
+
+        // Change editor mode (plain text vs rich text)
+        function changeEditorMode(mode) {
+            localStorage.setItem('editorMode', mode);
+            console.log(`📝 Editor mode changed to: ${mode}`);
+            
+            if (mode === 'rich' && typeof window.Tiptap === 'undefined') {
+                // User wants rich text, try to load Tiptap
+                showNotification('Loading rich text editor...', 'info');
+                loadTiptapLibrary().then(() => {
+                    updateRichTextStatus();
+                }).catch(() => {
+                    showNotification('Failed to load rich text editor. Staying in plain text mode.', 'error');
+                    // Get the select element and reset it to plain text
+                    const modeSelect = document.getElementById('editorModeSelect');
+                    if (modeSelect) modeSelect.value = 'plain';
+                    localStorage.setItem('editorMode', 'plain');
+                });
+            }
+            
+            updateEditorBadge();
+        }
+
+        // Get current editor mode
+        function getEditorMode() {
+            if (!FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
+                return 'plain'; // Feature disabled, use plain text
+            }
+            return localStorage.getItem('editorMode') || 'plain';
+        }
+
+        // Update editor badge in task form
+        function updateEditorBadge() {
+            const badge = document.getElementById('editorModeBadge');
+            const status = document.getElementById('editorStatus');
+            
+            if (!badge || !status) return;
+            
+            const mode = getEditorMode();
+            
+            if (mode === 'rich' && typeof window.Tiptap !== 'undefined') {
+                badge.innerHTML = '<span style="background: #22C55E; color: white;">Rich Text</span>';
+                badge.style.display = 'inline-block';
+                status.innerHTML = '✓ Rich text editor active. Use "/" for commands.';
+                status.style.color = '#22C55E';
+            } else if (mode === 'rich' && FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
+                badge.innerHTML = '<span style="background: #f59e0b; color: white;">Loading...</span>';
+                badge.style.display = 'inline-block';
+                status.innerHTML = '⏳ Loading rich text editor...';
+                status.style.color = '#f59e0b';
+            } else {
+                badge.style.display = 'none';
+                status.innerHTML = 'Plain text mode. Enable Rich Text Editor in Settings to unlock formatting tools.';
+                status.style.color = 'var(--text-secondary)';
+            }
+        }
+
+        // Check if rich text is available
+        function isRichTextAvailable() {
+            return FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled && 
+                   typeof window.Tiptap !== 'undefined' && 
+                   getEditorMode() === 'rich';
+        }
+
+        // Check if a feature is enabled
+        function isFeatureEnabled(flagName) {
+            return FEATURE_FLAGS[flagName]?.enabled === true;
+        }
+
+        // ===== PARALLEL DATA STORAGE (v1.2.0) =====
+        // Separate storage for rich content without modifying existing kanban.md format
+        
+        const RichContentStorage = {
+            // Storage key prefix
+            STORAGE_PREFIX: 'tm_rich_',
+            
+            // Get storage key for a task
+            getKey: (taskId) => {
+                return `${RichContentStorage.STORAGE_PREFIX}${taskId}`;
+            },
+            
+            // Save rich content for a task
+            saveRichNotes: async (taskId, richContent) => {
+                if (!taskId || !richContent) {
+                    console.warn('RichContentStorage: Missing taskId or content');
+                    return { success: false, error: 'Missing parameters' };
+                }
+                
+                try {
+                    const data = {
+                        taskId: taskId,
+                        content: richContent,
+                        updatedAt: new Date().toISOString(),
+                        version: '1.2.0'
+                    };
+                    
+                    const key = RichContentStorage.getKey(taskId);
+                    localStorage.setItem(key, JSON.stringify(data));
+                    
+                    if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                        console.log(`💾 Rich content saved for ${taskId}`);
+                    }
+                    
+                    return { success: true };
+                } catch (error) {
+                    console.error('RichContentStorage: Error saving rich content:', error);
+                    return { success: false, error: error.message };
+                }
+            },
+            
+            // Load rich content for a task
+            loadRichNotes: (taskId) => {
+                if (!taskId) {
+                    return null;
+                }
+                
+                try {
+                    const key = RichContentStorage.getKey(taskId);
+                    const saved = localStorage.getItem(key);
+                    
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                            console.log(`📖 Rich content loaded for ${taskId}`);
+                        }
+                        return data.content; // Return just the content
+                    }
+                    
+                    return null; // No rich content found
+                } catch (error) {
+                    console.error('RichContentStorage: Error loading rich content:', error);
+                    return null;
+                }
+            },
+            
+            // Delete rich content for a task
+            deleteRichNotes: (taskId) => {
+                if (!taskId) return;
+                
+                try {
+                    const key = RichContentStorage.getKey(taskId);
+                    localStorage.removeItem(key);
+                    console.log(`🗑️ Rich content deleted for ${taskId}`);
+                } catch (error) {
+                    console.error('RichContentStorage: Error deleting rich content:', error);
+                }
+            },
+            
+            // Check if rich content exists for a task
+            hasRichNotes: (taskId) => {
+                if (!taskId) return false;
+                
+                try {
+                    const key = RichContentStorage.getKey(taskId);
+                    return localStorage.getItem(key) !== null;
+                } catch (error) {
+                    return false;
+                }
+            },
+            
+            // Get all tasks with rich content
+            getAllTaskIds: () => {
+                const taskIds = [];
+                
+                try {
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && key.startsWith(RichContentStorage.STORAGE_PREFIX)) {
+                            const taskId = key.substring(RichContentStorage.STORAGE_PREFIX.length);
+                            taskIds.push(taskId);
+                        }
+                    }
+                } catch (error) {
+                    console.error('RichContentStorage: Error getting all task IDs:', error);
+                }
+                
+                return taskIds;
+            },
+            
+            // Clear all rich content
+            clearAll: () => {
+                const taskIds = RichContentStorage.getAllTaskIds();
+                taskIds.forEach(taskId => {
+                    RichContentStorage.deleteRichNotes(taskId);
+                });
+                console.log(`🗑️ Cleared rich content for ${taskIds.length} tasks`);
+            },
+            
+            // Get storage statistics
+            getStats: () => {
+                const taskIds = RichContentStorage.getAllTaskIds();
+                let totalSize = 0;
+                
+                taskIds.forEach(taskId => {
+                    const key = RichContentStorage.getKey(taskId);
+                    const data = localStorage.getItem(key);
+                    if (data) {
+                        totalSize += data.length;
+                    }
+                });
+                
+                return {
+                    taskCount: taskIds.length,
+                    totalSize: totalSize,
+                    formattedSize: `${(totalSize / 1024).toFixed(2)} KB`
+                };
+            }
+        };
+
+        // ===== END PARALLEL DATA STORAGE =====
+
+        // Load Tiptap library from CDN (lazy load when feature is enabled)
+        async function loadTiptapLibrary() {
+            // Check if already loaded
+            if (typeof window.Tiptap !== 'undefined') {
+                console.log('✅ Tiptap already loaded');
+                return { success: true, fromCache: true };
+            }
+            
+            // Check if loading
+            if (window._tiptapLoading) {
+                console.log('⏳ Tiptap already loading, waiting...');
+                return new Promise((resolve, reject) => {
+                    const checkLoaded = setInterval(() => {
+                        if (typeof window.Tiptap !== 'undefined') {
+                            clearInterval(checkLoaded);
+                            resolve({ success: true, fromCache: true });
+                        }
+                    }, 100);
+                    
+                    // Timeout after 30 seconds
+                    setTimeout(() => {
+                        clearInterval(checkLoaded);
+                        reject(new Error('Tiptap load timeout'));
+                    }, 30000);
+                });
+            }
+            
+            // Mark as loading
+            window._tiptapLoading = true;
+            
+            // CDN URLs for Tiptap
+            const CDN_URLS = [
+                'https://unpkg.com/@tiptap/core@2.1.13/dist/tiptap.umd.min.js',
+                'https://cdn.jsdelivr.net/npm/@tiptap/core@2.1.13/dist/tiptap.umd.min.js'
+            ];
+            
+            let lastError = null;
+            
+            for (const cdnUrl of CDN_URLS) {
+                try {
+                    console.log(`📦 Loading Tiptap from: ${cdnUrl}`);
+                    
+                    // Create loading notification
+                    const loadingId = showNotification('Loading rich text editor...', 'info', 0);
+                    
+                    const result = await new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = cdnUrl;
+                        script.async = false;
+                        script.defer = false;
+                        
+                        script.onload = () => {
+                            console.log(`✅ Loaded: ${cdnUrl}`);
+                            resolve({ success: true, url: cdnUrl });
+                        };
+                        
+                        script.onerror = () => {
+                            reject(new Error(`Failed to load: ${cdnUrl}`));
+                        };
+                        
+                        // Performance monitoring
+                        const startTime = performance.now();
+                        script.addEventListener('load', () => {
+                            const loadTime = performance.now() - startTime;
+                            if (loadTime > 2000) {
+                                console.warn(`⚠️ Slow load (${loadTime.toFixed(0)}ms): ${cdnUrl}`);
+                            }
+                            if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                                console.log(`📊 Tiptap loaded in ${loadTime.toFixed(0)}ms`);
+                            }
+                        });
+                        
+                        document.head.appendChild(script);
+                    });
+                    
+                    // Success - clear loading notification
+                    if (loadingId) {
+                        showNotification('Rich text editor loaded!', 'success');
+                    }
+                    
+                    window._tiptapLoading = false;
+                    console.log('✅ Tiptap library loaded successfully');
+                    
+                    if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                        console.log('📊 Tiptap integration ready');
+                    }
+                    
+                    return result;
+                    
+                } catch (error) {
+                    lastError = error;
+                    console.warn(`⚠️ Failed to load from ${cdnUrl}:`, error.message);
+                    continue; // Try next CDN
+                }
+            }
+            
+            // All CDNs failed
+            window._tiptapLoading = false;
+            const errorMsg = `Failed to load Tiptap from all CDNs: ${lastError?.message || 'Unknown error'}`;
+            console.error('❌', errorMsg);
+            
+            // Show error notification
+            showNotification('Failed to load rich text editor. Using plain text mode.', 'error');
+            
+            // Disable the feature and fallback to plain text
+            FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled = false;
+            localStorage.setItem('ENABLE_RICH_TEXT_EDITOR', 'false');
+            updateFeatureToggles();
+            
+            return { success: false, error: errorMsg, fallback: 'plain-text' };
+        }
+
+        // ===== END FEATURE FLAG SYSTEM =====
 
         // Set theme and save to localStorage
         function setTheme(theme, animate = true) {
@@ -3189,8 +3708,11 @@ function deleteFromArchive(taskId) {
                     currentProjectIndex = 0;
                     updateProjectSelector();
                     // Show welcome screen again
-                    document.getElementById('welcomeScreen').style.display = 'block';
-                    updateWelcomeProjectSelector();
+                    const welcomeScreen = document.getElementById('welcomeScreen');
+                    if (welcomeScreen) {
+                        welcomeScreen.style.display = 'block';
+                        updateWelcomeProjectSelector();
+                    }
                     document.getElementById('kanbanView').style.display = 'none';
                     document.getElementById('filterBar').style.display = 'none';
                     document.getElementById('newTaskBtn').style.display = 'none';
@@ -3316,6 +3838,8 @@ function deleteFromArchive(taskId) {
         initTheme();
         // Initialize debug mode
         initDebugMode();
+        // Initialize feature flags for 1.2.0
+        initFeatureFlags();
         // Static text update will be handled by main DOMContentLoaded listener
 
         // ===== CONSOLE COMMANDS FOR DOCUMENTATION =====
@@ -3350,9 +3874,82 @@ function deleteFromArchive(taskId) {
                         multiProject: true,
                         fileSystemAccess: true,
                         changeTracking: true,
-                        versionManagement: true
+                        versionManagement: true,
+                        featureFlags: true,
+                        richTextEditor: typeof window.Tiptap !== 'undefined'
+                    },
+                    featureFlags: {
+                        richTextEditor: isFeatureEnabled('ENABLE_RICH_TEXT_EDITOR'),
+                        comments: isFeatureEnabled('ENABLE_COMMENTS'),
+                        slashCommands: isFeatureEnabled('ENABLE_SLASH_COMMANDS'),
+                        performanceLogging: isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')
                     }
                 };
+            },
+            
+            // Test Tiptap loading
+            testTiptap: async () => {
+                console.log('🧪 Testing Tiptap loading...');
+                console.log('Current state:', {
+                    featureEnabled: isFeatureEnabled('ENABLE_RICH_TEXT_EDITOR'),
+                    tiptapLoaded: typeof window.Tiptap !== 'undefined',
+                    loading: window._tiptapLoading || false
+                });
+                
+                if (isFeatureEnabled('ENABLE_RICH_TEXT_EDITOR')) {
+                    console.log('📦 Enabling feature flag and loading Tiptap...');
+                    const result = await loadTiptapLibrary();
+                    console.log('Result:', result);
+                    return result;
+                } else {
+                    console.log('⚠️ Rich Text Editor feature is disabled. Enable it in Settings > Experimental Features to test.');
+                    console.log('💡 Or enable it now: TaskManagerDocumentation.enableTiptap()');
+                    return { success: false, reason: 'Feature not enabled' };
+                }
+            },
+            
+            // Enable Tiptap feature and load
+            enableTiptap: async () => {
+                console.log('🚀 Enabling Rich Text Editor...');
+                toggleFeature('ENABLE_RICH_TEXT_EDITOR');
+                const result = await loadTiptapLibrary();
+                console.log('Load result:', result);
+                updateRichTextStatus();
+                return result;
+            },
+            
+            // Get feature flags status
+            featureFlags: () => {
+                console.log('🎛️ Feature Flags Status:');
+                for (const [flag, config] of Object.entries(FEATURE_FLAGS)) {
+                    const status = FEATURE_FLAGS[flag].enabled ? '✅' : '❌';
+                    console.log(`  ${status} ${flag}: ${FEATURE_FLAGS[flag].name}`);
+                }
+                return FEATURE_FLAGS;
+            },
+            
+            // Storage functions
+            storageStats: () => {
+                const stats = RichContentStorage.getStats();
+                console.log('💾 Rich Content Storage Stats:');
+                console.log(`  Tasks with rich content: ${stats.taskCount}`);
+                console.log(`  Total size: ${stats.formattedSize}`);
+                return stats;
+            },
+            
+            clearStorage: () => {
+                console.log('🗑️ Clearing all rich content storage...');
+                RichContentStorage.clearAll();
+                return { success: true };
+            },
+            
+            listStorage: () => {
+                const taskIds = RichContentStorage.getAllTaskIds();
+                console.log(`📋 Tasks with rich content (${taskIds.length}):`);
+                taskIds.forEach(taskId => {
+                    console.log(`  - ${taskId}`);
+                });
+                return taskIds;
             },
             
             // Help for commands
@@ -3360,10 +3957,13 @@ function deleteFromArchive(taskId) {
                 console.log('📋 Task Manager Documentation Commands:');
                 console.log('');
                 console.log('Available commands:');
-                console.log('  TaskManagerDocumentation.version()     - Show current version');
-                console.log('  TaskManagerDocumentation.changes()     - Show change log history');
-                console.log('  TaskManagerDocumentation.releaseNotes([fromVersion]) - Generate release notes');
-                console.log('  TaskManagerDocumentation.systemInfo()   - Show complete system information');
+                console.log('  TaskManagerDocumentation.version()              - Show current version');
+                console.log('  TaskManagerDocumentation.changes()              - Show change log history');
+                console.log('  TaskManagerDocumentation.releaseNotes([from])   - Generate release notes');
+                console.log('  TaskManagerDocumentation.systemInfo()           - Show complete system information');
+                console.log('  TaskManagerDocumentation.featureFlags()         - Show feature flag status');
+                console.log('  TaskManagerDocumentation.testTiptap()           - Test Tiptap loading');
+                console.log('  TaskManagerDocumentation.enableTiptap()         - Enable and load Tiptap');
                 console.log('');
                 console.log('Example: TaskManagerDocumentation.releaseNotes("1.1.0")');
                 console.log('');
@@ -3417,6 +4017,12 @@ function deleteFromArchive(taskId) {
                 console.log('🌐 Browser support - File System Access API:', !!window.showDirectoryPicker);
             }
             
+            // Hide welcome screen immediately to prevent flicker
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+            
             console.log('🔄 Attempting to restore previous directory...');
             const restored = await tryRestorePreviousDirectory();
             
@@ -3424,8 +4030,7 @@ function deleteFromArchive(taskId) {
                 console.log('✅ Previous session restored successfully');
             } else {
                 console.log('ℹ️ No previous session found - showing welcome screen');
-                // Show welcome screen
-                const welcomeScreen = document.getElementById('welcomeScreen');
+                // Show welcome screen only if no project found
                 if (welcomeScreen) {
                     welcomeScreen.style.display = 'block';
                     updateWelcomeProjectSelector();
