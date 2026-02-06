@@ -394,8 +394,10 @@
         }
 
         .kanban-column {
+        /* Responsive kanban column - consolidated */
+        .kanban-column {
             background: var(--surface-column);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 1.25rem;
             box-shadow: var(--shadow-md);
             min-width: 300px;
@@ -419,6 +421,11 @@
             padding-bottom: 0.75rem;
             border-bottom: 2px solid var(--border-subtle);
         }
+
+        .column-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
 
         .column-title {
             font-size: 0.9rem;
@@ -484,20 +491,48 @@
         }
 
         .kanban-column {
-            background: var(--surface-column);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: var(--shadow-md);
-            min-width: 280px;
-            flex: 1 1 0;
-            display: flex;
-            flex-direction: column;
+            /* Consolidated kanban-column styles are defined in the responsive section below */
         }
 
-        [data-theme="dark"] .kanban-column {
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
+        /* Responsive kanban column */
+        @media (min-width: 769px) {
+            .kanban-column {
+                background: var(--surface-column);
+                border-radius: 12px;
+                padding: 1.25rem;
+                box-shadow: var(--shadow-md);
+                min-width: 300px;
+                max-width: 320px;
+                flex: 0 0 auto;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid var(--border-subtle);
+            }
+
+            [data-theme="dark"] .kanban-column {
+                border-color: var(--border-subtle);
+                box-shadow: var(--shadow-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kanban-column {
+                background: var(--surface-column);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 1rem;
+                box-shadow: var(--shadow-md);
+                min-width: 100%;
+                max-width: 100%;
+                flex: 1 1 0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            [data-theme="dark"] .kanban-column {
+                border-color: var(--border-color);
+                box-shadow: var(--shadow-lg);
+            }
         }
 
         .column-header {
@@ -1310,21 +1345,576 @@
         .tiptap-editor-content em {
             font-style: italic;
         }
+
+        /* ============================================
+           MOBILE RESPONSIVENESS - @media queries
+           ============================================ */
+
+        /* Large tablets and small desktops (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .kanban-board {
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+
+            .kanban-column {
+                min-width: 260px;
+                max-width: 300px;
+            }
+        }
+
+        /* Tablets and large phones (768px and below) */
+        @media (max-width: 768px) {
+            /* Header responsive */
+            .header {
+                padding: 0.75rem 1rem;
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .header h1 {
+                font-size: 1.25rem;
+                width: 100%;
+            }
+
+            .header-content > div:last-child {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .header .btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            #selectFolderBtn,
+            #settingsBtn,
+            #newTaskBtn {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            /* Container adjustments */
+            .container {
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+
+            /* Filter bar responsive */
+            #filterBar {
+                padding: 0.75rem 0;
+            }
+
+            #filterBar > div {
+                padding: 0 1rem !important;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .filter-controls > div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-controls select {
+                flex: 1;
+                min-width: auto;
+            }
+
+            /* Kanban board responsive */
+            #kanbanView {
+                min-height: calc(100vh - 180px);
+            }
+
+            .kanban-board {
+                padding: 1rem;
+                gap: 0.75rem;
+                justify-content: center;
+            }
+
+            .kanban-column {
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .column-title {
+                font-size: 0.85rem;
+            }
+
+            /* Modal responsive */
+            .modal-content {
+                padding: 1.5rem;
+                max-height: 85vh;
+            }
+
+            .modal-header h2 {
+                font-size: 1.25rem;
+            }
+
+            /* Welcome screen responsive */
+            .welcome {
+                padding: 2rem 1rem;
+            }
+
+            .welcome h2 {
+                font-size: 1.75rem;
+            }
+
+            .welcome p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .step {
+                padding: 0.75rem;
+            }
+
+            .step-number {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Phones (576px and below) */
+        @media (max-width: 576px) {
+            /* Header - stack buttons vertically on very small screens */
+            .header-content > div:last-child {
+                gap: 0.5rem;
+            }
+
+            #projectSelector {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .header .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Filter bar - single column layout */
+            .filter-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .filter-row > div {
+                width: 100%;
+            }
+
+            /* Task cards - compact view */
+            .task-card {
+                padding: 0.75rem;
+            }
+
+            .task-title {
+                font-size: 0.9rem;
+            }
+
+            .task-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+
+            /* Modal - full width on mobile */
+            .modal {
+                padding: 0.5rem;
+                align-items: flex-end;
+            }
+
+            .modal-content {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 16px 16px 0 0;
+                padding: 1.25rem;
+            }
+
+            .modal-header {
+                margin-bottom: 1rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.1rem;
+            }
+
+            .close-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1.25rem;
+            }
+
+            /* Form elements compact */
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                padding: 0.75rem;
+                font-size: 0.95rem;
+            }
+
+            /* Actions buttons - stack on mobile */
+            .actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Search input */
+            #globalSearchInput {
+                padding: 0.75rem 2.5rem 0.75rem 0.75rem !important;
+            }
+
+            /* Welcome screen */
+            .welcome h2 {
+                font-size: 1.5rem;
+            }
+
+            .welcome-steps {
+                margin: 1.5rem 0;
+            }
+
+            .browser-warning {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+                margin-top: 1.5rem;
+            }
+
+            /* Notification positioning */
+            .notification {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+                width: auto;
+            }
+
+            /* Settings modal */
+            .settings-modal-body {
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .settings-section {
+                padding: 1rem;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: flex-start;
+            }
+
+            .setting-row .btn {
+                width: 100%;
+            }
+
+            /* Tiptap editor */
+            .tiptap-toolbar {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .tiptap-toolbar-btn {
+                flex-shrink: 0;
+            }
+        }
+
+        /* Landscape phones and very small tablets (480px and below) */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.1rem;
+            }
+
+            .header h1 span {
+                font-size: 0.65em;
+            }
+
+            .welcome h2 {
+                font-size: 1.35rem;
+            }
+
+            .step-text {
+                font-size: 0.9rem;
+            }
+
+            .column-count {
+                padding: 0.2rem 0.5rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* ============================================
+           COMPONENT CLASSES - Clean up inline styles
+           ============================================ */
+
+        /* Header button container */
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Filter bar container */
+        .filter-bar {
+            display: none;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        [data-theme="dark"] .filter-bar {
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .filter-bar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Filter row */
+        .filter-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            min-width: 150px;
+            background: var(--surface-card);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+        }
+
+        /* Global search */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 3rem 0.875rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            background: var(--surface-card);
+            color: var(--text-primary);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-subtle);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            display: none;
+        }
+
+        .search-clear:hover {
+            color: var(--text-primary);
+        }
+
+        /* Inline style overrides */
+        .project-select {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .task-btn {
+            padding: 0.6rem;
+        }
+
+        .version-inline {
+            font-size: 0.7em;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+
+        .filter-active {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            min-height: 32px;
+            justify-content: center;
+        }
+
+        /* Responsive kanban column fix */
+        .kanban-column {
+            background: var(--surface-column);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: var(--shadow-md);
+            min-width: 280px;
+            max-width: 320px;
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .kanban-column {
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .kanban-column {
+                padding: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
-            <h1 id="headerTitle">📋 Task Manager <span id="versionBadge" style="font-size: 0.7em; color: var(--text-secondary); font-weight: normal;">v. 1.1.2</span></h1>
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
-                <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" style="padding: 0.6rem;">⚙️ Settings</button>
-                <select id="projectSelector" style="display: none; padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; min-width: 180px;">
+            <h1 id="headerTitle">📋 Task Manager <span id="versionBadge" class="version-inline">v. 1.1.2</span></h1>
+            <div class="header-actions">
+                <button id="settingsBtn" class="btn btn-secondary task-btn" onclick="openSettingsModal()" title="Settings">⚙️ Settings</button>
+                <select id="projectSelector" class="project-select" style="display: none;">
                 </select>
-                <button id="renameProjectBtn" class="btn btn-secondary" style="display: none; padding: 0.6rem;" title="Rename project" onclick="renameCurrentProject()">✏️</button>
-                <button id="deleteProjectBtn" class="btn btn-secondary" style="display: none; padding: 0.6rem;" title="Remove project from list" onclick="deleteCurrentProject()">🗑️</button>
+                <button id="renameProjectBtn" class="btn btn-secondary task-btn" style="display: none;" title="Rename project" onclick="renameCurrentProject()">✏️</button>
+                <button id="deleteProjectBtn" class="btn btn-secondary task-btn" style="display: none;" title="Remove project from list" onclick="deleteCurrentProject()">🗑️</button>
                 <button id="selectFolderBtn" class="btn btn-primary">📁 Folder</button>
                 <button id="newTaskBtn" class="btn btn-secondary" style="display: none;">➕ Task</button>
 </div>
+    </header>
+
+    <!-- Filter Bar -->
+    <div id="filterBar" class="filter-bar">
+        <div class="filter-bar-inner">
+            <!-- Global Search -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <input
+                        type="text"
+                        id="globalSearchInput"
+                        class="search-input"
+                        placeholder="Search in tasks..."
+                        onfocus="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 0 0 4px var(--accent-subtle)';"
+                        onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
+                        oninput="applyGlobalSearch()"
+                    >
+                    <button
+                        id="clearGlobalSearch"
+                        class="search-clear"
+                        onclick="clearGlobalSearch()"
+                        title="Clear search"
+                    >✕</button>
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label class="filter-label">Tags:</label>
+                    <select id="filterTagSelect" class="filter-select">
+                        <option value="">Select...</option>
+                    </select>
+                    <button onclick="addFilter('tag')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem; width: 32px; height: 32px;">+</button>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Category:</label>
+                    <select id="filterCategorySelect" class="filter-select">
+                        <option value="">Select...</option>
+                    </select>
+                    <button onclick="addFilter('category')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem; width: 32px; height: 32px;">+</button>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">User:</label>
+                    <select id="filterUserSelect" class="filter-select">
+                        <option value="">Select...</option>
+                    </select>
+                    <button onclick="addFilter('user')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem; width: 32px; height: 32px;">+</button>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Priority:</label>
+                    <select id="filterPrioritySelect" class="filter-select">
+                        <option value="">Select...</option>
+                    </select>
+                    <button onclick="addFilter('priority')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem; width: 32px; height: 32px;">+</button>
+                </div>
+                <button onclick="clearFilters()" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">✕ Clear all</button>
+            </div>
+            <div id="activeFilters" class="filter-active" style="display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 32px; justify-content: center;"></div>
+        </div>
+    </div>
     </div>
 
     <!-- Filter Bar -->
