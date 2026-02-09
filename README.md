@@ -704,6 +704,8 @@ your-project/
 └── [AI file].md       # Specific AI configuration (optional)
 ```
 
+**Other HTML files in this repo:** The repository also contains `MDTM.html`, `task-manager_brokenFile.html`, and `test-page.html`. These are legacy/backup or test harness files, not the main app. See [docs/other-html-files.md](docs/other-html-files.md) for details.
+
 ### Content of kanban.md
 
 ```markdown
@@ -1115,6 +1117,7 @@ git merge feature/TASK-042-notifications
 ### In this repository
 
 - **`AI_WORKFLOW.md`**: Complete guidelines for AI assistants
+- **`AGENTS.md`**: Build commands, code style, and **how to run tests** (browser console and test harness). Optional CI runs the same tests on push (see [.github/workflows/test.yml](.github/workflows/test.yml)).
 - **`/examples/`**: Examples of kanban.md and archive.md files
 - **`/examples/README.md`**: Detailed Markdown format
 

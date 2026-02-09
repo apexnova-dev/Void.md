@@ -49,6 +49,10 @@ What was done.
 
 **Why?** The HTML parser of the application does not recognize `##` inside tasks.
 
+### ✅ Integrity rule
+
+**Only document work that was actually performed.** Do not invent or fabricate **Result**, **Modified files**, or **Tests performed**. Fabricated notes undermine trust and the audit trail.
+
 ## 🔄 Workflow
 
 ### 1. New Request

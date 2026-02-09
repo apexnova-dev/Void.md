@@ -1,0 +1,13 @@
+{
+  "name": "markdown-task-manager",
+  "description": "Kanban task manager based on local Markdown files",
+  "private": true,
+  "scripts": {
+    "test:ci": "node scripts/run-browser-tests.js",
+    "serve": "serve -s . -l 3000"
+  },
+  "devDependencies": {
+    "playwright": "^1.40.0",
+    "serve": "^14.0.0"
+  }
+}

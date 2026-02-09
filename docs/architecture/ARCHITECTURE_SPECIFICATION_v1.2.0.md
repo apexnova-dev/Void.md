@@ -7,6 +7,8 @@
 **Complexity Score**: 9/10  
 **Status**: Draft - Pending Review
 
+**Note:** The JavaScript files in `docs/architecture/src/` (e.g. `feature-flags.js`, `tiptap-integration.js`, `comment-models.js`, `utilities.js`) are **reference/spec implementation** for the planned comments and editor work. They are not loaded by the current application; `task-manager.html` is self-contained.
+
 ---
 
 ## Document Overview

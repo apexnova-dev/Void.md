@@ -55,6 +55,16 @@ What was done.
 
 **Why?** The web application's HTML parser does not recognize `##` inside tasks.
 
+### ✅ Integrity rule
+
+**Only document work that was actually performed.** Do not invent or fabricate:
+
+- **Result**: Write only what was really done.
+- **Modified files**: List only files that were actually changed (with real line ranges if applicable).
+- **Tests performed**: Describe only tests that were actually run.
+
+Fabricated notes undermine trust and make the audit trail meaningless.
+
 ---
 
 ## 🔄 Workflow
