@@ -1,7 +1,9 @@
 # Task Manager Fixes Summary
 
+**For the latest fixes (modal sizing, header UX, scroll lock, defensive init), see [CHANGELOG.md](CHANGELOG.md) → [Unreleased].**
+
 ## Overview
-This document summarizes all the fixes applied to `task-manager.html` to resolve JavaScript null reference errors and improve application stability.
+This document summarizes fixes applied to `task-manager.html` to resolve JavaScript null reference errors and improve application stability.
 
 ---
 

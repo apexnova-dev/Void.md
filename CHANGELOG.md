@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- Body scroll lock when any modal is open (`body.modal-open` / `setBodyModalOpen`) so the page behind does not scroll
+- Close modal by clicking the backdrop (outside the modal content) for all modals
+- Inline `onclick` fallbacks on modal trigger buttons (New Task, Settings) so modals open even if DOMContentLoaded listeners fail
+- Modal backdrop close init deferred to `DOMContentLoaded` so listeners attach after DOM is ready
+
+### Changed
+
+- **Modals – sizing and layout**
+  - **New Task modal:** Width 95% / max 880px, height 90vh; form body scrolls inside; larger textareas and 2×2 date grid
+  - **Task detail modal:** Width 95% / max 680px, height 90vh; body scrolls inside
+  - **Settings modal:** Width 95% / max 560px, height 90vh; settings body scrolls inside
+- **Header (from docs/UI_UX_RECOMMENDATIONS.md):**
+  - Explicit `</header>`; right side grouped into `.header-actions`, `.header-project-group`, `.header-buttons`
+  - Visible "Project" label and `.header-project-select` styling (min-height 40px, border-radius 8px)
+  - Responsive header: flex-wrap, smaller title on narrow viewports
+- **Filter bar:** Aligned with header (max-width 1400px, padding 0 2rem via `.filter-bar-inner`); filter labels use muted style
+- **Accessibility:** `aria-label` on icon-only header buttons (Settings, Folder, New task, Rename, Delete, Clear search); `aria-label="Switch project"` on project select
+
+### Fixed
+
+- Defensive null checks in DOMContentLoaded so missing elements (projectSelector, selectFolderBtn, archiveSearch, newTaskForm) do not throw and break init
+- Project group show/hide: single `#headerProjectGroup` toggled in `updateProjectSelector` and when removing last project
+
+---
+
 ## [1.1.2] - 2026-01-20
 
 ### Added

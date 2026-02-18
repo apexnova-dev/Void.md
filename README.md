@@ -6,38 +6,31 @@
 
 ---
 
-## 📝 Latest Updates (January 20, 2026)
+## 📝 Latest Updates (February 2026)
 
-### Comprehensive UI/UX Improvements
+### Modal & Header UX
 
-**🎨 Complete Dark Mode Redesign**
-- 7-level color hierarchy for rich, dimensional appearance
-- Clear visual separation between background, columns, cards, and modals
-- Enhanced shadows and depth perception
-- Professional, polished look
+**📐 Modal sizing and behavior**
+- New Task, Task detail, and Settings modals use 90vh height and consistent width; only the modal body scrolls (no page scroll behind)
+- Close any modal by clicking outside (backdrop) or pressing Escape
+- Body scroll is locked while a modal is open
 
-**🧹 Header Cleanup & Settings Consolidation**
-- Simplified header with only essential buttons
-- Moved Language, Theme, Archives, Columns to Settings modal
-- Cleaner, more focused interface
+**🧭 Header and filter bar**
+- Header: Project label + dropdown, grouped actions (project vs Settings/Folder/New Task), responsive wrap
+- Filter bar width and padding aligned with header (1400px max)
+- ARIA labels on icon-only buttons for accessibility
 
-**📁 Welcome Screen Project Selector**
-- Quick project switching from welcome screen
-- Shows all recent projects with last used date
-- Instant access without folder navigation
+### Earlier (January 2026)
 
-**✅ Rock-Solid Stability**
-- Fixed task creation (missing generateTaskId function)
-- Fixed modal closing (wrong close function)
-- Added 8+ null checks for safer DOM access
-- Zero console errors on load
+**🎨 Dark mode, header cleanup, welcome project selector**
+- 7-level dark mode color hierarchy; Language, Theme, Archives, Columns in Settings
+- Welcome screen project selector; stability fixes (task creation, modal close, null checks)
 
-### Related Documentation:
-- `RELEASE_NOTES_v1.1.1.md` - Complete release notes
-- `FIXES-SUMMARY.md` - Detailed bug fixes
-- `DARK-MODE-ENHANCEMENTS.md` - Dark mode improvements
-- `HEADER-CLEANUP.md` - Header changes
-- `WELCOME-PROJECT-SELECTOR.md` - Project selector details
+### Related Documentation
+- `CHANGELOG.md` - Full version history
+- `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (implemented)
+- `FIXES-SUMMARY.md` - Bug fixes
+- `AGENTS.md` - Build/test and code style for AI assistants
 
 ---
 

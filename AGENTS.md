@@ -359,9 +359,15 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 - `docs/architecture/tests/unit-tests.js` - Core test suite
 - `docs/architecture/tests/phase2-tests.js` - Tiptap editor tests
 - `docs/architecture/editor-standards.md` - Editor quality criteria
+- `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (header, modals, filter bar; most items implemented)
 - `AI_WORKFLOW.md` - Task format and workflow guidelines
+
+### Modal and header behavior (current)
+
+- **Modals:** New Task, Task detail, Settings use fixed height (90vh) and body-only scroll; backdrop click and Escape close; body scroll locked when open (`body.modal-open`).
+- **Header:** Grouped layout (project group + action buttons), visible “Project” label, responsive; modal triggers have inline `onclick` fallbacks and defensive null checks in DOMContentLoaded.
 
 ---
 
-*Last updated: January 23, 2026*  
+*Last updated: February 2026*  
 *Version: 1.1.2*

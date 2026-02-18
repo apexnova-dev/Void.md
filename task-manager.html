@@ -122,6 +122,97 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            min-height: 40px;
+        }
+
+        .header-project-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .header-project-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .header-project-select {
+            min-height: 40px;
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .header-project-select:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .header-buttons .btn,
+        .header-project-group .btn {
+            min-height: 40px;
+            padding: 0.6rem 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .header-content {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            #headerTitle {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #headerTitle {
+                font-size: 1.1rem;
+            }
+            .header-actions {
+                gap: 1rem;
+            }
+            .header-project-select {
+                min-width: 140px;
+            }
+        }
+
+        /* Filter bar: align width and padding with header */
+        .filter-bar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .filter-bar-inner label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         h1 {
@@ -566,16 +657,103 @@
             display: flex;
         }
 
+        /* Prevent page scroll when any modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+
         .modal-content {
             background: var(--surface-modal);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 2rem;
-            width: 80%;
+            width: 90%;
             max-width: 600px;
             max-height: 90vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             box-shadow: var(--shadow-lg);
+        }
+
+        .modal-content .modal-header {
+            flex-shrink: 0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .modal-content > #modalBody {
+            flex: 1 1 0;
+            min-height: 0;
+            min-width: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1.25rem 1.5rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .modal-content > .actions {
+            flex-shrink: 0;
+            padding: 1rem 1.5rem 1.25rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .modal-content > #newTaskForm {
+            flex: 1 1 0;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .modal-content > #settingsModalBody,
+        .modal-content > .modal-body-scroll {
+            flex: 1 1 0;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .modal-content--task-form {
+            width: min(95%, 880px);
+            max-width: 880px;
+            min-width: 320px;
+        }
+
+        /* Force new task modal to be wide and tall so form body gets space and scrolls inside */
+        #newTaskModal .modal-content {
+            width: 95% !important;
+            max-width: 880px !important;
+            min-width: 320px !important;
+            height: 90vh;
+            max-height: 90vh;
+        }
+
+        .modal-content--task-detail {
+            max-width: 680px;
+        }
+
+        /* Task detail modal: comfortable size and height so body scrolls inside */
+        #taskModal .modal-content {
+            width: 95%;
+            max-width: 680px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
+        }
+
+        /* Settings modal: comfortable size and height so body scrolls inside */
+        #settingsModal .modal-content {
+            width: 95%;
+            max-width: 560px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
+        }
+
+        .modal-content > #settingsModalBody {
+            min-width: 0;
         }
 
         [data-theme="dark"] .modal-content {
@@ -587,7 +765,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
         }
 
         .modal-header h2 {
@@ -751,8 +928,105 @@
             resize: vertical;
         }
 
+        /* Task form layout: spacing, textareas, date grid */
+        #newTaskForm {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            background: var(--surface-modal);
+        }
+        #newTaskForm > div {
+            margin-bottom: 1.25rem;
+        }
+        #newTaskForm > div:last-of-type { margin-bottom: 0; }
+        #newTaskForm .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        #newTaskForm .form-dates {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        #newTaskForm input[type="text"],
+        #newTaskForm input[type="date"],
+        #newTaskForm select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #newTaskForm #taskDescription {
+            min-height: 140px;
+            resize: vertical;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #newTaskForm #taskNotes {
+            min-height: 180px;
+            resize: vertical;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #newTaskForm .tiptap-container {
+            min-height: 180px;
+        }
+        @media (max-width: 480px) {
+            #newTaskForm .form-row-2,
+            #newTaskForm .form-dates {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Rich text editor (Tiptap) toolbar and container */
+        .tiptap-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+        }
+        .tiptap-toolbar-btn {
+            padding: 0.35rem 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: var(--surface-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .tiptap-toolbar-btn:hover {
+            background: var(--accent-subtle);
+            border-color: var(--accent);
+        }
+        .tiptap-toolbar-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+        .tiptap-container {
+            min-height: 150px;
+            padding: 0.75rem;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            overflow-y: auto;
+        }
+        .tiptap-container .ProseMirror {
+            min-height: 140px;
+            outline: none;
+        }
+        .tiptap-container .ProseMirror p { margin: 0.25rem 0; }
+        .tiptap-container .ProseMirror ul, .tiptap-container .ProseMirror ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+        .tiptap-container .ProseMirror code { background: var(--bg-tertiary); padding: 0.15rem 0.35rem; border-radius: 3px; font-size: 0.9em; }
+
         .task-detail {
             line-height: 1.8;
+            min-width: 0;
+            max-width: 100%;
         }
 
         .task-detail strong {
@@ -1006,20 +1280,25 @@
     <header class="header">
         <div class="header-content">
             <h1 id="headerTitle">📋 Task Manager <span id="versionBadge" style="font-size: 0.7em; color: var(--text-secondary); font-weight: normal;">v. 1.1.2</span></h1>
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
-                <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" style="padding: 0.6rem;">⚙️ Settings</button>
-                <select id="projectSelector" style="display: none; padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; min-width: 180px;">
-                </select>
-                <button id="renameProjectBtn" class="btn btn-secondary" style="display: none; padding: 0.6rem;" title="Rename project" onclick="renameCurrentProject()">✏️</button>
-                <button id="deleteProjectBtn" class="btn btn-secondary" style="display: none; padding: 0.6rem;" title="Remove project from list" onclick="deleteCurrentProject()">🗑️</button>
-                <button id="selectFolderBtn" class="btn btn-primary">📁 Folder</button>
-                <button id="newTaskBtn" class="btn btn-secondary" style="display: none;">➕ Task</button>
-</div>
-    </div>
+            <div class="header-actions">
+                <div id="headerProjectGroup" class="header-project-group" style="display: none;">
+                    <label for="projectSelector" class="header-project-label">Project</label>
+                    <select id="projectSelector" class="header-project-select" aria-label="Switch project"></select>
+                    <button id="renameProjectBtn" class="btn btn-secondary" title="Rename project" aria-label="Rename project" onclick="renameCurrentProject()">✏️</button>
+                    <button id="deleteProjectBtn" class="btn btn-secondary" title="Remove project from list" aria-label="Remove project from list" onclick="deleteCurrentProject()">🗑️</button>
+                </div>
+                <div class="header-buttons">
+                    <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" aria-label="Settings" style="padding: 0.6rem;">⚙️ Settings</button>
+                    <button id="selectFolderBtn" class="btn btn-primary" aria-label="Choose folder">📁 Folder</button>
+                    <button id="newTaskBtn" class="btn btn-secondary" style="display: none;" aria-label="New task" onclick="typeof openTaskModal === 'function' && openTaskModal()">➕ Task</button>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <!-- Filter Bar -->
     <div id="filterBar" style="display: none; background: var(--bg-tertiary); border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <div class="filter-bar-inner">
             <!-- Global Search -->
             <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
                 <div style="position: relative; max-width: 600px; width: 100%;">
@@ -1035,6 +1314,7 @@
                         onclick="clearGlobalSearch()"
                         style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; display: none;"
                         title="Clear search"
+                        aria-label="Clear search"
                     >✕</button>
                 </div>
             </div>
@@ -1134,13 +1414,13 @@
     </main>
 
     <!-- Modal Settings -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
+    <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" aria-describedby="settingsModalBody">
+        <div class="modal-content modal-content--settings">
             <div class="modal-header">
-                <h2>⚙️ Settings</h2>
-                <button class="close-btn" onclick="closeSettingsModal()">&times;</button>
+                <h2 id="settingsModalTitle">⚙️ Settings</h2>
+                <button type="button" class="close-btn" onclick="closeSettingsModal()" aria-label="Close settings">&times;</button>
             </div>
-            <div class="settings-modal-body">
+            <div id="settingsModalBody" class="settings-modal-body">
                 <!-- Appearance Section -->
                 <div class="settings-section">
                     <h3>🎨 Appearance</h3>
@@ -1225,21 +1505,21 @@
                             <option value="rich">Rich Text (Tiptap)</option>
                         </select>
                     </div>
-                    <div class="setting-row">
+                    <div class="setting-row" style="opacity: 0.7;">
                         <div class="setting-info">
                             <span>Comments System</span>
-                            <small>Threaded comments with @mentions and reactions</small>
+                            <small>Planned: threaded comments with @mentions (not yet implemented)</small>
                         </div>
-                        <div class="toggle-switch" id="featureCommentsSwitch" onclick="toggleFeature('ENABLE_COMMENTS')">
+                        <div class="toggle-switch" id="featureCommentsSwitch" style="pointer-events: none;" title="Coming in a future release">
                             <div class="toggle-thumb"></div>
                         </div>
                     </div>
-                    <div class="setting-row">
+                    <div class="setting-row" style="opacity: 0.7;">
                         <div class="setting-info">
                             <span>Slash Commands</span>
-                            <small>Notion-style "/" commands for quick formatting</small>
+                            <small>Planned: "/" commands for formatting (requires Rich Text Editor)</small>
                         </div>
-                        <div class="toggle-switch" id="featureSlashCommandsSwitch" onclick="toggleFeature('ENABLE_SLASH_COMMANDS')">
+                        <div class="toggle-switch" id="featureSlashCommandsSwitch" style="pointer-events: none;" title="Coming in a future release">
                             <div class="toggle-thumb"></div>
                         </div>
                     </div>
@@ -1287,11 +1567,11 @@
     </div>
 
     <!-- Modal Task Detail -->
-    <div id="taskModal" class="modal">
-        <div class="modal-content">
+    <div id="taskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody">
+        <div class="modal-content modal-content--task-detail">
             <div class="modal-header">
                 <h2 id="modalTitle">Task Details</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <button type="button" class="close-btn" onclick="closeModal()" aria-label="Close task details">&times;</button>
             </div>
             <div id="modalBody" class="task-detail"></div>
             <div class="actions">
@@ -1304,24 +1584,24 @@
     </div>
 
     <!-- Modal New Task -->
-    <div id="newTaskModal" class="modal">
-        <div class="modal-content">
+    <div id="newTaskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="newTaskModalTitle" aria-describedby="newTaskForm">
+        <div class="modal-content modal-content--task-form" style="width: 95%; max-width: 880px; min-width: 320px;">
             <div class="modal-header">
-                <h2>New Task</h2>
-                <button class="close-btn" onclick="closeTaskModal()">&times;</button>
+                <h2 id="newTaskModalTitle">New Task</h2>
+                <button type="button" class="close-btn" onclick="closeTaskModal()" aria-label="Close task form">&times;</button>
             </div>
-            <form id="newTaskForm" style="padding: 1.5rem; background: var(--surface-modal);">
+            <form id="newTaskForm">
                 <input type="hidden" id="taskEditId">
-                <div style="margin-bottom: 1rem;">
+                <div>
                     <label for="taskTitle">Title *</label>
                     <input type="text" id="taskTitle" required>
                 </div>
-                <div style="margin-bottom: 1rem;">
+                <div>
                     <label for="taskStatus">Column *</label>
                     <select id="taskStatus" required>
                     </select>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-row-2">
                     <div>
                         <label for="taskPriority">Priority</label>
                         <select id="taskPriority">
@@ -1337,11 +1617,11 @@
                         <input type="text" id="taskCategory" list="categoriesList" placeholder="Frontend, Backend...">
                     </div>
                 </div>
-                <div style="margin-bottom: 1rem;">
+                <div>
                     <label for="taskAssignee">Assigned to</label>
                     <input type="text" id="taskAssignee" list="usersList" placeholder="@alice">
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-dates">
                     <div>
                         <label for="taskCreated">Created</label>
                         <input type="date" id="taskCreated">
@@ -1359,16 +1639,16 @@
                         <input type="date" id="taskCompleted">
                     </div>
                 </div>
-                <div style="margin-bottom: 1rem;">
+                <div>
                     <label for="taskTags">Tags</label>
                     <input type="text" id="taskTags" list="tagsList" placeholder="#bug #feature">
                     <small style="color: var(--text-secondary); font-size: 0.85rem;">Separate with spaces</small>
                 </div>
-                <div style="margin-bottom: 1rem;">
+                <div>
                     <label for="taskDescription">Description</label>
-                    <textarea id="taskDescription" rows="4" placeholder="Describe the task..."></textarea>
+                    <textarea id="taskDescription" rows="6" placeholder="Describe the task..."></textarea>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
+                <div>
                     <label>Subtasks</label>
                     <ul id="formSubtasksList" style="list-style: none; padding: 0; margin: 0 0 0.5rem 0; max-height: 150px; overflow-y: auto;"></ul>
                     <div style="display: flex; gap: 0.5rem;">
@@ -1376,16 +1656,29 @@
                         <button type="button" onclick="addFormSubtask()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">+ Add</button>
                     </div>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <label for="taskNotes">Notes 
+                <div>
+                    <label for="taskNotes">Notes
                         <span id="editorModeBadge" style="display: none; margin-left: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: normal;">
                             <!-- Editor mode badge will be inserted here -->
                         </span>
                     </label>
-                    <textarea id="taskNotes" rows="6" placeholder="Technical notes, results, decisions, etc.
+                    <!-- Plain text area (visible when Editor Mode is Plain) -->
+                    <textarea id="taskNotes" rows="8" placeholder="Technical notes, results, decisions, etc.
 
 You can use Markdown:
-**Bold**, *Italic*, `code`, lists, links..."></textarea>
+**Bold**, *Italic*, `code`, lists, links..." style="display: block;"></textarea>
+                    <!-- Rich editor (visible when Editor Mode is Rich); toolbar + container -->
+                    <div id="notesRichEditorWrap" style="display: none;">
+                        <div id="tiptapToolbar" class="tiptap-toolbar">
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold">B</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic">I</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="code" title="Code">&lt;/&gt;</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bulletList" title="Bullet list">• List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="orderedList" title="Numbered list">1. List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="clearFormatting" title="Clear formatting">Clear</button>
+                        </div>
+                        <div id="tiptapContainer" class="tiptap-container"></div>
+                    </div>
                     <small style="color: var(--text-secondary); font-size: 0.85rem;">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
                     <div id="editorStatus" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);"></div>
                 </div>
@@ -1402,13 +1695,13 @@ You can use Markdown:
     </div>
 
     <!-- Modal Manage Columns -->
-    <div id="columnsModal" class="modal">
+    <div id="columnsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="columnsModalTitle" aria-describedby="columnsList">
         <div class="modal-content" style="max-width: 500px;">
             <div class="modal-header">
                 <h2 id="columnsModalTitle">Manage columns</h2>
-                <button class="close-btn" onclick="closeColumnsModal()">&times;</button>
+                <button type="button" class="close-btn" onclick="closeColumnsModal()" aria-label="Close columns">&times;</button>
             </div>
-            <div style="padding: 1.5rem;">
+            <div class="modal-body-scroll" style="padding: 1.5rem;">
                 <div id="columnsList"></div>
                 <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">+ Add a column</button>
             </div>
@@ -1416,13 +1709,13 @@ You can use Markdown:
     </div>
 
     <!-- Modal Archives -->
-    <div id="archiveModal" class="modal">
+    <div id="archiveModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="archiveModalTitle" aria-describedby="archiveList">
         <div class="modal-content" style="max-width: 900px;">
             <div class="modal-header">
                 <h2 id="archiveModalTitle">📦 Archives</h2>
-                <button class="close-btn" onclick="closeArchiveModal()">&times;</button>
+                <button type="button" class="close-btn" onclick="closeArchiveModal()" aria-label="Close archives">&times;</button>
             </div>
-            <div style="padding: 1.5rem;">
+            <div class="modal-body-scroll" style="padding: 1.5rem;">
                 <div style="margin-bottom: 1rem;">
                     <input type="text" id="archiveSearch" placeholder="Search in archives...">
                 </div>
@@ -1465,11 +1758,27 @@ You can use Markdown:
         let debugMode = true; // Enable verbose console logging for troubleshooting
 
         // ===== GLOBAL ONCLICK FUNCTIONS =====
+// Escape HTML for safe insertion into innerHTML (XSS prevention)
+function escapeHtml(str) {
+    if (str == null || typeof str !== 'string') return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+// Escape for use inside a JS single-quoted string in HTML attributes (onclick etc.)
+function escapeJsString(str) {
+    if (str == null || typeof str !== 'string') return '';
+    return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
 // Global function for settings modal - CRITICAL for onclick handlers
 function openSettingsModal() {
     const modal = document.getElementById('settingsModal');
     if (modal) {
         modal.classList.add('active');
+        setBodyModalOpen(true);
         console.log('✅ Settings modal opened');
     }
 }
@@ -1479,6 +1788,7 @@ function closeSettingsModal() {
     const modal = document.getElementById('settingsModal');
     if (modal) {
         modal.classList.remove('active');
+        setBodyModalOpen(false);
         console.log('✅ Settings modal closed');
     }
 }
@@ -1559,11 +1869,21 @@ function deleteCurrentProject() {
 
 // ===== MODAL FUNCTIONS =====
 
+// Lock/unlock body scroll when modals are open (prevents backdrop from scrolling)
+function setBodyModalOpen(open) {
+    if (open) {
+        document.body.classList.add('modal-open');
+    } else if (!document.querySelector('.modal.active')) {
+        document.body.classList.remove('modal-open');
+    }
+}
+
 // Task Detail Modal Functions
 function closeModal() {
     const modal = document.getElementById('taskModal');
     if (modal) {
         modal.classList.remove('active');
+        setBodyModalOpen(false);
         console.log('✅ Task detail modal closed');
     }
 }
@@ -1616,92 +1936,148 @@ function editCurrentTask() {
     }
 }
 
-// New Task Modal Functions
+// New Task Modal Functions (single implementation - used by both New Task button and Edit on card)
 function openTaskModal(task = null) {
+    isEditMode = !!task;
     const modal = document.getElementById('newTaskModal');
     const form = document.getElementById('newTaskForm');
-    const title = modal ? modal.querySelector('.modal-header h2') : null;
+    if (!modal || !form) return;
+    const title = modal.querySelector('.modal-header h2');
     const submitBtn = document.getElementById('taskFormSubmitBtn');
 
-    // Reset form
-    form.reset();
-    document.getElementById('taskEditId').value = '';
-    formSubtasks = [];
+    if (title) title.textContent = isEditMode ? t('taskForm.editTask') : t('taskForm.newTask');
+    if (submitBtn) submitBtn.textContent = isEditMode ? t('taskForm.save') : t('taskForm.create');
 
-    if (task) {
-        // Edit mode
-        if (title) title.textContent = t('taskForm.editTask');
-        if (submitBtn) submitBtn.textContent = t('taskForm.save');
-        document.getElementById('taskEditId').value = task.id;
-        
-        // Fill form with task data
-        document.getElementById('taskTitle').value = task.title || '';
-        document.getElementById('taskStatus').value = task.status || '';
-        document.getElementById('taskPriority').value = task.priority || '';
-        document.getElementById('taskCategory').value = task.category || '';
-        document.getElementById('taskAssignee').value = task.assignees ? task.assignees.join(', ') : '';
-        document.getElementById('taskCreated').value = task.created || '';
-        document.getElementById('taskStarted').value = task.started || '';
-        document.getElementById('taskDue').value = task.due || '';
-        document.getElementById('taskCompleted').value = task.completed || '';
-        document.getElementById('taskTags').value = task.tags ? task.tags.join(' ') : '';
-        document.getElementById('taskDescription').value = task.description || '';
-        document.getElementById('taskNotes').value = task.notes || '';
-        
-        formSubtasks = task.subtasks ? [...task.subtasks] : [];
-        renderFormSubtasks();
-    } else {
-        // Create mode
-        if (title) title.textContent = t('taskForm.newTask');
-        if (submitBtn) submitBtn.textContent = t('taskForm.create');
-        
-        // Set default dates
-        document.getElementById('taskCreated').value = new Date().toISOString().split('T')[0];
-    }
-    
-    // Populate status dropdown
+    // Populate status dropdown from config
     const statusSelect = document.getElementById('taskStatus');
-    if (statusSelect) {
-        statusSelect.innerHTML = '';
-        if (config.columns && config.columns.length > 0) {
-            config.columns.forEach(col => {
-                const option = document.createElement('option');
-                option.value = col.id;
-                option.textContent = col.name;
-                if (task && task.status === col.id) {
-                    option.selected = true;
-                }
-                statusSelect.appendChild(option);
-            });
-        } else {
-        // Default columns if none configured
-        const defaultColumns = [
+    if (statusSelect && config.columns && config.columns.length > 0) {
+        statusSelect.innerHTML = config.columns.map(col =>
+            `<option value="${escapeHtml(col.id)}">${escapeHtml(col.name)}</option>`
+        ).join('');
+    } else if (statusSelect) {
+        statusSelect.innerHTML = [
             { id: 'todo', name: '📝 To Do' },
             { id: 'in-progress', name: '🚀 In Progress' },
             { id: 'review', name: '👀 Review' },
             { id: 'done', name: '✅ Done' }
-        ];
-        defaultColumns.forEach(col => {
-            const option = document.createElement('option');
-            option.value = col.id;
-            option.textContent = col.name;
-            statusSelect.appendChild(option);
-            });
-        }
+        ].map(col => `<option value="${col.id}">${col.name}</option>`).join('');
     }
 
-    if (modal) modal.classList.add('active');
+    // Populate priorities dropdown from config (when helpers available; else keep default HTML options)
+    const taskPriority = document.getElementById('taskPriority');
+    if (taskPriority && config.priorities && config.priorities.length > 0 && typeof clean === 'function' && typeof displayPriority === 'function') {
+        taskPriority.innerHTML = config.priorities.map(priority =>
+            `<option value="${escapeHtml(clean(priority))}">${escapeHtml(displayPriority(priority))}</option>`
+        ).join('');
+    }
+
+    if (typeof updateAutocomplete === 'function') updateAutocomplete();
+
+    if (isEditMode && task) {
+        document.getElementById('taskEditId').value = task.id;
+        document.getElementById('taskTitle').value = task.title || '';
+        document.getElementById('taskStatus').value = task.status || '';
+        document.getElementById('taskPriority').value = task.priority || '';
+        document.getElementById('taskCategory').value = task.category || '';
+        document.getElementById('taskAssignee').value = (task.assignees && task.assignees.length) ? task.assignees.join(', ') : '';
+        document.getElementById('taskCreated').value = task.created || '';
+        document.getElementById('taskStarted').value = task.started || '';
+        document.getElementById('taskDue').value = task.due || '';
+        document.getElementById('taskCompleted').value = task.completed || '';
+        document.getElementById('taskTags').value = (task.tags && task.tags.length) ? task.tags.join(' ') : '';
+        document.getElementById('taskDescription').value = task.description || '';
+        document.getElementById('taskNotes').value = task.notes || '';
+        formSubtasks = JSON.parse(JSON.stringify(task.subtasks || []));
+    } else {
+        form.reset();
+        document.getElementById('taskEditId').value = '';
+        formSubtasks = [];
+        const createdEl = document.getElementById('taskCreated');
+        if (createdEl) createdEl.value = new Date().toISOString().split('T')[0];
+    }
+
+    renderFormSubtasks();
+
+    // Show plain textarea or rich editor based on Editor Mode
+    const taskNotesEl = document.getElementById('taskNotes');
+    const richWrap = document.getElementById('notesRichEditorWrap');
+    const useRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled &&
+        (localStorage.getItem('editorMode') || 'plain') === 'rich' &&
+        typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
+    if (taskNotesEl) taskNotesEl.style.display = useRich ? 'none' : 'block';
+    if (richWrap) richWrap.style.display = useRich ? 'block' : 'none';
+    if (useRich && window.TiptapEditor) {
+        const created = window.TiptapEditor.create('tiptapContainer');
+        if (created) {
+            const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
+            window.TiptapEditor.setMarkdown(notesMd);
+        } else {
+            if (taskNotesEl) taskNotesEl.style.display = 'block';
+            if (richWrap) richWrap.style.display = 'none';
+        }
+    } else if (window.TiptapEditor && window.TiptapEditor.hasInstance()) {
+        window.TiptapEditor.destroy();
+    }
+
+    modal.classList.add('active');
+    setBodyModalOpen(true);
     console.log(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
 }
 
 function closeTaskModal() {
+    const taskNotesEl = document.getElementById('taskNotes');
+    const richWrap = document.getElementById('notesRichEditorWrap');
+    if (window.TiptapEditor && window.TiptapEditor.hasInstance()) {
+        if (taskNotesEl) taskNotesEl.value = window.TiptapEditor.getMarkdown();
+        window.TiptapEditor.destroy();
+    }
+    if (taskNotesEl) taskNotesEl.style.display = 'block';
+    if (richWrap) richWrap.style.display = 'none';
     const modal = document.getElementById('newTaskModal');
+    const form = document.getElementById('newTaskForm');
     if (modal) {
         modal.classList.remove('active');
-        isEditMode = false;
-        formSubtasks = [];
-        console.log('✅ Task modal closed');
+        setBodyModalOpen(false);
     }
+    if (form) form.reset();
+    isEditMode = false;
+    formSubtasks = [];
+    console.log('✅ Task modal closed');
+}
+
+// Close topmost modal on Escape (accessibility)
+document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    const taskModal = document.getElementById('taskModal');
+    const newTaskModal = document.getElementById('newTaskModal');
+    const settingsModal = document.getElementById('settingsModal');
+    const columnsModal = document.getElementById('columnsModal');
+    const archiveModal = document.getElementById('archiveModal');
+    if (taskModal && taskModal.classList.contains('active')) { closeModal(); e.preventDefault(); return; }
+    if (newTaskModal && newTaskModal.classList.contains('active')) { closeTaskModal(); e.preventDefault(); return; }
+    if (settingsModal && settingsModal.classList.contains('active')) { closeSettingsModal(); e.preventDefault(); return; }
+    if (columnsModal && columnsModal.classList.contains('active')) { closeColumnsModal(); e.preventDefault(); return; }
+    if (archiveModal && archiveModal.classList.contains('active')) { closeArchiveModal(); e.preventDefault(); return; }
+});
+
+// Close modal when clicking the backdrop (outside the content) - run when DOM is ready
+function initModalBackdropClose() {
+    var modals = document.querySelectorAll('.modal');
+    modals.forEach(function (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target !== modal) return;
+            if (modal.id === 'taskModal') closeModal();
+            else if (modal.id === 'newTaskModal') closeTaskModal();
+            else if (modal.id === 'settingsModal') closeSettingsModal();
+            else if (modal.id === 'columnsModal') closeColumnsModal();
+            else if (modal.id === 'archiveModal') closeArchiveModal();
+        });
+    });
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initModalBackdropClose);
+} else {
+    initModalBackdropClose();
 }
 
 function addFormSubtask() {
@@ -1723,7 +2099,7 @@ function renderFormSubtasks() {
         const li = document.createElement('li');
         li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-secondary); border-radius: 4px; margin-bottom: 0.5rem;';
         li.innerHTML = `
-            <span style="flex: 1; ${subtask.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${subtask.text}</span>
+            <span style="flex: 1; ${subtask.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${escapeHtml(subtask.text)}</span>
             <div style="display: flex; gap: 0.5rem;">
                 <button onclick="toggleFormSubtask(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">${subtask.completed ? '↩️' : '✅'}</button>
                 <button onclick="removeFormSubtask(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; background: #ef4444; color: white; border: none; border-radius: 3px;">×</button>
@@ -1748,6 +2124,7 @@ function openColumnsModal() {
     const modal = document.getElementById('columnsModal');
     if (modal) {
         modal.classList.add('active');
+        setBodyModalOpen(true);
         renderColumnsList();
         console.log('✅ Columns modal opened');
     }
@@ -1757,6 +2134,7 @@ function closeColumnsModal() {
     const modal = document.getElementById('columnsModal');
     if (modal) {
         modal.classList.remove('active');
+        setBodyModalOpen(false);
         console.log('✅ Columns modal closed');
     }
 }
@@ -1822,6 +2200,7 @@ function openArchiveModal() {
     const modal = document.getElementById('archiveModal');
     if (modal) {
         modal.classList.add('active');
+        setBodyModalOpen(true);
         renderArchiveList();
         console.log('✅ Archives modal opened');
     }
@@ -1831,6 +2210,7 @@ function closeArchiveModal() {
     const modal = document.getElementById('archiveModal');
     if (modal) {
         modal.classList.remove('active');
+        setBodyModalOpen(false);
         console.log('✅ Archives modal closed');
     }
 }
@@ -1859,24 +2239,24 @@ function renderArchiveList(searchTerm = '') {
         
         let metaHtml = '';
         if (task.priority) {
-            metaHtml += `<span class="badge badge-priority ${task.priority}" style="margin-right: 0.5rem;">${task.priority}</span>`;
+            metaHtml += `<span class="badge badge-priority" style="margin-right: 0.5rem;">${escapeHtml(task.priority)}</span>`;
         }
         if (task.category) {
-            metaHtml += `<span class="badge badge-category" style="margin-right: 0.5rem;">${task.category}</span>`;
+            metaHtml += `<span class="badge badge-category" style="margin-right: 0.5rem;">${escapeHtml(task.category)}</span>`;
         }
         if (task.tags && task.tags.length > 0) {
-            metaHtml += task.tags.map(tag => `<span class="tag" style="margin-right: 0.25rem;">${tag}</span>`).join('');
+            metaHtml += task.tags.map(tag => `<span class="tag" style="margin-right: 0.25rem;">${escapeHtml(tag)}</span>`).join('');
         }
-        
+        const safeId = escapeJsString(task.id);
         div.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                <span style="font-weight: 600;">${task.id}: ${task.title}</span>
+                <span style="font-weight: 600;">${escapeHtml(task.id)}: ${escapeHtml(task.title)}</span>
                 <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="restoreFromArchive('${task.id}')" title="${t('action.restore')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">↩️</button>
-                    <button onclick="deleteFromArchive('${task.id}')" title="${t('action.delete')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>
+                    <button onclick="restoreFromArchive('${safeId}')" title="${t('action.restore')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">↩️</button>
+                    <button onclick="deleteFromArchive('${safeId}')" title="${t('action.delete')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>
                 </div>
             </div>
-            ${task.description ? `<p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">${task.description.substring(0, 100)}${task.description.length > 100 ? '...' : ''}</p>` : ''}
+            ${task.description ? `<p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">${escapeHtml(task.description.substring(0, 100))}${task.description.length > 100 ? '...' : ''}</p>` : ''}
             <div style="margin-top: 0.5rem;">${metaHtml}</div>
         `;
         list.appendChild(div);
@@ -3037,11 +3417,17 @@ function deleteFromArchive(taskId) {
             
             if (!statusEl) return;
             
-            if (typeof window.Tiptap !== 'undefined') {
+            if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 statusEl.innerHTML = '<span style="color: #22C55E;">✓ Editor loaded and ready</span>';
                 statusEl.style.display = 'block';
-                
-                // Show editor mode toggle
+                if (modeRow) modeRow.style.display = 'flex';
+                if (modeSelect) {
+                    const savedMode = localStorage.getItem('editorMode') || 'plain';
+                    modeSelect.value = savedMode;
+                }
+            } else if (typeof window.Tiptap !== 'undefined') {
+                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Library loaded. Select Rich Text in Editor Mode below to use.</span>';
+                statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
                     const savedMode = localStorage.getItem('editorMode') || 'plain';
@@ -3103,10 +3489,10 @@ function deleteFromArchive(taskId) {
             
             const mode = getEditorMode();
             
-            if (mode === 'rich' && typeof window.Tiptap !== 'undefined') {
+            if (mode === 'rich' && typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 badge.innerHTML = '<span style="background: #22C55E; color: white;">Rich Text</span>';
                 badge.style.display = 'inline-block';
-                status.innerHTML = '✓ Rich text editor active. Use "/" for commands.';
+                status.innerHTML = '✓ Rich text editor active.';
                 status.style.color = '#22C55E';
             } else if (mode === 'rich' && FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
                 badge.innerHTML = '<span style="background: #f59e0b; color: white;">Loading...</span>';
@@ -3274,6 +3660,132 @@ function deleteFromArchive(taskId) {
 
         // ===== END PARALLEL DATA STORAGE =====
 
+        // Simple HTML to Markdown (for saving editor content to task.notes)
+        function htmlToMarkdown(html) {
+            if (!html || typeof html !== 'string') return '';
+            const div = document.createElement('div');
+            div.innerHTML = html.trim();
+            function walk(node) {
+                if (node.nodeType === Node.TEXT_NODE) return node.textContent || '';
+                if (node.nodeType !== Node.ELEMENT_NODE) return '';
+                const tag = node.tagName.toLowerCase();
+                const children = Array.from(node.childNodes).map(walk).join('');
+                const text = children.replace(/\n{3,}/g, '\n\n').trim();
+                switch (tag) {
+                    case 'p': return text ? text + '\n\n' : '\n\n';
+                    case 'strong': case 'b': return text ? '**' + text + '**' : '';
+                    case 'em': case 'i': return text ? '*' + text + '*' : '';
+                    case 'code': return node.parentNode && node.parentNode.tagName.toLowerCase() === 'pre' ? text : '`' + text + '`';
+                    case 'pre': return '```\n' + (node.textContent || '').trim() + '\n```\n\n';
+                    case 'ul': return Array.from(node.children).map(li => '  - ' + walk(li).trim()).join('\n') + '\n\n';
+                    case 'ol': return Array.from(node.children).map((li, i) => '  ' + (i + 1) + '. ' + walk(li).trim()).join('\n') + '\n\n';
+                    case 'li': return Array.from(node.childNodes).map(walk).join('').trim();
+                    case 'a': return node.getAttribute('href') ? '[' + text + '](' + node.getAttribute('href') + ')' : text;
+                    case 'br': return '\n';
+                    default: return children;
+                }
+            }
+            return walk(div).replace(/\n{3,}/g, '\n\n').trim();
+        }
+
+        // TiptapEditor wrapper: single instance for task Notes (Markdown in/out)
+        window.TiptapEditor = {
+            _editor: null,
+            _containerId: 'tiptapContainer',
+
+            create(containerId) {
+                const id = containerId || this._containerId;
+                const el = document.getElementById(id);
+                if (!el) return false;
+                if (this._editor) { this.destroy(); }
+                if (typeof window.Tiptap === 'undefined' || !window.Tiptap.Editor) {
+                    console.warn('TiptapEditor: Tiptap.Editor not available');
+                    return false;
+                }
+                el.innerHTML = '';
+                const extensions = [];
+                if (window.Tiptap.StarterKit) extensions.push(window.Tiptap.StarterKit);
+                else if (window.StarterKit) extensions.push(window.StarterKit);
+                const fallback = [window.Tiptap.Document, window.Tiptap.Paragraph, window.Tiptap.Text].filter(Boolean);
+                const ext = extensions.length ? extensions : fallback;
+                if (!ext.length) {
+                    console.warn('TiptapEditor: No extensions (need StarterKit or Document/Paragraph/Text)');
+                    return false;
+                }
+                try {
+                    this._editor = new window.Tiptap.Editor({
+                        element: el,
+                        extensions: ext,
+                        content: '<p></p>',
+                        editorProps: { attributes: { class: 'ProseMirror' } }
+                    });
+                    this._setupToolbar();
+                    return true;
+                } catch (e) {
+                    console.error('TiptapEditor.create:', e);
+                    return false;
+                }
+            },
+
+            destroy() {
+                if (this._editor) {
+                    try { this._editor.destroy(); } catch (e) { /* ignore */ }
+                    this._editor = null;
+                }
+            },
+
+            setMarkdown(md) {
+                if (!this._editor) return;
+                const html = !md || !md.trim() ? '<p></p>' : (typeof markdownToHtml === 'function' ? markdownToHtml(md) : md);
+                this._editor.commands.setContent(html, false);
+            },
+
+            getMarkdown() {
+                if (!this._editor) return '';
+                const html = this._editor.getHTML();
+                return typeof htmlToMarkdown === 'function' ? htmlToMarkdown(html) : html;
+            },
+
+            getHTML() {
+                return this._editor ? this._editor.getHTML() : '';
+            },
+
+            setContent(html) {
+                if (!this._editor) return;
+                this._editor.commands.setContent(html || '<p></p>', false);
+            },
+
+            getContent() {
+                return this.getHTML();
+            },
+
+            hasInstance() {
+                return !!this._editor;
+            },
+
+            _run(action) {
+                if (!this._editor) return;
+                const chain = this._editor.chain().focus();
+                switch (action) {
+                    case 'bold': chain.toggleBold().run(); break;
+                    case 'italic': chain.toggleItalic().run(); break;
+                    case 'code': chain.toggleCode().run(); break;
+                    case 'bulletList': chain.toggleBulletList().run(); break;
+                    case 'orderedList': chain.toggleOrderedList().run(); break;
+                    case 'clearFormatting': chain.clearNodes().unsetAllMarks().run(); break;
+                    default: break;
+                }
+            },
+
+            _setupToolbar() {
+                const toolbar = document.getElementById('tiptapToolbar');
+                if (!toolbar) return;
+                toolbar.querySelectorAll('.tiptap-toolbar-btn[data-action]').forEach(btn => {
+                    btn.onclick = () => this._run(btn.getAttribute('data-action'));
+                });
+            }
+        };
+
         // Load Tiptap library from CDN (lazy load when feature is enabled)
         async function loadTiptapLibrary() {
             // Check if already loaded
@@ -3317,7 +3829,7 @@ function deleteFromArchive(taskId) {
                     console.log(`📦 Loading Tiptap from: ${cdnUrl}`);
                     
                     // Create loading notification
-                    const loadingId = showNotification('Loading rich text editor...', 'info', 0);
+                    showNotification('Loading rich text editor...', 'info');
                     
                     const result = await new Promise((resolve, reject) => {
                         const script = document.createElement('script');
@@ -3349,10 +3861,22 @@ function deleteFromArchive(taskId) {
                         document.head.appendChild(script);
                     });
                     
-                    // Success - clear loading notification
-                    if (loadingId) {
-                        showNotification('Rich text editor loaded!', 'success');
+                    // Optionally load StarterKit for bold/italic/lists (same CDN base)
+                    const base = cdnUrl.includes('jsdelivr') ? 'https://cdn.jsdelivr.net/npm' : 'https://unpkg.com';
+                    const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/index.umd.js`;
+                    try {
+                        await new Promise((resolve, reject) => {
+                            const s = document.createElement('script');
+                            s.src = starterKitUrl;
+                            s.onload = () => { console.log('✅ StarterKit loaded'); resolve(); };
+                            s.onerror = () => reject(new Error('StarterKit load failed'));
+                            document.head.appendChild(s);
+                        });
+                    } catch (_) {
+                        console.warn('StarterKit not loaded – editor may have limited formatting');
                     }
+                    
+                    showNotification('Rich text editor loaded!', 'success');
                     
                     window._tiptapLoading = false;
                     console.log('✅ Tiptap library loaded successfully');
@@ -3639,8 +4163,9 @@ function deleteFromArchive(taskId) {
                 projects = savedProjects;
 
                 if (projects.length === 0) {
-                    // No projects yet, show empty selector
                     selector.innerHTML = '<option value="">📁 Select a project...</option>';
+                    const projectGroup = document.getElementById('headerProjectGroup');
+                    if (projectGroup) projectGroup.style.display = 'none';
                     return;
                 }
 
@@ -3657,10 +4182,9 @@ function deleteFromArchive(taskId) {
                 selector.innerHTML = optionsHtml;
                 selector.value = currentProjectIndex;
 
-                // Show the selector and related buttons
-                selector.style.display = 'inline-block';
-                document.getElementById('renameProjectBtn').style.display = 'inline-block';
-                document.getElementById('deleteProjectBtn').style.display = 'inline-block';
+                // Show the project group (label + selector + rename + delete)
+                const projectGroup = document.getElementById('headerProjectGroup');
+                if (projectGroup) projectGroup.style.display = 'flex';
             } catch (error) {
                 // Silent fail - errors in project selector shouldn't break the app
             }
@@ -3765,9 +4289,8 @@ function deleteFromArchive(taskId) {
                     document.getElementById('kanbanView').style.display = 'none';
                     document.getElementById('filterBar').style.display = 'none';
                     document.getElementById('newTaskBtn').style.display = 'none';
-                    document.getElementById('projectSelector').style.display = 'none';
-                    document.getElementById('renameProjectBtn').style.display = 'none';
-                    document.getElementById('deleteProjectBtn').style.display = 'none';
+                    const projectGroup = document.getElementById('headerProjectGroup');
+                    if (projectGroup) projectGroup.style.display = 'none';
                 }
 
                 console.log('🗑️ Project removed from list');
@@ -4103,7 +4626,8 @@ function deleteFromArchive(taskId) {
             updateStaticTexts();
 
             // Add event listener for project selector
-            document.getElementById('projectSelector').addEventListener('change', async (e) => {
+            const projectSelectorEl = document.getElementById('projectSelector');
+            if (projectSelectorEl) projectSelectorEl.addEventListener('change', async (e) => {
                 const projectIndex = e.target.value;
                 if (projectIndex === 'new') {
                     // User wants to add a new project
@@ -4116,7 +4640,8 @@ function deleteFromArchive(taskId) {
             });
 
             // Select folder button
-            document.getElementById('selectFolderBtn').addEventListener('click', async () => {
+            const selectFolderBtn = document.getElementById('selectFolderBtn');
+            if (selectFolderBtn) selectFolderBtn.addEventListener('click', async () => {
                 console.log('👆 Select folder button clicked');
                 if (debugMode) {
                     console.log('📍 Current state:');
@@ -4269,8 +4794,13 @@ function deleteFromArchive(taskId) {
         }
 
         // New task form submission
-        document.getElementById('newTaskForm').addEventListener('submit', async (e) => {
+        const newTaskFormEl = document.getElementById('newTaskForm');
+        if (newTaskFormEl) newTaskFormEl.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                if (window.TiptapEditor && window.TiptapEditor.hasInstance()) {
+                    const notesEl = document.getElementById('taskNotes');
+                    if (notesEl) notesEl.value = window.TiptapEditor.getMarkdown();
+                }
 
                 const isEdit = !!document.getElementById('taskEditId').value;
 
@@ -4342,7 +4872,8 @@ function deleteFromArchive(taskId) {
             });
 
             // Archive search
-            document.getElementById('archiveSearch').addEventListener('input', (e) => {
+            const archiveSearchEl = document.getElementById('archiveSearch');
+            if (archiveSearchEl) archiveSearchEl.addEventListener('input', (e) => {
                 renderArchiveList(e.target.value);
             });
 
@@ -5028,8 +5559,15 @@ ${t('markdown.archiveSection')}
             // Convert `inline code`
             html = html.replace(/`([^`]+)`/g, '<code style="background: #2d2d2d; color: #f8f8f2; padding: 0.125rem 0.35rem; border-radius: 3px; font-family: \'Consolas\', \'Monaco\', monospace; font-size: 0.9em;">$1</code>');
 
-            // Convert links [text](url)
-            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: var(--primary); text-decoration: underline;">$1</a>');
+            // Convert links [text](url) - only allow http, https, mailto (XSS prevention)
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+                const rawUrl = url.trim();
+                const lower = rawUrl.toLowerCase();
+                if (lower.startsWith('http://') || lower.startsWith('https://') || lower.startsWith('mailto:')) {
+                    return '<a href="' + escapeHtml(rawUrl) + '" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">' + text + '</a>';
+                }
+                return escapeHtml('[' + text + '](' + rawUrl + ')');
+            });
 
             // Convert bullet lists and paragraphs
             const lines = html.split('\n');
@@ -5396,76 +5934,15 @@ ${t('markdown.archiveSection')}
             renderKanban();
         }
 
-            // Task edit/create modal
-        function openTaskModal(task = null) {
-            isEditMode = !!task;
-            const modal = document.getElementById('newTaskModal');
-            const form = document.getElementById('newTaskForm');
-            const title = modal ? modal.querySelector('h2') : null;
-            const submitBtn = document.getElementById('taskFormSubmitBtn');
-
-            if (title) title.textContent = isEditMode ? t('taskForm.editTask') : t('taskForm.newTask');
-            if (submitBtn) submitBtn.textContent = isEditMode ? t('taskForm.save') : t('taskForm.create');
-
-            // Populate columns select
-            const taskStatus = document.getElementById('taskStatus');
-            if (taskStatus) {
-                taskStatus.innerHTML = config.columns.map(col =>
-                    `<option value="${col.id}">${col.name}</option>`
-                ).join('');
-            }
-
-            // Populate priorities select
-            const taskPriority = document.getElementById('taskPriority');
-            if (taskPriority) {
-                taskPriority.innerHTML = config.priorities.map(priority =>
-                    `<option value="${clean(priority)}">${displayPriority(priority)}</option>`
-                ).join('');
-            }
-
-            // Update autocomplete
-            updateAutocomplete();
-
-            if (isEditMode) {
-                document.getElementById('taskEditId').value = task.id;
-                document.getElementById('taskTitle').value = task.title;
-                document.getElementById('taskStatus').value = task.status;
-                document.getElementById('taskPriority').value = task.priority || '';
-                document.getElementById('taskCategory').value = task.category || '';
-                document.getElementById('taskAssignee').value = task.assignees.join(', ');
-                document.getElementById('taskCreated').value = task.created || '';
-                document.getElementById('taskStarted').value = task.started || '';
-                document.getElementById('taskDue').value = task.due || '';
-                document.getElementById('taskCompleted').value = task.completed || '';
-                document.getElementById('taskTags').value = task.tags.join(' ');
-                document.getElementById('taskDescription').value = task.description || '';
-                document.getElementById('taskNotes').value = task.notes || '';
-                formSubtasks = JSON.parse(JSON.stringify(task.subtasks || []));
-            } else {
-                form.reset();
-                document.getElementById('taskEditId').value = '';
-                formSubtasks = [];
-            }
-
-            renderFormSubtasks();
-            modal.classList.add('active');
-        }
-
-        function closeTaskModal() {
-            document.getElementById('newTaskModal').classList.remove('active');
-            document.getElementById('newTaskForm').reset();
-            formSubtasks = [];
-            isEditMode = false;
-        }
-
         // Form subtasks management
         function renderFormSubtasks() {
             const list = document.getElementById('formSubtasksList');
+            if (!list) return;
             list.innerHTML = formSubtasks.map((st, idx) => `
                 <li style="padding: 0.5rem; margin-bottom: 0.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px; display: flex; align-items: center; gap: 0.5rem;">
                     <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="toggleFormSubtask(${idx})" style="width: 16px; height: 16px; cursor: pointer;">
-                        <span style="flex: 1; ${st.completed ? 'text-decoration: line-through; color: var(--text-secondary);' : ''}">${st.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>
-                    <button type="button" onclick="deleteFormSubtask(${idx})" style="background: none; border: none; cursor: pointer; color: #e53e3e; font-size: 1rem;">🗑️</button>
+                        <span style="flex: 1; ${st.completed ? 'text-decoration: line-through; color: var(--text-secondary);' : ''}">${escapeHtml(st.text)}</span>
+                    <button type="button" onclick="removeFormSubtask(${idx})" style="background: none; border: none; cursor: pointer; color: #e53e3e; font-size: 1rem;">🗑️</button>
                 </li>
             `).join('');
         }
@@ -5484,11 +5961,6 @@ ${t('markdown.archiveSection')}
                 formSubtasks[idx].completed = !formSubtasks[idx].completed;
                 renderFormSubtasks();
             }
-        }
-
-        function deleteFormSubtask(idx) {
-            formSubtasks.splice(idx, 1);
-            renderFormSubtasks();
         }
 
         // Render Kanban board
@@ -5568,21 +6040,28 @@ ${t('markdown.archiveSection')}
                     </div>
                 </div>` : '';
 
+            const safeTaskId = escapeJsString(task.id);
+            const safePriority = escapeJsString(task.priority || '');
+            const safeCategory = escapeJsString(task.category || '');
             taskEl.innerHTML = `
                 <div class="task-header">
-                    <span class="task-id">${task.id}</span>
-                    <button class="task-edit-btn" onclick="event.stopPropagation(); openTaskModal(tasks.find(t => t.id === '${task.id}'))" style="background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0.25rem;">✏️</button>
+                    <span class="task-id">${escapeHtml(task.id)}</span>
+                    <button type="button" class="task-edit-btn" onclick="event.stopPropagation(); openTaskModal(tasks.find(t => t.id === '${safeTaskId}'))" style="background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0.25rem;" aria-label="Edit task">✏️</button>
                 </div>
-                <div class="task-title">${task.title}</div>
+                <div class="task-title">${escapeHtml(task.title)}</div>
                 ${task.description ? `<div class="task-description">${markdownToHtml(task.description)}</div>` : ''}
                 <div class="task-meta">
-                    ${task.priority ? `<span class="badge badge-priority ${priorityBadgeClass}" onclick="event.stopPropagation(); clickToFilter('priority', '${task.priority.replace(/'/g, "\\'")}');" style="cursor: pointer;" title="${t('tooltip.filterByPriority')}">${displayPriority(task.priority)}</span>` : ''}
-                    ${task.category ? `<span class="badge badge-category" onclick="event.stopPropagation(); clickToFilter('category', '${task.category.replace(/'/g, "\\'")}');" style="cursor: pointer;" title="${t('tooltip.filterByCategory')}">${task.category}</span>` : ''}
+                    ${task.priority ? `<span class="badge badge-priority ${priorityBadgeClass}" onclick="event.stopPropagation(); clickToFilter('priority', '${safePriority}');" style="cursor: pointer;" title="${t('tooltip.filterByPriority')}">${escapeHtml(displayPriority(task.priority))}</span>` : ''}
+                    ${task.category ? `<span class="badge badge-category" onclick="event.stopPropagation(); clickToFilter('category', '${safeCategory}');" style="cursor: pointer;" title="${t('tooltip.filterByCategory')}">${escapeHtml(task.category)}</span>` : ''}
                     ${task.assignees.map(a => {
                         const normalizedId = normalizeUserId(a);
-                        return `<span class="badge badge-assignee" onclick="event.stopPropagation(); clickToFilter('user', '${normalizedId.replace(/'/g, "\\'")}');" style="cursor: pointer;" title="${t('tooltip.filterByUser')}">${a}</span>`;
+                        const safeUser = escapeJsString(normalizedId);
+                        return `<span class="badge badge-assignee" onclick="event.stopPropagation(); clickToFilter('user', '${safeUser}');" style="cursor: pointer;" title="${t('tooltip.filterByUser')}">${escapeHtml(a)}</span>`;
                     }).join('')}
-                    ${task.tags.map(tag => `<span class="tag" onclick="event.stopPropagation(); clickToFilter('tag', '${tag.replace(/'/g, "\\'")}');" style="cursor: pointer;" title="${t('tooltip.filterByTag')}">${tag}</span>`).join('')}
+                    ${task.tags.map(tag => {
+                        const safeTag = escapeJsString(tag);
+                        return `<span class="tag" onclick="event.stopPropagation(); clickToFilter('tag', '${safeTag}');" style="cursor: pointer;" title="${t('tooltip.filterByTag')}">${escapeHtml(tag)}</span>`;
+                    }).join('')}
                 </div>
                 ${subtaskProgress}
             `;
@@ -5652,69 +6131,70 @@ ${t('markdown.archiveSection')}
             const statusColumn = config.columns.find(col => col.id === task.status);
             const statusName = statusColumn ? statusColumn.name : task.status;
 
+            const safeTaskIdAttr = escapeJsString(task.id);
             modalBody.innerHTML = `
                 <div style="padding: 1.5rem;">
                     <!-- Task ID Badge -->
                     <div style="display: inline-block; background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">
-                        ${task.id}
+                        ${escapeHtml(task.id)}
                     </div>
 
                     <!-- Title -->
-                    <h3 style="margin: 0 0 1.5rem 0; font-size: 1.5rem; color: var(--text);">${task.title}</h3>
+                    <h3 style="margin: 0 0 1.5rem 0; font-size: 1.5rem; color: var(--text);">${escapeHtml(task.title)}</h3>
 
                     <!-- Metadata Grid -->
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg); border-radius: 8px;">
                         ${task.priority ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.priority')}</div>
-                                <div style="font-weight: 500;">${displayPriority(priorityWithIcon)}</div>
+                                <div style="font-weight: 500;">${escapeHtml(displayPriority(priorityWithIcon))}</div>
                             </div>
                         ` : ''}
 
                         <div>
                             <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.status')}</div>
-                            <div style="font-weight: 500;">${statusName}</div>
+                            <div style="font-weight: 500;">${escapeHtml(statusName)}</div>
                         </div>
 
                         ${task.category ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.category')}</div>
-                                <div style="font-weight: 500;">${task.category}</div>
+                                <div style="font-weight: 500;">${escapeHtml(task.category)}</div>
                             </div>
                         ` : ''}
 
                         ${task.assignees.length > 0 ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.assigned')}</div>
-                                <div style="font-weight: 500;">${task.assignees.join(', ')}</div>
+                                <div style="font-weight: 500;">${escapeHtml(task.assignees.join(', '))}</div>
                             </div>
                         ` : ''}
 
                         ${task.created ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.created')}</div>
-                                <div style="font-weight: 500;">${task.created}</div>
+                                <div style="font-weight: 500;">${escapeHtml(task.created)}</div>
                             </div>
                         ` : ''}
 
                         ${task.started ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.started')}</div>
-                                <div style="font-weight: 500;">${task.started}</div>
+                                <div style="font-weight: 500;">${escapeHtml(task.started)}</div>
                             </div>
                         ` : ''}
 
                         ${task.due ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.due')}</div>
-                                <div style="font-weight: 500;">${task.due}</div>
+                                <div style="font-weight: 500;">${escapeHtml(task.due)}</div>
                             </div>
                         ` : ''}
 
                         ${task.completed ? `
                             <div>
                                 <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${t('meta.completed')}</div>
-                                <div style="font-weight: 500;">${task.completed}</div>
+                                <div style="font-weight: 500;">${escapeHtml(task.completed)}</div>
                             </div>
                         ` : ''}
                     </div>
@@ -5726,7 +6206,7 @@ ${t('markdown.archiveSection')}
                             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                                 ${task.tags.map(tag => `
                                     <span style="background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
-                                        ${tag}
+                                        ${escapeHtml(tag)}
                                     </span>
                                 `).join('')}
                             </div>
@@ -5746,19 +6226,19 @@ ${t('markdown.archiveSection')}
                         <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">${t('meta.subtasks', {completed: task.subtasks.filter(st => st.completed).length, total: task.subtasks.length})}</div>
                         <ul id="subtasksList" style="list-style: none; padding: 0; margin: 0 0 1rem 0;">
                             ${task.subtasks.map((st, idx) => {
-                                const escapedText = st.text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                const escapedText = escapeHtml(st.text);
                                 return `
                                 <li style="padding: 0.5rem; margin-bottom: 0.25rem; background: var(--bg); border-radius: 4px; display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="toggleSubtask('${task.id}', ${idx})" style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span ondblclick="editSubtask('${task.id}', ${idx})" style="flex: 1; ${st.completed ? 'text-decoration: line-through; color: var(--text-secondary);' : ''} cursor: pointer;" title="${t('tooltip.doubleClickEdit')}">${escapedText}</span>
-                                    <button onclick="deleteSubtask('${task.id}', ${idx})" style="background: none; border: none; cursor: pointer; color: #e53e3e; font-size: 1.1rem; padding: 0.25rem;" title="${t('tooltip.delete')}">🗑️</button>
+                                    <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="toggleSubtask('${safeTaskIdAttr}', ${idx})" style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span ondblclick="editSubtask('${safeTaskIdAttr}', ${idx})" style="flex: 1; ${st.completed ? 'text-decoration: line-through; color: var(--text-secondary);' : ''} cursor: pointer;" title="${t('tooltip.doubleClickEdit')}">${escapedText}</span>
+                                    <button onclick="deleteSubtask('${safeTaskIdAttr}', ${idx})" style="background: none; border: none; cursor: pointer; color: #e53e3e; font-size: 1.1rem; padding: 0.25rem;" title="${t('tooltip.delete')}">🗑️</button>
                                 </li>
                                 `;
                             }).join('')}
                         </ul>
                         <div style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="newSubtaskInput" placeholder="${t('subtask.newPlaceholder')}" onkeypress="if(event.key==='Enter') addSubtask('${task.id}')" style="flex: 1; padding: 0.5rem; border: 2px solid #cbd5e0; border-radius: 4px; font-size: 0.9rem;">
-                            <button onclick="addSubtask('${task.id}')" class="btn btn-primary" style="padding: 0.5rem 1rem;">${t('taskForm.subtaskAdd')}</button>
+                            <input type="text" id="newSubtaskInput" placeholder="${t('subtask.newPlaceholder')}" onkeypress="if(event.key==='Enter') addSubtask('${safeTaskIdAttr}')" style="flex: 1; padding: 0.5rem; border: 2px solid #cbd5e0; border-radius: 4px; font-size: 0.9rem;">
+                            <button onclick="addSubtask('${safeTaskIdAttr}')" class="btn btn-primary" style="padding: 0.5rem 1rem;">${t('taskForm.subtaskAdd')}</button>
                         </div>
                     </div>
 
@@ -5775,10 +6255,15 @@ ${t('markdown.archiveSection')}
             `;
 
             modal.classList.add('active');
+            if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
         }
 
         function closeModal() {
-            document.getElementById('taskModal').classList.remove('active');
+            const taskModalEl = document.getElementById('taskModal');
+            if (taskModalEl) {
+                taskModalEl.classList.remove('active');
+                if (typeof setBodyModalOpen === 'function') setBodyModalOpen(false);
+            }
         }
 
         function editCurrentTask() {
@@ -5970,11 +6455,13 @@ ${t('markdown.archiveSection')}
             await loadArchive();
             renderArchiveList();
             document.getElementById('archiveModal').classList.add('active');
+            if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
             console.log('✓ Archive modal opened');
         }
 
         function closeArchiveModal() {
             document.getElementById('archiveModal').classList.remove('active');
+            if (typeof setBodyModalOpen === 'function') setBodyModalOpen(false);
         }
 
         function renderArchiveList(searchTerm = '') {
@@ -6006,26 +6493,29 @@ ${t('markdown.archiveSection')}
 
             console.log('✓ Rendering', filtered.length, 'tasks');
 
-            list.innerHTML = filtered.map(task => `
+            list.innerHTML = filtered.map(task => {
+                const safeId = escapeJsString(task.id);
+                return `
                 <div style="background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem;">
                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
                         <div>
-                            <span style="background: var(--text-secondary); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${task.id}</span>
-                            <strong style="margin-left: 0.5rem; font-size: 1.1rem;">${task.title}</strong>
+                            <span style="background: var(--text-secondary); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${escapeHtml(task.id)}</span>
+                            <strong style="margin-left: 0.5rem; font-size: 1.1rem;">${escapeHtml(task.title)}</strong>
                         </div>
                         <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="deleteTask('${task.id}', true)" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; background: #ef4444; color: white;">🗑️</button>
-                            <button onclick="unarchiveTask('${task.id}')" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">${t('action.restore')}</button>
+                            <button onclick="deleteTask('${safeId}', true)" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; background: #ef4444; color: white;">🗑️</button>
+                            <button onclick="unarchiveTask('${safeId}')" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">${t('action.restore')}</button>
                         </div>
                     </div>
                     ${task.description ? `<p style="color: var(--text-secondary); margin: 0.5rem 0;">${markdownToHtml(task.description)}</p>` : ''}
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                        ${task.priority ? `<span style="background: #fbbf24; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${displayPriority(task.priority)}</span>` : ''}
-                        ${task.category ? `<span style="background: #8b5cf6; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${task.category}</span>` : ''}
-                        ${task.tags.map(t => `<span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${t}</span>`).join('')}
+                        ${task.priority ? `<span style="background: #fbbf24; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${escapeHtml(displayPriority(task.priority))}</span>` : ''}
+                        ${task.category ? `<span style="background: #8b5cf6; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${escapeHtml(task.category)}</span>` : ''}
+                        ${task.tags.map(t => `<span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${escapeHtml(t)}</span>`).join('')}
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function unarchiveTask(taskId) {
@@ -6160,11 +6650,12 @@ ${t('markdown.archiveSection')}
             const notificationText = document.getElementById('notificationText');
 
             if (notificationText) notificationText.textContent = message;
-            if (notification) notification.className = `notification ${type} show`;
-
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+            if (notification) {
+                notification.className = `notification ${type} show`;
+                setTimeout(() => {
+                    if (notification) notification.classList.remove('show');
+                }, 3000);
+            }
         }
     </script>
 </body>

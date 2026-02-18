@@ -8,7 +8,7 @@
 
 **Categories**: Frontend, Backend, Design, DevOps, Tests, Documentation
 
-**Users**: @user (User)
+**Users**: @user (User), @OpenCoder (Coder 1)
 
 **Priorities**: 🔴 Critical | 🟠 High | 🟡 Medium | 🟢 Low
 
@@ -108,6 +108,19 @@
 
 **Modified files**:
 
+### TASK-001 | Task 16
+**Priority**: Critical | **Category**: Backend | **Assigned**: @OpenCoder (Coder 1)
+**Created**: 2026-02-18
+**Tags**: #docs
+
+This is a description
+
+**Subtasks**:
+- [ ] This is one subtask
+
+**Notes**:
+Technical notes here
+
 ## 🚀 In Progress
 
 ### TASK-003 | Implement core feature improvements
@@ -149,6 +162,58 @@
 - [ ] Implement fallback mechanism (plain text if editor fails)
 - [ ] Set up parallel data storage (don't touch existing notes)
 - [ ] Write unit tests for integration layer
+- [ ] **Checkpoint**: No errors, existing features unchanged
+- [ ] Implement Tiptap editor component
+- [ ] Add basic formatting (bold, italic, code)
+- [ ] Implement editor storage (separate from existing notes)
+- [ ] Add toggle between plain text and rich text
+- [ ] Test editor in isolation
+- [ ] **Checkpoint**: Editor loads in < 500ms, no memory leaks
+- [ ] Implement comment data models
+- [ ] Create comment storage system
+- [ ] Build basic comment display (no editing yet)
+- [ ] Ensure backward compatibility
+- [ ] Test comment persistence
+- [ ] **Checkpoint**: Comments save correctly, no data corruption
+- [ ] Implement 10 core slash commands:
+- [ ] Test command execution
+- [ ] Verify fallbacks work
+- [ ] **Checkpoint**: All commands working, error handling robust
+- [x] 1.1 Create feature flag configuration system
+- [x] 1.2 Integrate feature flag system into task-manager.html
+- [x] 1.3 Add feature flag initialization at app start
+- [x] 1.4 Create Settings UI for experimental features (Rich Text, Comments, Slash Commands)
+- [x] 1.5 Add Tiptap CDN loading with try/catch (loaded only when enabled)
+- [x] 1.6 Implement fallback mechanism (plain text if editor fails)
+- [x] 1.7 Set up parallel data storage structure (don't touch existing notes)
+- [x] 1.8 Write unit tests for integration layer
+- [x] ✅ FIXED: Welcome screen flickering on reload (Jan 22, 2026)
+- [ ] **Checkpoint**: No errors, existing features unchanged
+- [ ] Implement Tiptap editor component
+- [ ] Add basic formatting (bold, italic, code)
+- [ ] Implement editor storage (separate from existing notes)
+- [ ] Add toggle between plain text and rich text
+- [ ] Test editor in isolation
+- [ ] **Checkpoint**: Editor loads in < 500ms, no memory leaks
+- [ ] Implement comment data models
+- [ ] Create comment storage system
+- [ ] Build basic comment display (no editing yet)
+- [ ] Ensure backward compatibility
+- [ ] Test comment persistence
+- [ ] **Checkpoint**: Comments save correctly, no data corruption
+- [ ] Implement 10 core slash commands:
+- [ ] Test command execution
+- [ ] Verify fallbacks work
+- [ ] **Checkpoint**: All commands working, error handling robust
+- [x] 1.1 Create feature flag configuration system
+- [x] 1.2 Integrate feature flag system into task-manager.html
+- [x] 1.3 Add feature flag initialization at app start
+- [x] 1.4 Create Settings UI for experimental features (Rich Text, Comments, Slash Commands)
+- [x] 1.5 Add Tiptap CDN loading with try/catch (loaded only when enabled)
+- [x] 1.6 Implement fallback mechanism (plain text if editor fails)
+- [x] 1.7 Set up parallel data storage structure (don't touch existing notes)
+- [x] 1.8 Write unit tests for integration layer
+- [x] ✅ FIXED: Welcome screen flickering on reload (Jan 22, 2026)
 - [ ] **Checkpoint**: No errors, existing features unchanged
 - [ ] Implement Tiptap editor component
 - [ ] Add basic formatting (bold, italic, code)
