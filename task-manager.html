@@ -1270,6 +1270,219 @@
         #unsupportedBrowserBanner .banner-dismiss:hover {
             background: rgba(255,255,255,0.3);
         }
+
+        /* Layout and UI (moved from inline styles for no-inline-styles compliance) */
+        #versionBadge {
+            font-size: 0.7em;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+        #headerProjectGroup {
+            display: none;
+        }
+        #newTaskBtn {
+            display: none;
+        }
+        #settingsBtn {
+            padding: 0.6rem;
+        }
+        #filterBar {
+            display: none;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+        .filter-global-search-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .filter-global-search-wrap {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+        #globalSearchInput {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--surface-card);
+            color: var(--text-primary);
+        }
+        #clearGlobalSearch {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            display: none;
+        }
+        .filter-rows {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+            justify-content: center;
+        }
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .filter-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-width: 150px;
+            background: var(--surface-card);
+            color: var(--text-primary);
+        }
+        .filter-btn-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+        .filter-clear-btn {
+            padding: 0.5rem 1rem;
+        }
+        #activeFilters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            min-height: 32px;
+            justify-content: center;
+        }
+        #welcomeScreen {
+            display: none;
+        }
+        #welcomeProjectSelector {
+            margin: 1.5rem 0;
+            display: none;
+        }
+        #welcomeProjectSelector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        #welcomeProjectSelect {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        #welcomeProjectSelector p {
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        #welcomeProjectSelector a {
+            color: var(--accent);
+        }
+        #welcomeGetStarted {
+            font-size: 1.1rem;
+            padding: 0.8rem 2rem;
+        }
+        #kanbanView {
+            display: none;
+        }
+        #settingsLanguageSelector {
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            min-width: 140px;
+        }
+        .pad-sm {
+            padding: 0.5rem 1rem;
+        }
+        .settings-section .btn-secondary.pad-sm {
+            padding: 0.5rem 1rem;
+        }
+        .btn-danger {
+            padding: 0.5rem 1rem;
+            background: #ef4444;
+            color: white;
+        }
+        .btn-archive {
+            background: #f59e0b;
+            color: white;
+        }
+        .modal-content--task-form {
+            width: 95%;
+            max-width: 880px;
+            min-width: 320px;
+        }
+        .form-hint {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        #formSubtasksList {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 0.5rem 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .form-subtask-add {
+            display: flex;
+            gap: 0.5rem;
+        }
+        #editorModeBadge {
+            display: none;
+            margin-left: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+        #taskNotes {
+            display: block;
+        }
+        #notesRichEditorWrap {
+            display: none;
+        }
+        #editorStatus {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .modal-content--columns {
+            max-width: 500px;
+        }
+        .modal-body-scroll--pad {
+            padding: 1.5rem;
+        }
+        #addColumnBtn {
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .modal-content--archive {
+            max-width: 900px;
+        }
+        .archive-search-wrap {
+            margin-bottom: 1rem;
+        }
+        #archiveList {
+            max-height: 500px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -1279,96 +1492,94 @@
     </div>
     <header class="header">
         <div class="header-content">
-            <h1 id="headerTitle">📋 Task Manager <span id="versionBadge" style="font-size: 0.7em; color: var(--text-secondary); font-weight: normal;">v. 1.1.2</span></h1>
+            <h1 id="headerTitle">📋 Task Manager <span id="versionBadge">v. 1.1.2</span></h1>
             <div class="header-actions">
-                <div id="headerProjectGroup" class="header-project-group" style="display: none;">
+                <div id="headerProjectGroup" class="header-project-group">
                     <label for="projectSelector" class="header-project-label">Project</label>
                     <select id="projectSelector" class="header-project-select" aria-label="Switch project"></select>
                     <button id="renameProjectBtn" class="btn btn-secondary" title="Rename project" aria-label="Rename project" onclick="renameCurrentProject()">✏️</button>
                     <button id="deleteProjectBtn" class="btn btn-secondary" title="Remove project from list" aria-label="Remove project from list" onclick="deleteCurrentProject()">🗑️</button>
                 </div>
                 <div class="header-buttons">
-                    <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" aria-label="Settings" style="padding: 0.6rem;">⚙️ Settings</button>
+                    <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" aria-label="Settings">⚙️ Settings</button>
                     <button id="selectFolderBtn" class="btn btn-primary" aria-label="Choose folder">📁 Folder</button>
-                    <button id="newTaskBtn" class="btn btn-secondary" style="display: none;" aria-label="New task" onclick="typeof openTaskModal === 'function' && openTaskModal()">➕ Task</button>
+                    <button id="newTaskBtn" class="btn btn-secondary" aria-label="New task" onclick="typeof openTaskModal === 'function' && openTaskModal()">➕ Task</button>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Filter Bar -->
-    <div id="filterBar" style="display: none; background: var(--bg-tertiary); border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
+    <div id="filterBar">
         <div class="filter-bar-inner">
             <!-- Global Search -->
-            <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
-                <div style="position: relative; max-width: 600px; width: 100%;">
+            <div class="filter-global-search-row">
+                <div class="filter-global-search-wrap">
                     <input
                         type="text"
                         id="globalSearchInput"
                         placeholder="Search in tasks..."
-                        style="width: 100%; padding: 0.75rem 3rem 0.75rem 1rem; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; background: var(--surface-card); color: var(--text-primary);"
                         oninput="applyGlobalSearch()"
                     >
                     <button
                         id="clearGlobalSearch"
                         onclick="clearGlobalSearch()"
-                        style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; display: none;"
                         title="Clear search"
                         aria-label="Clear search"
                     >✕</button>
                 </div>
             </div>
-            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.75rem; justify-content: center;">
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <label style="font-weight: 500; font-size: 0.9rem;">Tags:</label>
-                    <select id="filterTagSelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
+            <div class="filter-rows">
+                <div class="filter-group">
+                    <label class="filter-label">Tags:</label>
+                    <select id="filterTagSelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('tag')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
+                    <button onclick="addFilter('tag')" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <label style="font-weight: 500; font-size: 0.9rem;">Category:</label>
-                    <select id="filterCategorySelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
+                <div class="filter-group">
+                    <label class="filter-label">Category:</label>
+                    <select id="filterCategorySelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('category')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
+                    <button onclick="addFilter('category')" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <label style="font-weight: 500; font-size: 0.9rem;">User:</label>
-                    <select id="filterUserSelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
+                <div class="filter-group">
+                    <label class="filter-label">User:</label>
+                    <select id="filterUserSelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('user')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
+                    <button onclick="addFilter('user')" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <label style="font-weight: 500; font-size: 0.9rem;">Priority:</label>
-                    <select id="filterPrioritySelect" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; min-width: 150px; background: var(--surface-card); color: var(--text-primary);">
+                <div class="filter-group">
+                    <label class="filter-label">Priority:</label>
+                    <select id="filterPrioritySelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('priority')" class="btn btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">+</button>
+                    <button onclick="addFilter('priority')" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
-                <button onclick="clearFilters()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">✕ Clear all</button>
+                <button onclick="clearFilters()" class="btn btn-secondary filter-clear-btn">✕ Clear all</button>
             </div>
-            <div id="activeFilters" style="display: flex; gap: 0.5rem; flex-wrap: wrap; min-height: 32px; justify-content: center;"></div>
+            <div id="activeFilters"></div>
         </div>
     </div>
 
     <!-- Main Content Area -->
     <main id="mainContent">
         <!-- Welcome Screen -->
-        <div id="welcomeScreen" class="welcome" style="display: none;">
+        <div id="welcomeScreen" class="welcome">
             <div class="welcome-content">
                 <h2 id="welcomeTitle">Welcome! 👋</h2>
                 <p id="welcomeDescription">Select the folder containing your Markdown files (kanban.md and archive.md)</p>
 
                 <!-- Project Selector for Welcome Screen -->
-                <div id="welcomeProjectSelector" style="margin: 1.5rem 0; display: none;">
-                    <label for="welcomeProjectSelect" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-primary);">📁 Recent Projects</label>
-                    <select id="welcomeProjectSelect" onchange="handleWelcomeProjectSwitch(this.value)" style="width: 100%; max-width: 400px; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; background: var(--bg-primary); color: var(--text-primary); cursor: pointer;">
+                <div id="welcomeProjectSelector">
+                    <label for="welcomeProjectSelect">📁 Recent Projects</label>
+                    <select id="welcomeProjectSelect" onchange="handleWelcomeProjectSwitch(this.value)">
                         <option value="">Loading projects...</option>
                     </select>
-                    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-                        Or <a href="#" onclick="document.getElementById('selectFolderBtn').click(); return false;" style="color: var(--primary-color);">select a new folder</a> to create a new project
+                    <p>
+                        Or <a href="#" onclick="document.getElementById('selectFolderBtn').click(); return false;">select a new folder</a> to create a new project
                     </p>
                 </div>
 
@@ -1396,7 +1607,7 @@
                 </div>
                 
                 <div class="welcome-actions">
-                    <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" id="welcomeGetStarted" style="font-size: 1.1rem; padding: 0.8rem 2rem;">
+                    <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" id="welcomeGetStarted">
                         📁 Get Started
                     </button>
                 </div>
@@ -1408,7 +1619,7 @@
         </div>
 
         <!-- Kanban View -->
-        <div id="kanbanView" style="display: none;">
+        <div id="kanbanView">
             <div class="kanban-board" id="kanbanBoard"></div>
         </div>
     </main>
@@ -1438,7 +1649,7 @@
                             <span>Language</span>
                             <small>Select your preferred language</small>
                         </div>
-                        <select id="settingsLanguageSelector" onchange="setLanguage(this.value)" style="padding: 0.5rem 2rem 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; min-width: 140px;">
+                        <select id="settingsLanguageSelector" onchange="setLanguage(this.value)">
                             <option value="en">English</option>
                             <option value="fr">Français</option>
                         </select>
@@ -1453,14 +1664,14 @@
                             <span>Manage Columns</span>
                             <small>Add, rename, or delete board columns</small>
                         </div>
-                        <button onclick="openColumnsModalFromSettings()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">⚙️ Columns</button>
+                        <button onclick="openColumnsModalFromSettings()" class="btn btn-secondary pad-sm">⚙️ Columns</button>
                     </div>
                     <div class="setting-row">
                         <div class="setting-info">
                             <span>Archives</span>
                             <small>View and restore archived tasks</small>
                         </div>
-                        <button onclick="openArchiveModalFromSettings()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">📦 Archives</button>
+                        <button onclick="openArchiveModalFromSettings()" class="btn btn-secondary pad-sm">📦 Archives</button>
                     </div>
                 </div>
 
@@ -1486,14 +1697,14 @@
                             <span>Export Project</span>
                             <small>Download project data as JSON</small>
                         </div>
-                        <button onclick="exportProject()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">📤 Export</button>
+                        <button onclick="exportProject()" class="btn btn-secondary pad-sm">📤 Export</button>
                     </div>
                     <div class="setting-row">
                         <div class="setting-info">
                             <span>Clear All Data</span>
                             <small>Remove all local storage data</small>
                         </div>
-                        <button onclick="clearAllData()" class="btn btn-secondary" style="padding: 0.5rem 1rem; background: #ef4444; color: white;">🗑️ Clear</button>
+                        <button onclick="clearAllData()" class="btn btn-secondary btn-danger">🗑️ Clear</button>
                     </div>
                 </div>
 
@@ -1520,8 +1731,8 @@
             <div id="modalBody" class="task-detail"></div>
             <div class="actions">
                 <button class="btn btn-secondary" onclick="closeModal()">Close</button>
-                <button class="btn btn-secondary" onclick="deleteCurrentTask()" style="background: #ef4444; color: white;">🗑️ Delete</button>
-                <button class="btn btn-secondary" onclick="archiveCurrentTask()" style="background: #f59e0b; color: white;">📦 Archive</button>
+                <button class="btn btn-secondary btn-danger" onclick="deleteCurrentTask()">🗑️ Delete</button>
+                <button class="btn btn-secondary btn-archive" onclick="archiveCurrentTask()">📦 Archive</button>
                 <button class="btn btn-primary" id="editTaskBtn" onclick="editCurrentTask()">✏️ Edit</button>
             </div>
         </div>
@@ -1529,7 +1740,7 @@
 
     <!-- Modal New Task -->
     <div id="newTaskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="newTaskModalTitle" aria-describedby="newTaskForm">
-        <div class="modal-content modal-content--task-form" style="width: 95%; max-width: 880px; min-width: 320px;">
+        <div class="modal-content modal-content--task-form">
             <div class="modal-header">
                 <h2 id="newTaskModalTitle">New Task</h2>
                 <button type="button" class="close-btn" onclick="closeTaskModal()" aria-label="Close task form">&times;</button>
@@ -1586,7 +1797,7 @@
                 <div>
                     <label for="taskTags">Tags</label>
                     <input type="text" id="taskTags" list="tagsList" placeholder="#bug #feature">
-                    <small style="color: var(--text-secondary); font-size: 0.85rem;">Separate with spaces</small>
+                    <small class="form-hint">Separate with spaces</small>
                 </div>
                 <div>
                     <label for="taskDescription">Description</label>
@@ -1594,15 +1805,15 @@
                 </div>
                 <div>
                     <label>Subtasks</label>
-                    <ul id="formSubtasksList" style="list-style: none; padding: 0; margin: 0 0 0.5rem 0; max-height: 150px; overflow-y: auto;"></ul>
-                    <div style="display: flex; gap: 0.5rem;">
+                    <ul id="formSubtasksList"></ul>
+                    <div class="form-subtask-add">
                         <input type="text" id="formSubtaskInput" placeholder="Add a subtask...">
-                        <button type="button" onclick="addFormSubtask()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">+ Add</button>
+                        <button type="button" onclick="addFormSubtask()" class="btn btn-secondary pad-sm">+ Add</button>
                     </div>
                 </div>
                 <div>
                     <label for="taskNotes">Notes
-                        <span id="editorModeBadge" style="display: none; margin-left: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: normal;">
+                        <span id="editorModeBadge">
                             <!-- Editor mode badge will be inserted here -->
                         </span>
                     </label>
@@ -1610,9 +1821,9 @@
                     <textarea id="taskNotes" rows="8" placeholder="Technical notes, results, decisions, etc.
 
 You can use Markdown:
-**Bold**, *Italic*, `code`, lists, links..." style="display: block;"></textarea>
+**Bold**, *Italic*, `code`, lists, links..."></textarea>
                     <!-- Rich editor (visible when Editor Mode is Rich); toolbar + container -->
-                    <div id="notesRichEditorWrap" style="display: none;">
+                    <div id="notesRichEditorWrap">
                         <div id="tiptapToolbar" class="tiptap-toolbar">
                             <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold">B</button>
                             <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic">I</button>
@@ -1623,8 +1834,8 @@ You can use Markdown:
                         </div>
                         <div id="tiptapContainer" class="tiptap-container"></div>
                     </div>
-                    <small style="color: var(--text-secondary); font-size: 0.85rem;">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
-                    <div id="editorStatus" style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);"></div>
+                    <small class="form-hint">Markdown supported: **bold**, *italic*, `code`, lists, links, **subsections**:</small>
+                    <div id="editorStatus"></div>
                 </div>
                 <div class="actions">
                     <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
@@ -1640,30 +1851,30 @@ You can use Markdown:
 
     <!-- Modal Manage Columns -->
     <div id="columnsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="columnsModalTitle" aria-describedby="columnsList">
-        <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-content modal-content--columns">
             <div class="modal-header">
                 <h2 id="columnsModalTitle">Manage columns</h2>
                 <button type="button" class="close-btn" onclick="closeColumnsModal()" aria-label="Close columns">&times;</button>
             </div>
-            <div class="modal-body-scroll" style="padding: 1.5rem;">
+            <div class="modal-body-scroll modal-body-scroll--pad">
                 <div id="columnsList"></div>
-                <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">+ Add a column</button>
+                <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary">+ Add a column</button>
             </div>
         </div>
     </div>
 
     <!-- Modal Archives -->
     <div id="archiveModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="archiveModalTitle" aria-describedby="archiveList">
-        <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-content modal-content--archive">
             <div class="modal-header">
                 <h2 id="archiveModalTitle">📦 Archives</h2>
                 <button type="button" class="close-btn" onclick="closeArchiveModal()" aria-label="Close archives">&times;</button>
             </div>
-            <div class="modal-body-scroll" style="padding: 1.5rem;">
-                <div style="margin-bottom: 1rem;">
+            <div class="modal-body-scroll modal-body-scroll--pad">
+                <div class="archive-search-wrap">
                     <input type="text" id="archiveSearch" placeholder="Search in archives...">
                 </div>
-                <div id="archiveList" style="max-height: 500px; overflow-y: auto;"></div>
+                <div id="archiveList"></div>
             </div>
         </div>
     </div>
