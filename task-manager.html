@@ -1478,62 +1478,6 @@
                     </div>
                 </div>
 
-                <!-- Experimental Features Section (1.2.0) -->
-                <div class="settings-section">
-                    <h3>🚀 Experimental Features (v1.2.0)</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                        ⚠️ These features are experimental and disabled by default. Enable at your own risk.
-                    </p>
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <span>Rich Text Editor</span>
-                            <small>Enhanced notes with Tiptap editor and formatting toolbar</small>
-                            <div id="featureRichTextStatus" style="font-size: 0.8rem; margin-top: 0.25rem;"></div>
-                        </div>
-                        <div class="toggle-switch" id="featureRichTextSwitch" onclick="toggleFeature('ENABLE_RICH_TEXT_EDITOR')">
-                            <div class="toggle-thumb"></div>
-                        </div>
-                    </div>
-                    <!-- Editor Mode Toggle (only visible when Rich Text Editor is enabled) -->
-                    <div class="setting-row" id="editorModeRow" style="display: none; margin-left: 1rem; padding-left: 1rem; border-left: 2px solid var(--border-color);">
-                        <div class="setting-info">
-                            <span>Editor Mode</span>
-                            <small>Choose between plain text or rich text editor</small>
-                        </div>
-                        <select id="editorModeSelect" onchange="changeEditorMode(this.value)" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px;">
-                            <option value="plain">Plain Text</option>
-                            <option value="rich">Rich Text (Tiptap)</option>
-                        </select>
-                    </div>
-                    <div class="setting-row" style="opacity: 0.7;">
-                        <div class="setting-info">
-                            <span>Comments System</span>
-                            <small>Planned: threaded comments with @mentions (not yet implemented)</small>
-                        </div>
-                        <div class="toggle-switch" id="featureCommentsSwitch" style="pointer-events: none;" title="Coming in a future release">
-                            <div class="toggle-thumb"></div>
-                        </div>
-                    </div>
-                    <div class="setting-row" style="opacity: 0.7;">
-                        <div class="setting-info">
-                            <span>Slash Commands</span>
-                            <small>Planned: "/" commands for formatting (requires Rich Text Editor)</small>
-                        </div>
-                        <div class="toggle-switch" id="featureSlashCommandsSwitch" style="pointer-events: none;" title="Coming in a future release">
-                            <div class="toggle-thumb"></div>
-                        </div>
-                    </div>
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <span>Performance Logging</span>
-                            <small>Log performance metrics for new features</small>
-                        </div>
-                        <div class="toggle-switch" id="featurePerformanceSwitch" onclick="toggleFeature('ENABLE_PERFORMANCE_LOGGING')">
-                            <div class="toggle-thumb"></div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Project Management Section -->
                 <div class="settings-section">
                     <h3>📁 Project Management</h3>
@@ -4863,7 +4807,10 @@ function deleteFromArchive(taskId) {
                     };
 
                     tasks.push(task);
-                    config.lastTaskId = newId;
+                    // Store a numeric Last Task ID so the markdown config
+                    // comment stays in the expected \"digits only\" format.
+                    const idMatch = newId.match(/TASK-(\d+)/);
+                    config.lastTaskId = idMatch ? parseInt(idMatch[1], 10) : newId;
                 }
 
                 renderKanban();
