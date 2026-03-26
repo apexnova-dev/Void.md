@@ -1420,9 +1420,19 @@
             background: #ef4444;
             color: white;
         }
+        .btn-danger:hover {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
         .btn-archive {
             background: #f59e0b;
             color: white;
+        }
+        .btn-archive:hover {
+            background: #d97706;
+            color: white;
+            border-color: #d97706;
         }
         .modal-content--task-form {
             width: 95%;
@@ -3656,7 +3666,12 @@ function deleteFromArchive(taskId) {
                 status.style.color = '#f59e0b';
             } else {
                 badge.style.display = 'none';
-                status.innerHTML = 'Plain text mode. Enable Rich Text Editor in Settings to unlock formatting tools.';
+                var richToggle = document.getElementById('featureRichTextSwitch');
+                if (richToggle) {
+                    status.innerHTML = 'Plain text mode. Enable Rich Text Editor in Settings to unlock formatting tools.';
+                } else {
+                    status.innerHTML = 'Notes support Markdown: **bold**, *italic*, `code`, lists, links.';
+                }
                 status.style.color = 'var(--text-secondary)';
             }
         }
