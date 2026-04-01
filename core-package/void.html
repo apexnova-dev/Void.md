@@ -3431,11 +3431,11 @@ function deleteFromArchive(taskId) {
         
         // Toggle between light and dark themes (called from header toggle)
         function toggleTheme() {
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
-
+            const previousTheme = currentTheme;
+            const newTheme = previousTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme, true, { skipChangelog: true });
             ChangeLogManager.logChange('feature',
-                `Toggled theme from ${currentTheme} to ${newTheme}`,
+                `Toggled theme from ${previousTheme} to ${newTheme}`,
                 'ui',
                 'enhancement',
                 false);
@@ -3679,11 +3679,11 @@ function deleteFromArchive(taskId) {
                 const richToggle = document.getElementById('featureRichTextSwitch');
                 const richFlagOn = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled;
                 if (richFlagOn && richToggle) {
-                    status.innerHTML = 'Plain text mode. Enable Rich Text Editor in Settings to unlock formatting tools.';
+                    status.innerHTML = 'Plain text mode. Open Settings and switch to Rich Text to use formatting tools.';
                 } else if (richFlagOn && !richToggle) {
                     status.innerHTML = 'Plain text notes. Rich text controls are not available in this build.';
                 } else {
-                    status.innerHTML = 'Plain text notes. Rich text editor is disabled.';
+                    status.innerHTML = 'Plain text notes. Enable Rich Text Editor in Settings to unlock formatting tools.';
                 }
                 status.style.color = 'var(--text-secondary)';
             }
@@ -4096,7 +4096,8 @@ function deleteFromArchive(taskId) {
         // ===== END FEATURE FLAG SYSTEM =====
 
         // Set theme and save to localStorage
-        function setTheme(theme, animate = true) {
+        // options.skipChangelog: set true when caller logs (e.g. toggleTheme) to avoid duplicate entries
+        function setTheme(theme, animate = true, options = {}) {
             if (theme !== 'light' && theme !== 'dark') {
                 console.warn(`Invalid theme "${theme}", falling back to light mode`);
                 theme = 'light';
@@ -4123,12 +4124,13 @@ function deleteFromArchive(taskId) {
                 }, 300);
             }
 
-            // Log theme change
-            ChangeLogManager.logChange('enhancement', 
-                `Theme changed to ${theme} with smooth transitions`, 
-                'ui', 
-                'enhancement', 
-                false);
+            if (!options.skipChangelog) {
+                ChangeLogManager.logChange('enhancement',
+                    `Theme changed to ${theme} with smooth transitions`,
+                    'ui',
+                    'enhancement',
+                    false);
+            }
 
             console.log(`Theme changed to: ${theme}`);
         }

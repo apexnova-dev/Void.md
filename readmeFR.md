@@ -14,38 +14,23 @@ Void.md est une **infrastructure texte** : `kanban.md` et `archive.md` restent s
 
 ---
 
-## 📝 Dernières Mises à Jour (20 janvier 2026)
+## 📝 Dernières Mises à Jour (avril 2026)
 
-### Améliorations Complètes de l'Interface Utilisateur
+### Void.md - Identité de Marque
 
-**🎨 Reconception Complète du Mode Sombre**
-- Hiérarchie de couleurs à 7 niveaux pour une apparence riche et dimensionnelle
-- Séparation visuelle claire entre l'arrière-plan, les colonnes, les cartes et les modales
-- Ombres améliorées et perception de profondeur
-- Apparence professionnelle et soignée
+**🌟 Nouveau Nom, Nouvelle Identité**
+- **Void.md** - Kanban visuel. Âme en texte brut. Sans cloud.
+- Thème Neon City avec accents cyan/magenta
+- Mode sombre par défaut avec transitions fluides
+- Icône de favicon SVG avec logo néon
 
-**🧹 Nettoyage de l'En-tête et Consolidation des Paramètres**
-- En-tête simplifié avec uniquement les boutons essentiels
-- Langue, Thème, Archives, Colonnes déplacés vers la modale Paramètres
-- Interface plus propre et mieux organisée
+### Améliorations UI/UX
 
-**📁 Sélecteur de Projets sur l'Écran d'Accueil**
-- Changement rapide de projet depuis l'écran d'accueil
-- Affiche tous les projets récents avec la date de dernière utilisation
-- Accès instantané sans navigation dans les dossiers
-
-**✅ Stabilité à Toute ÉPREUVE**
-- Correction de la création de tâches (fonction generateId manquante)
-- Correction de la fermeture des modales (mauvaise fonction de fermeture)
-- Ajout de 8+ vérifications de null pour un accès DOM plus sûr
-- Zéro erreurs de console au chargement
-
-### Documentation Associée :
-- `RELEASE_NOTES_v1.1.1.md` - Notes de version complètes
-- `FIXES-SUMMARY.md` - Corrections de bugs détaillées
-- `DARK-MODE-ENHANCEMENTS.md` - Améliorations du mode sombre
-- `HEADER-CLEANUP.md` - Modifications de l'en-tête
-- `WELCOME-PROJECT-SELECTOR.md` - Détails du sélecteur de projets
+**📐 Modales et En-tête**
+- Modales avec hauteur 90vh et scroll interne uniquement
+- Fermeture par clic externe (backdrop) ou Escape
+- En-tête responsive avec mise en page groupée
+- Verrouillage du scroll du body quand modal ouvert
 
 ---
 
@@ -322,11 +307,11 @@ cp CLAUDE.md.exemple votre-projet/CLAUDE.md
 **Pour Claude Code (CLI)** : Un skill dédié est disponible !
 ```bash
 # Copier le dossier du skill (le metadata est dans SKILL.md)
-cp -R .claude/skills/markdown-task-manager ~/.claude/skills/
+cp -R .claude/skills/void.md ~/.claude/skills/
 # Redémarrer Claude Code pour activer le skill
 ```
 
-Claude Code lit les métadonnées dans `SKILL.md`, d'où la nécessité de copier tout le dossier. Le skill `markdown-task-manager` permet à Claude Code de gérer automatiquement vos tâches avec le format strict requis. Une fois installé globalement, il est disponible sur tous vos projets.
+Claude Code lit les métadonnées dans `SKILL.md`, d'où la nécessité de copier tout le dossier. Le skill `void.md` permet à Claude Code de gérer automatiquement vos tâches avec le format strict requis. Une fois installé globalement, il est disponible sur tous vos projets.
 
 **Utilisation du skill Claude Code :**
 Une fois le skill installé et Claude Code redémarré, le skill détectera automatiquement les projets contenant `kanban.md` et `archive.md`. Vous pouvez simplement demander :
