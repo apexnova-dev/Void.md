@@ -42,6 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Documentation: GitHub clone and repository links use [https://github.com/glyons-smemsc/Void.md](https://github.com/glyons-smemsc/Void.md)
 - **Modals – sizing and layout**
   - **New Task modal:** Width 95% / max 880px, height 90vh; form body scrolls inside; larger textareas and 2×2 date grid
   - **Task detail modal:** Width 95% / max 680px, height 90vh; body scrolls inside
@@ -290,7 +291,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
-- [Project Repository](https://github.com/your-username/markdown-task-manager)
+- [Project Repository](https://github.com/glyons-smemsc/Void.md)
 
 ---
 
