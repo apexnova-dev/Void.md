@@ -16,9 +16,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Renamed **`task-manager.html` → `void.html`** (repository root and `core-package/`); updated tests, docs, and scripts
-- **Neon City** default: first visit uses dark theme; `<html data-theme="dark">`; dark accent tuned to cyan/magenta palette
+- **Neon City** default: first visit uses dark theme; `<head>` script + `initTheme()`; dark accent tuned to cyan/magenta palette
 - `README.md`: manifesto (*Visual Kanban. Plaintext Soul. No Cloud.*), centered logo, Pseudo-IT sovereignty section
 - Global documentation rename from legacy “Markdown Task Manager” strings to **Void.md** where applicable
+
+---
+
+## [1.3.1] - 2026-04-01
+
+### Fixed
+
+- **Theme:** Inline `<head>` script sets `data-theme` before paint from `preferredTheme`; `initTheme()` syncs without calling `setTheme()` on load (avoids duplicate changelog noise; respects saved light/dark)
+- **Notes editor status:** Plain-text status line when rich text is unavailable no longer implies Markdown-as-fallback when `#featureRichTextSwitch` is missing; branches on rich-text flag and toggle presence
 
 ---
 
@@ -46,8 +55,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- **Theme:** Inline `<head>` script sets `data-theme` before paint from `preferredTheme`; `initTheme()` syncs without calling `setTheme()` on load (avoids duplicate changelog noise; respects saved light/dark)
-- **Notes editor status:** Plain-text status line when rich text is unavailable no longer implies Markdown-as-fallback when `#featureRichTextSwitch` is missing; branches on rich-text flag and toggle presence
 - Defensive null checks in DOMContentLoaded so missing elements (projectSelector, selectFolderBtn, archiveSearch, newTaskForm) do not throw and break init
 - Project group show/hide: single `#headerProjectGroup` toggled in `updateProjectSelector` and when removing last project
 
