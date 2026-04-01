@@ -1521,14 +1521,94 @@
             color: var(--text-secondary);
         }
         .modal-content--columns {
-            max-width: 600px;
+            max-width: 800px;
         }
+        
+        /* Column management styles */
+        #columnsList .column-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            gap: 1rem;
+        }
+        
+        #columnsList .column-item:hover {
+            border-color: var(--accent);
+        }
+        
+        #columnsList .column-name-display {
+            flex: 1;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        #columnsList .column-name-display:hover {
+            background: var(--accent-subtle);
+        }
+        
+        #columnsList .column-name-display.has-changes {
+            color: var(--accent);
+        }
+        
+        #columnsList .column-name-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        #columnsList .column-name-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 212, 232, 0.3);
+        }
+        
+        #columnsList .column-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        #columnsList .column-actions button {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        #columnsList .column-actions .btn-delete {
+            background: none;
+            color: var(--priority-red);
+        }
+        
+        #columnsList .column-actions .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .columns-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
         .modal-body-scroll--pad {
             padding: 1.5rem;
         }
         #addColumnBtn {
             margin-top: 1rem;
-            width: 100%;
         }
         .modal-content--archive {
             max-width: 900px;
@@ -1913,12 +1993,17 @@ You can use Markdown:
     <div id="columnsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="columnsModalTitle" aria-describedby="columnsList">
         <div class="modal-content modal-content--columns">
             <div class="modal-header">
-                <h2 id="columnsModalTitle">Manage columns</h2>
+                <h2 id="columnsModalTitle">Manage Columns</h2>
                 <button type="button" class="close-btn" onclick="closeColumnsModal()" aria-label="Close columns">&times;</button>
             </div>
             <div class="modal-body-scroll modal-body-scroll--pad">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Click a column name to edit it inline. Changes are saved when you click "Save All".</p>
                 <div id="columnsList"></div>
-                <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary">+ Add a column</button>
+                <button id="addColumnBtn" onclick="addColumnInline()" class="btn btn-primary" style="margin-top: 1rem;">+ Add Column</button>
+                <div class="columns-modal-actions">
+                    <button class="btn btn-secondary" onclick="closeColumnsModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveColumnsChanges()">Save All</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2354,62 +2439,135 @@ function closeColumnsModal() {
     }
 }
 
+// Track pending changes (not yet saved)
+let pendingColumnChanges = [];
+
 function renderColumnsList() {
     const list = document.getElementById('columnsList');
     if (!list) return;
     
     list.innerHTML = '';
+    pendingColumnChanges = [];
+    
     if (config.columns && config.columns.length > 0) {
         config.columns.forEach((col, index) => {
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem;';
+            div.className = 'column-item';
             div.innerHTML = `
-                <span style="font-weight: 500;">${col.name}</span>
-                <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="renameColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">✏️</button>
-                    ${config.columns.length > 1 ? `<button onclick="deleteColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>` : ''}
+                <span class="column-name-display" 
+                      data-index="${index}" 
+                      onclick="startColumnEdit(${index})" 
+                      title="Click to edit">${escapeHtml(col.name)}</span>
+                <div class="column-actions">
+                    ${config.columns.length > 1 ? `<button class="btn-delete" onclick="deleteColumn(${index})" title="Delete column">🗑️</button>` : ''}
                 </div>
             `;
             list.appendChild(div);
         });
     } else {
-        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No columns configured</p>';
+        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No columns configured. Click "Add Column" to create one.</p>';
     }
 }
 
-function addColumn() {
-    const name = prompt(t('prompt.columnName'));
-    if (name) {
-        const id = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-        if (!config.columns) config.columns = [];
-        config.columns.push({ name, id });
-        renderColumnsList();
-        renderKanban();
-        autoSave();
-        console.log('➕ Column added:', name);
-    }
+function startColumnEdit(index) {
+    const list = document.getElementById('columnsList');
+    const displaySpan = list.querySelector(`.column-name-display[data-index="${index}"]`);
+    if (!displaySpan) return;
+    
+    const currentName = config.columns[index].name;
+    
+    // Create input field
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'column-name-input';
+    input.value = currentName;
+    input.dataset.index = index;
+    
+    // Handle Enter key and blur
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            input.blur();
+        } else if (e.key === 'Escape') {
+            // Cancel editing
+            renderColumnsList();
+        }
+    });
+    
+    input.addEventListener('blur', () => {
+        const newName = input.value.trim();
+        if (newName && newName !== currentName) {
+            // Track the change
+            pendingColumnChanges[index] = newName;
+            displaySpan.textContent = newName;
+            displaySpan.classList.add('has-changes');
+            showNotification('Column renamed - click "Save All" to apply', 'info');
+        } else {
+            displaySpan.textContent = currentName;
+        }
+    });
+    
+    // Replace display with input
+    displaySpan.replaceWith(input);
+    input.focus();
+    input.select();
 }
 
-function renameColumn(index) {
-    const col = config.columns[index];
-    const newName = prompt(t('prompt.columnName'), col.name);
-    if (newName && newName.trim()) {
-        config.columns[index].name = newName;
-        renderColumnsList();
-        renderKanban();
-        autoSave();
-        console.log('✏️ Column renamed:', newName);
-    }
+function addColumnInline() {
+    if (!config.columns) config.columns = [];
+    
+    // Add new column with default name
+    const newIndex = config.columns.length;
+    const newName = 'New Column';
+    const id = newName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    config.columns.push({ name: newName, id });
+    
+    // Re-render and immediately start editing
+    renderColumnsList();
+    
+    // Start editing the new column
+    setTimeout(() => startColumnEdit(newIndex), 100);
 }
 
 function deleteColumn(index) {
-    if (confirm(t('confirm.deleteColumn'))) {
+    if (config.columns.length <= 1) {
+        showNotification('Cannot delete the last column', 'error');
+        return;
+    }
+    
+    if (confirm(`Delete column "${config.columns[index].name}"? This cannot be undone.`)) {
         config.columns.splice(index, 1);
         renderColumnsList();
-        renderKanban();
-        autoSave();
-        console.log('🗑️ Column deleted');
+        showNotification('Column deleted', 'info');
     }
+}
+
+function saveColumnsChanges() {
+    // Apply any pending name changes
+    let hasChanges = false;
+    
+    for (const [index, newName] of Object.entries(pendingColumnChanges)) {
+        if (newName && newName.trim()) {
+            config.columns[index].name = newName.trim();
+            hasChanges = true;
+        }
+    }
+    
+    // Clear pending changes
+    pendingColumnChanges = [];
+    
+    // Save and update UI
+    renderColumnsList();
+    renderKanban();
+    autoSave();
+    
+    if (hasChanges) {
+        showNotification('Columns saved successfully', 'success');
+        console.log('💾 Columns saved');
+    }
+    
+    // Close modal
+    closeColumnsModal();
 }
 
 // Archives Modal Functions
