@@ -6287,66 +6287,6 @@ ${t('markdown.archiveSection')}
             }
         }
 
-        // Column management
-        function openColumnsModal() {
-            const modal = document.getElementById('columnsModal');
-            const list = document.getElementById('columnsList');
-            list.innerHTML = config.columns.map((col, idx) => `
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 6px; align-items: center;">
-                    <div style="display: flex; gap: 0.25rem;">
-                        <button onclick="moveColumn(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveUp')}">↑</button>
-                        <button onclick="moveColumn(${idx}, 1)" ${idx === config.columns.length - 1 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveDown')}">↓</button>
-                    </div>
-                    <input type="text" value="${col.name}" onchange="updateColumn(${idx}, 'name', this.value)" style="flex: 1; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;">
-                    <input type="text" value="${col.id}" onchange="updateColumn(${idx}, 'id', this.value)" style="width: 120px; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;" placeholder="ID">
-                    <button onclick="deleteColumn(${idx})" class="btn btn-secondary" style="padding: 0.5rem;">🗑️</button>
-                </div>
-            `).join('');
-            modal.classList.add('active');
-        }
-
-        function closeColumnsModal() {
-            document.getElementById('columnsModal').classList.remove('active');
-        }
-
-        function addColumn() {
-            const name = prompt(t('prompt.columnName'));
-            const id = prompt(t('prompt.columnId'));
-            if (name && id) {
-                config.columns.push({ name, id });
-                openColumnsModal();
-                autoSave();
-                renderKanban();
-            }
-        }
-
-        function updateColumn(idx, field, value) {
-            config.columns[idx][field] = value;
-            autoSave();
-            renderKanban();
-        }
-
-        function deleteColumn(idx) {
-            if (confirm(t('confirm.deleteColumn'))) {
-                config.columns.splice(idx, 1);
-                openColumnsModal();
-                autoSave();
-                renderKanban();
-            }
-        }
-
-        function moveColumn(idx, direction) {
-            const newIdx = idx + direction;
-            if (newIdx < 0 || newIdx >= config.columns.length) return;
-
-            // Swap columns
-            [config.columns[idx], config.columns[newIdx]] = [config.columns[newIdx], config.columns[idx]];
-
-            openColumnsModal();
-            autoSave();
-            renderKanban();
-        }
-
         // Form subtasks management
         function renderFormSubtasks() {
             const list = document.getElementById('formSubtasksList');
