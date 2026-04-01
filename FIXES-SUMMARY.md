@@ -3,7 +3,7 @@
 **For the latest fixes (modal sizing, header UX, scroll lock, defensive init), see [CHANGELOG.md](CHANGELOG.md) → [Unreleased].**
 
 ## Overview
-This document summarizes fixes applied to `task-manager.html` to resolve JavaScript null reference errors and improve application stability.
+This document summarizes fixes applied to `void.html` to resolve JavaScript null reference errors and improve application stability.
 
 ---
 
@@ -355,7 +355,7 @@ function safeSetText(id, text) {
 
 ## 🔧 Related Files
 
-- **`task-manager.html`** - Main application file (5,018 lines)
+- **`void.html`** - Main application file (5,018 lines)
 - **`task-manager_brokenFile.html`** - Backup of broken version
 - **`MDTM.html`** - Alternative version for reference
 - **`test-page.html`** - Test page for verification

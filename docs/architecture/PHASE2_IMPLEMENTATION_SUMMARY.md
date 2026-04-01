@@ -48,7 +48,7 @@ A comprehensive wrapper class for Tiptap editor with the following features:
 - `hasMark(type)` - Check if selection has specific mark
 - `getStats()` - Get word/character count
 
-**Location**: `task-manager.html`, lines 3342-3500
+**Location**: `void.html`, lines 3342-3500
 
 ### 2. Formatting Toolbar UI (Lines 1341-1378)
 
@@ -69,7 +69,7 @@ Added a complete formatting toolbar above the notes field:
 - Responsive button layout
 - Hover effects and active states
 
-**Location**: `task-manager.html`, lines 1341-1378
+**Location**: `void.html`, lines 1341-1378
 
 ### 3. Editor Container (Lines 1368-1370)
 
@@ -78,7 +78,7 @@ Hidden Tiptap container that becomes visible when rich mode is active:
 - Proper styling and focus states
 - Integrates seamlessly with form layout
 
-**Location**: `task-manager.html`, lines 1368-1370
+**Location**: `void.html`, lines 1368-1370
 
 ### 4. CSS Styling (Lines 1000-1085)
 
@@ -101,7 +101,7 @@ Comprehensive styling for all editor components:
 - Blockquotes with accent border
 - Proper spacing and margins
 
-**Location**: `task-manager.html`, lines 1000-1085
+**Location**: `void.html`, lines 1000-1085
 
 ### 5. Editor Initialization (Lines 1850-1925)
 
@@ -116,7 +116,7 @@ New function `initializeEditorForTask(task)` that:
 - `updateEditorStatus(message)` - Show status messages
 - `updateEditorStats()` - Update word/character count
 
-**Location**: `task-manager.html`, lines 1850-1925
+**Location**: `void.html`, lines 1850-1925
 
 ### 6. Form Submission Integration (Lines 4707-4795)
 
@@ -131,7 +131,7 @@ Modified form submission handler to:
 - Lines 4731-4746: Rich content detection and extraction
 - Lines 4788-4800: Rich content saving with await
 
-**Location**: `task-manager.html`, lines 4707-4795
+**Location**: `void.html`, lines 4707-4795
 
 ### 7. Editor Cleanup (Lines 1787-1800, 5935-5950)
 
@@ -142,8 +142,8 @@ Updated both `closeTaskModal()` functions to:
 - Reset UI elements
 
 **Location**:
-- Primary function: `task-manager.html`, lines 1787-1800
-- Secondary function: `task-manager.html`, lines 5935-5950
+- Primary function: `void.html`, lines 1787-1800
+- Secondary function: `void.html`, lines 5935-5950
 
 ### 8. Test Suite (docs/architecture/tests/phase2-tests.js)
 
@@ -166,13 +166,13 @@ Comprehensive test suite with:
 
 | File | Changes | Lines | Priority |
 |------|---------|-------|----------|
-| `task-manager.html` | Add TiptapEditor class | 3342-3500 | High |
-| `task-manager.html` | Add formatting toolbar UI | 1341-1378 | High |
-| `task-manager.html` | Add CSS styling | 1000-1085 | High |
-| `task-manager.html` | Add editor initialization | 1850-1925 | High |
-| `task-manager.html` | Modify form submission | 4707-4795 | High |
-| `task-manager.html` | Add cleanup on close | 1787-1800, 5935-5950 | High |
-| `task-manager.html` | Integrate with openTaskModal | 1746-1748 | Medium |
+| `void.html` | Add TiptapEditor class | 3342-3500 | High |
+| `void.html` | Add formatting toolbar UI | 1341-1378 | High |
+| `void.html` | Add CSS styling | 1000-1085 | High |
+| `void.html` | Add editor initialization | 1850-1925 | High |
+| `void.html` | Modify form submission | 4707-4795 | High |
+| `void.html` | Add cleanup on close | 1787-1800, 5935-5950 | High |
+| `void.html` | Integrate with openTaskModal | 1746-1748 | Medium |
 | `docs/architecture/tests/phase2-tests.js` | Test suite | All | Medium |
 | `docs/architecture/PHASE2_IMPLEMENTATION_PLAN.md` | Implementation plan | All | Documentation |
 

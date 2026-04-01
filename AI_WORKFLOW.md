@@ -1,6 +1,26 @@
-# 🤖 Guidelines for AI Assistants
+# Void.md — Markdown Task Protocol (AI)
 
-This file contains general guidelines for all AI assistants (Claude, ChatGPT, Copilot, Gemini, etc.) using this Markdown task management system.
+**Data sovereignty:** No cloud — your Markdown files are the source of truth. **Void.md** is the local-first Kanban; open **`void.html`** in a supported browser to edit the same files live.
+
+This file is the **master protocol** for all AI assistants (Claude, ChatGPT, Copilot, Gemini, Cursor, etc.) working with `kanban.md` and `archive.md`.
+
+### Kanban structure (`kanban.md`)
+
+| Level | Role |
+|-------|------|
+| `#` H1 | Project / board title |
+| `##` H2 | Column sections (Kanban columns) |
+| `###` H3 | Tasks: `### TASK-XXX \| Title` (see template below) |
+
+**TASK-XXX IDs** must stay unique and sequential per project rules (e.g. TASK-001, TASK-002).
+
+### Metadata keys
+
+Tasks use **Priority**, **Category**, **Assigned**, **Tags**, and the date/author fields in the template below. Optional fields follow the same line format.
+
+### Archive
+
+Finished work may move to **`archive.md`** under user direction; see **Archiving** in Workflow. The app does not silently delete tasks from disk.
 
 ---
 
@@ -53,7 +73,7 @@ What was done.
 - `## Title` or `### Title` inside a task
 - `**Subtasks**` or `**Notes**` without `:`
 
-**Why?** The web application's HTML parser does not recognize `##` inside tasks.
+**Why?** Void.md (`void.html`) does not treat `##` / `###` inside a task body as structure — keep task text free of inner headings.
 
 ### ✅ Integrity rule
 

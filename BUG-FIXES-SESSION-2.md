@@ -2,7 +2,7 @@
 
 ## Issue Reported
 When clicking "Create" after filling out a new task form, nothing happens. Console errors:
-- `ReferenceError: generateTaskId is not defined` at task-manager.html:3159
+- `ReferenceError: generateTaskId is not defined` at void.html:3159
 - `TypeError: Cannot read properties of undefined (reading 'length')` in page-events.js (not related to our code)
 
 ---
@@ -12,7 +12,7 @@ When clicking "Create" after filling out a new task form, nothing happens. Conso
 ### 1. Added Missing `generateTaskId` Function
 **Location:** Lines ~3108-3122 (added before form submit handler)
 
-**Issue:** The function was being called at line 3175 but was never defined in task-manager.html
+**Issue:** The function was being called at line 3175 but was never defined in void.html
 
 **Solution:**
 ```javascript
@@ -81,7 +81,7 @@ closeTaskModal();  // ✅ Correct modal
 ## 🧪 Testing Instructions
 
 ### Test 1: Create New Task
-1. Open `task-manager.html` in browser
+1. Open `void.html` in browser
 2. Click "📁 Folder" and select your project folder
 3. Click "➕ Task" button
 4. Fill out the task form:
@@ -176,7 +176,7 @@ closeTaskModal();  // ✅ Correct modal
 
 ## 📁 Files Modified
 
-- **`task-manager.html`** (line ~3108-3122 added, line ~3199 updated)
+- **`void.html`** (line ~3108-3122 added, line ~3199 updated)
 
 ---
 
@@ -209,7 +209,7 @@ If you still encounter issues:
    - Disable browser extensions temporarily
 
 4. **Verify file loading:**
-   - Check that you're loading the correct `task-manager.html`
+   - Check that you're loading the correct `void.html`
    - Check that changes were saved to the file
 
 ---

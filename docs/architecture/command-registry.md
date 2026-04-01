@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the slash commands available in the Markdown Task Manager 1.2.0 enhanced comments system. Commands are organized by category and include implementation details.
+This document defines the slash commands available in the Void.md 1.2.0 enhanced comments system. Commands are organized by category and include implementation details.
 
 ## Command Categories
 

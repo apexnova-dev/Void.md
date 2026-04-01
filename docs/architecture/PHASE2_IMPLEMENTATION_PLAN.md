@@ -514,12 +514,12 @@ function closeTaskModal() {
 
 | File | Changes | Priority |
 |------|---------|----------|
-| `task-manager.html` | Add TiptapEditor class | High |
-| `task-manager.html` | Add formatting toolbar UI | High |
-| `task-manager.html` | Integrate editor in openTaskModal | High |
-| `task-manager.html` | Modify form submission for rich content | High |
-| `task-manager.html` | Add cleanup in closeTaskModal | High |
-| `task-manager.html` | Add CSS styling | Medium |
+| `void.html` | Add TiptapEditor class | High |
+| `void.html` | Add formatting toolbar UI | High |
+| `void.html` | Integrate editor in openTaskModal | High |
+| `void.html` | Modify form submission for rich content | High |
+| `void.html` | Add cleanup in closeTaskModal | High |
+| `void.html` | Add CSS styling | Medium |
 | `docs/architecture/tests/unit-tests.js` | Add TiptapEditor tests | Medium |
 
 ---

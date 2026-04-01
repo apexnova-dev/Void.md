@@ -9,7 +9,7 @@
 
 ### 1. Bug: `modeSelect` undefined in `changeEditorMode()` function
 
-**Location**: `task-manager.html`, line ~3023
+**Location**: `void.html`, line ~3023
 
 **Problem**: The `changeEditorMode()` function tried to use `modeSelect.value = 'plain'` but `modeSelect` was a local variable only defined in `updateRichTextStatus()` function, not in the current scope.
 
@@ -135,7 +135,7 @@ logTest(
 
 ## Files Modified
 
-1. **`task-manager.html`**
+1. **`void.html`**
    - Fixed `changeEditorMode()` function (lines ~3012-3029)
    - Corrected modeSelect reference and condition logic
 
@@ -172,7 +172,7 @@ TOTAL:                 12/12 passed (100%)
 
 ## How to Re-run Tests
 
-1. Open `task-manager.html` in browser
+1. Open `void.html` in browser
 2. Open Developer Console (F12)
 3. Run:
 ```javascript
@@ -210,7 +210,7 @@ fetch('docs/architecture/tests/unit-tests.js')
 
 ### Root Cause
 
-**Location**: `task-manager.html`, lines 2505-2506 (in `updateStaticTexts()` function)
+**Location**: `void.html`, lines 2505-2506 (in `updateStaticTexts()` function)
 
 The `updateStaticTexts()` function was using `textContent = t('header.title')` which completely replaced the entire content of the header element, including the version span.
 

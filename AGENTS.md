@@ -1,6 +1,6 @@
 # 🤖 AGENTS.md - Development Guide for AI Assistants
 
-This file contains build commands, code style guidelines, and development standards for agentic coding agents working on the Markdown Task Manager project.
+This file contains build commands, code style guidelines, and development standards for agentic coding agents working on the Void.md project.
 
 ---
 
@@ -12,9 +12,9 @@ This is a single-file HTML application with browser-based testing. No npm/build 
 
 ```bash
 # 1. Open the application in a browser
-open task-manager.html  # macOS
-xdg-open task-manager.html  # Linux
-start task-manager.html  # Windows
+open void.html  # macOS
+xdg-open void.html  # Linux
+start void.html  # Windows
 
 # 2. Open Developer Console (F12) and run tests:
 
@@ -53,7 +53,7 @@ location.reload();
 
 Use test page for isolated testing:
 ```bash
-open test-page.html  # Loads task-manager.html in iframe with console capture
+open test-page.html  # Loads void.html in iframe with console capture
 ```
 
 ---
@@ -62,7 +62,7 @@ open test-page.html  # Loads task-manager.html in iframe with console capture
 
 ### File Structure
 
-- **Single file architecture**: All code in `task-manager.html`
+- **Single file architecture**: All code in `void.html`
 - **No external dependencies**: All CSS/JS embedded
 - **Component organization**: Use comments to separate major sections
 - **Version header**: Always include version comment at top
@@ -238,7 +238,7 @@ function createTask(taskData) {
 ### 1. Making Changes
 
 ```bash
-# 1. Edit task-manager.html directly
+# 1. Edit void.html directly
 # 2. Test in browser immediately (no build step)
 # 3. Use debug mode to verify changes
 # 4. Run relevant test suites
@@ -355,7 +355,7 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 
 ## 📚 Key Files Reference
 
-- `task-manager.html` - Main application file
+- `void.html` - Main application file
 - `docs/architecture/tests/unit-tests.js` - Core test suite
 - `docs/architecture/tests/phase2-tests.js` - Tiptap editor tests
 - `docs/architecture/editor-standards.md` - Editor quality criteria
@@ -369,5 +369,5 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 
 ---
 
-*Last updated: February 2026*  
-*Version: 1.1.2*
+*Last updated: March 2026*  
+*Version: 1.3.0*

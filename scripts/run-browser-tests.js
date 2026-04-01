@@ -1,5 +1,5 @@
 /**
- * Minimal CI test runner: serves the repo, opens task-manager.html in headless
+ * Minimal CI test runner: serves the repo, opens void.html in headless
  * Chromium, loads docs/architecture/tests/unit-tests.js and runs runAllTests(),
  * then exits with code 0 if all pass, 1 otherwise.
  * Requires: npm install playwright serve
@@ -16,7 +16,7 @@ async function main() {
   try {
     browser = await chromium.launch();
     const page = await browser.newPage();
-    await page.goto(`${BASE_URL}/task-manager.html`, { waitUntil: 'networkidle', timeout: 10000 });
+    await page.goto(`${BASE_URL}/void.html`, { waitUntil: 'networkidle', timeout: 10000 });
     const result = await page.evaluate(async () => {
       const url = `${window.location.origin}/docs/architecture/tests/unit-tests.js`;
       const res = await fetch(url);

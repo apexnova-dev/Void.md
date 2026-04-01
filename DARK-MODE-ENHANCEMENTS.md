@@ -271,7 +271,7 @@ Accent Subtle:   #1e3a5f  →  Subtle backgrounds
 
 ## 📁 Modified Files
 
-- **`task-manager.html`**
+- **`void.html`**
   - Lines 14-59: Complete CSS variable redesign
   - Lines 72-87: Body and header styles
   - Lines 103-138: Button styles

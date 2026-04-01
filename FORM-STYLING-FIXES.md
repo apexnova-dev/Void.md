@@ -209,7 +209,7 @@ Updated modal forms to use the correct surface color:
 
 ## 📁 Modified Files
 
-- **`task-manager.html`**
+- **`void.html`**
   - Lines 660-700: Enhanced global form CSS
   - Lines 1003-1086: New Task modal form fields
   - Lines 1108-1124: Archive modal search input

@@ -148,7 +148,7 @@ Create helper tools to validate task format compliance and analyze author tracki
 
 ---
 
-### TASK-013 | Add author tracking to task-manager.html UI (display session info)
+### TASK-013 | Add author tracking to void.html UI (display session info)
 
 **Priority**: Low | **Category**: Frontend | **Assigned**: @glyons
 **Created**: 2026-01-17 | **Due**: 2026-01-21
@@ -225,8 +225,8 @@ The web application parses tasks but doesn't display author information. Add UI 
 - **Solution**: Removed duplicate, consolidated updateStaticTexts() call in main listener
 
 **Actual Changes Made**:
-- task-manager.html: Removed duplicate listener at line 2218
-- task-manager.html: Added updateStaticTexts() call to main listener (line 2338)
+- void.html: Removed duplicate listener at line 2218
+- void.html: Added updateStaticTexts() call to main listener (line 2338)
 - Ensured all initialization happens in single, proper sequence
 
 **Tests Performed**:
@@ -274,15 +274,15 @@ CRITICAL: Application had missing JavaScript functions and broken onclick handle
 6. **Function Verification**: Confirmed all 22 onclick functions now exist
 
 **Actual Changes Made**:
-- task-manager.html: Added settings button (line 643)
-- task-manager.html: Added complete settings modal HTML structure (lines 855-910)
-- task-manager.html: Updated openSettingsModal() function (lines 894-898)
-- task-manager.html: Added utility functions (lines 900-925)
-- task-manager.html: Added settings modal CSS (lines 513-535)
-- task-manager.html: Fixed duplicate DOMContentLoaded listener (line 2218)
-- task-manager.html: Added missing main content area with welcome screen and kanban view (lines 681-735)
-- task-manager.html: Enhanced folder selection with better debugging and error handling (lines 2359-2392)
-- task-manager.html: Added CSS for welcome screen components (lines 221-280)
+- void.html: Added settings button (line 643)
+- void.html: Added complete settings modal HTML structure (lines 855-910)
+- void.html: Updated openSettingsModal() function (lines 894-898)
+- void.html: Added utility functions (lines 900-925)
+- void.html: Added settings modal CSS (lines 513-535)
+- void.html: Fixed duplicate DOMContentLoaded listener (line 2218)
+- void.html: Added missing main content area with welcome screen and kanban view (lines 681-735)
+- void.html: Enhanced folder selection with better debugging and error handling (lines 2359-2392)
+- void.html: Added CSS for welcome screen components (lines 221-280)
 
 **Testing Verification**:
 - ✅ All onclick handlers now have corresponding global functions

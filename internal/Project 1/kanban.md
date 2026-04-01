@@ -19,7 +19,7 @@
 **Created**: 2026-01-17 | **Due**: 2026-01-18
 **Tags**: #bug #theme #javascript
 
-Error: `Uncaught ReferenceError: toggleTheme is not defined` in task-manager.html. The function exists at line 1719 but script execution halts before reaching it due to syntax errors that were recently fixed. Need to verify the fix works and test theme toggle functionality.
+Error: `Uncaught ReferenceError: toggleTheme is not defined` in void.html. The function exists at line 1719 but script execution halts before reaching it due to syntax errors that were recently fixed. Need to verify the fix works and test theme toggle functionality.
 
 **Notes**:
 Related to recent language system fixes in v1.1.1. Syntax error at line 1997 was resolved but theme function may still be inaccessible.
@@ -71,7 +71,7 @@ Issue appears to be with button click events not firing properly or the showDire
 - ✅ Applied fix and resolved button click event issues
 
 **Modified files**:
-- task-manager.html (lines 2441-2445, 2532-2537)
+- void.html (lines 2441-2445, 2532-2537)
 
 ## ✅ Done
 
@@ -108,7 +108,7 @@ Functions like openSettingsModal(), closeModal(), etc. are defined after DOMCont
 - ✅ Application initializes correctly without errors
 
 **Modified files**:
-- task-manager.html (lines ~2532-2620, 3381)
+- void.html (lines ~2532-2620, 3381)
 
 ## 📝 To Do
 
@@ -164,7 +164,7 @@ Critical regression fixed by moving openSettingsModal() function to the absolute
 - ✅ Minimal logic reduces chance of introducing new bugs
 
 **Modified files**:
-- task-manager.html (lines ~934-947)
+- void.html (lines ~934-947)
 
 **Status**: 🎯 **Test Required** - Ready for user validation
 - [x] Disable infinite loop in change logging during debug

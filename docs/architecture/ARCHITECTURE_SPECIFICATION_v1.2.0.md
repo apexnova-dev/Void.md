@@ -2,12 +2,12 @@
 
 **Document Version**: 1.0.0  
 **Date**: January 22, 2026  
-**Project**: Markdown Task Manager  
+**Project**: Void.md  
 **Module**: Enhanced Notes/Comments System  
 **Complexity Score**: 9/10  
 **Status**: Draft - Pending Review
 
-**Note:** The JavaScript files in `docs/architecture/src/` (e.g. `feature-flags.js`, `tiptap-integration.js`, `comment-models.js`, `utilities.js`) are **reference/spec implementation** for the planned comments and editor work. They are not loaded by the current application; `task-manager.html` is self-contained.
+**Note:** The JavaScript files in `docs/architecture/src/` (e.g. `feature-flags.js`, `tiptap-integration.js`, `comment-models.js`, `utilities.js`) are **reference/spec implementation** for the planned comments and editor work. They are not loaded by the current application; `void.html` is self-contained.
 
 ---
 
@@ -30,7 +30,7 @@
 
 ### 1.1 Feature Overview
 
-The Markdown Task Manager 1.2.0 introduces a comprehensive enhanced notes/comments system that transforms task collaboration capabilities. This system brings modern rich text editing through Tiptap integration, Notion-style slash commands for rapid content formatting, threaded conversations with @mentions and emoji reactions, and intelligent auto-complete functionality for users, tags, and task references.
+The Void.md 1.2.0 introduces a comprehensive enhanced notes/comments system that transforms task collaboration capabilities. This system brings modern rich text editing through Tiptap integration, Notion-style slash commands for rapid content formatting, threaded conversations with @mentions and emoji reactions, and intelligent auto-complete functionality for users, tags, and task references.
 
 The architecture builds upon the existing single-file HTML application foundation while introducing sophisticated editor capabilities. All content remains fully Markdown-compatible, ensuring portability and interoperability with external tools. The system maintains the project's File System Access API integration for local file storage, providing full data ownership without cloud dependencies.
 
@@ -2187,7 +2187,7 @@ Phase 1 (Foundation)
 
 ---
 
-*This architecture specification provides the technical foundation for implementing the Markdown Task Manager 1.2.0 enhanced notes/comments system. All implementation decisions should align with the patterns and principles documented here.*
+*This architecture specification provides the technical foundation for implementing the Void.md 1.2.0 enhanced notes/comments system. All implementation decisions should align with the patterns and principles documented here.*
 
 **Document Owner**: Architecture Team  
 **Review Status**: Pending  

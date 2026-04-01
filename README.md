@@ -1,8 +1,18 @@
-# 📋 Markdown Task Manager
+# Void.md
+
+<p align="center">
+  <img src="./logo.svg" alt="Void.md" width="120" height="120" />
+</p>
+
+> **Visual Kanban. Plaintext Soul. No Cloud.**
 
 > **[🇫🇷 Version française / French version](./readmeFR.md)**
 
-**Kanban task manager based on local Markdown files**
+**Local-first Kanban over Markdown** — your files are the database. No account, no cloud sync: open `void.html`, pick a folder, own your data.
+
+### Pseudo-IT sovereignty
+
+Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where you put them (disk, repo, backup). The browser only reads/writes files you authorize via the File System Access API. There is **no hosted backend** — telemetry optional, storage **local**. Suitable for air-gapped workflows and Git-friendly task history.
 
 ---
 
@@ -37,19 +47,19 @@
 A complete task management system that transforms your Markdown files into an interactive Kanban board, without database or server. Perfect for developers, distributed teams and integration with AI assistants.
 
 ![Application Overview](docs/images/app-overview.jpg)
-*Overview of the Markdown Task Manager interface with Kanban board, filters, and task management*
+*Overview of the Void.md interface with Kanban board, filters, and task management*
 
 ---
 
 ## 🎯 What is it?
 
-Markdown Task Manager is a **standalone web application** contained in a single HTML file (`task-manager.html`). It uses the browser's File System Access API to read and write directly to your local Markdown files.
+Void.md is a **standalone web application** contained in a single HTML file (`void.html`). It uses the browser's File System Access API to read and write directly to your local Markdown files.
 
 ### How it works
 
 ```
 ┌─────────────────────┐
-│  task-manager.html  │  ← Single HTML file
+│  void.html  │  ← Single HTML file
 └──────────┬──────────┘
            │
            ▼
@@ -84,7 +94,7 @@ Markdown Task Manager is a **standalone web application** contained in a single 
 
 ### Installation in 3 steps
 
-1. **Download** `task-manager.html` from this repository
+1. **Download** `void.html` from this repository
 2. **Open it** in your browser (double-click)
 3. **Select** a folder to store your tasks
 
@@ -149,7 +159,7 @@ my-project/
 
 Then:
 
-1. Open `task-manager.html` in your browser
+1. Open `void.html` in your browser
 2. Select the `my-project/` folder
 3. Start creating tasks!
 
@@ -186,18 +196,18 @@ archive.md
 
 ## 🗂️ HTML File Management
 
-You have 2 options to manage `task-manager.html`:
+You have 2 options to manage `void.html`:
 
 ### Option A: One copy per project
 
 ```bash
 project-1/
-├── task-manager.html  # ← Local copy
+├── void.html  # ← Local copy
 ├── kanban.md
 └── archive.md
 
 project-2/
-├── task-manager.html  # ← Local copy
+├── void.html  # ← Local copy
 ├── kanban.md
 └── archive.md
 ```
@@ -217,7 +227,7 @@ project-2/
 
 ```bash
 ~/tools/
-└── task-manager.html  # ← Single copy
+└── void.html  # ← Single copy
 
 ~/projects/
 ├── project-1/
@@ -243,7 +253,7 @@ project-2/
 
 **How to use it:**
 
-1. Keep `task-manager.html` in an accessible folder (e.g., `~/tools/`)
+1. Keep `void.html` in an accessible folder (e.g., `~/tools/`)
 2. Create a shortcut/bookmark in your browser
 3. Open it and select the desired project folder
 4. The application remembers the last 10 projects
@@ -252,9 +262,9 @@ project-2/
 
 ```bash
 # ~/.bashrc or ~/.zshrc
-alias tasks='open ~/tools/task-manager.html'  # macOS
-alias tasks='xdg-open ~/tools/task-manager.html'  # Linux
-alias tasks='start ~/tools/task-manager.html'  # Windows
+alias tasks='open ~/tools/void.html'  # macOS
+alias tasks='xdg-open ~/tools/void.html'  # Linux
+alias tasks='start ~/tools/void.html'  # Windows
 ```
 
 ---
@@ -1166,13 +1176,13 @@ git clone https://github.com/your-username/markdown-task-manager.git
 cd markdown-task-manager
 
 # Open application
-open task-manager.html  # macOS
-xdg-open task-manager.html  # Linux
-start task-manager.html  # Windows
+open void.html  # macOS
+xdg-open void.html  # Linux
+start void.html  # Windows
 
 # Or host locally (optional)
 python -m http.server 8000
-# Then open http://localhost:8000/task-manager.html
+# Then open http://localhost:8000/void.html
 ```
 
 ### Installation on a new project
@@ -1194,7 +1204,7 @@ git add .
 git commit -m "chore: Initialize task management system"
 
 # Open application
-open /path/to/task-manager.html
+open /path/to/void.html
 # Select my-project/ folder
 ```
 
@@ -1211,7 +1221,7 @@ open /path/to/task-manager.html
 ```bash
 # Use GitHub CLI
 gh issue list --state all --json number,title,body,labels
-# Convert to Markdown Task Manager format
+# Convert to Void.md format
 ```
 
 **From Notion/Obsidian:**
@@ -1245,7 +1255,7 @@ Contributions welcome! Here's how to help:
 
 1. Fork the repository
 2. Create a branch (`git checkout -b feature/my-feature`)
-3. Modify `task-manager.html` (everything is in this file)
+3. Modify `void.html` (everything is in this file)
 4. Test in Chrome, Edge and Opera
 5. Commit (`git commit -m "feat: Add feature"`)
 6. Push (`git push origin feature/my-feature`)
@@ -1355,9 +1365,9 @@ Thanks to open-source community for:
 ### Scenario 1: Solo developer on personal project
 
 ```bash
-# 1. Download task-manager.html to ~/tools/
+# 1. Download void.html to ~/tools/
 cd ~/tools
-# [Download task-manager.html]
+# [Download void.html]
 
 # 2. Create a new project
 cd ~/projects
@@ -1389,7 +1399,7 @@ cat > archive.md << 'EOF'
 EOF
 
 # 4. Open application
-open ~/tools/task-manager.html
+open ~/tools/void.html
 
 # 5. Select my-app/ folder
 
@@ -1411,9 +1421,9 @@ git commit -m "chore: Add task management system"
 git push
 
 # 3. Each team member:
-# - Downloads task-manager.html
+# - Downloads void.html
 # - Clone/pull project
-# - Opens task-manager.html
+# - Opens void.html
 # - Selects project/ folder
 
 # 4. Daily workflow:
@@ -1444,7 +1454,7 @@ cp ~/downloads/CLAUDE.md.exemple CLAUDE.md
 # - Document result
 
 # 4. You can visualize in app
-open ~/tools/task-manager.html
+open ~/tools/void.html
 # [Select my-project/]
 # See TASK-001 with all subtasks checked!
 ```
