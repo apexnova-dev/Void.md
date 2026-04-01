@@ -1521,7 +1521,7 @@
             color: var(--text-secondary);
         }
         .modal-content--columns {
-            max-width: 500px;
+            max-width: 600px;
         }
         .modal-body-scroll--pad {
             padding: 1.5rem;
@@ -2384,6 +2384,7 @@ function addColumn() {
         if (!config.columns) config.columns = [];
         config.columns.push({ name, id });
         renderColumnsList();
+        renderKanban();
         autoSave();
         console.log('➕ Column added:', name);
     }
@@ -2395,6 +2396,7 @@ function renameColumn(index) {
     if (newName && newName.trim()) {
         config.columns[index].name = newName;
         renderColumnsList();
+        renderKanban();
         autoSave();
         console.log('✏️ Column renamed:', newName);
     }
@@ -2404,8 +2406,8 @@ function deleteColumn(index) {
     if (confirm(t('confirm.deleteColumn'))) {
         config.columns.splice(index, 1);
         renderColumnsList();
-        autoSave();
         renderKanban();
+        autoSave();
         console.log('🗑️ Column deleted');
     }
 }
