@@ -1,12 +1,30 @@
-# Void.md — agent handshake
+# Void.md — AI Agent Handshake
 
-**Protocol source:** [`AI_WORKFLOW.md`](AI_WORKFLOW.md) — master rules for task shape, TASK-XXX IDs, and markdown integrity.
+> **Quick reference for AI assistants** (Claude, Copilot, Gemini, etc.)
 
-**Product:** Void.md — local-first Kanban over Markdown (`kanban.md`, `archive.md`). **No cloud:** data stays on disk you choose.
+---
 
-**Maintain local grid integrity:**
+## 📋 For Task Management
 
-- Preserve **H1** project title, **H2** column sections, and **H3** task headings (`### TASK-XXX | …`) so `void.html` can parse the board.
-- When in doubt, read `AI_WORKFLOW.md` before editing task files.
+**Read first:** [`AI_WORKFLOW.md`](AI_WORKFLOW.md) — master protocol for task shape, TASK-XXX IDs, and markdown integrity.
 
-For developer build/test conventions, see [`AGENTS.md`](AGENTS.md).
+### Key Rules
+
+- Preserve **H1** project title, **H2** column sections, and **H3** task headings (`### TASK-XXX | …`)
+- **No `##` or `###` inside task bodies**
+- Archive only on user request, never automatically
+- Document only real work in **Result**, **Modified files**, **Tests performed**
+
+### Product
+
+Void.md — local-first Kanban over Markdown (`kanban.md`, `archive.md`). **No cloud:** data stays on disk you choose.
+
+---
+
+## 👨‍💻 For Development (Coding Agents)
+
+**Build/test conventions:** See [`AGENTS.md`](AGENTS.md) for:
+- Build commands and testing
+- Code style guidelines
+- JavaScript/CSS standards
+- Debugging procedures
