@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Void.md</title>
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('preferredTheme');
+                document.documentElement.setAttribute('data-theme', (t === 'light' || t === 'dark') ? t : 'dark');
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -3666,11 +3676,14 @@ function deleteFromArchive(taskId) {
                 status.style.color = '#f59e0b';
             } else {
                 badge.style.display = 'none';
-                var richToggle = document.getElementById('featureRichTextSwitch');
-                if (richToggle) {
+                const richToggle = document.getElementById('featureRichTextSwitch');
+                const richFlagOn = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled;
+                if (richFlagOn && richToggle) {
                     status.innerHTML = 'Plain text mode. Enable Rich Text Editor in Settings to unlock formatting tools.';
+                } else if (richFlagOn && !richToggle) {
+                    status.innerHTML = 'Plain text notes. Rich text controls are not available in this build.';
                 } else {
-                    status.innerHTML = 'Notes support Markdown: **bold**, *italic*, `code`, lists, links.';
+                    status.innerHTML = 'Plain text notes. Rich text editor is disabled.';
                 }
                 status.style.color = 'var(--text-secondary)';
             }
@@ -4139,17 +4152,20 @@ function deleteFromArchive(taskId) {
             }
         }
 
-        // Initialize theme based on saved preference or system preference
+        // Initialize theme from storage (or Neon default). Does not call setTheme() — avoids duplicate
+        // ChangeLog entries and redundant localStorage writes; <head> script already set data-theme for first paint.
         function initTheme() {
-            // Check for saved preference first
             const savedTheme = localStorage.getItem('preferredTheme');
-            if (savedTheme) {
-                setTheme(savedTheme, false); // No animation on initial load
+            if (savedTheme === 'light' || savedTheme === 'dark') {
+                currentTheme = savedTheme;
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeToggle();
                 return;
             }
-
-            // First visit: Neon City (dark) default — data-sovereignty UI
-            setTheme('dark', false);
+            currentTheme = 'dark';
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('preferredTheme', 'dark');
+            updateThemeToggle();
         }
 
         // Listen for system theme changes

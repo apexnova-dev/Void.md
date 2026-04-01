@@ -46,6 +46,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- **Theme:** Inline `<head>` script sets `data-theme` before paint from `preferredTheme`; `initTheme()` syncs without calling `setTheme()` on load (avoids duplicate changelog noise; respects saved light/dark)
+- **Notes editor status:** Plain-text status line when rich text is unavailable no longer implies Markdown-as-fallback when `#featureRichTextSwitch` is missing; branches on rich-text flag and toggle presence
 - Defensive null checks in DOMContentLoaded so missing elements (projectSelector, selectFolderBtn, archiveSearch, newTaskForm) do not throw and break init
 - Project group show/hide: single `#headerProjectGroup` toggled in `updateProjectSelector` and when removing last project
 
