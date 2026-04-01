@@ -1172,8 +1172,8 @@ No network, webcam, microphone or other permissions are required.
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/markdown-task-manager.git
-cd markdown-task-manager
+git clone https://github.com/glyons-smemsc/Void.md.git
+cd Void.md
 
 # Open application
 open void.html  # macOS
