@@ -1,4 +1,4 @@
-# 📊 External Technical Assessment - Markdown Task Manager
+# 📊 External Technical Assessment - Void.md
 
 **Assessment Date**: January 19, 2026  
 **Assessor**: Development Agent  
@@ -9,7 +9,7 @@
 
 ## 🎯 Executive Summary
 
-The Markdown Task Manager is an **exceptionally innovative single-file HTML application** that transforms local Markdown files into an interactive Kanban board. This project demonstrates advanced web development skills and forward-thinking design for AI-human collaboration workflows. Despite its brilliance, the project faces critical integrity and reliability challenges that must be addressed.
+The Void.md is an **exceptionally innovative single-file HTML application** that transforms local Markdown files into an interactive Kanban board. This project demonstrates advanced web development skills and forward-thinking design for AI-human collaboration workflows. Despite its brilliance, the project faces critical integrity and reliability challenges that must be addressed.
 
 **Overall Rating**: 4.5/5 - Outstanding with critical issues to resolve
 
@@ -19,14 +19,14 @@ The Markdown Task Manager is an **exceptionally innovative single-file HTML appl
 
 ### Core Concept
 
-- **Architecture**: Single HTML file (`task-manager.html`) that reads/writes local Markdown files
+- **Architecture**: Single HTML file (`void.html`) that reads/writes local Markdown files
 - **Technology**: Uses File System Access API for direct file system interaction
 - **Purpose**: Kanban-style task management with AI integration capabilities
 - **Target Users**: Developers, distributed teams, AI-assisted development workflows
 
 ### Key Files
 
-- `task-manager.html` - Main application (144KB, self-contained)
+- `void.html` - Main application (144KB, self-contained)
 - `kanban.md` - Active tasks
 - `archive.md` - Completed/archived tasks
 - `AI_WORKFLOW.md` - AI collaboration guidelines
@@ -297,7 +297,7 @@ The Markdown Task Manager is an **exceptionally innovative single-file HTML appl
 
 ## 📝 Conclusion
 
-The Markdown Task Manager represents **exceptional innovation** in task management and AI collaboration tools. Its single-file architecture and privacy-first approach are genuinely groundbreaking. However, the integrity crisis discovered poses an existential threat to the project's core value proposition.
+The Void.md represents **exceptional innovation** in task management and AI collaboration tools. Its single-file architecture and privacy-first approach are genuinely groundbreaking. However, the integrity crisis discovered poses an existential threat to the project's core value proposition.
 
 **The project stands at a crossroads**: Address the integrity issues and deliver on its promise of trustworthy AI collaboration, or risk becoming a cautionary tale about AI hallucination in development workflows.
 

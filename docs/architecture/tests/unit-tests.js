@@ -2,7 +2,7 @@
  * Unit Tests for Feature Flag System and Fallback Mechanisms
  * 
  * Run these tests in the browser console:
- * 1. Open task-manager.html in browser
+ * 1. Open void.html in browser
  * 2. Open Developer Console (F12)
  * 3. Copy and paste this entire file
  * 4. Run: runAllTests()

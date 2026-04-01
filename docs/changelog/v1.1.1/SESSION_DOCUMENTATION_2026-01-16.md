@@ -1,4 +1,4 @@
-# Session Documentation: Markdown Task Manager v1.1.1
+# Session Documentation: Void.md v1.1.1
 
 **Date:** January 16, 2026  
 **Session ID:** Current Session  
@@ -230,7 +230,7 @@ setLanguage(lang) → Update currentLanguage
 
 | File | Changes |
 |------|---------|
-| `task-manager.html` | ~40 text changes from French to English, 1 syntax error fix |
+| `void.html` | ~40 text changes from French to English, 1 syntax error fix |
 
 ---
 

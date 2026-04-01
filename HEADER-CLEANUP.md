@@ -46,7 +46,7 @@ Clean up the header by moving non-essential items to the Settings modal, resulti
 
 ## 📁 Modified Files
 
-- **`task-manager.html`**
+- **`void.html`**
   - Lines ~707-727: Removed language selector, theme toggle, archives, columns from header
   - Lines ~836-879: Enhanced Settings modal with new "Board Management" section
   - Lines ~1099-1106: Added helper functions to open Columns/Archives from Settings
@@ -105,7 +105,7 @@ Clean up the header by moving non-essential items to the Settings modal, resulti
 │   └── [📤 Export Project Data]
 │
 ├── ℹ️ About
-│   ├── Markdown Task Manager
+│   ├── Void.md
 │   └── Version: 1.1.1
 │
 └── [Close]

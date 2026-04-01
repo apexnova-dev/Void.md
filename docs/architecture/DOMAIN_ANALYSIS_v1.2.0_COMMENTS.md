@@ -2,14 +2,14 @@
 
 **Analysis Date**: January 22, 2026  
 **Domain**: Rich Text Editor & Comment System Architecture  
-**Project**: Markdown Task Manager 1.2.0  
+**Project**: Void.md 1.2.0  
 **Complexity Score**: 9/10
 
 ---
 
 ## 1. Executive Summary
 
-The Markdown Task Manager 1.2.0 introduces a comprehensive enhanced notes/comments system featuring Tiptap editor integration, Notion-style slash commands, threaded comments with @mentions, and smart auto-complete functionality. This domain analysis provides the architectural foundation for implementing these features while maintaining compatibility with the existing single-file HTML architecture and File System Access API integration.
+The Void.md 1.2.0 introduces a comprehensive enhanced notes/comments system featuring Tiptap editor integration, Notion-style slash commands, threaded comments with @mentions, and smart auto-complete functionality. This domain analysis provides the architectural foundation for implementing these features while maintaining compatibility with the existing single-file HTML architecture and File System Access API integration.
 
 **Key Deliverables**:
 - Core domain concepts and relationships
@@ -782,4 +782,4 @@ Thread ──────────▶ Comment
 
 ---
 
-*Analysis generated for Markdown Task Manager 1.2.0 architecture design*
+*Analysis generated for Void.md 1.2.0 architecture design*

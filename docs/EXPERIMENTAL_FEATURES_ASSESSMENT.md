@@ -31,7 +31,7 @@
   - Creates a Tiptap editor instance.
   - Replaces or overlays the textarea with an editor when the task modal opens.
   - Writes Tiptap content into `task.notes` or into `RichContentStorage` on save.
-- **No `TiptapEditor` class** in `task-manager.html`. The Phase 2 docs and `phase2-tests.js` describe a `TiptapEditor` with `create(containerId)`, `destroy()`, `setContent`, `getContent`, etc., and a `#tiptapContainer` in the form. **None of that exists in the current file.**
+- **No `TiptapEditor` class** in `void.html`. The Phase 2 docs and `phase2-tests.js` describe a `TiptapEditor` with `create(containerId)`, `destroy()`, `setContent`, `getContent`, etc., and a `#tiptapContainer` in the form. **None of that exists in the current file.**
 - So: the app can load Tiptap and show “rich text active”, but the user still edits plain text in the textarea. The “Use / for commands” message is misleading (slash commands are not implemented).
 
 ### Minor bug
@@ -77,7 +77,7 @@
 - Any storage or in-memory model for threads/comments.
 - Any link from a task to “its comments”.
 
-The domain analysis (`DOMAIN_ANALYSIS_v1.2.0_COMMENTS.md`) describes a full design; none of it is implemented in `task-manager.html`.
+The domain analysis (`DOMAIN_ANALYSIS_v1.2.0_COMMENTS.md`) describes a full design; none of it is implemented in `void.html`.
 
 ### Recommendation
 
@@ -145,13 +145,13 @@ The domain analysis (`DOMAIN_ANALYSIS_v1.2.0_COMMENTS.md`) describes a full desi
    - If you are: use the Phase 2 plan and tests to (re-)implement the TiptapEditor, container, and form integration; then slash commands can be a follow-up.
 
 5. **Tests**
-   - `docs/architecture/tests/phase2-tests.js` assumes `TiptapEditor` and `#tiptapContainer` exist. Until that code is in `task-manager.html`, those tests will fail. Either add a note in the test file that Phase 2 is optional/incomplete, or skip/remove the TiptapEditor tests until the implementation is present.
+   - `docs/architecture/tests/phase2-tests.js` assumes `TiptapEditor` and `#tiptapContainer` exist. Until that code is in `void.html`, those tests will fail. Either add a note in the test file that Phase 2 is optional/incomplete, or skip/remove the TiptapEditor tests until the implementation is present.
 
 ---
 
 ## References
 
-- `task-manager.html`: feature flags (~2965–2986), `loadTiptapLibrary` (~3295), `RichContentStorage` (~3155), form always uses `taskNotes` value (~4306, 1684).
+- `void.html`: feature flags (~2965–2986), `loadTiptapLibrary` (~3295), `RichContentStorage` (~3155), form always uses `taskNotes` value (~4306, 1684).
 - `docs/architecture/PHASE2_IMPLEMENTATION_PLAN.md` – planned TiptapEditor and form integration.
 - `docs/architecture/PHASE2_IMPLEMENTATION_SUMMARY.md` – describes implementation that is not in the current HTML.
 - `docs/architecture/DOMAIN_ANALYSIS_v1.2.0_COMMENTS.md` – comments/threads design (not implemented).

@@ -1,6 +1,6 @@
 # 📚 Markdown Format and Examples
 
-This folder contains complete example files for the Markdown Task Manager, along with detailed documentation of the Markdown format used.
+This folder contains complete example files for the Void.md, along with detailed documentation of the Markdown format used.
 
 ## 📁 Example Files
 
@@ -13,7 +13,7 @@ examples/
 
 ## 🎯 Overview
 
-The Markdown Task Manager uses **two Markdown files** to organize your tasks:
+The Void.md uses **two Markdown files** to organize your tasks:
 
 | File | Role | Loaded |
 |------|------|--------|

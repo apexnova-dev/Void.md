@@ -1,8 +1,24 @@
-# Changelog
+# Changelog — System logs
 
-All notable changes to the Markdown Task Manager project are documented in this file.
+All notable changes to the Void.md project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.3.0] - 2026-03-31
+
+### Added
+
+- **Void.md** product identity: root `logo.svg` (neon VOID.MD mark), `GEMINI.md`, `AGENT.md`, and `.cursor/rules/void-protocol.mdc` (read `AI_WORKFLOW.md` before editing `kanban.md`)
+- `AI_WORKFLOW.md`: master protocol framing (Kanban H1/H2/H3 shape, metadata keys, archive rules, data sovereignty)
+
+### Changed
+
+- Renamed **`task-manager.html` → `void.html`** (repository root and `core-package/`); updated tests, docs, and scripts
+- **Neon City** default: first visit uses dark theme; `<html data-theme="dark">`; dark accent tuned to cyan/magenta palette
+- `README.md`: manifesto (*Visual Kanban. Plaintext Soul. No Cloud.*), centered logo, Pseudo-IT sovereignty section
+- Global documentation rename from legacy “Markdown Task Manager” strings to **Void.md** where applicable
 
 ---
 

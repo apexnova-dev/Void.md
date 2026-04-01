@@ -350,7 +350,7 @@ input:focus, textarea:focus, select:focus {
 ## 📊 Technical Summary
 
 ### **Files Modified:**
-- `task-manager.html` - 5,018 lines (multiple improvements)
+- `void.html` - 5,018 lines (multiple improvements)
 
 ### **Lines of Code:**
 - Added: ~500 lines (new functions, CSS enhancements)
@@ -482,4 +482,4 @@ If you have custom CSS or JavaScript:
 
 ---
 
-*Version 1.1.1 represents a comprehensive improvement to the Markdown Task Manager, with professional-grade dark mode, cleaner UI, and rock-solid stability.*
+*Version 1.1.1 represents a comprehensive improvement to the Void.md, with professional-grade dark mode, cleaner UI, and rock-solid stability.*

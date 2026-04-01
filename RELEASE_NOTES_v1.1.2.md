@@ -7,7 +7,7 @@
 
 ## 🎉 Milestone Release: Complete UI/UX Overhaul
 
-This is a major milestone release that transforms the Markdown Task Manager with a professional-grade interface, rock-solid stability, and significantly improved user experience.
+This is a major milestone release that transforms the Void.md with a professional-grade interface, rock-solid stability, and significantly improved user experience.
 
 ---
 
@@ -148,7 +148,7 @@ input:focus, textarea:focus, select:focus {
 ## 📊 Technical Summary
 
 ### **Files Modified:**
-- `task-manager.html` - 5,018 lines (major improvements)
+- `void.html` - 5,018 lines (major improvements)
 
 ### **Lines of Code:**
 - Added: ~500 lines (new functions, CSS enhancements)
@@ -297,4 +297,4 @@ If you have custom CSS or JavaScript:
 
 ---
 
-*Version 1.1.2 represents a major milestone in the Markdown Task Manager project, delivering professional-grade UI/UX, rock-solid stability, and significantly improved user experience.*
+*Version 1.1.2 represents a major milestone in the Void.md project, delivering professional-grade UI/UX, rock-solid stability, and significantly improved user experience.*

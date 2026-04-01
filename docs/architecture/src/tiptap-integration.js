@@ -1,5 +1,5 @@
 /**
- * Tiptap Editor Integration for Markdown Task Manager 1.2.0
+ * Tiptap Editor Integration for Void.md 1.2.0
  * 
  * Safe integration with CDN loading, error handling, and fallback support
  * All features opt-in via feature flags

@@ -2,7 +2,7 @@
 
 **Document Version**: 1.0.0  
 **Date**: January 22, 2026  
-**Project**: Markdown Task Manager  
+**Project**: Void.md  
 **Module**: Component Architecture & Implementation Workflows  
 **Complexity Score**: 9/10  
 **Status**: Draft - Ready for Implementation
@@ -521,4 +521,4 @@ EventBus.emit('error', { source, error, recoverable })
 
 ---
 
-*Document generated for Markdown Task Manager 1.2.0 architecture implementation*
+*Document generated for Void.md 1.2.0 architecture implementation*

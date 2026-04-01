@@ -1,9 +1,9 @@
 ---
 name: markdown-task-manager
-description: Use when managing tasks, the system is a Kanban task manager based on local Markdown files (`kanban.md` and `archive.md`). It follows a strict format compatible with the task-manager.html web application.
+description: Use when managing tasks, the system is a Kanban task manager based on local Markdown files (`kanban.md` and `archive.md`). It follows a strict format compatible with the void.html web application.
 ---
 
-# 📋 Markdown Task Manager Skill
+# 📋 Void.md Skill
 
 ## When to Use This Skill
 
