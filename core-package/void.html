@@ -1521,7 +1521,50 @@
             color: var(--text-secondary);
         }
         .modal-content--columns {
-            max-width: 600px;
+            max-width: 800px;
+            max-height: 85vh;
+        }
+        
+        #columnsList .column-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            gap: 1rem;
+        }
+        
+        #columnsList .column-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        #columnsList .column-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        #columnsList .column-actions button {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-tertiary);
+            cursor: pointer;
+        }
+        
+        #columnsList .column-actions button:hover {
+            border-color: var(--accent);
+        }
+        
+        .columns-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
         }
         .modal-body-scroll--pad {
             padding: 1.5rem;
@@ -1913,12 +1956,16 @@ You can use Markdown:
     <div id="columnsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="columnsModalTitle" aria-describedby="columnsList">
         <div class="modal-content modal-content--columns">
             <div class="modal-header">
-                <h2 id="columnsModalTitle">Manage columns</h2>
+                <h2 id="columnsModalTitle">Manage Columns</h2>
                 <button type="button" class="close-btn" onclick="closeColumnsModal()" aria-label="Close columns">&times;</button>
             </div>
             <div class="modal-body-scroll modal-body-scroll--pad">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Click column names to edit. Changes are saved automatically.</p>
                 <div id="columnsList"></div>
-                <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary">+ Add a column</button>
+                <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary" style="margin-top: 1rem;">+ Add Column</button>
+                <div class="columns-modal-actions">
+                    <button class="btn btn-secondary" onclick="closeColumnsModal()">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2362,12 +2409,12 @@ function renderColumnsList() {
     if (config.columns && config.columns.length > 0) {
         config.columns.forEach((col, index) => {
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem;';
+            div.className = 'column-item';
             div.innerHTML = `
-                <span style="font-weight: 500;">${col.name}</span>
-                <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="renameColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">✏️</button>
-                    ${config.columns.length > 1 ? `<button onclick="deleteColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>` : ''}
+                <span class="column-name">${escapeHtml(col.name)}</span>
+                <div class="column-actions">
+                    <button onclick="renameColumn(${index})" title="Rename">✏️</button>
+                    ${config.columns.length > 1 ? `<button onclick="deleteColumn(${index})" title="Delete">🗑️</button>` : ''}
                 </div>
             `;
             list.appendChild(div);
@@ -6131,66 +6178,6 @@ ${t('markdown.archiveSection')}
                 renderFilters();
                 renderKanban();
             }
-        }
-
-        // Column management
-        function openColumnsModal() {
-            const modal = document.getElementById('columnsModal');
-            const list = document.getElementById('columnsList');
-            list.innerHTML = config.columns.map((col, idx) => `
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 6px; align-items: center;">
-                    <div style="display: flex; gap: 0.25rem;">
-                        <button onclick="moveColumn(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveUp')}">↑</button>
-                        <button onclick="moveColumn(${idx}, 1)" ${idx === config.columns.length - 1 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveDown')}">↓</button>
-                    </div>
-                    <input type="text" value="${col.name}" onchange="updateColumn(${idx}, 'name', this.value)" style="flex: 1; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;">
-                    <input type="text" value="${col.id}" onchange="updateColumn(${idx}, 'id', this.value)" style="width: 120px; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;" placeholder="ID">
-                    <button onclick="deleteColumn(${idx})" class="btn btn-secondary" style="padding: 0.5rem;">🗑️</button>
-                </div>
-            `).join('');
-            modal.classList.add('active');
-        }
-
-        function closeColumnsModal() {
-            document.getElementById('columnsModal').classList.remove('active');
-        }
-
-        function addColumn() {
-            const name = prompt(t('prompt.columnName'));
-            const id = prompt(t('prompt.columnId'));
-            if (name && id) {
-                config.columns.push({ name, id });
-                openColumnsModal();
-                autoSave();
-                renderKanban();
-            }
-        }
-
-        function updateColumn(idx, field, value) {
-            config.columns[idx][field] = value;
-            autoSave();
-            renderKanban();
-        }
-
-        function deleteColumn(idx) {
-            if (confirm(t('confirm.deleteColumn'))) {
-                config.columns.splice(idx, 1);
-                openColumnsModal();
-                autoSave();
-                renderKanban();
-            }
-        }
-
-        function moveColumn(idx, direction) {
-            const newIdx = idx + direction;
-            if (newIdx < 0 || newIdx >= config.columns.length) return;
-
-            // Swap columns
-            [config.columns[idx], config.columns[newIdx]] = [config.columns[newIdx], config.columns[idx]];
-
-            openColumnsModal();
-            autoSave();
-            renderKanban();
         }
 
         // Form subtasks management
