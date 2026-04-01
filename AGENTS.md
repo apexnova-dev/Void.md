@@ -369,5 +369,5 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 
 ---
 
-*Last updated: March 2026*  
+*Last updated: April 2026*  
 *Version: 1.3.1*
