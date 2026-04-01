@@ -1,4 +1,4 @@
-# Session Documentation: Markdown Task Manager
+# Session Documentation: Void.md
 
 **Date:** March 17, 2026  
 **Focus:** Three-branch strategy, bugfix propagation, inline styles cleanup, workflow documentation
@@ -13,7 +13,7 @@ This session established a three-branch layout (core, production, experimental),
 
 - Branches `core`, `production`, and `experimental` exist; `main` unchanged. `production` is the default PR target.
 - Task ID increment bug fixed and applied on core, production, and experimental.
-- Static inline styles in `task-manager.html` moved into the existing `<style>` block (single-file preserved).
+- Static inline styles in `void.html` moved into the existing `<style>` block (single-file preserved).
 - New doc: `docs/BRANCHING_AND_BUGFIX_WORKFLOW.md` for future cross-branch fixes and common pitfalls.
 
 ---
@@ -41,7 +41,7 @@ This session established a three-branch layout (core, production, experimental),
 ### 1.3 Production and core cleanups (earlier in session)
 
 - **Production:** Comments and Slash Commands toggles already marked as “Planned” / disabled; Rich Text status copy aligned with actual behavior where applicable.
-- **Core:** Entire “Experimental Features (v1.2.0)” section removed from Settings in `task-manager.html`.
+- **Core:** Entire “Experimental Features (v1.2.0)” section removed from Settings in `void.html`.
 
 ---
 
@@ -91,7 +91,7 @@ Contents cover:
 
 ### 4.1 Context
 
-Microsoft Edge Tools (webhint) reported “no-inline-styles” on many lines of `task-manager.html`. The project is intentionally single-file; the requirement was to satisfy the hint without introducing an external CSS file.
+Microsoft Edge Tools (webhint) reported “no-inline-styles” on many lines of `void.html`. The project is intentionally single-file; the requirement was to satisfy the hint without introducing an external CSS file.
 
 ### 4.2 Approach
 
@@ -109,7 +109,7 @@ Microsoft Edge Tools (webhint) reported “no-inline-styles” on many lines of 
 ### 4.4 Result
 
 - Single-file architecture preserved.
-- No linter errors reported for `task-manager.html` after the change.
+- No linter errors reported for `void.html` after the change.
 - Visual and behavioral defaults unchanged.
 
 ---
@@ -118,7 +118,7 @@ Microsoft Edge Tools (webhint) reported “no-inline-styles” on many lines of 
 
 | File | Change |
 |------|--------|
-| `task-manager.html` | Task ID fix (core/production/experimental); removal of Experimental section on core; move of static inline styles into `<style>` (on branch where edits were made). |
+| `void.html` | Task ID fix (core/production/experimental); removal of Experimental section on core; move of static inline styles into `<style>` (on branch where edits were made). |
 | `docs/BRANCHING_AND_BUGFIX_WORKFLOW.md` | **New.** Branch roles, cherry-pick steps, when to merge vs cherry-pick, pitfalls, checklist. |
 | `docs/changelog/SESSION_DOCUMENTATION_2026-03-17.md` | **New.** This session summary. |
 

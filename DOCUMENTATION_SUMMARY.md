@@ -32,7 +32,7 @@
 - Custom dropdown arrows
 
 **Technical Summary:**
-- Files modified: `task-manager.html` (5,018 lines)
+- Files modified: `void.html` (5,018 lines)
 - CSS variables added: 7 new variables
 - Functions added: 7 new functions
 - Total improvements: 5 major sessions
@@ -281,7 +281,7 @@ For documentation questions or suggestions:
 
 ---
 
-**Documentation successfully updated to reflect the current state of Markdown Task Manager v1.1.1!** 📚✨
+**Documentation successfully updated to reflect the current state of Void.md v1.1.1!** 📚✨
 
 *Last updated: January 20, 2026*
 *Next review: April 2026*

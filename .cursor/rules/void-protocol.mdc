@@ -1,0 +1,18 @@
+---
+description: Void.md local Markdown task protocol — read before editing kanban data
+globs:
+  - "**/kanban.md"
+  - "**/archive.md"
+  - "**/void.html"
+  - "AI_WORKFLOW.md"
+---
+
+# Void.md protocol
+
+Before creating, moving, or editing tasks in `kanban.md` or `archive.md`:
+
+1. **Read `AI_WORKFLOW.md`** at the repository root. It defines TASK-XXX format, metadata keys, integrity rules, and archive behavior.
+2. Treat local Markdown as the **source of truth** — no cloud sync; preserve structure expected by **Void.md** (`void.html`).
+3. Do not invent completed work, file edits, or test runs in task bodies.
+
+For application code changes, see `AGENTS.md`.

@@ -133,7 +133,7 @@ git push origin main --tags
 
 ### Files Modified
 
-- `task-manager.html` - Version update + all improvements
+- `void.html` - Version update + all improvements
 - `README.md` - Updated latest updates + header UI
 - `readmeFR.md` - French translation updated
 
@@ -157,7 +157,7 @@ git push origin main --tags
 
 ## 🎉 Milestone Achieved
 
-This commit represents a major milestone in the Markdown Task Manager project:
+This commit represents a major milestone in the Void.md project:
 
 ✅ **Professional-grade UI/UX**
 ✅ **Rock-solid stability**

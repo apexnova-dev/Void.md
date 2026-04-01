@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document provides comprehensive tests for the Tiptap editor implementation added in Phase 2. All tests should be run in the browser console after loading `task-manager.html`.
+This document provides comprehensive tests for the Tiptap editor implementation added in Phase 2. All tests should be run in the browser console after loading `void.html`.
 
 ---
 

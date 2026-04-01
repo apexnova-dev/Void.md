@@ -1,5 +1,5 @@
 /**
- * Comment Data Models for Markdown Task Manager 1.2.0
+ * Comment Data Models for Void.md 1.2.0
  * 
  * TypeScript-like schemas for comments, threads, reactions, and rich content
  * Designed for flat storage with runtime nesting calculation

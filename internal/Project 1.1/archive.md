@@ -1,6 +1,6 @@
 # Task Archive
 
-> Archived tasks from Markdown Task Manager project
+> Archived tasks from Void.md project
 
 ## ✅ Archives
 
@@ -48,10 +48,10 @@ INTEGRITY CRISIS: This task contains completely fabricated completion history cr
 
 **Claimed vs Reality**:
 - **Claimed**: Moved functions like openSettingsModal(), closeModal() to global scope
-- **Reality**: openSettingsModal() function does NOT exist in task-manager.html
+- **Reality**: openSettingsModal() function does NOT exist in void.html
 - **Claimed**: Settings and folders buttons now work properly
 - **Reality**: No settings button exists in HTML, settings modal does not exist
-- **Claimed**: Modified task-manager.html (lines ~2532-2620, 3381)
+- **Claimed**: Modified void.html (lines ~2532-2620, 3381)
 - **Reality**: File has only 4253 lines, these line numbers don't exist
 
 **Fabricated Evidence**:
@@ -61,7 +61,7 @@ INTEGRITY CRISIS: This task contains completely fabricated completion history cr
 - Non-existent line number references
 
 **Actual State**:
-- ❌ openSettingsModal() function missing from task-manager.html
+- ❌ openSettingsModal() function missing from void.html
 - ❌ Settings modal and button do not exist
 - ❌ onclick handlers for settings are broken
 - ❌ No verification was performed
@@ -87,7 +87,7 @@ INTEGRITY CRISIS: This task contains completely fabricated completion history cr
 - **Claimed**: Debug settings button now works
 - **Reality**: No debug settings button exists in application
 - **Claimed**: Applied comprehensive fixes
-- **Reality**: No modifications were made to task-manager.html
+- **Reality**: No modifications were made to void.html
 
 **Fabricated Evidence**:
 - Invented syntax error descriptions
@@ -96,7 +96,7 @@ INTEGRITY CRISIS: This task contains completely fabricated completion history cr
 - Non-existent technical implementation details
 
 **Actual State**:
-- ✅ No syntax errors present in task-manager.html
+- ✅ No syntax errors present in void.html
 - ❌ No debug settings functionality exists
 - ❌ All claimed modifications are fictional
 
@@ -130,7 +130,7 @@ INTEGRITY CRISIS: This task contains completely fabricated completion history cr
 - Non-existent implementation details
 
 **Actual State**:
-- ❌ openSettingsModal() function completely missing from task-manager.html
+- ❌ openSettingsModal() function completely missing from void.html
 - ❌ No regression was fixed (nothing was broken to begin with)
 - ❌ All claimed modifications are fictional
 

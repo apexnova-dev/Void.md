@@ -16,7 +16,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -43,7 +43,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -67,7 +67,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -91,7 +91,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -115,7 +115,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -139,7 +139,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -163,7 +163,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -186,7 +186,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -210,7 +210,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -234,7 +234,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -257,7 +257,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -281,7 +281,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -305,7 +305,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -329,7 +329,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -352,7 +352,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -375,7 +375,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -402,7 +402,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -429,7 +429,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Current version"
 }
@@ -463,7 +463,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        let currentVersion = '1.1.1'; // Current version",
   "newString": "        let currentVersion = '1.1.1'; // Updated version"
 }
@@ -491,7 +491,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Log documentation system availability\n        console.log('📝 Documentation system initialized. Type TaskManagerDocumentation.help() for available commands.');",
   "newString": "        // Log this foundational change\n        ChangeLogManager.logChange('feature', \n            'Added comprehensive change log system with structured logging and version management', \n            'system', \n            'enhancement', \n            false);\n\n        // Log documentation system availability\n        console.log('📝 Documentation system initialized. Type TaskManagerDocumentation.help() for available commands.');"
 }
@@ -582,7 +582,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Log documentation system availability\n        console.log('📝 Documentation system initialized. Type TaskManagerDocumentation.help() for available commands.');",
   "newString": "        // Generate first release notes\n        console.log('📚 Version 1.1.1 Release Notes:');\n        console.log('');\n        console.log(ChangeLogManager.generateReleaseNotes());\n\n        // Log documentation system availability\n        console.log('📝 Documentation system initialized. Type TaskManagerDocumentation.help() for available commands.');"
 }
@@ -673,7 +673,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Log this foundational change\n        ChangeLogManager.logChange('feature', \n            'Added comprehensive change log system with structured logging and version management', \n            'system', \n            'enhancement', \n            false);",
   "newString": "        // Log this foundational change\n        ChangeLogManager.logChange('feature', \n            'Added comprehensive change log system with structured logging and version management', \n            'system', \n            'enhancement', \n            false);\n\n        // Log version transition\n        ChangeLogManager.logChange('version', \n            'Updated to version 1.1.1 with change tracking foundation', \n            'system', \n            'enhancement', \n            false);"
 }
@@ -764,7 +764,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Generate first release notes\n        console.log('📚 Version 1.1.1 Release Notes:');\n        console.log('');\n        console.log(ChangeLogManager.generateReleaseNotes());",
   "newString": "        // Generate first release notes\n        console.log('📚 Version 1.1.1 Release Notes:');\n        console.log('');\n        console.log(ChangeLogManager.generateReleaseNotes());\n\n        // Document foundational system capabilities\n        console.log('🎯 Foundation Systems Added in v1.1.1:');\n        console.log('✅ Change Log Manager: Structured logging with semantic versioning');\n        console.log('✅ Version Manager: Automated semantic version increments');\n        console.log('✅ Documentation Console: Professional development commands');\n        console.log('✅ System Integration: Complete change tracking foundation');"
 }
@@ -940,7 +940,7 @@ TaskManagerDocumentation.systemInfo()
 TaskManagerDocumentation.help()
 ```
 
-**Markdown Task Manager v1.1.1 is now ready for professional development with complete traceability and documentation!** 🎉
+**Void.md v1.1.1 is now ready for professional development with complete traceability and documentation!** 🎉
 
 The foundation is established for **keyboard shortcuts**, **export enhancements**, **comment systems**, and all future features with **professional-grade change tracking and documentation**.
 
@@ -973,7 +973,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Log documentation system availability\n        console.log('📝 Documentation system initialized. Type TaskManagerDocumentation.help() for available commands.');",
   "newString": "        // Log documentation system availability\n        console.log('📝 Documentation system initialized. Type TaskManagerDocumentation.help() for available commands.');\n        console.log('🔍 Current Change Log:', changeLog.length, 'entries loaded');"
 }
@@ -1000,7 +1000,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        console.log('🎯 Foundation Systems Added in v1.1.1:');\n        console.log('✅ Change Log Manager: Structured logging with semantic versioning');\n        console.log('✅ Version Manager: Automated semantic version increments');\n        console.log('✅ Documentation Console: Professional development commands');\n        console.log('✅ System Integration: Complete change tracking foundation');",
   "newString": "        console.log('🎯 Foundation Systems Added in v1.1.1:');\n        console.log('✅ Change Log Manager: Structured logging with semantic versioning');\n        console.log('✅ Version Manager: Automated semantic version increments');\n        console.log('✅ Documentation Console: Professional development commands');\n        console.log('✅ System Integration: Complete change tracking foundation');\n        console.log('');\n        console.log('🔍 Debug Info: Current system state');\n        console.log('📝 Change Log Entries:', changeLog.length);\n        console.log('📊 Current Version:', currentVersion);\n        console.log('📁 Available Commands: TaskManagerDocumentation.help()');"
 }
@@ -1030,7 +1030,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Initialize change log on page load\n        changeLog = ChangeLogManager.getChanges();",
   "newString": "        // Initialize change log on page load\n        try {\n            changeLog = ChangeLogManager.getChanges();\n            console.log('✅ Change log loaded successfully');\n        } catch (error) {\n            console.error('❌ Change log initialization failed:', error);\n            console.log('🔧 Falling back to empty change log');\n            changeLog = [];\n        }"
 }
@@ -1060,7 +1060,7 @@ Tool: edit
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "oldString": "        // Show help\n        help: () => {",
   "newString": "        // Show help\n        help: () => {\n            console.clear(); // Clear console for better visibility\n            console.log('📋 Task Manager Documentation System Test');\n            console.log('');\n            console.log('🔍 Testing console output visibility...');\n            \n            // Test basic output\n            console.log('Test 1: Basic message - should be visible');\n            console.log('Test 2: Current version check');\n            console.log('Test 3: System info display');\n            console.log('Test 4: Commands demonstration');\n            console.log('');\n            console.log('✅ Console test complete. Expected outputs above.');\n            \n            console.log('');\n            console.log('🎯 Available Documentation Commands:');\n            console.log('TaskManagerDocumentation.version()     - Show current version');\n            console.log('TaskManagerDocumentation.changes()     - Show change history');  \n            console.log('TaskManagerDocumentation.releaseNotes()  - Generate release notes');\n            console.log('TaskManagerDocumentation.systemInfo()   - Show system information');\n            console.log('TaskManagerDocumentation.help()           - Show all commands');\n            console.log('');\n            console.log('📊 Current System Status:');\n            console.log('- Version:', currentVersion);\n            console.log('- Change log entries:', changeLog.length);\n            console.log('- Documentation system: Operational');\n        }"
 }
@@ -1090,7 +1090,7 @@ _Thinking:_
 
 ## 📋 **Error: "error loading folder"**
 
-This error prevents the Markdown Task Manager from functioning. Let me help you troubleshoot:
+This error prevents the Void.md from functioning. Let me help you troubleshoot:
 
 ---
 
@@ -1156,7 +1156,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 10,
   "offset": 2310
 }
@@ -1197,7 +1197,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 2280
 }
@@ -1248,7 +1248,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 2410
 }
@@ -1299,7 +1299,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 2690
 }
@@ -1350,7 +1350,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 2800
 }
@@ -1401,7 +1401,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 2850
 }
@@ -1452,7 +1452,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 2900
 }
@@ -1503,7 +1503,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3000
 }
@@ -1554,7 +1554,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3100
 }
@@ -1605,7 +1605,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3300
 }
@@ -1656,7 +1656,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3400
 }
@@ -1707,7 +1707,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3500
 }
@@ -1758,7 +1758,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3600
 }
@@ -1791,7 +1791,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3550
 }
@@ -1842,7 +1842,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3570
 }
@@ -1893,7 +1893,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 3640
 }
@@ -1932,7 +1932,7 @@ Tool: grep
 **Output:**
 ```
 Found 1 matches
-/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html:
+/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html:
   Line 1946:         window.addEventListener('DOMContentLoaded', async () => {
 ```
 ```
@@ -1954,7 +1954,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1940
 }
@@ -2000,7 +2000,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1910
 }
@@ -2046,7 +2046,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1900
 }
@@ -2097,7 +2097,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1870
 }
@@ -2148,7 +2148,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1810
 }
@@ -2199,7 +2199,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1730
 }
@@ -2250,7 +2250,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1640
 }
@@ -2301,7 +2301,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1580
 }
@@ -2352,7 +2352,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1480
 }
@@ -2403,7 +2403,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 960
 }
@@ -2454,7 +2454,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 790
 }
@@ -2505,7 +2505,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 720
 }
@@ -2556,7 +2556,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 550
 }
@@ -2607,7 +2607,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 530
 }
@@ -2653,7 +2653,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 460
 }
@@ -2733,7 +2733,7 @@ Tool: grep
 **Output:**
 ```
 Found 3 matches
-/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html:
+/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html:
   Line 1159:                 'notif.folderError': 'Error loading folder',
   Line 1334:                 'notif.folderError': 'Erreur lors de la sélection du dossier',
   Line 1984:                     showNotification(t('notif.folderError'), 'error');
@@ -2757,7 +2757,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 10,
   "offset": 1155
 }
@@ -2798,7 +2798,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 10,
   "offset": 1980
 }
@@ -2839,7 +2839,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1750
 }
@@ -2885,7 +2885,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1690
 }
@@ -2931,7 +2931,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1650
 }
@@ -2977,7 +2977,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1550
 }
@@ -3023,7 +3023,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1500
 }
@@ -3069,7 +3069,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 15,
   "offset": 1450
 }
@@ -3115,7 +3115,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1340
 }
@@ -3166,7 +3166,7 @@ Tool: read
 **Input:**
 ```json
 {
-  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/task-manager.html",
+  "filePath": "/home/glyons/Desktop/MarkdownTaskManager-1.2/void.html",
   "limit": 20,
   "offset": 1100
 }
@@ -3335,7 +3335,7 @@ TaskManagerDocumentation.systemInfo()
 
 ## 🔧 **Files Updated**
 
-### **1. task-manager.html**
+### **1. void.html**
 - ✅ Change log system implemented
 - ✅ Version updated to 1.1.1
 - ✅ Console documentation added
@@ -3549,7 +3549,7 @@ _Thinking:_
 
 ## 🎯 **Current Status**
 
-**Markdown Task Manager v1.1.1** is now ready with:
+**Void.md v1.1.1** is now ready with:
 - **Professional change logging system**
 - **Enterprise-grade documentation**
 - **Complete version management**

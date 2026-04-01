@@ -1,4 +1,4 @@
-# How to Run the Core Branch – Markdown Task Manager
+# How to Run the Core Branch – Void.md
 
 This folder is a **standalone package** to run the **core** version of the app: stable Kanban and file-based tasks. **Experimental options** (rich text, comments, slash commands) exist in the app but are **turned off by default**; you get the core experience until you enable them in Settings. Everything runs in your browser; no server or build step.
 
@@ -10,7 +10,7 @@ This folder is a **standalone package** to run the **core** version of the app: 
 
 | File | Purpose |
 |------|--------|
-| `task-manager.html` | The app. Open it in a supported browser. |
+| `void.html` | The app. Open it in a supported browser. |
 | `kanban.md` | Template for your active tasks. |
 | `archive.md` | Template for archived tasks. |
 | `HOW-TO-RUN.md` | This guide (humans). |
@@ -27,9 +27,9 @@ This folder is a **standalone package** to run the **core** version of the app: 
 
 ### 2. Open the app
 
-- **Double‑click** `task-manager.html`, or  
+- **Double‑click** `void.html`, or  
 - **Drag** it into a browser window, or  
-- **File → Open** and choose `task-manager.html`.
+- **File → Open** and choose `void.html`.
 
 ### 3. Choose your task folder
 
@@ -63,7 +63,7 @@ You can accept that, or copy the included `kanban.md` and `archive.md` from this
 
 ## Core branch vs rest of the repo
 
-This package tracks the **core** branch: Kanban, task create/edit, filters, archives, multi‑project, dark mode, and language. The same `task-manager.html` build may include a **Settings** area with **feature flags** for rich text, comments, and slash commands; those features are **disabled by default** in a fresh profile so the out‑of‑box experience stays minimal. Users can enable them in Settings (stored in browser storage). The **`experimental`** and **`production`** branches in the repo carry the fuller evolution of those features and documentation; use them when you want the latest non‑core work.
+This package tracks the **core** branch: Kanban, task create/edit, filters, archives, multi‑project, dark mode, and language. The same `void.html` build may include a **Settings** area with **feature flags** for rich text, comments, and slash commands; those features are **disabled by default** in a fresh profile so the out‑of‑box experience stays minimal. Users can enable them in Settings (stored in browser storage). The **`experimental`** and **`production`** branches in the repo carry the fuller evolution of those features and documentation; use them when you want the latest non‑core work.
 
 ---
 
@@ -73,7 +73,7 @@ This package tracks the **core** branch: Kanban, task create/edit, filters, arch
 |-------|------------|
 | “File System Access API not supported” | Use Chrome, Edge, or Opera (see step 1). |
 | App won’t open / blank page | Open the browser console (F12) and check for errors; ensure you’re opening the file via `file://` or a local server. |
-| Wrong or old version | Replace `task-manager.html` in this folder with the one from the **core** branch of the repo. |
+| Wrong or old version | Replace `void.html` in this folder with the one from the **core** branch of the repo. |
 
 ---
 
@@ -82,9 +82,9 @@ This package tracks the **core** branch: Kanban, task create/edit, filters, arch
 To refresh from the repo:
 
 1. Check out the **core** branch.
-2. Copy the latest `task-manager.html` from the **repository root** into this `core-package` folder (overwrite the existing one) so this file stays **byte‑for‑byte** identical to the canonical app on `core`.
+2. Copy the latest `void.html` from the **repository root** into this `core-package` folder (overwrite the existing one) so this file stays **byte‑for‑byte** identical to the canonical app on `core`.
 3. Optionally refresh `kanban.md` and `archive.md` from `docs/templates/` in the repo if you want the latest template format.
 
 ---
 
-*Core package – Markdown Task Manager. Single-file, local-only, Git-friendly.*
+*Core package – Void.md. Single-file, local-only, Git-friendly.*

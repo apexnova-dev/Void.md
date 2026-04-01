@@ -132,7 +132,7 @@ Progress: 0% → 100%
 - `runIntegrationTests()` - Integration tests
 
 **How to Run**:
-1. Open task-manager.html in browser
+1. Open void.html in browser
 2. Open Developer Console (F12)
 3. Copy and paste the test file
 4. Run `runAllTests()`
@@ -144,7 +144,7 @@ Progress: 0% → 100%
 ### Code Quality
 - **Lines of Code Added**: ~1,400
 - **Files Created**: 6 new files
-- **Files Modified**: 1 (task-manager.html)
+- **Files Modified**: 1 (void.html)
 - **Test Coverage**: 32 tests
 
 ### Safety Metrics
@@ -200,7 +200,7 @@ Progress: 0% → 100%
 6. `docs/architecture/PHASE1_SUMMARY.md` - Phase summary (this document)
 
 ### Modified Files
-1. `task-manager.html`
+1. `void.html`
    - Lines ~3427-3431: Welcome screen flicker fix
    - Lines ~2584, 3192: Safety null checks
    - Lines ~2860-3070: Feature flag system integration
@@ -252,7 +252,7 @@ TaskManagerDocumentation.listStorage()
 ```
 
 ### Run All Tests
-1. Open task-manager.html in browser
+1. Open void.html in browser
 2. Open Developer Console (F12)
 3. Copy and paste `docs/architecture/tests/unit-tests.js`
 4. Run `runAllTests()`

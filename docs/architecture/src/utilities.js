@@ -1,5 +1,5 @@
 /**
- * Utility Functions for Markdown Task Manager 1.2.0
+ * Utility Functions for Void.md 1.2.0
  * 
  * Error handling, performance monitoring, and helper functions
  */

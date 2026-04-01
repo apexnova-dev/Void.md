@@ -1,5 +1,5 @@
 {
-  "name": "markdown-task-manager",
+  "name": "void-md",
   "description": "Kanban task manager based on local Markdown files",
   "private": true,
   "scripts": {

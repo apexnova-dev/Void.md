@@ -206,7 +206,7 @@ updateWelcomeProjectSelector();
 
 ## 📁 Modified Files
 
-- **`task-manager.html`**
+- **`void.html`**
   - Lines ~784-796: Added welcome project selector HTML
   - Lines ~2247-2282: Added updateWelcomeProjectSelector() function
   - Lines ~2284-2334: Added handleWelcomeProjectSwitch() function

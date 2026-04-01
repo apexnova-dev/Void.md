@@ -180,7 +180,7 @@ Technical notes here
 - [ ] Verify fallbacks work
 - [ ] **Checkpoint**: All commands working, error handling robust
 - [x] 1.1 Create feature flag configuration system
-- [x] 1.2 Integrate feature flag system into task-manager.html
+- [x] 1.2 Integrate feature flag system into void.html
 - [x] 1.3 Add feature flag initialization at app start
 - [x] 1.4 Create Settings UI for experimental features (Rich Text, Comments, Slash Commands)
 - [x] 1.5 Add Tiptap CDN loading with try/catch (loaded only when enabled)
@@ -206,7 +206,7 @@ Technical notes here
 - [ ] Verify fallbacks work
 - [ ] **Checkpoint**: All commands working, error handling robust
 - [x] 1.1 Create feature flag configuration system
-- [x] 1.2 Integrate feature flag system into task-manager.html
+- [x] 1.2 Integrate feature flag system into void.html
 - [x] 1.3 Add feature flag initialization at app start
 - [x] 1.4 Create Settings UI for experimental features (Rich Text, Comments, Slash Commands)
 - [x] 1.5 Add Tiptap CDN loading with try/catch (loaded only when enabled)
@@ -232,7 +232,7 @@ Technical notes here
 - [ ] Verify fallbacks work
 - [ ] **Checkpoint**: All commands working, error handling robust
 - [x] 1.1 Create feature flag configuration system
-- [x] 1.2 Integrate feature flag system into task-manager.html
+- [x] 1.2 Integrate feature flag system into void.html
 - [x] 1.3 Add feature flag initialization at app start
 - [x] 1.4 Create Settings UI for experimental features (Rich Text, Comments, Slash Commands)
 - [x] 1.5 Add Tiptap CDN loading with try/catch (loaded only when enabled)
@@ -268,7 +268,7 @@ Technical notes here
 
 **Phase 1: Safety Foundation (Week 1)** - Focus: Setup and infrastructure
 - [x] 1.1 Create feature flag configuration system
-- [x] 1.2 Integrate feature flag system into task-manager.html
+- [x] 1.2 Integrate feature flag system into void.html
 - [x] 1.3 Add feature flag initialization at app start
 - [x] 1.4 Create Settings UI for experimental features (Rich Text, Comments, Slash Commands)
 - [x] 1.5 Add Tiptap CDN loading with try/catch (loaded only when enabled)

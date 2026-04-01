@@ -12,7 +12,7 @@
 - **Issue**: Welcome screen flashes on page reload due to race condition
 - **Root Cause**: HTML renders before JavaScript initialization
 - **Solution**: Hide welcome screen immediately at start of DOMContentLoaded
-- **Files Modified**: task-manager.html (lines 3427-3431, 2584, 3192)
+- **Files Modified**: void.html (lines 3427-3431, 2584, 3192)
 - **Risk Level**: Very Low
 - **Status**: ✅ Complete
 
@@ -23,7 +23,7 @@
   - `docs/architecture/src/comment-models.js` - Comment data models and schemas
   - `docs/architecture/src/utilities.js` - Error handling and helper utilities
 
-- **Integrated Into task-manager.html**:
+- **Integrated Into void.html**:
   - ✅ Feature flag configuration object
   - ✅ Feature flag initialization function (`initFeatureFlags()`)
   - ✅ Toggle function (`toggleFeature()`)
@@ -64,7 +64,7 @@
 4. `utilities.js` - Error handling helpers (250 lines)
 
 ### Modified Files
-1. `task-manager.html`
+1. `void.html`
    - Lines 3427-3431: Welcome screen flicker fix
    - Lines 2584, 3192: Safety null checks
    - Lines 2860-2925: Feature flag system integration

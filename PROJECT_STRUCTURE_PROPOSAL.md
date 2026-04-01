@@ -4,7 +4,7 @@
 
 ```
 MarkdownTaskManager-1.2/
-├── task-manager.html          ← THE APP (190KB)
+├── void.html          ← THE APP (190KB)
 ├── AI_WORKFLOW.md
 ├── CHATGPT.md.exemple
 ├── CLAUDE.md.exemple
@@ -41,7 +41,7 @@ MarkdownTaskManager-1.2/
 
 ```
 MarkdownTaskManager-1.2/
-├── task-manager.html          ← THE APP (only file at root!)
+├── void.html          ← THE APP (only file at root!)
 │
 ├── 📁 docs/                   ← User documentation
 │   ├── README.md              ← Main user guide
@@ -134,7 +134,7 @@ mv examples/README.md docs/examples/FORMAT.md
 
 ```
 MarkdownTaskManager-1.2/
-├── task-manager.html          ← ✅ Only app at root!
+├── void.html          ← ✅ Only app at root!
 │
 ├── 📁 docs/
 │   ├── README.md
@@ -204,7 +204,7 @@ I can:
 
 | Principle | Application |
 |-----------|-------------|
-| **Single purpose** | `task-manager.html` alone at root |
+| **Single purpose** | `void.html` alone at root |
 | **Group by function** | docs/, internal/, .claude/ |
 | **User-facing first** | docs/ is first after app |
 | **Version isolation** | changelog/ organized by version |

@@ -79,7 +79,7 @@ Steps you followed (and can repeat):
 
    ```bash
    git status -sb            # confirm only intended files are changed
-   git add task-manager.html
+   git add void.html
    git commit -m "fix: correctly increment last task id"
    git log -1 --oneline      # note the hash, e.g. cc04c11
    ```
@@ -219,7 +219,7 @@ Practical rules:
 
 ### 5.4. Editing the same file differently across branches
 
-**Pitfall:** You make unrelated changes to `task-manager.html` in multiple branches, leading to repeated merge conflicts.
+**Pitfall:** You make unrelated changes to `void.html` in multiple branches, leading to repeated merge conflicts.
 
 **Avoid it:**
 

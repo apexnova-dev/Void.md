@@ -1,5 +1,5 @@
 /**
- * Feature Flag System for Markdown Task Manager 1.2.0
+ * Feature Flag System for Void.md 1.2.0
  * 
  * Conservative implementation approach - all features OFF by default (opt-in only)
  * No breaking changes to existing functionality

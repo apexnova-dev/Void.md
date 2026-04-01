@@ -1,6 +1,6 @@
-# AI assistant guide – Markdown Task Manager (core package)
+# AI assistant guide – Void.md (core package)
 
-This document is for **coding agents** (Cursor, Claude, Copilot, etc.) when working with this **standalone folder**: a single HTML app plus `kanban.md` and `archive.md`. It summarizes the **markdown contract** and **workflow** so tasks stay compatible with `task-manager.html`.
+This document is for **coding agents** (Cursor, Claude, Copilot, etc.) when working with this **standalone folder**: a single HTML app plus `kanban.md` and `archive.md`. It summarizes the **markdown contract** and **workflow** so tasks stay compatible with `void.html`.
 
 If you have the **full repository** checked out, also read `AGENTS.md` (build, tests, conventions) and `.claude/skills/markdown-task-manager/SKILL.md` (full task skill). This file is the **portable** copy for zips and minimal deployments.
 
@@ -10,7 +10,7 @@ If you have the **full repository** checked out, also read `AGENTS.md` (build, t
 
 | Item                | Role                                                                                                                                                           |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `task-manager.html` | The app: open in **Chrome, Edge, or Opera** (Chromium). Uses the **File System Access API**; Firefox and Safari are not supported for folder pick / live save. |
+| `void.html` | The app: open in **Chrome, Edge, or Opera** (Chromium). Uses the **File System Access API**; Firefox and Safari are not supported for folder pick / live save. |
 | `kanban.md`         | Active board: configuration, columns, and tasks.                                                                                                               |
 | `archive.md`        | Long-term storage for tasks moved to archive (by user action in the app or by explicit edit).                                                                  |
 | `HOW-TO-RUN.md`     | Human-oriented run instructions.                                                                                                                               |
@@ -25,7 +25,7 @@ If you have the **full repository** checked out, also read `AGENTS.md` (build, t
 **The human must:**
 
 - Install and open a supported browser.
-- Open `task-manager.html` and **grant a directory** when prompted (File System Access API permission).
+- Open `void.html` and **grant a directory** when prompted (File System Access API permission).
 - Reload or use the app UI to see changes the AI made to files on disk.
 
 **The AI can:**
@@ -117,7 +117,7 @@ Do not rename column sections casually without updating the configuration line t
 
 This folder is built from the repository’s **`core` branch** intent: **stable Kanban**, task CRUD, filters, archives, multi-project, theme/language—**without relying on experimental features**.
 
-The shipped `task-manager.html` may still contain **feature flags** in code (e.g. rich text, comments, slash commands). In the core package they are **`enabled: false` by default**; users can turn some on via **Settings** and `localStorage`. Treat the **default** experience as “core”; optional flags are **off** unless the user enables them.
+The shipped `void.html` may still contain **feature flags** in code (e.g. rich text, comments, slash commands). In the core package they are **`enabled: false` by default**; users can turn some on via **Settings** and `localStorage`. Treat the **default** experience as “core”; optional flags are **off** unless the user enables them.
 
 ---
 
@@ -129,7 +129,7 @@ The shipped `task-manager.html` may still contain **feature flags** in code (e.g
 
 **With the full repo** (optional):
 
-- Follow `AGENTS.md`: load `docs/architecture/tests/unit-tests.js` in the browser console against `task-manager.html`, or use the test page workflow described there.
+- Follow `AGENTS.md`: load `docs/architecture/tests/unit-tests.js` in the browser console against `void.html`, or use the test page workflow described there.
 
 ---
 
@@ -143,4 +143,4 @@ The shipped `task-manager.html` may still contain **feature flags** in code (e.g
 
 ---
 
-*Core package – Markdown Task Manager. For full-repo agent conventions, see `AGENTS.md` and `.claude/skills/markdown-task-manager/SKILL.md`.*
+*Core package – Void.md. For full-repo agent conventions, see `AGENTS.md` and `.claude/skills/markdown-task-manager/SKILL.md`.*
