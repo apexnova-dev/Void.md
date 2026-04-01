@@ -4,23 +4,103 @@
 
 ---
 
-## 🏗️ Branch Structure
+## 🎯 What is Void.md?
+
+Void.md is a local-first Kanban task manager that works with local Markdown files. It has no cloud dependency and runs entirely in the browser using the File System Access API.
+
+---
+
+## 🏗️ Three-Branch Architecture
+
+Void.md uses a **three-branch strategy** to manage development, testing, and releases:
 
 ```
-production    ← Stable releases (v1.3.1)
-    ↑
-core          ← Development branch (v1.3.1-core)
-    ↑
-experimental  ← Bleeding edge features (v1.3.1-exp)
+┌─────────────────────────────────────────────────────────────────────┐
+│                        BRANCH HIERARCHY                             │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   experimental ──────────────► core ──────────────► production      │
+│                                                                     │
+│   ↑                              ↑                              ↑    │
+│   │                              │                              │    │
+│   │                              │                              │    │
+│   │    • New features            │   • Bug fixes               │    │
+│   │    • Testing ideas           │   • Development             │    │
+│   │    • Breaking changes        │   • Daily work              │    │
+│   │    • Experimental            │                              │    │
+│   │                              │                              │    │
+│   │                              │                              │    │
+│   │   Version: 1.3.1-exp        │   Version: 1.3.1-core       │    │
+│   │                              │                              │    │
+│   │                              │                              │    │
+│   │   "Testing new ideas"        │   "Working on features"      │    │
+│   │                              │                              │    │
+│   │                              │                              │    │
+│   │                              │                              │    │
+│   │                              │                              │    │
+│   └──────────────────────────────┴──────────────────────────────┘    │
+│                                                                     │
+│                              production                              │
+│                                                                     │
+│                              Version: 1.3.1                          │
+│                                                                     │
+│                         "Stable & Ready"                            │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Branch Definitions
 
-| Branch | Purpose | Version Suffix | Notes |
-|--------|---------|----------------|-------|
-| `production` | Stable releases for end users | *(none)* | Clean version numbers only |
-| `core` | Active development & bug fixes | `-core` | Default branch for daily work |
-| `experimental` | New features, testing | `-exp` | May contain breaking changes |
+| Branch | Purpose | Who Uses It | Version | When to Merge |
+|--------|---------|--------------|---------|---------------|
+| `experimental` | **Testing ground** for new ideas, features that might fail, breaking changes | Developers testing concepts | `-exp` | When ready to share testing |
+| `core` | **Primary development** for bug fixes and approved features | All developers | `-core` | When work is stable |
+| `production` | **Stable releases** for end users | End users | *(none)* | When ready to ship |
+
+---
+
+## 🔄 How the Branches Work Together
+
+### The Flow
+
+```
+    ┌─────────────┐
+    │  IDEA       │  ← Someone has an idea
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │ EXPERIMENTAL │  ← Build it, test it, break it
+    └──────┬──────┘
+           │  When stable & approved
+           ▼
+    ┌─────────────┐
+    │    CORE      │  ← Bug fixes & development
+    └──────┬──────┘
+           │  When ready to ship
+           ▼
+    ┌─────────────┐
+    │ PRODUCTION  │  ← Live for users
+    └─────────────┘
+```
+
+### Decision Rules
+
+| Question | Answer | Action |
+|----------|--------|--------|
+| Is it a new experimental feature? | → | Build in `experimental` |
+| Is it a bug fix? | → | Fix in `core` |
+| Is it stable and ready for users? | → | Merge to `production` |
+| Want to test something risky? | → | Use `experimental` |
+| Is it a hotfix for production? | → | Fix in `core`, then sync |
+
+### Version Suffix Rules
+
+| Branch | Suffix | Example | Meaning |
+|--------|--------|---------|---------|
+| `production` | *(none)* | `v1.3.1` | Clean, official release |
+| `core` | `-core` | `v1.3.1-core` | Development build |
+| `experimental` | `-exp` | `v1.3.1-exp` | Experimental build |
 
 ---
 
@@ -29,6 +109,8 @@ experimental  ← Bleeding edge features (v1.3.1-exp)
 ```
 experimental → core → production
 ```
+
+**Never merge in reverse (production → core → experimental) except for critical hotfixes.**
 
 ### Step-by-Step Merge Checklist
 
