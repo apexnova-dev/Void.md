@@ -2514,8 +2514,35 @@ function deleteFromArchive(taskId) {
 }
 
 // ===== CHANGE LOG SYSTEM =====
+// ===== CHANGE LOG SYSTEM =====
+        // Branch identifier - set suffix for non-production builds
+        // Options: '' (production), '-core', '-exp'
+        const BRANCH_SUFFIX = '-core'; // CHANGE THIS when merging to other branches
+        
         let currentVersion = '1.3.1'; // Major UI/UX improvements
         let changeLog = []; // In-memory change log
+        
+        // Get display version with branch suffix
+        function getDisplayVersion() {
+            return currentVersion + (BRANCH_SUFFIX || '');
+        }
+        
+        // Update all version displays (header badge, settings modal, etc.)
+        function updateVersionDisplays() {
+            const displayVersion = getDisplayVersion();
+            
+            // Update header version badge
+            const headerVersionBadge = document.getElementById('versionBadge');
+            if (headerVersionBadge) {
+                headerVersionBadge.textContent = 'v. ' + displayVersion;
+            }
+            
+            // Update Settings modal version
+            const settingsVersionBadge = document.querySelector('.about-section .version-badge');
+            if (settingsVersionBadge) {
+                settingsVersionBadge.textContent = 'v. ' + displayVersion;
+            }
+        }
 
         const ChangeLogManager = {
             // Log a change with structured data
@@ -4808,6 +4835,9 @@ function deleteFromArchive(taskId) {
         window.addEventListener('DOMContentLoaded', async () => {
             console.log('🚀 DOMContentLoaded fired - starting initialization');
             console.log('📍 Current URL:', window.location.href);
+
+            // Update version displays with branch suffix
+            updateVersionDisplays();
 
             // Early unsupported-browser notice (Firefox/Safari lack File System Access API)
             if (!window.showDirectoryPicker) {
