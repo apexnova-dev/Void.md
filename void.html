@@ -2410,12 +2410,12 @@ function renderColumnsList() {
     if (config.columns && config.columns.length > 0) {
         config.columns.forEach((col, index) => {
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem;';
+            div.className = 'column-item';
             div.innerHTML = `
-                <span style="font-weight: 500;">${col.name}</span>
-                <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="renameColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">✏️</button>
-                    ${config.columns.length > 1 ? `<button onclick="deleteColumn(${index})" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>` : ''}
+                <span class="column-name">${escapeHtml(col.name)}</span>
+                <div class="column-actions">
+                    <button onclick="renameColumn(${index})" title="Rename">✏️</button>
+                    ${config.columns.length > 1 ? `<button onclick="deleteColumn(${index})" title="Delete">🗑️</button>` : ''}
                 </div>
             `;
             list.appendChild(div);
