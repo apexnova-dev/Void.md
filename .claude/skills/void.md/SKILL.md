@@ -1,5 +1,5 @@
 ---
-name: markdown-task-manager
+name: void-md-task-manager
 description: Use when managing tasks, the system is a Kanban task manager based on local Markdown files (`kanban.md` and `archive.md`). It follows a strict format compatible with the void.html web application.
 ---
 
@@ -305,16 +305,16 @@ Before using the skill, verify the project contains:
 ### First Use
 
 ```text
-"Use the markdown-task-manager skill to create a task for [feature]"
+"Use the void.md skill to create a task for [feature]"
 ```
 
 ### Invocation Examples
 
 ```text
-"Skill markdown-task-manager: create a task to implement authentication"
-"Skill markdown-task-manager: update TASK-007 with results"
-"Skill markdown-task-manager: list all tasks in progress"
-"Skill markdown-task-manager: archive completed tasks"
+"Skill void.md: create a task to implement authentication"
+"Skill void.md: update TASK-007 with results"
+"Skill void.md: list all tasks in progress"
+"Skill void.md: archive completed tasks"
 ```
 
 ## 🔍 Implementation Details

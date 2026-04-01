@@ -16,7 +16,7 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 
 ---
 
-## 📝 Latest Updates (February 2026)
+## 📝 Latest Updates (April 2026)
 
 ### Modal & Header UX
 
@@ -331,11 +331,11 @@ cp CLAUDE.md.exemple your-project/CLAUDE.md
 
 ```bash
 # Copy the skill directory (metadata lives in SKILL.md)
-cp -R .claude/skills/markdown-task-manager ~/.claude/skills/
+cp -R .claude/skills/void.md ~/.claude/skills/
 # Restart Claude Code to activate the skill
 ```
 
-Claude Code reads the `SKILL.md` metadata inside this directory, which is why the whole folder must be copied. The `markdown-task-manager` skill enables Claude Code to automatically manage your tasks with the required strict format. Once installed globally, it's available across all your projects.
+Claude Code reads the `SKILL.md` metadata inside this directory, which is why the whole folder must be copied. The `void.md` skill enables Claude Code to automatically manage your tasks with the required strict format. Once installed globally, it's available across all your projects.
 
 **Using the Claude Code skill:**
 Once the skill is installed and Claude Code is restarted, the skill will automatically detect projects containing `kanban.md` and `archive.md`. You can simply ask:
@@ -1283,13 +1283,14 @@ Contributions welcome! Here's how to help:
 - ✅ Auto-save
 - ✅ AI integration
 
-### Version 1.1.1 (Current)
+### Version 1.3.1 (Current)
 
-- ✅ Dark mode
-- ✅ Professional change logging system
-- ✅ Semantic version management
-- ✅ Developer documentation console
-- ✅ Automated release notes generation
+- ✅ Void.md brand identity (Neon City theme, cyan/magenta accents)
+- ✅ Dark mode by default with smooth theme transitions
+- ✅ Theme init script prevents flash (inline head script + initTheme sync)
+- ✅ Modal backdrop close (click outside to close)
+- ✅ Body scroll lock when modal open
+- ✅ Responsive header with grouped layout
 
 ### Next versions
 
