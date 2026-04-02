@@ -1,5 +1,9 @@
 # Core Domain Concepts - Enhanced Comments System
 
+**Status (April 2026):** SPECIFICATION ONLY - Not implemented in v1.3.1
+
+> This document describes the domain concepts for a planned threaded comments system. The v1.3.1 release includes only the Tiptap rich text editor for task Notes. The full comments system (threads, comments, reactions, @mentions) is planned for a future release.
+
 ## 1. Comment Thread Concepts
 
 ### 1.1 Thread Entity

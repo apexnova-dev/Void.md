@@ -1,5 +1,7 @@
 # Void.md — Markdown Task Protocol (AI)
 
+> **Local-first Kanban** with Neon City soul (dark theme, cyan/magenta accents).
+
 **Data sovereignty:** No cloud — your Markdown files are the source of truth. **Void.md** is the local-first Kanban; open **`void.html`** in a supported browser to edit the same files live.
 
 This file is the **master protocol** for all AI assistants (Claude, ChatGPT, Copilot, Gemini, Cursor, etc.) working with `kanban.md` and `archive.md`.
@@ -121,6 +123,21 @@ Fabricated notes undermine trust and make the audit trail meaningless.
 - Completed tasks remain in "✅ Done"
 - **Only on user request** → move to `archive.md` section `## ✅ Archives`
 - **Never archive directly at the end of work**
+
+---
+
+### Core vs Full App
+
+The same `void.html` may contain **experimental features** (rich text editor, comments, slash commands). These are **disabled by default** in the core experience:
+
+| Mode | Features | How Enabled |
+|------|----------|-------------|
+| **Core** | Kanban, task CRUD, filters, archives, multi-project, themes, language | Default (out of box) |
+| **Experimental** | Rich text (Tiptap), comments, slash commands | User enables in Settings |
+
+The `core-package/` folder provides the portable core-only version. For this AI guide, treat the **default** experience as "core" — optional flags are **off** unless the user explicitly enables them.
+
+> **Note:** If working with just the portable `core-package/` folder (no full repo), see `AI_GUIDE.md` in that folder for a concise version of this guide.
 
 ---
 

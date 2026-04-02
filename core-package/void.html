@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Void.md</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script>
         (function () {
             try {
@@ -715,6 +716,8 @@
             border-radius: 12px;
             width: 90%;
             max-width: 600px;
+            min-width: 320px;
+            height: 90vh;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
@@ -766,6 +769,8 @@
             width: min(95%, 880px);
             max-width: 880px;
             min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
 
         /* Force new task modal to be wide and tall so form body gets space and scrolls inside */
@@ -778,7 +783,11 @@
         }
 
         .modal-content--task-detail {
-            max-width: 680px;
+            width: min(95%, 700px);
+            max-width: 700px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
 
         /* Task detail modal: comfortable size and height so body scrolls inside */
@@ -848,23 +857,6 @@
         }
 
         /* Settings Modal Styles */
-        .settings-section {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .settings-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .settings-section h3 {
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-size: 1.1rem;
-        }
-
         .setting-item {
             display: flex;
             justify-content: space-between;
@@ -1207,13 +1199,6 @@
             gap: 1.5rem;
         }
 
-        .settings-section {
-            background: var(--surface-card);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.25rem;
-        }
-
         .settings-section h3 {
             margin-bottom: 1rem;
             color: var(--text-primary);
@@ -1481,11 +1466,6 @@
             color: white;
             border-color: #d97706;
         }
-        .modal-content--task-form {
-            width: 95%;
-            max-width: 880px;
-            min-width: 320px;
-        }
         .form-hint {
             color: var(--text-secondary);
             font-size: 0.85rem;
@@ -1521,14 +1501,24 @@
             color: var(--text-secondary);
         }
         .modal-content--columns {
+            width: min(95%, 800px);
             max-width: 800px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
         
-        /* Column management styles */
+        .modal-content--settings {
+            width: min(95%, 600px);
+            max-width: 600px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
+        }
+        
         #columnsList .column-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             padding: 0.75rem 1rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -1537,40 +1527,9 @@
             gap: 1rem;
         }
         
-        #columnsList .column-item:hover {
-            border-color: var(--accent);
-        }
-        
-        #columnsList .column-name-display {
+        #columnsList .column-name {
             flex: 1;
             font-weight: 500;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        
-        #columnsList .column-name-display:hover {
-            background: var(--accent-subtle);
-        }
-        
-        #columnsList .column-name-display.has-changes {
-            color: var(--accent);
-        }
-        
-        #columnsList .column-name-input {
-            flex: 1;
-            padding: 0.5rem;
-            border: 2px solid var(--accent);
-            border-radius: 4px;
-            font-size: 1rem;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-        
-        #columnsList .column-name-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 212, 232, 0.3);
         }
         
         #columnsList .column-actions {
@@ -1580,19 +1539,14 @@
         
         #columnsList .column-actions button {
             padding: 0.5rem 0.75rem;
-            border: none;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
+            background: var(--bg-tertiary);
             cursor: pointer;
-            transition: all 0.2s;
         }
         
-        #columnsList .column-actions .btn-delete {
-            background: none;
-            color: var(--priority-red);
-        }
-        
-        #columnsList .column-actions .btn-delete:hover {
-            background: rgba(239, 68, 68, 0.1);
+        #columnsList .column-actions button:hover {
+            border-color: var(--accent);
         }
         
         .columns-modal-actions {
@@ -1603,15 +1557,19 @@
             padding-top: 1rem;
             border-top: 1px solid var(--border-color);
         }
-        
         .modal-body-scroll--pad {
             padding: 1.5rem;
         }
         #addColumnBtn {
             margin-top: 1rem;
+            width: 100%;
         }
         .modal-content--archive {
+            width: min(95%, 900px);
             max-width: 900px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
         .archive-search-wrap {
             margin-bottom: 1rem;
@@ -1643,7 +1601,7 @@
                 <div class="header-buttons">
                     <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" aria-label="Settings">⚙️ Settings</button>
                     <button id="selectFolderBtn" class="btn btn-primary" aria-label="Choose folder">📁 Folder</button>
-                    <button id="newTaskBtn" class="btn btn-secondary" aria-label="New task" onclick="typeof openTaskModal === 'function' && openTaskModal()">➕ Task</button>
+                    <button id="newTaskBtn" class="btn btn-secondary" aria-label="New task">➕ Task</button>
                 </div>
             </div>
         </div>
@@ -1675,30 +1633,30 @@
                     <select id="filterTagSelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('tag')" class="btn btn-primary filter-btn-sm">+</button>
+                    <button onclick="addFilter('tag')" aria-label="Add tag filter" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">Category:</label>
                     <select id="filterCategorySelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('category')" class="btn btn-primary filter-btn-sm">+</button>
+                    <button onclick="addFilter('category')" aria-label="Add category filter" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">User:</label>
                     <select id="filterUserSelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('user')" class="btn btn-primary filter-btn-sm">+</button>
+                    <button onclick="addFilter('user')" aria-label="Add user filter" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">Priority:</label>
                     <select id="filterPrioritySelect" class="filter-select">
                         <option value="">Select...</option>
                     </select>
-                    <button onclick="addFilter('priority')" class="btn btn-primary filter-btn-sm">+</button>
+                    <button onclick="addFilter('priority')" aria-label="Add priority filter" class="btn btn-primary filter-btn-sm">+</button>
                 </div>
-                <button onclick="clearFilters()" class="btn btn-secondary filter-clear-btn">✕ Clear all</button>
+                <button onclick="clearFilters()" aria-label="Clear all filters" class="btn btn-secondary filter-clear-btn">✕ Clear all</button>
             </div>
             <div id="activeFilters"></div>
         </div>
@@ -1965,12 +1923,12 @@ You can use Markdown:
                     <!-- Rich editor (visible when Editor Mode is Rich); toolbar + container -->
                     <div id="notesRichEditorWrap">
                         <div id="tiptapToolbar" class="tiptap-toolbar">
-                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold">B</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic">I</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="code" title="Code">&lt;/&gt;</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="bulletList" title="Bullet list">• List</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="orderedList" title="Numbered list">1. List</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="clearFormatting" title="Clear formatting">Clear</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold" aria-label="Bold">B</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic" aria-label="Italic">I</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="code" title="Code" aria-label="Code">&lt;/&gt;</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bulletList" title="Bullet list" aria-label="Bullet list">• List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="orderedList" title="Numbered list" aria-label="Numbered list">1. List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="clearFormatting" title="Clear formatting" aria-label="Clear formatting">Clear</button>
                         </div>
                         <div id="tiptapContainer" class="tiptap-container"></div>
                     </div>
@@ -1997,12 +1955,11 @@ You can use Markdown:
                 <button type="button" class="close-btn" onclick="closeColumnsModal()" aria-label="Close columns">&times;</button>
             </div>
             <div class="modal-body-scroll modal-body-scroll--pad">
-                <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">Click a column name to edit it inline. Changes are saved when you click "Save All".</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Click column names to edit. Changes are saved automatically.</p>
                 <div id="columnsList"></div>
-                <button id="addColumnBtn" onclick="addColumnInline()" class="btn btn-primary" style="margin-top: 1rem;">+ Add Column</button>
+                <button id="addColumnBtn" onclick="addColumn()" class="btn btn-primary" style="margin-top: 1rem;">+ Add Column</button>
                 <div class="columns-modal-actions">
-                    <button class="btn btn-secondary" onclick="closeColumnsModal()">Cancel</button>
-                    <button class="btn btn-primary" onclick="saveColumnsChanges()">Save All</button>
+                    <button class="btn btn-secondary" onclick="closeColumnsModal()">Close</button>
                 </div>
             </div>
         </div>
@@ -2024,7 +1981,7 @@ You can use Markdown:
         </div>
     </div>
 
-    <div id="notification" class="notification">
+    <div id="notification" class="notification" role="status" aria-live="polite">
         <span id="notificationText"></span>
     </div>
 
@@ -2054,8 +2011,46 @@ You can use Markdown:
         let archivedTasks = [];
         let archiveFileHandle = null;
         
+        // ===== FOCUS MANAGEMENT =====
+        let lastFocusedElement = null;
+
+        function trapFocus(element) {
+            const focusableElements = element.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            const firstFocusable = focusableElements[0];
+            const lastFocusable = focusableElements[focusableElements.length - 1];
+
+            element.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey && document.activeElement === firstFocusable) {
+                        e.preventDefault();
+                        lastFocusable.focus();
+                    } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                        e.preventDefault();
+                        firstFocusable.focus();
+                    }
+                }
+            });
+        }
+
+        function setFocusToModal(modal) {
+            lastFocusedElement = document.activeElement;
+            const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusable) focusable.focus();
+        }
+
+        function returnFocus() {
+            if (lastFocusedElement) lastFocusedElement.focus();
+        }
+        
         // ===== DEBUGGING =====
-        let debugMode = true; // Enable verbose console logging for troubleshooting
+        let debugMode = false; // Disable verbose logging in production; enable via Settings or localStorage
+
+        // ===== DOM CACHE =====
+        const $ = (id) => document.getElementById(id);
+        const $$ = (sel) => document.querySelector(sel);
+        const $$$ = (sel) => document.querySelectorAll(sel);
 
         // ===== GLOBAL ONCLICK FUNCTIONS =====
 // Escape HTML for safe insertion into innerHTML (XSS prevention)
@@ -2115,9 +2110,54 @@ function clearAllData() {
         localStorage.clear();
         projects = [];
         currentProjectIndex = 0;
+        
+        // Clear IndexedDB projects store
+        clearIndexedDBProjects().catch(err => {
+            console.error('Failed to clear IndexedDB:', err);
+        });
+        
         showNotification('All local data cleared', 'success');
         console.log('🗑️ All local data cleared');
     }
+}
+
+// Helper function to clear IndexedDB projects store
+async function clearIndexedDBProjects() {
+    return new Promise((resolve, reject) => {
+        const dbName = 'TaskManagerDB';
+        const request = indexedDB.open(dbName);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('projects')) {
+                db.createObjectStore('projects', { keyPath: 'id' });
+            }
+        };
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('projects')) {
+                resolve();
+                return;
+            }
+            const transaction = db.transaction(['projects'], 'readwrite');
+            const store = transaction.objectStore('projects');
+            store.clear();
+            transaction.oncomplete = () => {
+                console.log('  ✅ IndexedDB projects cleared');
+                resolve();
+            };
+            transaction.onerror = () => {
+                console.error('  ❌ Error clearing IndexedDB:', transaction.error);
+                reject(transaction.error);
+            };
+        };
+
+        request.onerror = () => {
+            console.error('  ❌ Error opening IndexedDB:', request.error);
+            reject(request.error);
+        };
+    });
 }
 
 // Global function to export project data
@@ -2146,25 +2186,6 @@ function exportProject() {
     
     showNotification('Project data exported', 'success');
     console.log('📤 Project data exported');
-}
-
-// Global function for rename project (already called by onclick)
-function renameCurrentProject() {
-    const projectName = prompt('Enter new project name:');
-    if (projectName && projectName.trim()) {
-        // Implementation needed
-        console.log('📝 Rename project to:', projectName.trim());
-        showNotification('Project rename not yet implemented', 'warning');
-    }
-}
-
-// Global function for delete project (already called by onclick)
-function deleteCurrentProject() {
-    if (confirm('Are you sure you want to remove this project from the list?')) {
-        // Implementation needed
-        console.log('🗑️ Delete current project from list');
-        showNotification('Project deletion not yet implemented', 'warning');
-    }
 }
 
 // ===== MODAL FUNCTIONS =====
@@ -2301,8 +2322,14 @@ function openTaskModal(task = null) {
     // Show plain textarea or rich editor based on Editor Mode
     const taskNotesEl = document.getElementById('taskNotes');
     const richWrap = document.getElementById('notesRichEditorWrap');
+    let editorMode = 'plain';
+    try {
+        editorMode = localStorage.getItem('editorMode') || 'plain';
+    } catch (e) {
+        console.warn('localStorage read failed:', e);
+    }
     const useRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled &&
-        (localStorage.getItem('editorMode') || 'plain') === 'rich' &&
+        editorMode === 'rich' &&
         typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
     if (taskNotesEl) taskNotesEl.style.display = useRich ? 'none' : 'block';
     if (richWrap) richWrap.style.display = useRich ? 'block' : 'none';
@@ -2362,7 +2389,7 @@ document.addEventListener('keydown', function (e) {
 
 // Close modal when clicking the backdrop (outside the content) - run when DOM is ready
 function initModalBackdropClose() {
-    var modals = document.querySelectorAll('.modal');
+    const modals = document.querySelectorAll('.modal');
     modals.forEach(function (modal) {
         modal.addEventListener('click', function (e) {
             if (e.target !== modal) return;
@@ -2378,264 +2405,6 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initModalBackdropClose);
 } else {
     initModalBackdropClose();
-}
-
-function addFormSubtask() {
-    const input = document.getElementById('formSubtaskInput');
-    const text = input.value.trim();
-    if (text) {
-        formSubtasks.push({ text, completed: false });
-        input.value = '';
-        renderFormSubtasks();
-    }
-}
-
-function renderFormSubtasks() {
-    const list = document.getElementById('formSubtasksList');
-    if (!list) return;
-    
-    list.innerHTML = '';
-    formSubtasks.forEach((subtask, index) => {
-        const li = document.createElement('li');
-        li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: var(--bg-secondary); border-radius: 4px; margin-bottom: 0.5rem;';
-        li.innerHTML = `
-            <span style="flex: 1; ${subtask.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${escapeHtml(subtask.text)}</span>
-            <div style="display: flex; gap: 0.5rem;">
-                <button onclick="toggleFormSubtask(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">${subtask.completed ? '↩️' : '✅'}</button>
-                <button onclick="removeFormSubtask(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; background: #ef4444; color: white; border: none; border-radius: 3px;">×</button>
-            </div>
-        `;
-        list.appendChild(li);
-    });
-}
-
-function toggleFormSubtask(index) {
-    formSubtasks[index].completed = !formSubtasks[index].completed;
-    renderFormSubtasks();
-}
-
-function removeFormSubtask(index) {
-    formSubtasks.splice(index, 1);
-    renderFormSubtasks();
-}
-
-// Columns Modal Functions
-function openColumnsModal() {
-    const modal = document.getElementById('columnsModal');
-    if (modal) {
-        modal.classList.add('active');
-        setBodyModalOpen(true);
-        renderColumnsList();
-        console.log('✅ Columns modal opened');
-    }
-}
-
-function closeColumnsModal() {
-    const modal = document.getElementById('columnsModal');
-    if (modal) {
-        modal.classList.remove('active');
-        setBodyModalOpen(false);
-        console.log('✅ Columns modal closed');
-    }
-}
-
-// Track pending changes (not yet saved)
-let pendingColumnChanges = [];
-
-function renderColumnsList() {
-    const list = document.getElementById('columnsList');
-    if (!list) return;
-    
-    list.innerHTML = '';
-    pendingColumnChanges = [];
-    
-    if (config.columns && config.columns.length > 0) {
-        config.columns.forEach((col, index) => {
-            const div = document.createElement('div');
-            div.className = 'column-item';
-            div.innerHTML = `
-                <span class="column-name-display" 
-                      data-index="${index}" 
-                      onclick="startColumnEdit(${index})" 
-                      title="Click to edit">${escapeHtml(col.name)}</span>
-                <div class="column-actions">
-                    ${config.columns.length > 1 ? `<button class="btn-delete" onclick="deleteColumn(${index})" title="Delete column">🗑️</button>` : ''}
-                </div>
-            `;
-            list.appendChild(div);
-        });
-    } else {
-        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No columns configured. Click "Add Column" to create one.</p>';
-    }
-}
-
-function startColumnEdit(index) {
-    const list = document.getElementById('columnsList');
-    const displaySpan = list.querySelector(`.column-name-display[data-index="${index}"]`);
-    if (!displaySpan) return;
-    
-    const currentName = config.columns[index].name;
-    
-    // Create input field
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'column-name-input';
-    input.value = currentName;
-    input.dataset.index = index;
-    
-    // Handle Enter key and blur
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            input.blur();
-        } else if (e.key === 'Escape') {
-            // Cancel editing
-            renderColumnsList();
-        }
-    });
-    
-    input.addEventListener('blur', () => {
-        const newName = input.value.trim();
-        if (newName && newName !== currentName) {
-            // Track the change
-            pendingColumnChanges[index] = newName;
-            displaySpan.textContent = newName;
-            displaySpan.classList.add('has-changes');
-            showNotification('Column renamed - click "Save All" to apply', 'info');
-        } else {
-            displaySpan.textContent = currentName;
-        }
-    });
-    
-    // Replace display with input
-    displaySpan.replaceWith(input);
-    input.focus();
-    input.select();
-}
-
-function addColumnInline() {
-    if (!config.columns) config.columns = [];
-    
-    // Add new column with default name
-    const newIndex = config.columns.length;
-    const newName = 'New Column';
-    const id = newName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-    config.columns.push({ name: newName, id });
-    
-    // Re-render and immediately start editing
-    renderColumnsList();
-    
-    // Start editing the new column
-    setTimeout(() => startColumnEdit(newIndex), 100);
-}
-
-function deleteColumn(index) {
-    if (config.columns.length <= 1) {
-        showNotification('Cannot delete the last column', 'error');
-        return;
-    }
-    
-    if (confirm(`Delete column "${config.columns[index].name}"? This cannot be undone.`)) {
-        config.columns.splice(index, 1);
-        renderColumnsList();
-        showNotification('Column deleted', 'info');
-    }
-}
-
-function saveColumnsChanges() {
-    // Apply any pending name changes
-    let hasChanges = false;
-    
-    for (const [index, newName] of Object.entries(pendingColumnChanges)) {
-        if (newName && newName.trim()) {
-            config.columns[index].name = newName.trim();
-            hasChanges = true;
-        }
-    }
-    
-    // Clear pending changes
-    pendingColumnChanges = [];
-    
-    // Save and update UI
-    renderColumnsList();
-    renderKanban();
-    autoSave();
-    
-    if (hasChanges) {
-        showNotification('Columns saved successfully', 'success');
-        console.log('💾 Columns saved');
-    }
-    
-    // Close modal
-    closeColumnsModal();
-}
-
-// Archives Modal Functions
-function openArchiveModal() {
-    const modal = document.getElementById('archiveModal');
-    if (modal) {
-        modal.classList.add('active');
-        setBodyModalOpen(true);
-        renderArchiveList();
-        console.log('✅ Archives modal opened');
-    }
-}
-
-function closeArchiveModal() {
-    const modal = document.getElementById('archiveModal');
-    if (modal) {
-        modal.classList.remove('active');
-        setBodyModalOpen(false);
-        console.log('✅ Archives modal closed');
-    }
-}
-
-function renderArchiveList(searchTerm = '') {
-    const list = document.getElementById('archiveList');
-    if (!list) return;
-    
-    list.innerHTML = '';
-    const filtered = archivedTasks.filter(task => {
-        if (!searchTerm) return true;
-        const search = searchTerm.toLowerCase();
-        return task.title.toLowerCase().includes(search) || 
-               (task.description && task.description.toLowerCase().includes(search)) ||
-               (task.notes && task.notes.toLowerCase().includes(search));
-    });
-    
-    if (filtered.length === 0) {
-        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">' + t('archives.empty') + '</p>';
-        return;
-    }
-    
-    filtered.forEach(task => {
-        const div = document.createElement('div');
-        div.style.cssText = 'padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.75rem;';
-        
-        let metaHtml = '';
-        if (task.priority) {
-            metaHtml += `<span class="badge badge-priority" style="margin-right: 0.5rem;">${escapeHtml(task.priority)}</span>`;
-        }
-        if (task.category) {
-            metaHtml += `<span class="badge badge-category" style="margin-right: 0.5rem;">${escapeHtml(task.category)}</span>`;
-        }
-        if (task.tags && task.tags.length > 0) {
-            metaHtml += task.tags.map(tag => `<span class="tag" style="margin-right: 0.25rem;">${escapeHtml(tag)}</span>`).join('');
-        }
-        const safeId = escapeJsString(task.id);
-        div.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                <span style="font-weight: 600;">${escapeHtml(task.id)}: ${escapeHtml(task.title)}</span>
-                <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="restoreFromArchive('${safeId}')" title="${t('action.restore')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer;">↩️</button>
-                    <button onclick="deleteFromArchive('${safeId}')" title="${t('action.delete')}" style="padding: 0.5rem; background: none; border: none; cursor: pointer; color: #ef4444;">🗑️</button>
-                </div>
-            </div>
-            ${task.description ? `<p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">${escapeHtml(task.description.substring(0, 100))}${task.description.length > 100 ? '...' : ''}</p>` : ''}
-            <div style="margin-top: 0.5rem;">${metaHtml}</div>
-        `;
-        list.appendChild(div);
-    });
 }
 
 function restoreFromArchive(taskId) {
@@ -2671,7 +2440,6 @@ function deleteFromArchive(taskId) {
     }
 }
 
-// ===== CHANGE LOG SYSTEM =====
 // ===== CHANGE LOG SYSTEM =====
         // Branch identifier - set suffix for non-production builds
         // Options: '' (production), '-core', '-exp'
@@ -3522,7 +3290,7 @@ function deleteFromArchive(taskId) {
                         <button class="btn btn-secondary" onclick="closeModal()">${t('taskDetail.close')}</button>
                         <button class="btn btn-secondary" onclick="deleteCurrentTask()" style="background: #ef4444; color: white;">${t('taskDetail.delete')}</button>
                         <button class="btn btn-secondary" onclick="archiveCurrentTask()" style="background: #f59e0b; color: white;">${t('taskDetail.archive')}</button>
-                        <button class="btn btn-primary" id="editTaskBtn" onclick="editCurrentTask()">${t('taskDetail.edit')}</button>
+                        <button class="btn btn-primary" id="editTaskBtnDetail" onclick="editCurrentTask()">${t('taskDetail.edit')}</button>
                     `;
                 }
             }
@@ -3661,11 +3429,6 @@ function deleteFromArchive(taskId) {
             const previousTheme = currentTheme;
             const newTheme = previousTheme === 'light' ? 'dark' : 'light';
             setTheme(newTheme, true, { skipChangelog: true });
-            ChangeLogManager.logChange('feature',
-                `Toggled theme from ${previousTheme} to ${newTheme}`,
-                'ui',
-                'enhancement',
-                false);
         }
 
         // Toggle theme from settings modal toggle switch
@@ -3673,28 +3436,14 @@ function deleteFromArchive(taskId) {
             toggleTheme();
         }
 
-        // Update theme toggle button appearance
-        function updateThemeToggle() {
-            const headerToggle = document.getElementById('themeToggle');
-            if (headerToggle) {
-                headerToggle.title = currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
-            }
-
-            // Update the settings modal toggle switch
-            const settingsToggle = document.getElementById('themeToggleSwitch');
-            if (settingsToggle) {
-                if (currentTheme === 'dark') {
-                    settingsToggle.classList.add('active');
-                } else {
-                    settingsToggle.classList.remove('active');
-                }
-            }
-        }
-
         // Toggle debug mode
         function toggleDebugMode() {
             debugMode = !debugMode;
-            localStorage.setItem('debugMode', debugMode.toString());
+            try {
+                localStorage.setItem('debugMode', debugMode.toString());
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             updateDebugToggle();
             console.log(`🔧 Debug mode ${debugMode ? 'enabled' : 'disabled'}`);
             showNotification(`Debug mode ${debugMode ? 'enabled' : 'disabled'}`, 'success');
@@ -3714,9 +3463,13 @@ function deleteFromArchive(taskId) {
 
         // Initialize debug mode from localStorage
         function initDebugMode() {
-            const savedDebugMode = localStorage.getItem('debugMode');
-            if (savedDebugMode !== null) {
-                debugMode = savedDebugMode === 'true';
+            try {
+                const savedDebugMode = localStorage.getItem('debugMode');
+                if (savedDebugMode !== null) {
+                    debugMode = savedDebugMode === 'true';
+                }
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
             }
             // Default to false for production, but the variable is initialized to true at the top
             // This allows users to disable it
@@ -3756,9 +3509,13 @@ function deleteFromArchive(taskId) {
         // Initialize feature flags from localStorage
         function initFeatureFlags() {
             for (const [flag, config] of Object.entries(FEATURE_FLAGS)) {
-                const saved = localStorage.getItem(flag);
-                if (saved !== null) {
-                    FEATURE_FLAGS[flag].enabled = saved === 'true';
+                try {
+                    const saved = localStorage.getItem(flag);
+                    if (saved !== null) {
+                        FEATURE_FLAGS[flag].enabled = saved === 'true';
+                    }
+                } catch (e) {
+                    console.warn('localStorage read failed:', e);
                 }
             }
             updateFeatureToggles();
@@ -3775,7 +3532,11 @@ function deleteFromArchive(taskId) {
             }
             
             FEATURE_FLAGS[flagName].enabled = !FEATURE_FLAGS[flagName].enabled;
-            localStorage.setItem(flagName, FEATURE_FLAGS[flagName].enabled.toString());
+            try {
+                localStorage.setItem(flagName, FEATURE_FLAGS[flagName].enabled.toString());
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             
             const status = FEATURE_FLAGS[flagName].enabled ? 'enabled' : 'disabled';
             console.log(`🎛️ Feature ${flagName} ${status}`);
@@ -3819,12 +3580,18 @@ function deleteFromArchive(taskId) {
             
             if (!statusEl) return;
             
+            let savedMode = 'plain';
+            try {
+                savedMode = localStorage.getItem('editorMode') || 'plain';
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+            }
+            
             if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 statusEl.innerHTML = '<span style="color: #22C55E;">✓ Editor loaded and ready</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
-                    const savedMode = localStorage.getItem('editorMode') || 'plain';
                     modeSelect.value = savedMode;
                 }
             } else if (typeof window.Tiptap !== 'undefined') {
@@ -3832,7 +3599,6 @@ function deleteFromArchive(taskId) {
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
-                    const savedMode = localStorage.getItem('editorMode') || 'plain';
                     modeSelect.value = savedMode;
                 }
             } else if (window._tiptapLoading) {
@@ -3854,7 +3620,11 @@ function deleteFromArchive(taskId) {
 
         // Change editor mode (plain text vs rich text)
         function changeEditorMode(mode) {
-            localStorage.setItem('editorMode', mode);
+            try {
+                localStorage.setItem('editorMode', mode);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             console.log(`📝 Editor mode changed to: ${mode}`);
             
             if (mode === 'rich' && typeof window.Tiptap === 'undefined') {
@@ -3867,7 +3637,11 @@ function deleteFromArchive(taskId) {
                     // Get the select element and reset it to plain text
                     const modeSelect = document.getElementById('editorModeSelect');
                     if (modeSelect) modeSelect.value = 'plain';
-                    localStorage.setItem('editorMode', 'plain');
+                    try {
+                        localStorage.setItem('editorMode', 'plain');
+                    } catch (e) {
+                        console.warn('localStorage write failed:', e);
+                    }
                 });
             }
             
@@ -3879,7 +3653,12 @@ function deleteFromArchive(taskId) {
             if (!FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
                 return 'plain'; // Feature disabled, use plain text
             }
-            return localStorage.getItem('editorMode') || 'plain';
+            try {
+                return localStorage.getItem('editorMode') || 'plain';
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+                return 'plain';
+            }
         }
 
         // Update editor badge in task form
@@ -3903,12 +3682,9 @@ function deleteFromArchive(taskId) {
                 status.style.color = '#f59e0b';
             } else {
                 badge.style.display = 'none';
-                const richToggle = document.getElementById('featureRichTextSwitch');
                 const richFlagOn = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled;
-                if (richFlagOn && richToggle) {
+                if (richFlagOn) {
                     status.innerHTML = 'Plain text mode. Open Settings and switch to Rich Text to use formatting tools.';
-                } else if (richFlagOn && !richToggle) {
-                    status.innerHTML = 'Plain text notes. Rich text controls are not available in this build.';
                 } else {
                     status.innerHTML = 'Plain text notes. Enable Rich Text Editor in Settings to unlock formatting tools.';
                 }
@@ -4053,10 +3829,14 @@ function deleteFromArchive(taskId) {
                 let totalSize = 0;
                 
                 taskIds.forEach(taskId => {
-                    const key = RichContentStorage.getKey(taskId);
-                    const data = localStorage.getItem(key);
-                    if (data) {
-                        totalSize += data.length;
+                    try {
+                        const key = RichContentStorage.getKey(taskId);
+                        const data = localStorage.getItem(key);
+                        if (data) {
+                            totalSize += data.length;
+                        }
+                    } catch (error) {
+                        console.warn('RichContentStorage: Error getting stats:', error);
                     }
                 });
                 
@@ -4314,7 +4094,11 @@ function deleteFromArchive(taskId) {
             
             // Disable the feature and fallback to plain text
             FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled = false;
-            localStorage.setItem('ENABLE_RICH_TEXT_EDITOR', 'false');
+            try {
+                localStorage.setItem('ENABLE_RICH_TEXT_EDITOR', 'false');
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             updateFeatureToggles();
             
             return { success: false, error: errorMsg, fallback: 'plain-text' };
@@ -4331,7 +4115,11 @@ function deleteFromArchive(taskId) {
             }
 
             currentTheme = theme;
-            localStorage.setItem('preferredTheme', theme);
+            try {
+                localStorage.setItem('preferredTheme', theme);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
 
             // Add transition class for smooth animation if requested
             if (animate) {
@@ -4351,25 +4139,12 @@ function deleteFromArchive(taskId) {
                 }, 300);
             }
 
-            if (!options.skipChangelog) {
-                ChangeLogManager.logChange('enhancement',
-                    `Theme changed to ${theme} with smooth transitions`,
-                    'ui',
-                    'enhancement',
-                    false);
-            }
-
             console.log(`Theme changed to: ${theme}`);
         }
 
         // Update theme toggle button appearance
+        // Note: Header theme toggle was removed - theme toggle is only in settings modal
         function updateThemeToggle() {
-            const toggle = document.getElementById('themeToggle');
-            if (toggle) {
-                // Toggle button position is handled by CSS based on data-theme attribute
-                toggle.title = currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
-            }
-
             // Update the settings modal toggle switch
             const settingsToggle = document.getElementById('themeToggleSwitch');
             if (settingsToggle) {
@@ -4384,7 +4159,12 @@ function deleteFromArchive(taskId) {
         // Initialize theme from storage (or Neon default). Does not call setTheme() — avoids duplicate
         // ChangeLog entries and redundant localStorage writes; <head> script already set data-theme for first paint.
         function initTheme() {
-            const savedTheme = localStorage.getItem('preferredTheme');
+            let savedTheme = null;
+            try {
+                savedTheme = localStorage.getItem('preferredTheme');
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+            }
             if (savedTheme === 'light' || savedTheme === 'dark') {
                 currentTheme = savedTheme;
                 document.documentElement.setAttribute('data-theme', savedTheme);
@@ -4393,7 +4173,11 @@ function deleteFromArchive(taskId) {
             }
             currentTheme = 'dark';
             document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('preferredTheme', 'dark');
+            try {
+                localStorage.setItem('preferredTheme', 'dark');
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             updateThemeToggle();
         }
 
@@ -4401,7 +4185,13 @@ function deleteFromArchive(taskId) {
         if (window.matchMedia) {
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                 // Only change theme if user hasn't explicitly set one
-                if (!localStorage.getItem('preferredTheme')) {
+                let preferredTheme = null;
+                try {
+                    preferredTheme = localStorage.getItem('preferredTheme');
+                } catch (err) {
+                    console.warn('localStorage read failed:', err);
+                }
+                if (!preferredTheme) {
                     setTheme(e.matches ? 'dark' : 'light');
                 }
             });
@@ -4415,14 +4205,11 @@ function deleteFromArchive(taskId) {
             }
 
             currentLanguage = lang;
-            localStorage.setItem('preferredLanguage', lang);
-
-            // Log language change
-            ChangeLogManager.logChange('enhancement', 
-                `Language changed to ${lang}`, 
-                'i18n', 
-                'enhancement', 
-                false);
+            try {
+                localStorage.setItem('preferredLanguage', lang);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
 
             // Update static text elements
             updateStaticTexts();
@@ -4433,7 +4220,7 @@ function deleteFromArchive(taskId) {
             // Re-render the interface
             renderKanban();
             updateProjectSelector();
-            updateArchivesModal();
+            renderArchivesModal();
 
             console.log(`Language changed to: ${lang}`);
         }
@@ -4782,7 +4569,12 @@ function deleteFromArchive(taskId) {
         // Initialize language based on saved preference or browser language
         function initLanguage() {
             // Check for saved preference first
-            const savedLang = localStorage.getItem('preferredLanguage');
+            let savedLang = null;
+            try {
+                savedLang = localStorage.getItem('preferredLanguage');
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+            }
             if (savedLang) {
                 currentLanguage = savedLang;
                 return;
@@ -4800,7 +4592,11 @@ function deleteFromArchive(taskId) {
             }
 
             // Save the detected/default language
-            localStorage.setItem('preferredLanguage', currentLanguage);
+            try {
+                localStorage.setItem('preferredLanguage', currentLanguage);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
 
             console.log(`Language initialized to: ${currentLanguage}`);
         }
@@ -4969,12 +4765,12 @@ function deleteFromArchive(taskId) {
             false);
 
         // Generate first release notes
-        console.log('📚 Version 1.1.1 Release Notes:');
+        console.log(`📚 Version ${currentVersion} Release Notes:`);
         console.log('');
         console.log(ChangeLogManager.generateReleaseNotes());
 
         // Document foundational system capabilities
-        console.log('🎯 Foundation Systems Added in v1.1.1:');
+        console.log(`🎯 Foundation Systems Added in v${currentVersion}:`);
         console.log('✅ Change Log Manager: Structured logging with semantic versioning');
         console.log('✅ Version Manager: Automated semantic version increments');
         console.log('✅ Documentation Console: Professional development commands');
@@ -6291,6 +6087,66 @@ ${t('markdown.archiveSection')}
             }
         }
 
+        // Column management
+        function openColumnsModal() {
+            const modal = document.getElementById('columnsModal');
+            const list = document.getElementById('columnsList');
+            list.innerHTML = config.columns.map((col, idx) => `
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 6px; align-items: center;">
+                    <div style="display: flex; gap: 0.25rem;">
+                        <button onclick="moveColumn(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveUp')}">↑</button>
+                        <button onclick="moveColumn(${idx}, 1)" ${idx === config.columns.length - 1 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveDown')}">↓</button>
+                    </div>
+                    <input type="text" value="${col.name}" onchange="updateColumn(${idx}, 'name', this.value)" style="flex: 1; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;">
+                    <input type="text" value="${col.id}" onchange="updateColumn(${idx}, 'id', this.value)" style="width: 120px; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;" placeholder="ID">
+                    <button onclick="deleteColumn(${idx})" class="btn btn-secondary" style="padding: 0.5rem;">🗑️</button>
+                </div>
+            `).join('');
+            modal.classList.add('active');
+        }
+
+        function closeColumnsModal() {
+            document.getElementById('columnsModal').classList.remove('active');
+        }
+
+        function addColumn() {
+            const name = prompt(t('prompt.columnName'));
+            const id = prompt(t('prompt.columnId'));
+            if (name && id) {
+                config.columns.push({ name, id });
+                openColumnsModal();
+                autoSave();
+                renderKanban();
+            }
+        }
+
+        function updateColumn(idx, field, value) {
+            config.columns[idx][field] = value;
+            autoSave();
+            renderKanban();
+        }
+
+        function deleteColumn(idx) {
+            if (confirm(t('confirm.deleteColumn'))) {
+                config.columns.splice(idx, 1);
+                openColumnsModal();
+                autoSave();
+                renderKanban();
+            }
+        }
+
+        function moveColumn(idx, direction) {
+            const newIdx = idx + direction;
+            if (newIdx < 0 || newIdx >= config.columns.length) return;
+
+            // Swap columns
+            [config.columns[idx], config.columns[newIdx]] = [config.columns[newIdx], config.columns[idx]];
+
+            openColumnsModal();
+            autoSave();
+            renderKanban();
+        }
+
         // Form subtasks management
         function renderFormSubtasks() {
             const list = document.getElementById('formSubtasksList');
@@ -6320,6 +6176,13 @@ ${t('markdown.archiveSection')}
             }
         }
 
+        function removeFormSubtask(idx) {
+            if (formSubtasks[idx]) {
+                formSubtasks.splice(idx, 1);
+                renderFormSubtasks();
+            }
+        }
+
         // Render Kanban board
         function renderKanban() {
             const board = document.getElementById('kanbanBoard');
@@ -6329,8 +6192,6 @@ ${t('markdown.archiveSection')}
             }
             board.innerHTML = '';
 
-            console.log('Rendering kanban with', tasks.length, 'tasks');
-
             // Debug info - with null check
             const debugInfo = document.getElementById('debugInfo');
             if (debugInfo) {
@@ -6338,9 +6199,11 @@ ${t('markdown.archiveSection')}
             }
             // debugInfo.style.display = 'block'; // Uncomment to show debug info
 
+            // Pre-filter tasks once for performance
+            const filteredTasks = tasks.filter(matchesFilters);
+            
             config.columns.forEach(column => {
-                const columnTasks = tasks.filter(t => t.status === column.id && matchesFilters(t));
-                console.log(`Column ${column.id}: ${columnTasks.length} tasks`);
+                const columnTasks = filteredTasks.filter(t => t.status === column.id);
 
                 const columnEl = document.createElement('div');
                 columnEl.className = 'kanban-column';
@@ -6376,7 +6239,7 @@ ${t('markdown.archiveSection')}
             taskEl.draggable = true;
             taskEl.dataset.taskId = task.id;
 
-            var priorityBadgeClass = "Default";
+            let priorityBadgeClass = "Default";
             if (config.priorities) {
                 const priority = config.priorities.find(p => clean(p) === task.priority);
                 if (priority) {
@@ -6615,21 +6478,6 @@ ${t('markdown.archiveSection')}
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
         }
 
-        function closeModal() {
-            const taskModalEl = document.getElementById('taskModal');
-            if (taskModalEl) {
-                taskModalEl.classList.remove('active');
-                if (typeof setBodyModalOpen === 'function') setBodyModalOpen(false);
-            }
-        }
-
-        function editCurrentTask() {
-            if (currentDetailTask) {
-                closeModal();
-                openTaskModal(currentDetailTask);
-            }
-        }
-
         // Subtask management
         function toggleSubtask(taskId, subtaskIdx) {
             const task = tasks.find(t => t.id === taskId);
@@ -6749,29 +6597,6 @@ ${t('markdown.archiveSection')}
             await writable.close();
         }
 
-        function archiveCurrentTask() {
-            if (!currentDetailTask) return;
-            if (confirm(t('confirm.archiveTask', {title: currentDetailTask.title}))) {
-                // Remove from active tasks
-                const idx = tasks.findIndex(t => t.id === currentDetailTask.id);
-                if (idx >= 0) {
-                    const task = tasks.splice(idx, 1)[0];
-                    archivedTasks.push(task);
-                    saveArchive();
-                    autoSave();
-                    updateAutocomplete(); // Keep historical values in autocomplete
-                    renderKanban();
-                    closeModal();
-                    showNotification(t('notif.taskArchived'), 'success');
-                }
-            }
-        }
-
-        function deleteCurrentTask() {
-            if (!currentDetailTask) return;
-            deleteTask(currentDetailTask.id, false);
-        }
-
         function deleteTask(taskId, fromArchive = false) {
             const taskList = fromArchive ? archivedTasks : tasks;
             const task = taskList.find(t => t.id === taskId);
@@ -6860,8 +6685,8 @@ ${t('markdown.archiveSection')}
                             <strong style="margin-left: 0.5rem; font-size: 1.1rem;">${escapeHtml(task.title)}</strong>
                         </div>
                         <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="deleteTask('${safeId}', true)" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; background: #ef4444; color: white;">🗑️</button>
-                            <button onclick="unarchiveTask('${safeId}')" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">${t('action.restore')}</button>
+                            <button onclick="deleteTask('${safeId}', true)" aria-label="Delete task permanently" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; background: #ef4444; color: white;">🗑️</button>
+                            <button onclick="unarchiveTask('${safeId}')" aria-label="Restore task" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">${t('action.restore')}</button>
                         </div>
                     </div>
                     ${task.description ? `<p style="color: var(--text-secondary); margin: 0.5rem 0;">${markdownToHtml(task.description)}</p>` : ''}

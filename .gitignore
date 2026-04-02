@@ -1,0 +1,26 @@
+# IDE and Editor configs
+.vscode/
+.claude/
+.cursor/
+.cursorrules
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node (if any)
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# User data (internal folder should not be tracked in main repo)
+internal/

@@ -1,8 +1,11 @@
-# How to Run the Core Branch – Void.md
+# How to Run the Core Package – Void.md
+
+> **Void.md** – Local-first Kanban with **Neon City** soul (dark theme, cyan/magenta accents).
 
 This folder is a **standalone package** to run the **core** version of the app: stable Kanban and file-based tasks. **Experimental options** (rich text, comments, slash commands) exist in the app but are **turned off by default**; you get the core experience until you enable them in Settings. Everything runs in your browser; no server or build step.
 
-**Coding assistants (AI):** see [`AI_GUIDE.md`](./AI_GUIDE.md) for markdown rules, workflow, and what agents can and cannot do with this package.
+**Users (humans):** This guide covers everything you need.
+**Coding assistants (AI):** See [`AI_GUIDE.md`](./AI_GUIDE.md) for markdown rules, workflow, and what agents can and cannot do.
 
 ---
 

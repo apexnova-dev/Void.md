@@ -4,6 +4,8 @@
 **Version**: 1.1.2 → 1.2.0  
 **Focus**: Safety Foundation and Infrastructure Setup
 
+> **⚠️ Status (April 2026)**: This document describes Phase 1 of the v1.2.0 roadmap. Some items are complete (feature flags, Tiptap integration), others are superseded by v1.3.1. See [ARCHITECTURE_OVERVIEW_v1.3.1.md](./ARCHITECTURE_OVERVIEW_v1.3.1.md) for current state.
+
 ---
 
 ## ✅ Completed Tasks

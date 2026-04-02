@@ -5,6 +5,10 @@
 
 ---
 
+> **Status (April 2026)**: Most items below have been implemented in v1.3.1. The modal behavior (fixed height, scroll) was added as an enhancement beyond the original recommendations.
+
+---
+
 ## Implementation status (February 2026)
 
 **Implemented:**

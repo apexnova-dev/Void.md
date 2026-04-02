@@ -1,6 +1,21 @@
 # 🤖 AGENTS.md - Development Guide for AI Assistants
 
-This file contains build commands, code style guidelines, and development standards for agentic coding agents working on the Void.md project.
+> **Quick Reference:** For task management protocol, see [`AI_WORKFLOW.md`](docs/AI_WORKFLOW.md) — master protocol for task shape, TASK-XXX IDs, and markdown integrity.
+
+---
+
+## 🎯 Quick Reference for AI Agents
+
+### Key Rules for Task Management
+
+- Preserve **H1** project title, **H2** column sections, and **H3** task headings (`### TASK-XXX | …`)
+- **No `##` or `###` inside task bodies**
+- Archive only on user request, never automatically
+- Document only real work in **Result**, **Modified files**, **Tests performed**
+
+### Product Overview
+
+Void.md — local-first Kanban over Markdown (`kanban.md`, `archive.md`). **No cloud:** data stays on disk you choose.
 
 ---
 
@@ -84,11 +99,12 @@ open test-page.html  # Loads void.html in iframe with console capture
 ### CSS Conventions
 
 ```css
-/* Use CSS variables for theming */
+/* Use CSS variables for theming - Neon City brand colors */
 :root {
     --bg-primary: #f5f5f5;
     --text-primary: #212121;
-    --accent: #2196F3;
+    --accent: #00d4e8;  /* Neon City cyan */
+    --accent-secondary: #ff00ea;  /* Neon City magenta */
 }
 
 /* BEM-style naming */

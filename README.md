@@ -18,6 +18,13 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 
 ## 📝 Latest Updates (April 2026)
 
+### Rich Text Editor (Tiptap)
+
+- Toggle between plain Markdown and rich text for task Notes
+- Formatting toolbar: Bold, Italic, Code, Bullet list, Numbered list
+- Lazy-loads from CDN with automatic fallback to plain text
+- Stored as Tiptap JSON in IndexedDB for rich mode, Markdown for plain mode
+
 ### Modal & Header UX
 
 **📐 Modal sizing and behavior**
@@ -39,7 +46,7 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 ### Related Documentation
 - `CHANGELOG.md` - Full version history
 - `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (implemented)
-- `FIXES-SUMMARY.md` - Bug fixes
+- `docs/architecture/FIXES-SUMMARY.md` - Bug fixes
 - `AGENTS.md` - Build/test and code style for AI assistants
 
 ---
@@ -530,7 +537,12 @@ With this system, you have:
 - **Assignment**: Multiple users possible (@user1, @user2)
 - **Tags**: Multiple tags (#bug, #feature, etc.)
 - **Dates**: Creation, start, due, end
-- **Description**: Free text with Markdown support
+- **Description**: Free text with Markdown support (rich text via Tiptap optional)
+
+**Rich Text Editor (optional):**
+- Toggle between plain Markdown and rich text (Tiptap) in task Notes
+- Formatting toolbar: Bold, Italic, Code, Lists
+- Auto-loads from CDN with fallback to plain text if unavailable
 
 **Subtasks:**
 
@@ -1291,20 +1303,20 @@ Contributions welcome! Here's how to help:
 - ✅ Modal backdrop close (click outside to close)
 - ✅ Body scroll lock when modal open
 - ✅ Responsive header with grouped layout
+- ✅ Rich text editor for task Notes (Tiptap with Markdown fallback)
 
 ### Next versions
 
-**v1.2 (Short term)**
+**v1.4 (Short term)**
 
-- [ ] UI/Ux Update
 - [ ] Keyboard shortcuts
 - [ ] PDF/HTML export
 - [ ] Visual statistics (charts)
 
-**v1.3 (Medium term)**
+**v1.5 (Medium term)**
 
 - [ ] File drag & drop (attachments)
-- [ ] Mentions in comments (@user)
+- [ ] Task comments system (@mentions, reactions)
 - [ ] Reminder notifications (deadlines)
 - [ ] Task templates
 
