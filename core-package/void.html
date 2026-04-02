@@ -1779,7 +1779,7 @@
                             <span>Theme</span>
                             <small>Toggle between light and dark mode</small>
                         </div>
-                        <div class="toggle-switch" id="themeToggleSwitch" onclick="toggleThemeFromToggle()">
+                        <div class="toggle-switch" id="themeToggleSwitch" role="switch" aria-checked="false" aria-label="Toggle dark theme" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThemeFromToggle();}" onclick="toggleThemeFromToggle()">
                             <div class="toggle-thumb"></div>
                         </div>
                     </div>
@@ -1822,7 +1822,7 @@
                             <span>Debug Mode</span>
                             <small>Enable verbose console logging for troubleshooting</small>
                         </div>
-                        <div class="toggle-switch" id="debugToggleSwitch" onclick="toggleDebugMode()">
+                        <div class="toggle-switch" id="debugToggleSwitch" role="switch" aria-checked="false" aria-label="Toggle debug mode" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDebugMode();}" onclick="toggleDebugMode()">
                             <div class="toggle-thumb"></div>
                         </div>
                     </div>
@@ -3481,6 +3481,12 @@ function deleteFromArchive(taskId) {
         // Toggle theme from settings modal toggle switch
         function toggleThemeFromToggle() {
             toggleTheme();
+            // Update aria-checked for accessibility
+            const themeToggle = document.getElementById('themeToggleSwitch');
+            if (themeToggle) {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                themeToggle.setAttribute('aria-checked', isDark.toString());
+            }
         }
 
         // Toggle debug mode
@@ -3492,6 +3498,11 @@ function deleteFromArchive(taskId) {
                 console.warn('localStorage write failed:', e);
             }
             updateDebugToggle();
+            // Update aria-checked for accessibility
+            const debugToggle = document.getElementById('debugToggleSwitch');
+            if (debugToggle) {
+                debugToggle.setAttribute('aria-checked', debugMode.toString());
+            }
             console.log(`🔧 Debug mode ${debugMode ? 'enabled' : 'disabled'}`);
             showNotification(`Debug mode ${debugMode ? 'enabled' : 'disabled'}`, 'success');
         }
@@ -6339,16 +6350,58 @@ ${t('markdown.archiveSection')}
                 ${subtaskProgress}
             `;
 
+            // Keyboard event handler for task cards (already has Enter/Space for detail view)
+            taskEl.addEventListener('keydown', handleTaskCardKeyboard);
+
             taskEl.addEventListener('dragstart', drag);
             taskEl.addEventListener('click', () => showTaskDetail(task));
-            taskEl.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    showTaskDetail(task);
-                }
-            });
 
             return taskEl;
+        }
+
+        // Keyboard handler for task cards - provides keyboard alternative to drag-and-drop
+        function handleTaskCardKeyboard(e) {
+            const taskEl = e.target.closest('.task-card');
+            if (!taskEl) return;
+            
+            const taskId = taskEl.dataset.taskId;
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            // Enter or Space: open task detail
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                showTaskDetail(task);
+                return;
+            }
+
+            // Ctrl+Arrow or Alt+Arrow: move task between columns
+            if ((e.ctrlKey || e.altKey) && (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                
+                // Get current column index
+                const currentColumnId = task.status;
+                const currentIndex = config.columns.findIndex(c => c.id === currentColumnId);
+                
+                let newIndex = currentIndex;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    newIndex = Math.min(currentIndex + 1, config.columns.length - 1);
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    newIndex = Math.max(currentIndex - 1, 0);
+                }
+                
+                if (newIndex !== currentIndex) {
+                    const newColumn = config.columns[newIndex];
+                    const oldStatus = task.status;
+                    task.status = newColumn.id;
+                    
+                    // Save and re-render
+                    autoSave().then(() => {
+                        renderKanban();
+                        showNotification(`${t('notification.taskMoved')}: ${task.id} → ${newColumn.name}`, 'success');
+                    });
+                }
+            }
         }
 
         // Drag & Drop
