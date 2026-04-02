@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self';">
     <title>Void.md</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script>
@@ -2139,6 +2140,16 @@ You can use Markdown:
         // ===== DEBUGGING =====
         let debugMode = false; // Disable verbose logging in production; enable via Settings or localStorage
 
+        /**
+         * Debug logging wrapper - only outputs when debugMode is enabled
+         * @param {...any} args - Arguments to log
+         */
+        function debugLog(...args) {
+            if (debugMode) {
+                console.log(...args);
+            }
+        }
+
         // ===== DOM CACHE =====
         const $ = (id) => document.getElementById(id);
         const $$ = (sel) => document.querySelector(sel);
@@ -2182,7 +2193,7 @@ function openSettingsModal() {
         setBodyModalOpen(true);
         trapFocus(modal);
         setFocusToModal(modal);
-        console.log('✅ Settings modal opened');
+        debugLog('✅ Settings modal opened');
     }
 }
 
@@ -2193,7 +2204,7 @@ function closeSettingsModal() {
         modal.classList.remove('active');
         setBodyModalOpen(false);
         returnFocus();
-        console.log('✅ Settings modal closed');
+        debugLog('✅ Settings modal closed');
     }
 }
 
@@ -2216,7 +2227,11 @@ function openArchiveModalFromSettings() {
 // Global function for clear all data
 function clearAllData() {
     if (confirm('Are you sure you want to clear all local data? This will remove project history and preferences.')) {
-        localStorage.clear();
+        try {
+            localStorage.clear();
+        } catch (e) {
+            console.warn('localStorage clear failed:', e);
+        }
         projects = [];
         currentProjectIndex = 0;
         
@@ -2226,7 +2241,7 @@ function clearAllData() {
         });
         
         showNotification('All local data cleared', 'success');
-        console.log('🗑️ All local data cleared');
+        debugLog('🗑️ All local data cleared');
     }
 }
 
@@ -2253,7 +2268,7 @@ async function clearIndexedDBProjects() {
             const store = transaction.objectStore('projects');
             store.clear();
             transaction.oncomplete = () => {
-                console.log('  ✅ IndexedDB projects cleared');
+                debugLog('  ✅ IndexedDB projects cleared');
                 resolve();
             };
             transaction.onerror = () => {
@@ -2294,7 +2309,7 @@ function exportProject() {
     URL.revokeObjectURL(url);
     
     showNotification('Project data exported', 'success');
-    console.log('📤 Project data exported');
+    debugLog('📤 Project data exported');
 }
 
 // ===== MODAL FUNCTIONS =====
@@ -2314,7 +2329,7 @@ function closeModal() {
     if (modal) {
         modal.classList.remove('active');
         setBodyModalOpen(false);
-        console.log('✅ Task detail modal closed');
+        debugLog('✅ Task detail modal closed');
     }
 }
 
@@ -2330,7 +2345,7 @@ function deleteCurrentTask() {
                 debouncedAutoSave();
                 closeModal();
                 showNotification(t('notif.taskDeleted'), 'success');
-                console.log('🗑️ Task deleted:', currentDetailTask.id);
+                debugLog('🗑️ Task deleted:', currentDetailTask.id);
             }
         }
     }
@@ -2353,7 +2368,7 @@ function archiveCurrentTask() {
                 debouncedAutoSave();
                 closeModal();
                 showNotification(t('notif.taskArchived'), 'success');
-                console.log('📦 Task archived:', task.id);
+                debugLog('📦 Task archived:', task.id);
             }
         }
     }
@@ -2459,7 +2474,7 @@ function openTaskModal(task = null) {
     setBodyModalOpen(true);
     trapFocus(modal);
     setFocusToModal(modal);
-    console.log(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
+    debugLog(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
 }
 
 function closeTaskModal() {
@@ -2481,7 +2496,7 @@ function closeTaskModal() {
     if (form) form.reset();
     isEditMode = false;
     formSubtasks = [];
-    console.log('✅ Task modal closed');
+    debugLog('✅ Task modal closed');
 }
 
 // Close topmost modal on Escape (accessibility)
@@ -2500,19 +2515,44 @@ document.addEventListener('keydown', function (e) {
 });
 
 // Close modal when clicking the backdrop (outside the content) - run when DOM is ready
+// Store listener references for cleanup
+let modalBackdropListeners = [];
+let systemThemeListener = null; // Store system theme listener for cleanup
+
 function initModalBackdropClose() {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(function (modal) {
-        modal.addEventListener('click', function (e) {
+        const listener = function (e) {
             if (e.target !== modal) return;
             if (modal.id === 'taskModal') closeModal();
             else if (modal.id === 'newTaskModal') closeTaskModal();
             else if (modal.id === 'settingsModal') closeSettingsModal();
             else if (modal.id === 'columnsModal') closeColumnsModal();
             else if (modal.id === 'archiveModal') closeArchiveModal();
-        });
+        };
+        modal.addEventListener('click', listener);
+        modalBackdropListeners.push({ modal: modal, listener: listener });
     });
 }
+
+// Remove modal backdrop event listeners (cleanup)
+function cleanupModalBackdropListeners() {
+    modalBackdropListeners.forEach(function (item) {
+        if (item.modal && item.listener) {
+            item.modal.removeEventListener('click', item.listener);
+        }
+    });
+    modalBackdropListeners = [];
+}
+
+// Remove system theme change listener (cleanup)
+function cleanupSystemThemeListener() {
+    if (systemThemeListener && systemThemeListener.mediaQuery && systemThemeListener.listener) {
+        systemThemeListener.mediaQuery.removeEventListener('change', systemThemeListener.listener);
+        systemThemeListener = null;
+    }
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initModalBackdropClose);
 } else {
@@ -2531,7 +2571,7 @@ function restoreFromArchive(taskId) {
         renderArchiveList();
         debouncedAutoSave();
         showNotification(t('notif.taskRestored'), 'success');
-        console.log('↩️ Task restored from archive:', taskId);
+        debugLog('↩️ Task restored from archive:', taskId);
     }
 }
 
@@ -2546,7 +2586,7 @@ function deleteFromArchive(taskId) {
                 saveArchive();
                 renderArchiveList();
                 showNotification(t('notif.taskDeleted'), 'success');
-                console.log('🗑️ Task permanently deleted from archive:', taskId);
+                debugLog('🗑️ Task permanently deleted from archive:', taskId);
             }
         }
     }
@@ -2609,7 +2649,7 @@ function deleteFromArchive(taskId) {
                 // Log to console (set to false to reduce console flooding in production)
                 const DEBUG_CHANGE_LOG = false;
                 if (DEBUG_CHANGE_LOG) {
-                    console.log(`📝 Change logged: [${type}] ${component} - ${description}`);
+                    debugLog(`📝 Change logged: [${type}] ${component} - ${description}`);
                 }
                 return change;
             },
@@ -2669,8 +2709,12 @@ function deleteFromArchive(taskId) {
             // Clear change log
             clearLog: () => {
                 changeLog = [];
-                localStorage.removeItem('taskManagerChangeLog');
-                console.log('📝 Change log cleared');
+                try {
+                    localStorage.removeItem('taskManagerChangeLog');
+                } catch (e) {
+                    console.warn('localStorage remove failed:', e);
+                }
+                debugLog('📝 Change log cleared');
             }
         };
 
@@ -2735,7 +2779,7 @@ function deleteFromArchive(taskId) {
                 // Log version change
                 ChangeLogManager.logChange('version', `Updated version to ${newVersion}`, 'system', 'enhancement', false);
                 
-                console.log(`🔢 Version updated to: ${newVersion}`);
+                debugLog(`🔢 Version updated to: ${newVersion}`);
             }
         };
 
@@ -3349,7 +3393,7 @@ function deleteFromArchive(taskId) {
                 try {
                     // Request permission for the project
                     if (project.directoryHandle) {
-                        console.log(`🔄 Switching to project: ${project.name}`);
+                        debugLog(`🔄 Switching to project: ${project.name}`);
 
                         // Update last used
                         project.lastUsed = Date.now();
@@ -3372,7 +3416,7 @@ function deleteFromArchive(taskId) {
                         // Update UI
                         await updateProjectSelector();
                         showNotification(`Switched to ${project.name}`, 'success');
-                        console.log(`✅ Successfully switched to project: ${project.name}`);
+                        debugLog(`✅ Successfully switched to project: ${project.name}`);
                     }
                 } catch (error) {
                     console.error('❌ Error switching to project:', error);
@@ -3644,7 +3688,7 @@ function deleteFromArchive(taskId) {
             updateFeatureToggles();
             updateRichTextStatus(); // Show initial status
             updateEditorBadge(); // Update badge in task form
-            console.log('🎛️ Feature flags initialized:', Object.entries(FEATURE_FLAGS).filter(([_, f]) => f.enabled).map(([k]) => k));
+            debugLog('🎛️ Feature flags initialized:', Object.entries(FEATURE_FLAGS).filter(([_, f]) => f.enabled).map(([k]) => k));
         }
 
         // Toggle a specific feature flag
@@ -3662,7 +3706,7 @@ function deleteFromArchive(taskId) {
             }
             
             const status = FEATURE_FLAGS[flagName].enabled ? 'enabled' : 'disabled';
-            console.log(`🎛️ Feature ${flagName} ${status}`);
+            debugLog(`🎛️ Feature ${flagName} ${status}`);
             showNotification(`${FEATURE_FLAGS[flagName].name} ${status}`, 'success');
             
             // If enabling rich text editor, load the Tiptap library
@@ -3746,9 +3790,9 @@ function deleteFromArchive(taskId) {
             try {
                 localStorage.setItem('editorMode', mode);
             } catch (e) {
-                console.warn('localStorage write failed:', e);
-            }
-            console.log(`📝 Editor mode changed to: ${mode}`);
+            console.warn('localStorage write failed:', e);
+        }
+        debugLog(`📝 Editor mode changed to: ${mode}`);
             
             if (mode === 'rich' && typeof window.Tiptap === 'undefined') {
                 // User wants rich text, try to load Tiptap
@@ -3858,7 +3902,7 @@ function deleteFromArchive(taskId) {
                     localStorage.setItem(key, JSON.stringify(data));
                     
                     if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
-                        console.log(`💾 Rich content saved for ${taskId}`);
+                        debugLog(`💾 Rich content saved for ${taskId}`);
                     }
                     
                     return { success: true };
@@ -3881,7 +3925,7 @@ function deleteFromArchive(taskId) {
                     if (saved) {
                         const data = JSON.parse(saved);
                         if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
-                            console.log(`📖 Rich content loaded for ${taskId}`);
+                            debugLog(`📖 Rich content loaded for ${taskId}`);
                         }
                         return data.content; // Return just the content
                     }
@@ -3900,7 +3944,9 @@ function deleteFromArchive(taskId) {
                 try {
                     const key = RichContentStorage.getKey(taskId);
                     localStorage.removeItem(key);
-                    console.log(`🗑️ Rich content deleted for ${taskId}`);
+                    if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                        debugLog(`🗑️ Rich content deleted for ${taskId}`);
+                    }
                 } catch (error) {
                     console.error('RichContentStorage: Error deleting rich content:', error);
                 }
@@ -3943,7 +3989,7 @@ function deleteFromArchive(taskId) {
                 taskIds.forEach(taskId => {
                     RichContentStorage.deleteRichNotes(taskId);
                 });
-                console.log(`🗑️ Cleared rich content for ${taskIds.length} tasks`);
+                debugLog(`🗑️ Cleared rich content for ${taskIds.length} tasks`);
             },
             
             // Get storage statistics
@@ -4103,13 +4149,13 @@ function deleteFromArchive(taskId) {
         async function loadTiptapLibrary() {
             // Check if already loaded
             if (typeof window.Tiptap !== 'undefined') {
-                console.log('✅ Tiptap already loaded');
+                debugLog('✅ Tiptap already loaded');
                 return { success: true, fromCache: true };
             }
             
             // Check if loading
             if (window._tiptapLoading) {
-                console.log('⏳ Tiptap already loading, waiting...');
+                debugLog('⏳ Tiptap already loading, waiting...');
                 return new Promise((resolve, reject) => {
                     const checkLoaded = setInterval(() => {
                         if (typeof window.Tiptap !== 'undefined') {
@@ -4139,7 +4185,7 @@ function deleteFromArchive(taskId) {
             
             for (const cdnUrl of CDN_URLS) {
                 try {
-                    console.log(`📦 Loading Tiptap from: ${cdnUrl}`);
+                    debugLog(`📦 Loading Tiptap from: ${cdnUrl}`);
                     
                     // Create loading notification
                     showNotification('Loading rich text editor...', 'info');
@@ -4150,8 +4196,12 @@ function deleteFromArchive(taskId) {
                         script.async = false;
                         script.defer = false;
                         
+                        // SRI (Subresource Integrity) for security
+                        script.integrity = 'sha384-c6JRBdfui5+tOp0b4QuzqnxTNh+oDUgOdhfExYFpPX3uE5XZOCn+7YecJ/cE+HyM';
+                        script.crossOrigin = 'anonymous';
+                        
                         script.onload = () => {
-                            console.log(`✅ Loaded: ${cdnUrl}`);
+                            debugLog(`✅ Loaded: ${cdnUrl}`);
                             resolve({ success: true, url: cdnUrl });
                         };
                         
@@ -4166,10 +4216,10 @@ function deleteFromArchive(taskId) {
                             if (loadTime > 2000) {
                                 console.warn(`⚠️ Slow load (${loadTime.toFixed(0)}ms): ${cdnUrl}`);
                             }
-                            if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
-                                console.log(`📊 Tiptap loaded in ${loadTime.toFixed(0)}ms`);
-                            }
-                        });
+                        if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
+                            debugLog(`📊 Tiptap loaded in ${loadTime.toFixed(0)}ms`);
+                        }
+                    });
                         
                         document.head.appendChild(script);
                     });
@@ -4181,7 +4231,10 @@ function deleteFromArchive(taskId) {
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = starterKitUrl;
-                            s.onload = () => { console.log('✅ StarterKit loaded'); resolve(); };
+                            // SRI (Subresource Integrity) for security
+                            s.integrity = 'sha384-NWmaSF+fEoAkvY7fyUIIWWzgviNVIDWG/wQvTdZzaY9fQvBjijjQVnHlX/614pMg';
+                            s.crossOrigin = 'anonymous';
+                            s.onload = () => { debugLog('✅ StarterKit loaded'); resolve(); };
                             s.onerror = () => reject(new Error('StarterKit load failed'));
                             document.head.appendChild(s);
                         });
@@ -4192,10 +4245,10 @@ function deleteFromArchive(taskId) {
                     showNotification('Rich text editor loaded!', 'success');
                     
                     window._tiptapLoading = false;
-                    console.log('✅ Tiptap library loaded successfully');
+                    debugLog('✅ Tiptap library loaded successfully');
                     
                     if (isFeatureEnabled('ENABLE_PERFORMANCE_LOGGING')) {
-                        console.log('📊 Tiptap integration ready');
+                        debugLog('📊 Tiptap integration ready');
                     }
                     
                     return result;
@@ -4306,7 +4359,7 @@ function deleteFromArchive(taskId) {
 
         // Listen for system theme changes
         if (window.matchMedia) {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            const themeChangeHandler = (e) => {
                 // Only change theme if user hasn't explicitly set one
                 let preferredTheme = null;
                 try {
@@ -4317,7 +4370,10 @@ function deleteFromArchive(taskId) {
                 if (!preferredTheme) {
                     setTheme(e.matches ? 'dark' : 'light');
                 }
-            });
+            };
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.addEventListener('change', themeChangeHandler);
+            systemThemeListener = { mediaQuery: mediaQuery, listener: themeChangeHandler };
         }
 
         // Set language and save to localStorage
@@ -4578,7 +4634,7 @@ function deleteFromArchive(taskId) {
                 saveProjects(projects);
                 updateProjectSelector();
                 renderKanban();
-                console.log('✅ Project renamed to:', newName.trim());
+                debugLog('✅ Project renamed to:', newName.trim());
             }
         }
 
@@ -4614,13 +4670,13 @@ function deleteFromArchive(taskId) {
                     if (projectGroup) projectGroup.style.display = 'none';
                 }
 
-                console.log('🗑️ Project removed from list');
+                debugLog('🗑️ Project removed from list');
             }
         }
 
         // Add a new project
         async function addNewProject() {
-            console.log('📂 Adding new project...');
+            debugLog('📂 Adding new project...');
             try {
                 const options = {};
                 if (directoryHandle) {
@@ -4641,7 +4697,7 @@ function deleteFromArchive(taskId) {
 
                 if (existingIndex >= 0) {
                     // Project already exists, switch to it
-                    console.log('  📁 Project already in list, switching to it...');
+                    debugLog('  📁 Project already in list, switching to it...');
                     currentProjectIndex = existingIndex;
                     await switchProject(existingIndex);
                     return;
@@ -4678,13 +4734,13 @@ function deleteFromArchive(taskId) {
                 await updateProjectSelector();
 
                 showNotification('Project added successfully!', 'success');
-                console.log(`✅ Added new project: ${folderName}`);
+                debugLog(`✅ Added new project: ${folderName}`);
             } catch (error) {
                 if (error.name !== 'AbortError') {
                     console.error('  ❌ Error adding project:', error);
                     showNotification('Error adding project: ' + error.message, 'error');
                 } else {
-                    console.log('  ℹ️ User cancelled project selection');
+                    debugLog('  ℹ️ User cancelled project selection');
                 }
             }
         }
@@ -4721,7 +4777,7 @@ function deleteFromArchive(taskId) {
                 console.warn('localStorage write failed:', e);
             }
 
-            console.log(`Language initialized to: ${currentLanguage}`);
+            debugLog(`Language initialized to: ${currentLanguage}`);
         }
 
         // Initialize language on page load
@@ -4729,10 +4785,10 @@ function deleteFromArchive(taskId) {
         // Initialize change log on page load
         try {
             changeLog = ChangeLogManager.getChanges();
-            console.log('✅ Change log loaded successfully');
+            debugLog('✅ Change log loaded successfully');
         } catch (error) {
             console.error('❌ Change log initialization failed:', error);
-            console.log('🔧 Falling back to empty change log');
+            debugLog('🔧 Falling back to empty change log');
             changeLog = [];
         }
         

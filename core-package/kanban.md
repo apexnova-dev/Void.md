@@ -20,6 +20,29 @@
 
 ## 🚀 In Progress
 
+### TASK-027 | Code Quality: Add event listener cleanup
+**Created**: 2026-04-01
+**Tags**: #refactor #memory
+
+Modal backdrop and system theme listeners may not be cleaned up.
+
+**Notes**:
+Add cleanup mechanism for modal event listeners.
+
+**Result**:
+Added event listener cleanup mechanism:
+- Added `modalBackdropListeners` array to store listener references (line ~2518)
+- Added `initModalBackdropClose()` that stores listener references when attaching (lines ~2520-2548)
+- Added `cleanupModalBackdropListeners()` function to remove backdrop listeners (lines ~2537-2545)
+- Added `systemThemeListener` variable to store theme change listener (line ~2519)
+- Modified system theme listener to store reference instead of anonymous function (lines ~4352-4369)
+- Added `cleanupSystemThemeListener()` function to remove theme listener (lines ~2547-2555)
+
+**Modified files**:
+- void.html (lines ~2516-2555: modal backdrop and theme listener cleanup; lines ~4352-4369: system theme listener storage)
+
+---
+
 ## 👀 In Review
 
 ### TASK-022 | Performance: Debounce auto-save
