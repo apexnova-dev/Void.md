@@ -716,6 +716,8 @@
             border-radius: 12px;
             width: 90%;
             max-width: 600px;
+            min-width: 320px;
+            height: 90vh;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
@@ -767,6 +769,8 @@
             width: min(95%, 880px);
             max-width: 880px;
             min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
 
         /* Force new task modal to be wide and tall so form body gets space and scrolls inside */
@@ -779,7 +783,11 @@
         }
 
         .modal-content--task-detail {
-            max-width: 680px;
+            width: min(95%, 700px);
+            max-width: 700px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
 
         /* Task detail modal: comfortable size and height so body scrolls inside */
@@ -1501,7 +1509,11 @@
         }
         
         .modal-content--settings {
+            width: min(95%, 600px);
             max-width: 600px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
         
         #columnsList .column-item {
@@ -1553,7 +1565,11 @@
             width: 100%;
         }
         .modal-content--archive {
+            width: min(95%, 900px);
             max-width: 900px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
         }
         .archive-search-wrap {
             margin-bottom: 1rem;
