@@ -3429,11 +3429,6 @@ function deleteFromArchive(taskId) {
             const previousTheme = currentTheme;
             const newTheme = previousTheme === 'light' ? 'dark' : 'light';
             setTheme(newTheme, true, { skipChangelog: true });
-            ChangeLogManager.logChange('feature',
-                `Toggled theme from ${previousTheme} to ${newTheme}`,
-                'ui',
-                'enhancement',
-                false);
         }
 
         // Toggle theme from settings modal toggle switch
@@ -4144,14 +4139,6 @@ function deleteFromArchive(taskId) {
                 }, 300);
             }
 
-            if (!options.skipChangelog) {
-                ChangeLogManager.logChange('enhancement',
-                    `Theme changed to ${theme} with smooth transitions`,
-                    'ui',
-                    'enhancement',
-                    false);
-            }
-
             console.log(`Theme changed to: ${theme}`);
         }
 
@@ -4223,13 +4210,6 @@ function deleteFromArchive(taskId) {
             } catch (e) {
                 console.warn('localStorage write failed:', e);
             }
-
-            // Log language change
-            ChangeLogManager.logChange('enhancement', 
-                `Language changed to ${lang}`, 
-                'i18n', 
-                'enhancement', 
-                false);
 
             // Update static text elements
             updateStaticTexts();
