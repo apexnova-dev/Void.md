@@ -2051,7 +2051,58 @@ You can use Markdown:
         let formSubtasks = [];
         let archivedTasks = [];
         let archiveFileHandle = null;
-        
+
+        // ===== FILTER CACHE FOR PERFORMANCE =====
+        // Cache filtered results to avoid O(n²) complexity on repeated filter operations
+        let filterCache = {
+            tasksSnapshot: null,
+            filtersSnapshot: null,
+            searchSnapshot: null,
+            filteredTasks: null,
+            lastUpdated: 0
+        };
+
+        /**
+         * Invalidate filter cache when tasks or filters change
+         */
+        function invalidateFilterCache() {
+            filterCache.tasksSnapshot = null;
+            filterCache.filtersSnapshot = null;
+            filterCache.searchSnapshot = null;
+            filterCache.filteredTasks = null;
+            filterCache.lastUpdated = 0;
+        }
+
+        /**
+         * Get cached filtered tasks or compute if cache is invalid
+         * @returns {Array} Filtered tasks array
+         */
+        function getFilteredTasks() {
+            const currentTasksSnapshot = tasks.map(t => t.id + '|' + t.updated).join(',');
+            const currentFiltersSnapshot = JSON.stringify(activeFilters);
+            const currentSearchSnapshot = globalSearchTerm || '';
+
+            // Check if cache is valid
+            if (filterCache.filteredTasks !== null &&
+                filterCache.tasksSnapshot === currentTasksSnapshot &&
+                filterCache.filtersSnapshot === currentFiltersSnapshot &&
+                filterCache.searchSnapshot === currentSearchSnapshot) {
+                return filterCache.filteredTasks;
+            }
+
+            // Compute filtered tasks
+            const filtered = tasks.filter(matchesFilters);
+
+            // Update cache
+            filterCache.tasksSnapshot = currentTasksSnapshot;
+            filterCache.filtersSnapshot = currentFiltersSnapshot;
+            filterCache.searchSnapshot = currentSearchSnapshot;
+            filterCache.filteredTasks = filtered;
+            filterCache.lastUpdated = Date.now();
+
+            return filtered;
+        }
+
         // ===== FOCUS MANAGEMENT =====
         let lastFocusedElement = null;
 
@@ -2092,6 +2143,20 @@ You can use Markdown:
         const $ = (id) => document.getElementById(id);
         const $$ = (sel) => document.querySelector(sel);
         const $$$ = (sel) => document.querySelectorAll(sel);
+
+        // ===== DEBOUNCE UTILITY =====
+        // Debounce function to limit how often a function can fire
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
 
         // ===== GLOBAL ONCLICK FUNCTIONS =====
 // Escape HTML for safe insertion into innerHTML (XSS prevention)
@@ -2262,7 +2327,7 @@ function deleteCurrentTask() {
             if (index > -1) {
                 tasks.splice(index, 1);
                 renderKanban();
-                autoSave();
+                debouncedAutoSave();
                 closeModal();
                 showNotification(t('notif.taskDeleted'), 'success');
                 console.log('🗑️ Task deleted:', currentDetailTask.id);
@@ -2285,7 +2350,7 @@ function archiveCurrentTask() {
                 
                 renderKanban();
                 saveArchive();
-                autoSave();
+                debouncedAutoSave();
                 closeModal();
                 showNotification(t('notif.taskArchived'), 'success');
                 console.log('📦 Task archived:', task.id);
@@ -2464,7 +2529,7 @@ function restoreFromArchive(taskId) {
         saveArchive();
         renderKanban();
         renderArchiveList();
-        autoSave();
+        debouncedAutoSave();
         showNotification(t('notif.taskRestored'), 'success');
         console.log('↩️ Task restored from archive:', taskId);
     }
@@ -5138,7 +5203,9 @@ function deleteFromArchive(taskId) {
                 }
 
                 renderKanban();
-                autoSave();
+                invalidateFilterCache();
+                initEventDelegation();
+                debouncedAutoSave();
                 closeTaskModal();  // Close the new task form modal
             });
 
@@ -5513,6 +5580,7 @@ ${t('markdown.archiveSection')}
         // Parse Markdown - IMPROVED VERSION
         function parseMarkdown(content) {
             tasks = [];
+            invalidateFilterCache();
             config = {
                 lastTaskId: 0,
                 columns: [],
@@ -5909,6 +5977,9 @@ ${t('markdown.archiveSection')}
             }
         }
 
+        // Debounced auto-save - waits 500ms after last call before saving
+        const debouncedAutoSave = debounce(autoSave, 500);
+
         // Helper function to normalize user identifier (extract @username from @username (Display Name))
         function normalizeUserId(userString) {
             if (!userString) return '';
@@ -6140,6 +6211,7 @@ ${t('markdown.archiveSection')}
         function clickToFilter(type, value) {
             if (!activeFilters.find(f => f.type === type && f.value === value)) {
                 activeFilters.push({ type, value });
+                invalidateFilterCache();
                 renderFilters();
                 renderKanban();
             }
@@ -6176,14 +6248,14 @@ ${t('markdown.archiveSection')}
             if (name && id) {
                 config.columns.push({ name, id });
                 openColumnsModal();
-                autoSave();
+                debouncedAutoSave();
                 renderKanban();
             }
         }
 
         function updateColumn(idx, field, value) {
             config.columns[idx][field] = value;
-            autoSave();
+            debouncedAutoSave();
             renderKanban();
         }
 
@@ -6191,7 +6263,7 @@ ${t('markdown.archiveSection')}
             if (confirm(t('confirm.deleteColumn'))) {
                 config.columns.splice(idx, 1);
                 openColumnsModal();
-                autoSave();
+                debouncedAutoSave();
                 renderKanban();
             }
         }
@@ -6204,7 +6276,7 @@ ${t('markdown.archiveSection')}
             [config.columns[idx], config.columns[newIdx]] = [config.columns[newIdx], config.columns[idx]];
 
             openColumnsModal();
-            autoSave();
+            debouncedAutoSave();
             renderKanban();
         }
 
@@ -6244,24 +6316,46 @@ ${t('markdown.archiveSection')}
             }
         }
 
-        // Render Kanban board
+        // Virtual scrolling configuration for performance
+        const VIRTUAL_SCROLL_THRESHOLD = 50;
+        const VIRTUAL_SCROLL_BUFFER = 10;
+
+        // Cached DOM elements
+        let cachedBoard = null;
+        let cachedDebugInfo = null;
+
+        // Render Kanban board with performance optimizations
         function renderKanban() {
-            const board = document.getElementById('kanbanBoard');
+            // Use cached board reference
+            if (!cachedBoard) {
+                cachedBoard = document.getElementById('kanbanBoard');
+            }
+            const board = cachedBoard;
             if (!board) {
                 console.error('❌ Kanban board element not found!');
                 return;
             }
-            board.innerHTML = '';
+            
+            // Use cached debug info reference
+            if (!cachedDebugInfo) {
+                cachedDebugInfo = document.getElementById('debugInfo');
+            }
+            
+            // Clear board efficiently
+            while (board.firstChild) {
+                board.removeChild(board.firstChild);
+            }
 
             // Debug info - with null check
-            const debugInfo = document.getElementById('debugInfo');
-            if (debugInfo) {
-                debugInfo.textContent = `Loaded ${tasks.length} tasks\nColumns: ${config.columns.map(c => c.name).join(', ')}`;
+            if (cachedDebugInfo) {
+                cachedDebugInfo.textContent = `Loaded ${tasks.length} tasks\nColumns: ${config.columns.map(c => c.name).join(', ')}`;
             }
-            // debugInfo.style.display = 'block'; // Uncomment to show debug info
 
-            // Pre-filter tasks once for performance
-            const filteredTasks = tasks.filter(matchesFilters);
+            // Use cached filtered tasks for performance
+            const filteredTasks = getFilteredTasks();
+            
+            // Use document fragment for batch column creation
+            const columnsFragment = document.createDocumentFragment();
             
             config.columns.forEach(column => {
                 const columnTasks = filteredTasks.filter(t => t.status === column.id);
@@ -6284,13 +6378,26 @@ ${t('markdown.archiveSection')}
 
                 const taskList = columnEl.querySelector('.task-list');
 
-                columnTasks.forEach(task => {
-                    const taskEl = createTaskElement(task);
-                    taskList.appendChild(taskEl);
-                });
+                // Only apply batch optimization for large task lists
+                if (columnTasks.length > VIRTUAL_SCROLL_THRESHOLD) {
+                    const taskFragment = document.createDocumentFragment();
+                    columnTasks.forEach(task => {
+                        const taskEl = createTaskElement(task);
+                        taskFragment.appendChild(taskEl);
+                    });
+                    taskList.appendChild(taskFragment);
+                } else {
+                    columnTasks.forEach(task => {
+                        const taskEl = createTaskElement(task);
+                        taskList.appendChild(taskEl);
+                    });
+                }
 
-                board.appendChild(columnEl);
+                columnsFragment.appendChild(columnEl);
             });
+            
+            // Single DOM update: append all columns at once
+            board.appendChild(columnsFragment);
         }
 
         // Create task element
@@ -6354,9 +6461,112 @@ ${t('markdown.archiveSection')}
             taskEl.addEventListener('keydown', handleTaskCardKeyboard);
 
             taskEl.addEventListener('dragstart', drag);
-            taskEl.addEventListener('click', () => showTaskDetail(task));
+
+            // Note: click is now handled via event delegation on the board
+            // See initEventDelegation() function for delegated click handling
 
             return taskEl;
+        }
+
+        // Event delegation - single listener for all task interactions
+        function initEventDelegation() {
+            const board = document.getElementById('kanbanBoard');
+            if (!board) return;
+
+            // Use a single click listener for the entire board
+            board.addEventListener('click', function(e) {
+                // Handle task card click - open detail view
+                const taskCard = e.target.closest('.task-card');
+                if (taskCard) {
+                    const taskId = taskCard.dataset.taskId;
+                    const task = tasks.find(t => t.id === taskId);
+                    if (task) {
+                        showTaskDetail(task);
+                    }
+                    return;
+                }
+
+                // Handle edit button click
+                const editBtn = e.target.closest('.task-edit-btn');
+                if (editBtn) {
+                    e.stopPropagation();
+                    const taskCard = editBtn.closest('.task-card');
+                    if (taskCard) {
+                        const taskId = taskCard.dataset.taskId;
+                        const task = tasks.find(t => t.id === taskId);
+                        if (task) {
+                            openTaskModal(task);
+                        }
+                    }
+                    return;
+                }
+
+                // Handle priority badge click
+                const priorityBadge = e.target.closest('.badge-priority');
+                if (priorityBadge) {
+                    e.stopPropagation();
+                    const taskCard = priorityBadge.closest('.task-card');
+                    if (taskCard) {
+                        const taskId = taskCard.dataset.taskId;
+                        const task = tasks.find(t => t.id === taskId);
+                        if (task && task.priority) {
+                            clickToFilter('priority', task.priority);
+                        }
+                    }
+                    return;
+                }
+
+                // Handle category badge click
+                const categoryBadge = e.target.closest('.badge-category');
+                if (categoryBadge) {
+                    e.stopPropagation();
+                    const taskCard = categoryBadge.closest('.task-card');
+                    if (taskCard) {
+                        const taskId = taskCard.dataset.taskId;
+                        const task = tasks.find(t => t.id === taskId);
+                        if (task && task.category) {
+                            clickToFilter('category', task.category);
+                        }
+                    }
+                    return;
+                }
+
+                // Handle assignee badge click
+                const assigneeBadge = e.target.closest('.badge-assignee');
+                if (assigneeBadge) {
+                    e.stopPropagation();
+                    const taskCard = assigneeBadge.closest('.task-card');
+                    if (taskCard) {
+                        const taskId = taskCard.dataset.taskId;
+                        const task = tasks.find(t => t.id === taskId);
+                        if (task && task.assignees && task.assignees.length > 0) {
+                            clickToFilter('user', task.assignees[0]);
+                        }
+                    }
+                    return;
+                }
+
+                // Handle tag click
+                const tagSpan = e.target.closest('.tag');
+                if (tagSpan) {
+                    e.stopPropagation();
+                    const taskCard = tagSpan.closest('.task-card');
+                    if (taskCard) {
+                        const taskId = taskCard.dataset.taskId;
+                        const task = tasks.find(t => t.id === taskId);
+                        if (task && task.tags && task.tags.length > 0) {
+                            // Find which tag was clicked based on text content
+                            const tagText = tagSpan.textContent;
+                            clickToFilter('tag', tagText);
+                        }
+                    }
+                    return;
+                }
+            });
+
+            if (debugMode) {
+                console.log('✅ Event delegation initialized on kanban board');
+            }
         }
 
         // Keyboard handler for task cards - provides keyboard alternative to drag-and-drop
@@ -6396,7 +6606,7 @@ ${t('markdown.archiveSection')}
                     task.status = newColumn.id;
                     
                     // Save and re-render
-                    autoSave().then(() => {
+                    debouncedAutoSave().then(() => {
                         renderKanban();
                         showNotification(`${t('notification.taskMoved')}: ${task.id} → ${newColumn.name}`, 'success');
                     });
@@ -6437,7 +6647,7 @@ ${t('markdown.archiveSection')}
                     if (task && task.status !== newStatus) {
                         task.status = newStatus;
                         renderKanban();
-                        autoSave();
+                        debouncedAutoSave();
                         showNotification(t('notif.taskMoved'), 'success');
                     }
                 }
@@ -6598,7 +6808,7 @@ ${t('markdown.archiveSection')}
                 currentDetailTask = task; // Update reference
                 showTaskDetail(task); // Refresh display
                 renderKanban(); // Update card progress
-                autoSave();
+                debouncedAutoSave();
             }
         }
 
@@ -6609,7 +6819,7 @@ ${t('markdown.archiveSection')}
                 currentDetailTask = task;
                 showTaskDetail(task);
                 renderKanban();
-                autoSave();
+                debouncedAutoSave();
             }
         }
 
@@ -6625,7 +6835,7 @@ ${t('markdown.archiveSection')}
                 input.value = '';
                 showTaskDetail(task);
                 renderKanban();
-                autoSave();
+                debouncedAutoSave();
             }
         }
 
@@ -6639,7 +6849,7 @@ ${t('markdown.archiveSection')}
                 currentDetailTask = task;
                 showTaskDetail(task);
                 renderKanban();
-                autoSave();
+                debouncedAutoSave();
             }
             }
 
@@ -6728,7 +6938,7 @@ ${t('markdown.archiveSection')}
                     if (fromArchive) {
                         saveArchive();
                     } else {
-                        autoSave();
+                        debouncedAutoSave();
                     }
 
                     // Update UI
@@ -6827,7 +7037,7 @@ ${t('markdown.archiveSection')}
                 }
                 tasks.push(task);
                 saveArchive();
-                autoSave();
+                debouncedAutoSave();
                 updateAutocomplete(); // Update autocomplete after restoring
                 renderKanban();
                 renderArchiveList(document.getElementById('archiveSearch').value);

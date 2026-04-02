@@ -74,9 +74,45 @@ This package tracks the **core** branch: Kanban, task create/edit, filters, arch
 
 | Issue | What to do |
 |-------|------------|
-| “File System Access API not supported” | Use Chrome, Edge, or Opera (see step 1). |
-| App won’t open / blank page | Open the browser console (F12) and check for errors; ensure you’re opening the file via `file://` or a local server. |
+| "File System Access API not supported" | Use Chrome, Edge, or Opera (see step 1). |
+| App won't open / blank page | Open the browser console (F12) and check for errors; ensure you're opening the file via `file://` or a local server. |
 | Wrong or old version | Replace `void.html` in this folder with the one from the **core** branch of the repo. |
+| "Folder permissions denied" or can't save | The browser needs write permission to the folder. Try selecting a different folder, or check that the folder isn't on a read-only filesystem or network drive with restricted access. |
+| App behaves oddly after settings change | Clear browser storage: open DevTools (F12) → Application tab → Storage → Clear "IndexedDB" and "Local Storage", then refresh the page. |
+| Markdown file appears corrupted / app won't load | Open the `.md` file in a text editor. Look for unexpected characters, truncated lines, or broken markdown syntax. Common fixes: restore from a backup, manually repair broken task blocks (### TASK-XXX | ...), or delete and recreate the file from a fresh template. |
+
+### Detailed: Resetting browser storage
+
+If the app behaves unexpectedly (wrong theme, stale project list, settings not applying), reset the browser storage:
+
+1. Open `void.html` in Chrome/Edge/Opera
+2. Press **F12** to open DevTools
+3. Go to the **Application** tab
+4. Under **Storage**, expand **IndexedDB** and delete any entries (e.g., `taskManager_projects`)
+5. Under **Local Storage**, clear entries starting with `taskManager_`
+6. Close DevTools and refresh the page (F5)
+
+The app will re-detect your folder and recreate storage with fresh defaults.
+
+### Detailed: Recovering from corrupted markdown
+
+If `kanban.md` or `archive.md` is corrupted (e.g., app fails to load or shows errors):
+
+1. **Check for backup**: If you use a sync service (Dropbox, iCloud, Git), look for a previous version.
+2. **Open the file directly**: In a plain text editor (VS Code, Notepad++, etc.). Look for:
+   - Truncated lines or incomplete task blocks
+   - Unexpected binary characters or encoding issues
+   - Missing `###` headers that break the task structure
+3. **Manual repair**: Restore the file structure:
+   ```markdown
+   ## To Do
+   
+   ### TASK-001 | Task Title
+   - [ ] Description here
+   ```
+4. **Fresh start**: If repair isn't feasible, delete the corrupted file and:
+   - Copy a fresh template from the repo's `docs/templates/`
+   - Or let the app create a new one (it will prompt if neither `kanban.md` nor `archive.md` exists)
 
 ---
 
@@ -91,3 +127,7 @@ To refresh from the repo:
 ---
 
 *Core package – Void.md. Single-file, local-only, Git-friendly.*
+
+*Version: 1.3.1*
+
+*Licensed under MPL-2.0 - see LICENSE file*
