@@ -5,7 +5,9 @@
 **Project**: Void.md  
 **Module**: Enhanced Notes/Comments System  
 **Complexity Score**: 9/10  
-**Status**: Draft - Pending Review
+**Status**: SPECIFICATION ONLY - Not implemented in v1.3.1
+
+> **Important (April 2026):** This document is a SPECIFICATION for a planned comments system. The v1.3.1 release includes the Tiptap-based rich text editor for task Notes (feature flag: `ENABLE_RICH_TEXT_EDITOR`), but the full threaded comments system with slash commands, @mentions, and reactions described in this document has NOT been implemented. See `docs/changelog/SESSION_DOCUMENTATION_2026-03-17.md` for the current branch strategy (core/production/experimental).
 
 **Note:** The JavaScript files in `docs/architecture/src/` (e.g. `feature-flags.js`, `tiptap-integration.js`, `comment-models.js`, `utilities.js`) are **reference/spec implementation** for the planned comments and editor work. They are not loaded by the current application; `void.html` is self-contained.
 

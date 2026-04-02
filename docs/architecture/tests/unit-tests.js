@@ -1,6 +1,12 @@
 /**
  * Unit Tests for Feature Flag System and Fallback Mechanisms
  * 
+ * IMPORTANT (April 2026): This test suite tests the v1.2.0 SPECIFICATION.
+ * - ENABLE_RICH_TEXT_EDITOR: IMPLEMENTED (Tiptap editor for task Notes)
+ * - ENABLE_COMMENTS: NOT IMPLEMENTED (placeholder flag only)
+ * - ENABLE_SLASH_COMMANDS: NOT IMPLEMENTED (placeholder flag only)
+ * - ENABLE_PERFORMANCE_LOGGING: NOT IMPLEMENTED (placeholder flag only)
+ * 
  * Run these tests in the browser console:
  * 1. Open void.html in browser
  * 2. Open Developer Console (F12)
@@ -53,11 +59,11 @@ function runFeatureFlagTests() {
         `Type: ${typeof FEATURE_FLAGS}`
     );
     
-    // Test 2: All required flags exist
+    // Test 2: All required flags exist (v1.3.1: only RICH_TEXT_EDITOR is implemented)
     const requiredFlags = [
         'ENABLE_RICH_TEXT_EDITOR',
-        'ENABLE_COMMENTS', 
-        'ENABLE_SLASH_COMMANDS',
+        // 'ENABLE_COMMENTS',    // NOT IMPLEMENTED - placeholder only
+        // 'ENABLE_SLASH_COMMANDS', // NOT IMPLEMENTED - placeholder only
         'ENABLE_PERFORMANCE_LOGGING'
     ];
     

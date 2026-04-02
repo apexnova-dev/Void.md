@@ -1,5 +1,9 @@
 # Data Models & Schemas
 
+**Status (April 2026):** This document describes data models for a planned comments system. The current implementation (v1.3.1) includes:
+- **Implemented:** `RichContentStorage` for storing Tiptap HTML content per task (IndexedDB-based)
+- **Planned:** Full threaded comments system with threads, comments, reactions, slash commands
+
 ## 1. Comment System Data Models
 
 ### 1.1 Thread Model

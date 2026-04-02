@@ -5,7 +5,9 @@
 **Project**: Void.md  
 **Module**: Component Architecture & Implementation Workflows  
 **Complexity Score**: 9/10  
-**Status**: Draft - Ready for Implementation
+**Status**: SPECIFICATION ONLY - Not implemented in v1.3.1
+
+> **Important (April 2026):** This document is a SPECIFICATION for a planned comments system. The v1.3.1 release includes the Tiptap-based rich text editor for task Notes, but the full threaded comments system described here has NOT been implemented. See `docs/changelog/SESSION_DOCUMENTATION_2026-03-17.md` for the current branch strategy.
 
 ---
 
