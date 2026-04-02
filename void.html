@@ -1582,7 +1582,7 @@
                 <div class="header-buttons">
                     <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" aria-label="Settings">⚙️ Settings</button>
                     <button id="selectFolderBtn" class="btn btn-primary" aria-label="Choose folder">📁 Folder</button>
-                    <button id="newTaskBtn" class="btn btn-secondary" aria-label="New task" onclick="typeof openTaskModal === 'function' && openTaskModal()">➕ Task</button>
+                    <button id="newTaskBtn" class="btn btn-secondary" aria-label="New task">➕ Task</button>
                 </div>
             </div>
         </div>
@@ -2091,9 +2091,54 @@ function clearAllData() {
         localStorage.clear();
         projects = [];
         currentProjectIndex = 0;
+        
+        // Clear IndexedDB projects store
+        clearIndexedDBProjects().catch(err => {
+            console.error('Failed to clear IndexedDB:', err);
+        });
+        
         showNotification('All local data cleared', 'success');
         console.log('🗑️ All local data cleared');
     }
+}
+
+// Helper function to clear IndexedDB projects store
+async function clearIndexedDBProjects() {
+    return new Promise((resolve, reject) => {
+        const dbName = 'TaskManagerDB';
+        const request = indexedDB.open(dbName);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('projects')) {
+                db.createObjectStore('projects', { keyPath: 'id' });
+            }
+        };
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('projects')) {
+                resolve();
+                return;
+            }
+            const transaction = db.transaction(['projects'], 'readwrite');
+            const store = transaction.objectStore('projects');
+            store.clear();
+            transaction.oncomplete = () => {
+                console.log('  ✅ IndexedDB projects cleared');
+                resolve();
+            };
+            transaction.onerror = () => {
+                console.error('  ❌ Error clearing IndexedDB:', transaction.error);
+                reject(transaction.error);
+            };
+        };
+
+        request.onerror = () => {
+            console.error('  ❌ Error opening IndexedDB:', request.error);
+            reject(request.error);
+        };
+    });
 }
 
 // Global function to export project data
@@ -2258,8 +2303,14 @@ function openTaskModal(task = null) {
     // Show plain textarea or rich editor based on Editor Mode
     const taskNotesEl = document.getElementById('taskNotes');
     const richWrap = document.getElementById('notesRichEditorWrap');
+    let editorMode = 'plain';
+    try {
+        editorMode = localStorage.getItem('editorMode') || 'plain';
+    } catch (e) {
+        console.warn('localStorage read failed:', e);
+    }
     const useRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled &&
-        (localStorage.getItem('editorMode') || 'plain') === 'rich' &&
+        editorMode === 'rich' &&
         typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
     if (taskNotesEl) taskNotesEl.style.display = useRich ? 'none' : 'block';
     if (richWrap) richWrap.style.display = useRich ? 'block' : 'none';
@@ -2319,7 +2370,7 @@ document.addEventListener('keydown', function (e) {
 
 // Close modal when clicking the backdrop (outside the content) - run when DOM is ready
 function initModalBackdropClose() {
-    var modals = document.querySelectorAll('.modal');
+    const modals = document.querySelectorAll('.modal');
     modals.forEach(function (modal) {
         modal.addEventListener('click', function (e) {
             if (e.target !== modal) return;
@@ -3220,7 +3271,7 @@ function deleteFromArchive(taskId) {
                         <button class="btn btn-secondary" onclick="closeModal()">${t('taskDetail.close')}</button>
                         <button class="btn btn-secondary" onclick="deleteCurrentTask()" style="background: #ef4444; color: white;">${t('taskDetail.delete')}</button>
                         <button class="btn btn-secondary" onclick="archiveCurrentTask()" style="background: #f59e0b; color: white;">${t('taskDetail.archive')}</button>
-                        <button class="btn btn-primary" id="editTaskBtn" onclick="editCurrentTask()">${t('taskDetail.edit')}</button>
+                        <button class="btn btn-primary" id="editTaskBtnDetail" onclick="editCurrentTask()">${t('taskDetail.edit')}</button>
                     `;
                 }
             }
@@ -3374,7 +3425,11 @@ function deleteFromArchive(taskId) {
         // Toggle debug mode
         function toggleDebugMode() {
             debugMode = !debugMode;
-            localStorage.setItem('debugMode', debugMode.toString());
+            try {
+                localStorage.setItem('debugMode', debugMode.toString());
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             updateDebugToggle();
             console.log(`🔧 Debug mode ${debugMode ? 'enabled' : 'disabled'}`);
             showNotification(`Debug mode ${debugMode ? 'enabled' : 'disabled'}`, 'success');
@@ -3394,9 +3449,13 @@ function deleteFromArchive(taskId) {
 
         // Initialize debug mode from localStorage
         function initDebugMode() {
-            const savedDebugMode = localStorage.getItem('debugMode');
-            if (savedDebugMode !== null) {
-                debugMode = savedDebugMode === 'true';
+            try {
+                const savedDebugMode = localStorage.getItem('debugMode');
+                if (savedDebugMode !== null) {
+                    debugMode = savedDebugMode === 'true';
+                }
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
             }
             // Default to false for production, but the variable is initialized to true at the top
             // This allows users to disable it
@@ -3436,9 +3495,13 @@ function deleteFromArchive(taskId) {
         // Initialize feature flags from localStorage
         function initFeatureFlags() {
             for (const [flag, config] of Object.entries(FEATURE_FLAGS)) {
-                const saved = localStorage.getItem(flag);
-                if (saved !== null) {
-                    FEATURE_FLAGS[flag].enabled = saved === 'true';
+                try {
+                    const saved = localStorage.getItem(flag);
+                    if (saved !== null) {
+                        FEATURE_FLAGS[flag].enabled = saved === 'true';
+                    }
+                } catch (e) {
+                    console.warn('localStorage read failed:', e);
                 }
             }
             updateFeatureToggles();
@@ -3455,7 +3518,11 @@ function deleteFromArchive(taskId) {
             }
             
             FEATURE_FLAGS[flagName].enabled = !FEATURE_FLAGS[flagName].enabled;
-            localStorage.setItem(flagName, FEATURE_FLAGS[flagName].enabled.toString());
+            try {
+                localStorage.setItem(flagName, FEATURE_FLAGS[flagName].enabled.toString());
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             
             const status = FEATURE_FLAGS[flagName].enabled ? 'enabled' : 'disabled';
             console.log(`🎛️ Feature ${flagName} ${status}`);
@@ -3499,12 +3566,18 @@ function deleteFromArchive(taskId) {
             
             if (!statusEl) return;
             
+            let savedMode = 'plain';
+            try {
+                savedMode = localStorage.getItem('editorMode') || 'plain';
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+            }
+            
             if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 statusEl.innerHTML = '<span style="color: #22C55E;">✓ Editor loaded and ready</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
-                    const savedMode = localStorage.getItem('editorMode') || 'plain';
                     modeSelect.value = savedMode;
                 }
             } else if (typeof window.Tiptap !== 'undefined') {
@@ -3512,7 +3585,6 @@ function deleteFromArchive(taskId) {
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
-                    const savedMode = localStorage.getItem('editorMode') || 'plain';
                     modeSelect.value = savedMode;
                 }
             } else if (window._tiptapLoading) {
@@ -3534,7 +3606,11 @@ function deleteFromArchive(taskId) {
 
         // Change editor mode (plain text vs rich text)
         function changeEditorMode(mode) {
-            localStorage.setItem('editorMode', mode);
+            try {
+                localStorage.setItem('editorMode', mode);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             console.log(`📝 Editor mode changed to: ${mode}`);
             
             if (mode === 'rich' && typeof window.Tiptap === 'undefined') {
@@ -3547,7 +3623,11 @@ function deleteFromArchive(taskId) {
                     // Get the select element and reset it to plain text
                     const modeSelect = document.getElementById('editorModeSelect');
                     if (modeSelect) modeSelect.value = 'plain';
-                    localStorage.setItem('editorMode', 'plain');
+                    try {
+                        localStorage.setItem('editorMode', 'plain');
+                    } catch (e) {
+                        console.warn('localStorage write failed:', e);
+                    }
                 });
             }
             
@@ -3559,7 +3639,12 @@ function deleteFromArchive(taskId) {
             if (!FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
                 return 'plain'; // Feature disabled, use plain text
             }
-            return localStorage.getItem('editorMode') || 'plain';
+            try {
+                return localStorage.getItem('editorMode') || 'plain';
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+                return 'plain';
+            }
         }
 
         // Update editor badge in task form
@@ -3991,7 +4076,11 @@ function deleteFromArchive(taskId) {
             
             // Disable the feature and fallback to plain text
             FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled = false;
-            localStorage.setItem('ENABLE_RICH_TEXT_EDITOR', 'false');
+            try {
+                localStorage.setItem('ENABLE_RICH_TEXT_EDITOR', 'false');
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             updateFeatureToggles();
             
             return { success: false, error: errorMsg, fallback: 'plain-text' };
@@ -4008,7 +4097,11 @@ function deleteFromArchive(taskId) {
             }
 
             currentTheme = theme;
-            localStorage.setItem('preferredTheme', theme);
+            try {
+                localStorage.setItem('preferredTheme', theme);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
 
             // Add transition class for smooth animation if requested
             if (animate) {
@@ -4056,7 +4149,12 @@ function deleteFromArchive(taskId) {
         // Initialize theme from storage (or Neon default). Does not call setTheme() — avoids duplicate
         // ChangeLog entries and redundant localStorage writes; <head> script already set data-theme for first paint.
         function initTheme() {
-            const savedTheme = localStorage.getItem('preferredTheme');
+            let savedTheme = null;
+            try {
+                savedTheme = localStorage.getItem('preferredTheme');
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+            }
             if (savedTheme === 'light' || savedTheme === 'dark') {
                 currentTheme = savedTheme;
                 document.documentElement.setAttribute('data-theme', savedTheme);
@@ -4065,7 +4163,11 @@ function deleteFromArchive(taskId) {
             }
             currentTheme = 'dark';
             document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('preferredTheme', 'dark');
+            try {
+                localStorage.setItem('preferredTheme', 'dark');
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
             updateThemeToggle();
         }
 
@@ -4073,7 +4175,13 @@ function deleteFromArchive(taskId) {
         if (window.matchMedia) {
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                 // Only change theme if user hasn't explicitly set one
-                if (!localStorage.getItem('preferredTheme')) {
+                let preferredTheme = null;
+                try {
+                    preferredTheme = localStorage.getItem('preferredTheme');
+                } catch (err) {
+                    console.warn('localStorage read failed:', err);
+                }
+                if (!preferredTheme) {
                     setTheme(e.matches ? 'dark' : 'light');
                 }
             });
@@ -4087,7 +4195,11 @@ function deleteFromArchive(taskId) {
             }
 
             currentLanguage = lang;
-            localStorage.setItem('preferredLanguage', lang);
+            try {
+                localStorage.setItem('preferredLanguage', lang);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
 
             // Log language change
             ChangeLogManager.logChange('enhancement', 
@@ -4454,7 +4566,12 @@ function deleteFromArchive(taskId) {
         // Initialize language based on saved preference or browser language
         function initLanguage() {
             // Check for saved preference first
-            const savedLang = localStorage.getItem('preferredLanguage');
+            let savedLang = null;
+            try {
+                savedLang = localStorage.getItem('preferredLanguage');
+            } catch (e) {
+                console.warn('localStorage read failed:', e);
+            }
             if (savedLang) {
                 currentLanguage = savedLang;
                 return;
@@ -4472,7 +4589,11 @@ function deleteFromArchive(taskId) {
             }
 
             // Save the detected/default language
-            localStorage.setItem('preferredLanguage', currentLanguage);
+            try {
+                localStorage.setItem('preferredLanguage', currentLanguage);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
 
             console.log(`Language initialized to: ${currentLanguage}`);
         }
@@ -6108,7 +6229,7 @@ ${t('markdown.archiveSection')}
             taskEl.draggable = true;
             taskEl.dataset.taskId = task.id;
 
-            var priorityBadgeClass = "Default";
+            let priorityBadgeClass = "Default";
             if (config.priorities) {
                 const priority = config.priorities.find(p => clean(p) === task.priority);
                 if (priority) {
@@ -6347,21 +6468,6 @@ ${t('markdown.archiveSection')}
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
         }
 
-        function closeModal() {
-            const taskModalEl = document.getElementById('taskModal');
-            if (taskModalEl) {
-                taskModalEl.classList.remove('active');
-                if (typeof setBodyModalOpen === 'function') setBodyModalOpen(false);
-            }
-        }
-
-        function editCurrentTask() {
-            if (currentDetailTask) {
-                closeModal();
-                openTaskModal(currentDetailTask);
-            }
-        }
-
         // Subtask management
         function toggleSubtask(taskId, subtaskIdx) {
             const task = tasks.find(t => t.id === taskId);
@@ -6479,29 +6585,6 @@ ${t('markdown.archiveSection')}
             const writable = await archiveFileHandle.createWritable();
             await writable.write(md);
             await writable.close();
-        }
-
-        function archiveCurrentTask() {
-            if (!currentDetailTask) return;
-            if (confirm(t('confirm.archiveTask', {title: currentDetailTask.title}))) {
-                // Remove from active tasks
-                const idx = tasks.findIndex(t => t.id === currentDetailTask.id);
-                if (idx >= 0) {
-                    const task = tasks.splice(idx, 1)[0];
-                    archivedTasks.push(task);
-                    saveArchive();
-                    autoSave();
-                    updateAutocomplete(); // Keep historical values in autocomplete
-                    renderKanban();
-                    closeModal();
-                    showNotification(t('notif.taskArchived'), 'success');
-                }
-            }
-        }
-
-        function deleteCurrentTask() {
-            if (!currentDetailTask) return;
-            deleteTask(currentDetailTask.id, false);
         }
 
         function deleteTask(taskId, fromArchive = false) {
