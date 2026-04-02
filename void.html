@@ -110,6 +110,28 @@
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
         }
 
+        /* Skip navigation link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--bg-primary);
+            padding: 0.75rem 1.5rem;
+            z-index: 10000;
+            border-radius: 0 0 8px 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-primary);
@@ -196,9 +218,15 @@
             min-width: 180px;
         }
 
+        /* Global focus styles for accessibility */
+        *:focus-visible {
+            outline: 3px solid var(--accent) !important;
+            outline-offset: 2px;
+        }
+
+        /* Remove outline for mouse users, keep for keyboard */
         .header-project-select:focus {
             border-color: var(--accent);
-            outline: none;
         }
 
         .header-buttons {
@@ -544,6 +572,12 @@
 
         .task-card.dragging {
             opacity: 0.5;
+        }
+
+        .task-card:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+            border-color: var(--accent);
         }
 
         .task-header {
@@ -900,10 +934,11 @@
             transition: all 0.2s ease;
         }
 
-        input:not(.btn):not(.theme-toggle):not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
+        input:not(.btn):not(.theme-toggle):not([type="button"]):not([type="submit"]):not([type="reset"]):focus-visible,
+        textarea:focus-visible,
+        select:focus-visible {
+            outline: 3px solid var(--accent) !important;
+            outline-offset: 2px;
             border-color: var(--accent) !important;
             box-shadow: 0 0 0 3px var(--accent-subtle);
         }
@@ -1053,6 +1088,11 @@
             border: 1px solid var(--border-color);
             border-radius: 0 0 8px 8px;
             overflow-y: auto;
+        }
+        .tiptap-container:focus-within {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+            border-color: var(--accent);
         }
         .tiptap-container .ProseMirror {
             min-height: 140px;
@@ -2074,6 +2114,8 @@ function openSettingsModal() {
     if (modal) {
         modal.classList.add('active');
         setBodyModalOpen(true);
+        trapFocus(modal);
+        setFocusToModal(modal);
         console.log('✅ Settings modal opened');
     }
 }
@@ -2084,6 +2126,7 @@ function closeSettingsModal() {
     if (modal) {
         modal.classList.remove('active');
         setBodyModalOpen(false);
+        returnFocus();
         console.log('✅ Settings modal closed');
     }
 }
@@ -2348,6 +2391,8 @@ function openTaskModal(task = null) {
 
     modal.classList.add('active');
     setBodyModalOpen(true);
+    trapFocus(modal);
+    setFocusToModal(modal);
     console.log(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
 }
 
@@ -2365,6 +2410,7 @@ function closeTaskModal() {
     if (modal) {
         modal.classList.remove('active');
         setBodyModalOpen(false);
+        returnFocus();
     }
     if (form) form.reset();
     isEditMode = false;
@@ -6103,10 +6149,13 @@ ${t('markdown.archiveSection')}
                 </div>
             `).join('');
             modal.classList.add('active');
+            trapFocus(modal);
+            setFocusToModal(modal);
         }
 
         function closeColumnsModal() {
             document.getElementById('columnsModal').classList.remove('active');
+            returnFocus();
         }
 
         function addColumn() {
@@ -6238,6 +6287,9 @@ ${t('markdown.archiveSection')}
             taskEl.className = 'task-card';
             taskEl.draggable = true;
             taskEl.dataset.taskId = task.id;
+            taskEl.setAttribute('tabindex', '0');
+            taskEl.setAttribute('role', 'button');
+            taskEl.setAttribute('aria-label', 'Task: ' + task.title);
 
             let priorityBadgeClass = "Default";
             if (config.priorities) {
@@ -6288,6 +6340,12 @@ ${t('markdown.archiveSection')}
 
             taskEl.addEventListener('dragstart', drag);
             taskEl.addEventListener('click', () => showTaskDetail(task));
+            taskEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showTaskDetail(task);
+                }
+            });
 
             return taskEl;
         }
@@ -6636,14 +6694,18 @@ ${t('markdown.archiveSection')}
             console.log('\n📂 === OPENING ARCHIVE MODAL ===');
             await loadArchive();
             renderArchiveList();
-            document.getElementById('archiveModal').classList.add('active');
+            const modal = document.getElementById('archiveModal');
+            modal.classList.add('active');
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
+            trapFocus(modal);
+            setFocusToModal(modal);
             console.log('✓ Archive modal opened');
         }
 
         function closeArchiveModal() {
             document.getElementById('archiveModal').classList.remove('active');
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(false);
+            returnFocus();
         }
 
         function renderArchiveList(searchTerm = '') {
