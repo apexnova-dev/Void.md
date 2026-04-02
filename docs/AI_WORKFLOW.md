@@ -545,4 +545,36 @@ The AI will automatically:
 
 ---
 
+## 🔄 Multi-Agent Coordination (for AI Agents)
+
+> **Critical:** These rules prevent race conditions and data loss when multiple agents work on shared kanban files.
+
+### ⚠️ Never Do This
+- Run multiple agents **in parallel** on the **same kanban.md**
+- Agents writing to kanban simultaneously = **data loss**
+- Skipping coordination when working on shared files
+
+### ✅ Safe Multi-Agent Workflow
+
+1. **One agent writes at a time** - Sequential execution only
+2. **Coordinator merges** - Single agent reads, aggregates, writes once
+3. **Re-read before write** - Always refresh state before modifying
+4. **Use task ranges** - Agent A: 1-10, Agent B: 11-20 (prevents conflicts)
+
+### Example
+
+```markdown
+# WRONG - Race condition:
+Agent1 reads kanban → Agent2 reads same → both write → last one wins
+
+# CORRECT - Sequential:
+1. Coordinator reads current kanban
+2. Agent1 works (results stored separately)
+3. Agent2 works (results stored separately)  
+4. Coordinator merges results
+5. Coordinator writes once
+```
+
+---
+
 **This guide ensures complete transparency and traceability of AI work.**

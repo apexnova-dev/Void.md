@@ -385,5 +385,95 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 
 ---
 
+## 🔄 Multi-Agent Coordination Rules
+
+> **Critical:** These rules prevent race conditions and data loss when multiple agents work on shared files.
+
+### ❌ NEVER Do This
+- Run multiple agents **in parallel** on the **same file**
+- Launch agents simultaneously and let them all write to kanban.md
+- Skip coordination when agents share resources
+
+### ✅ ALWAYS Do This
+
+#### 1. Sequential Execution for Shared Files
+When agents need to modify the same file (like kanban.md):
+```
+Agent A completes → Agent B starts → Agent C starts → ...
+```
+Never: `Agent A, B, C all start at once`
+
+#### 2. Coordinator Must Aggregate
+For multi-agent work on shared files:
+1. **Coordinator reads current state** first
+2. **Each agent does their work** (in separate scope)
+3. **Coordinator merges ALL results** into single update
+4. **Coordinator writes once** - not agents writing independently
+
+#### 3. Use Task ID Ranges to Prevent Conflicts
+Assign non-overlapping task ID ranges:
+```
+Agent A: TASK-001 to TASK-010
+Agent B: TASK-011 to TASK-020  
+Agent C: TASK-021 to TASK-030
+```
+
+#### 4. Always Re-read Before Writing
+If an agent needs to update a shared file:
+```javascript
+// 1. ALWAYS re-read current state first
+const currentKanban = await readFile(kanbanPath);
+
+// 2. Parse and find where to insert
+const task = findTask(currentKanban, taskId);
+
+// 3. Update the specific task only
+const updated = updateTask(currentKanban, taskId, changes);
+
+// 4. Write back - but coordinator should do this
+await writeFile(kanbanPath, updated);
+```
+
+#### 5. Lock Files During Coordination
+When coordinating multiple agents:
+- Use a lock file or flag to indicate "in progress"
+- Release lock only after aggregated write completes
+
+### Example: Correct Multi-Agent Workflow
+
+```javascript
+// WRONG - Race condition:
+launchAgent(task1)   // reads kanban (v1)
+launchAgent(task2)   // reads kanban (v1) - same version!
+launchAgent(task3)   // reads kanban (v1) - same version!
+// ... agents write over each other ...
+
+// CORRECT - Sequential with coordination:
+const kanban = await readKanban();  // Coordinator reads
+
+// Agent A works on TASK-001
+const resultA = await agentA.do(task1);
+
+// Agent B works on TASK-002 (only after A is done)
+const resultB = await agentB.do(task2);
+
+// Coordinator merges:
+const merged = mergeResults(kanban, resultA, resultB);
+
+// Single write:
+await writeKanban(merged);
+```
+
+### 📋 Coordination Checklist
+
+Before launching multiple agents:
+- [ ] Are they working on the same file?
+- [ ] If yes, have you assigned non-overlapping task IDs?
+- [ ] If no task IDs, will you run sequentially?
+- [ ] Who is the coordinator that will merge results?
+- [ ] Has the current file state been read before agent starts?
+
+---
+
 *Last updated: April 2026*  
 *Version: 1.3.1*
