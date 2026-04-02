@@ -1904,12 +1904,12 @@ You can use Markdown:
                     <!-- Rich editor (visible when Editor Mode is Rich); toolbar + container -->
                     <div id="notesRichEditorWrap">
                         <div id="tiptapToolbar" class="tiptap-toolbar">
-                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold">B</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic">I</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="code" title="Code">&lt;/&gt;</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="bulletList" title="Bullet list">• List</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="orderedList" title="Numbered list">1. List</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="clearFormatting" title="Clear formatting">Clear</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold" aria-label="Bold">B</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic" aria-label="Italic">I</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="code" title="Code" aria-label="Code">&lt;/&gt;</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bulletList" title="Bullet list" aria-label="Bullet list">• List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="orderedList" title="Numbered list" aria-label="Numbered list">1. List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="clearFormatting" title="Clear formatting" aria-label="Clear formatting">Clear</button>
                         </div>
                         <div id="tiptapContainer" class="tiptap-container"></div>
                     </div>
@@ -3815,10 +3815,14 @@ function deleteFromArchive(taskId) {
                 let totalSize = 0;
                 
                 taskIds.forEach(taskId => {
-                    const key = RichContentStorage.getKey(taskId);
-                    const data = localStorage.getItem(key);
-                    if (data) {
-                        totalSize += data.length;
+                    try {
+                        const key = RichContentStorage.getKey(taskId);
+                        const data = localStorage.getItem(key);
+                        if (data) {
+                            totalSize += data.length;
+                        }
+                    } catch (error) {
+                        console.warn('RichContentStorage: Error getting stats:', error);
                     }
                 });
                 
@@ -6169,6 +6173,13 @@ ${t('markdown.archiveSection')}
         function toggleFormSubtask(idx) {
             if (formSubtasks[idx]) {
                 formSubtasks[idx].completed = !formSubtasks[idx].completed;
+                renderFormSubtasks();
+            }
+        }
+
+        function removeFormSubtask(idx) {
+            if (formSubtasks[idx]) {
+                formSubtasks.splice(idx, 1);
                 renderFormSubtasks();
             }
         }
