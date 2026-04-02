@@ -1,7 +1,7 @@
 # Void.md
 
 <p align="center">
-  <img src="./logo.svg" alt="Void.md" width="120" height="120" />
+  <img src="./logo.svg" alt="Void.md" width="200" height="200" />
 </p>
 
 > **Visual Kanban. Plaintext Soul. No Cloud.**
@@ -28,11 +28,13 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 ### Modal & Header UX
 
 **📐 Modal sizing and behavior**
+
 - New Task, Task detail, and Settings modals use 90vh height and consistent width; only the modal body scrolls (no page scroll behind)
 - Close any modal by clicking outside (backdrop) or pressing Escape
 - Body scroll is locked while a modal is open
 
 **🧭 Header and filter bar**
+
 - Header: Project label + dropdown, grouped actions (project vs Settings/Folder/New Task), responsive wrap
 - Filter bar width and padding aligned with header (1400px max)
 - ARIA labels on icon-only buttons for accessibility
@@ -40,10 +42,12 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 ### Earlier (January 2026)
 
 **🎨 Dark mode, header cleanup, welcome project selector**
+
 - 7-level dark mode color hierarchy; Language, Theme, Archives, Columns in Settings
 - Welcome screen project selector; stability fixes (task creation, modal close, null checks)
 
 ### Related Documentation
+
 - `CHANGELOG.md` - Full version history
 - `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (implemented)
 - `docs/architecture/FIXES-SUMMARY.md` - Bug fixes
@@ -540,6 +544,7 @@ With this system, you have:
 - **Description**: Free text with Markdown support (rich text via Tiptap optional)
 
 **Rich Text Editor (optional):**
+
 - Toggle between plain Markdown and rich text (Tiptap) in task Notes
 - Formatting toolbar: Bold, Italic, Code, Lists
 - Auto-loads from CDN with fallback to plain text if unavailable
