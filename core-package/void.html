@@ -4785,12 +4785,12 @@ function deleteFromArchive(taskId) {
             false);
 
         // Generate first release notes
-        console.log('📚 Version 1.1.1 Release Notes:');
+        console.log(`📚 Version ${currentVersion} Release Notes:`);
         console.log('');
         console.log(ChangeLogManager.generateReleaseNotes());
 
         // Document foundational system capabilities
-        console.log('🎯 Foundation Systems Added in v1.1.1:');
+        console.log(`🎯 Foundation Systems Added in v${currentVersion}:`);
         console.log('✅ Change Log Manager: Structured logging with semantic versioning');
         console.log('✅ Version Manager: Automated semantic version increments');
         console.log('✅ Documentation Console: Professional development commands');
