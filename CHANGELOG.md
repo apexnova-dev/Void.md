@@ -83,7 +83,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- (No new features currently in development)
+- Welcome screen: Void logo (`logo.svg`) below the “Welcome” heading; wave emoji removed from the title
+- `core-package/logo.svg` so the portable package shows the same logo when opened locally
+
+### Fixed
+
+- **Security:** Escape column titles in the Kanban board and fenced-code language labels in `markdownToHtml()` before inserting into HTML
+- **Welcome / i18n:** `renderWelcomeScreen()` now rebuilds the full welcome layout (including recent-projects selector and steps) when the language changes, instead of replacing it with a minimal fragment that removed those controls; `updateWelcomeProjectSelector()` runs after a language change so the dropdown stays populated
 
 ---
 

@@ -14,6 +14,7 @@ This folder is a **standalone package** to run the **core** version of the app: 
 | File | Purpose |
 |------|--------|
 | `void.html` | The app. Open it in a supported browser. |
+| `logo.svg` | Welcome screen logo (same asset as the main repository). |
 | `kanban.md` | Template for your active tasks. |
 | `archive.md` | Template for archived tasks. |
 | `HOW-TO-RUN.md` | This guide (humans). |
