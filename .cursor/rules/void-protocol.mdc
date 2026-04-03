@@ -5,13 +5,14 @@ globs:
   - "**/archive.md"
   - "**/void.html"
   - "AI_WORKFLOW.md"
+  - "docs/AI_WORKFLOW.md"
 ---
 
 # Void.md protocol
 
 Before creating, moving, or editing tasks in `kanban.md` or `archive.md`:
 
-1. **Read `AI_WORKFLOW.md`** at the repository root. It defines TASK-XXX format, metadata keys, integrity rules, and archive behavior.
+1. **Read the task protocol:** [`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md) (canonical). Root [`AI_WORKFLOW.md`](AI_WORKFLOW.md) is a short pointer for backwards compatibility. It defines TASK-XXX format, metadata keys, integrity rules, and archive behavior.
 2. Treat local Markdown as the **source of truth** — no cloud sync; preserve structure expected by **Void.md** (`void.html`).
 3. Do not invent completed work, file edits, or test runs in task bodies.
 

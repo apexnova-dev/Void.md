@@ -10,8 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- **Void.md** product identity: root `logo.svg` (neon VOID.MD mark), `GEMINI.md`, `AGENT.md`, and `.cursor/rules/void-protocol.mdc` (read `AI_WORKFLOW.md` before editing `kanban.md`)
-- `AI_WORKFLOW.md`: master protocol framing (Kanban H1/H2/H3 shape, metadata keys, archive rules, data sovereignty)
+- **Void.md** product identity: root `logo.svg` (neon VOID.MD mark), `GEMINI.md`, `AGENT.md`, and `.cursor/rules/void-protocol.mdc` (read `docs/AI_WORKFLOW.md` before editing `kanban.md`; root `AI_WORKFLOW.md` points there for compatibility)
+- `docs/AI_WORKFLOW.md`: master protocol framing (Kanban H1/H2/H3 shape, metadata keys, archive rules, data sovereignty)
 
 ### Changed
 
@@ -251,7 +251,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Compatible with external file editing
 
 - **AI Assistants Integration**:
-  - Complete guidelines via `AI_WORKFLOW.md`
+  - Complete guidelines via `docs/AI_WORKFLOW.md` (root `AI_WORKFLOW.md` redirects for compatibility)
   - Configuration templates for:
     - Claude (`CLAUDE.md`)
     - GitHub Copilot (`.github/copilot-instructions.md`)
@@ -313,7 +313,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [Release Notes v1.1.2](./RELEASE_NOTES_v1.1.2.md)
 - [Release Notes v1.1.1](./RELEASE_NOTES_v1.1.1.md)
 - [README.md](./README.md) - Main documentation
-- [AI_WORKFLOW.md](./AI_WORKFLOW.md) - AI integration guidelines
+- [docs/AI_WORKFLOW.md](./docs/AI_WORKFLOW.md) - AI integration guidelines (root [`AI_WORKFLOW.md`](./AI_WORKFLOW.md) redirects for compatibility)
 
 ## Links
 

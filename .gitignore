@@ -1,6 +1,10 @@
 # IDE and Editor configs
 .vscode/
-.claude/
+# Claude Code: ignore local state but ship the Void.md skill
+.claude/**
+!.claude/skills/
+!.claude/skills/void.md/
+!.claude/skills/void.md/**
 .cursor/
 .cursorrules
 .idea/

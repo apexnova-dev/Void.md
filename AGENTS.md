@@ -1,6 +1,6 @@
 # 🤖 AGENTS.md - Development Guide for AI Assistants
 
-> **Quick Reference:** For task management protocol, see [`AI_WORKFLOW.md`](docs/AI_WORKFLOW.md) — master protocol for task shape, TASK-XXX IDs, and markdown integrity.
+> **Quick Reference:** For task management protocol, see [`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md) — master protocol for task shape, TASK-XXX IDs, and markdown integrity. Root `AI_WORKFLOW.md` is a compatibility pointer to the same content.
 
 ---
 
@@ -376,7 +376,7 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 - `docs/architecture/tests/phase2-tests.js` - Tiptap editor tests
 - `docs/architecture/editor-standards.md` - Editor quality criteria
 - `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (header, modals, filter bar; most items implemented)
-- `AI_WORKFLOW.md` - Task format and workflow guidelines
+- `docs/AI_WORKFLOW.md` - Task format and workflow guidelines (root `AI_WORKFLOW.md` links here for compatibility)
 
 ### Modal and header behavior (current)
 
