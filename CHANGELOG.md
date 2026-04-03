@@ -10,8 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- **Void.md** product identity: root `logo.svg` (neon VOID.MD mark), `GEMINI.md`, `AGENT.md`, and `.cursor/rules/void-protocol.mdc` (read `AI_WORKFLOW.md` before editing `kanban.md`)
-- `AI_WORKFLOW.md`: master protocol framing (Kanban H1/H2/H3 shape, metadata keys, archive rules, data sovereignty)
+- **Void.md** product identity: root `logo.svg` (neon VOID.MD mark), `GEMINI.md`, `AGENT.md`, and `.cursor/rules/void-protocol.mdc` (read `docs/AI_WORKFLOW.md` before editing `kanban.md`; root `AI_WORKFLOW.md` points there for compatibility)
+- `docs/AI_WORKFLOW.md`: master protocol framing (Kanban H1/H2/H3 shape, metadata keys, archive rules, data sovereignty)
 
 ### Changed
 
@@ -24,21 +24,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.3.1] - 2026-04-01
 
-### Fixed
-
-- **Theme:** Inline `<head>` script sets `data-theme` before paint from `preferredTheme`; `initTheme()` syncs without calling `setTheme()` on load (avoids duplicate changelog noise; respects saved light/dark)
-- **Notes editor status:** Plain-text status line when rich text is unavailable no longer implies Markdown-as-fallback when `#featureRichTextSwitch` is missing; branches on rich-text flag and toggle presence
-
----
-
-## [Unreleased]
-
 ### Added
 
 - Body scroll lock when any modal is open (`body.modal-open` / `setBodyModalOpen`) so the page behind does not scroll
 - Close modal by clicking the backdrop (outside the modal content) for all modals
 - Inline `onclick` fallbacks on modal trigger buttons (New Task, Settings) so modals open even if DOMContentLoaded listeners fail
 - Modal backdrop close init deferred to `DOMContentLoaded` so listeners attach after DOM is ready
+- Rich text editor for task Notes (Tiptap) with Markdown fallback toggle
+- Added missing `removeFormSubtask()` function for form subtask deletion
+- Added `clearIndexedDBProjects()` helper function for complete data cleanup
+- Focus management: `trapFocus()`, `setFocusToModal()`, `returnFocus()` for accessibility
+- DOM caching helpers: `$()`, `$$()`, `$$$()` for performance
 
 ### Changed
 
@@ -47,17 +43,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - **New Task modal:** Width 95% / max 880px, height 90vh; form body scrolls inside; larger textareas and 2×2 date grid
   - **Task detail modal:** Width 95% / max 680px, height 90vh; body scrolls inside
   - **Settings modal:** Width 95% / max 560px, height 90vh; settings body scrolls inside
+  - **Manage Columns modal:** Width 95% / max 700px, height 90vh; improved column list rendering
 - **Header (from docs/UI_UX_RECOMMENDATIONS.md):**
   - Explicit `</header>`; right side grouped into `.header-actions`, `.header-project-group`, `.header-buttons`
   - Visible "Project" label and `.header-project-select` styling (min-height 40px, border-radius 8px)
   - Responsive header: flex-wrap, smaller title on narrow viewports
 - **Filter bar:** Aligned with header (max-width 1400px, padding 0 2rem via `.filter-bar-inner`); filter labels use muted style
 - **Accessibility:** `aria-label` on icon-only header buttons (Settings, Folder, New task, Rename, Delete, Clear search); `aria-label="Switch project"` on project select
+- **Project reorganization:** Documentation moved to `docs/`; `void.html` restored to `core-package/`
 
 ### Fixed
 
+- **Theme:** Inline `<head>` script sets `data-theme` before paint from `preferredTheme`; `initTheme()` syncs without calling `setTheme()` on load (avoids duplicate changelog noise; respects saved light/dark)
+- **Notes editor status:** Plain-text status line when rich text is unavailable no longer implies Markdown-as-fallback when `#featureRichTextSwitch` is missing; branches on rich-text flag and toggle presence
 - Defensive null checks in DOMContentLoaded so missing elements (projectSelector, selectFolderBtn, archiveSearch, newTaskForm) do not throw and break init
 - Project group show/hide: single `#headerProjectGroup` toggled in `updateProjectSelector` and when removing last project
+- **JavaScript syntax:** Fixed missing closing brace in `deleteFromArchive` function
+- **Duplicate code:** Removed 14+ duplicate function definitions:
+  - `closeModal()`, `editCurrentTask()`, `archiveCurrentTask()`, `deleteCurrentTask()` (second definitions at ~6350-6487)
+  - `updateArchivesModal()` → `renderArchivesModal()` typo
+  - Duplicate CSS class definitions (`.settings-section`, `.modal-content--task-form`)
+  - Duplicate CHANGE LOG comment section
+- **Event handling:** Removed duplicate event listener on newTaskBtn (removed inline onclick, uses addEventListener only)
+- **ID attributes:** Fixed duplicate `editTaskBtn` ID → changed to `editTaskBtnDetail`
+- **Error handling:** Wrapped all 18+ unguarded localStorage calls in try/catch blocks
+- **Data cleanup:** Added IndexedDB cleanup to `clearAllData()` function
+- **Code quality:** Converted `var` declarations to `let`/`const`
+- **Version strings:** Fixed hardcoded version strings in console logs to use dynamic `currentVersion` variable
+- **Reference fixes:** Fixed `themeToggle` references → `themeToggleSwitch`
+
+### Performance
+
+- Optimized task filtering (pre-filter once, then group)
+- Removed debug console.log from render loop
+
+---
+
+## [Unreleased]
+
+### Added
+
+- (No new features currently in development)
 
 ---
 
@@ -225,7 +251,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Compatible with external file editing
 
 - **AI Assistants Integration**:
-  - Complete guidelines via `AI_WORKFLOW.md`
+  - Complete guidelines via `docs/AI_WORKFLOW.md` (root `AI_WORKFLOW.md` redirects for compatibility)
   - Configuration templates for:
     - Claude (`CLAUDE.md`)
     - GitHub Copilot (`.github/copilot-instructions.md`)
@@ -287,7 +313,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [Release Notes v1.1.2](./RELEASE_NOTES_v1.1.2.md)
 - [Release Notes v1.1.1](./RELEASE_NOTES_v1.1.1.md)
 - [README.md](./README.md) - Main documentation
-- [AI_WORKFLOW.md](./AI_WORKFLOW.md) - AI integration guidelines
+- [docs/AI_WORKFLOW.md](./docs/AI_WORKFLOW.md) - AI integration guidelines (root [`AI_WORKFLOW.md`](./AI_WORKFLOW.md) redirects for compatibility)
 
 ## Links
 

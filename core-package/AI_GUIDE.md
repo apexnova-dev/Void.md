@@ -1,6 +1,10 @@
 # AI assistant guide – Void.md (core package)
 
+> **Local-first Kanban** with Neon City soul (dark theme, cyan/magenta accents).
+
 This document is for **coding agents** (Cursor, Claude, Copilot, etc.) when working with this **standalone folder**: a single HTML app plus `kanban.md` and `archive.md`. It summarizes the **markdown contract** and **workflow** so tasks stay compatible with `void.html`.
+
+> **Note:** This portable version covers the essentials. The full repository also includes `docs/AI_WORKFLOW.md` with comprehensive documentation (session tracking, Git integration, AI configuration templates, and more).
 
 If you have the **full repository** checked out, also read `AGENTS.md` (build, tests, conventions) and `.claude/skills/markdown-task-manager/SKILL.md` (full task skill). This file is the **portable** copy for zips and minimal deployments.
 
@@ -10,13 +14,15 @@ If you have the **full repository** checked out, also read `AGENTS.md` (build, t
 
 | Item                | Role                                                                                                                                                           |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `void.html` | The app: open in **Chrome, Edge, or Opera** (Chromium). Uses the **File System Access API**; Firefox and Safari are not supported for folder pick / live save. |
+| `void.html` | The app: open in **Chrome, Edge, or Opera** (Chromium-based). Uses the **File System Access API**; Firefox and Safari are not supported for folder pick / live save. |
 | `kanban.md`         | Active board: configuration, columns, and tasks.                                                                                                               |
 | `archive.md`        | Long-term storage for tasks moved to archive (by user action in the app or by explicit edit).                                                                  |
 | `HOW-TO-RUN.md`     | Human-oriented run instructions.                                                                                                                               |
+| `AI_GUIDE.md`       | This file: concise guide for AI assistants.                                                                                                                    |
 
 - **Data stays local.** Task content lives in the Markdown files. The browser may store preferences (theme, language, last folder handle) in **localStorage / IndexedDB**; nothing is sent to the internet by this app.
 - **No build step.** Open the HTML file directly (`file://`) or via a static local server.
+- **Core vs Full App:** This package represents the **core** experience (Kanban, task CRUD, filters, archives, multi-project, themes, language). The same `void.html` may contain experimental features (rich text editor, comments, slash commands) that are **disabled by default**. Users enable them in Settings. See `HOW-TO-RUN.md` for more on core vs. experimental.
 
 ---
 
@@ -95,7 +101,33 @@ Rules:
 
 ### 3.3 Columns and configuration block
 
-The `## ⚙️ Configuration` section defines columns, categories, users, and tags. **Column section headers** in the file (e.g. `## 📝 To Do`) must stay consistent with the **Columns** line so tasks appear in the right swimlanes when the app loads.
+The `## ⚙️ Configuration` section defines columns, categories, users, and tags. **Column section headers** in the file must match the **Columns** line so tasks appear in the right swimlanes when the app loads.
+
+Example configuration:
+
+```markdown
+## ⚙️ Configuration
+
+**Columns**: 📝 To Do | 🚀 In Progress | 👀 Review | ✅ Done
+**Categories**: Frontend, Backend, DevOps
+**Users**: @alice, @bob
+**Tags**: #bug, #feature, #docs
+```
+
+Column sections (example):
+
+```markdown
+## 📝 To Do
+
+### TASK-001 | First task
+[...]
+
+## 🚀 In Progress
+
+## 👀 Review
+
+## ✅ Done
+```
 
 Do not rename column sections casually without updating the configuration line to match.
 
@@ -135,11 +167,13 @@ The shipped `void.html` may still contain **feature flags** in code (e.g. rich t
 
 ## 7. Quick checklist before saving `kanban.md`
 
-- [ ] No `##` / `###` inside any task body  
-- [ ] `<!-- Config: Last Task ID: N -->` is numeric and matches the highest `TASK-XXX`  
-- [ ] New tasks use the next ID and live under the correct `##` column section  
-- [ ] `**Notes**:` / `**Subtasks**:` labels use colons  
-- [ ] Archive only when the user requested it  
+- [ ] No `##` / `###` inside any task body
+- [ ] `<!-- Config: Last Task ID: N -->` is numeric and matches the highest `TASK-XXX`
+- [ ] New tasks use the next ID and live under the correct `##` column section
+- [ ] `**Notes**:` / `**Subtasks**:` labels use colons
+- [ ] Archive only when the user requested it
+
+> **Need more details?** See `docs/AI_WORKFLOW.md` in the full repository for session tracking, Git integration, and AI configuration examples.
 
 ---
 

@@ -1,5 +1,9 @@
 # Editor Standards & Quality Criteria
 
+**Status (April 2026):** Partial implementation - Tiptap editor for task Notes is implemented; full command palette and auto-complete are planned.
+
+> This document describes quality criteria for the rich text editor. The v1.3.1 implementation includes Tiptap with basic formatting (bold, italic, code, lists). Advanced features (slash commands, @mentions, #tags) are planned for future releases.
+
 ## 1. Performance Standards
 
 ### 1.1 Initialization Performance

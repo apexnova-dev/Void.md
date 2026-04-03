@@ -1,0 +1,30 @@
+# IDE and Editor configs
+.vscode/
+# Claude Code: ignore local state but ship the Void.md skill
+.claude/**
+!.claude/skills/
+!.claude/skills/void.md/
+!.claude/skills/void.md/**
+.cursor/
+.cursorrules
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node (if any)
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# User data (internal folder should not be tracked in main repo)
+internal/

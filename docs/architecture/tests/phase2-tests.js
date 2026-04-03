@@ -2,7 +2,12 @@
 
 **Phase**: Phase 2 - Editor Integration
 **Date**: January 22, 2026
-**Status**: Implementation Complete - Ready for Testing
+**Status**: IMPLEMENTED in v1.3.1 ✅
+
+> **Important (April 2026):** This test suite validates the IMPLEMENTED Tiptap editor for task Notes. The rich text editor feature (`ENABLE_RICH_TEXT_EDITOR`) is fully functional in v1.3.1. The test suite below tests:
+> - `TiptapEditor` class (creates/destroys editor, formatting methods)
+> - `RichContentStorage` (IndexedDB-based storage for rich content)
+> - Form integration (toolbar, badge, mode switching)
 
 ---
 
