@@ -6856,14 +6856,41 @@ ${t('markdown.archiveSection')}
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
         }
 
+        /** Update subtask rows in the open task modal without replacing modalBody (preserves focus and scroll). */
+        function syncSubtaskModalView(task) {
+            const modal = document.getElementById('taskModal');
+            if (!modal || !modal.classList.contains('active')) return;
+            const list = document.getElementById('subtasksList');
+            if (!list || !task.subtasks) return;
+            const label = list.previousElementSibling;
+            if (label && typeof t === 'function') {
+                label.textContent = t('meta.subtasks', {
+                    completed: task.subtasks.filter(st => st.completed).length,
+                    total: task.subtasks.length
+                });
+            }
+            const items = list.querySelectorAll('li');
+            task.subtasks.forEach((st, idx) => {
+                const li = items[idx];
+                if (!li) return;
+                const cb = li.querySelector('input[type="checkbox"]');
+                const span = li.querySelector('span');
+                if (cb) cb.checked = !!st.completed;
+                if (span) {
+                    span.style.textDecoration = st.completed ? 'line-through' : 'none';
+                    span.style.color = st.completed ? 'var(--text-secondary)' : '';
+                }
+            });
+        }
+
         // Subtask management
         function toggleSubtask(taskId, subtaskIdx) {
             const task = tasks.find(t => t.id === taskId);
             if (task && task.subtasks[subtaskIdx]) {
                 task.subtasks[subtaskIdx].completed = !task.subtasks[subtaskIdx].completed;
-                currentDetailTask = task; // Update reference
-                showTaskDetail(task); // Refresh display
-                renderKanban(); // Update card progress
+                currentDetailTask = task;
+                syncSubtaskModalView(task);
+                renderKanban();
                 debouncedAutoSave();
             }
         }
