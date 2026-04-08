@@ -420,8 +420,24 @@
 
         .welcome h2 {
             font-size: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
+        }
+
+        .welcome-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .welcome-logo img {
+            width: 240px;
+            height: 240px;
+            object-fit: contain;
+        }
+
+        [data-theme="dark"] .welcome-logo img {
+            filter: drop-shadow(0 0 12px rgba(0, 212, 232, 0.45));
         }
 
         .welcome p {
@@ -1631,7 +1647,7 @@
         <div class="header-content">
             <div class="header-brand">
                 <img src="logo.svg" alt="Void.md" class="header-logo" id="headerLogo">
-                <h1 id="headerTitle">Void.md <span id="versionBadge">v. 1.3.1</span></h1>
+                <h1 id="headerTitle">Void.md <span id="versionBadge">v. 1.3.2</span></h1>
             </div>
             <div class="header-actions">
                 <div id="headerProjectGroup" class="header-project-group">
@@ -1709,7 +1725,10 @@
         <!-- Welcome Screen -->
         <div id="welcomeScreen" class="welcome">
             <div class="welcome-content">
-                <h2 id="welcomeTitle">Welcome! 👋</h2>
+                <h2 id="welcomeTitle">Welcome</h2>
+                <div class="welcome-logo" aria-hidden="true">
+                    <img src="logo.svg" width="240" height="240" alt="Void.md" />
+                </div>
                 <p id="welcomeDescription">Select the folder containing your Markdown files (kanban.md and archive.md)</p>
 
                 <!-- Project Selector for Welcome Screen -->
@@ -1752,7 +1771,7 @@
                     </button>
                 </div>
                 
-                <div class="browser-warning" id="welcome.browserWarning">
+                <div class="browser-warning" id="welcomeBrowserWarning">
                     ⚠️ Supported browsers: Chrome 86+, Edge 86+, Opera 72+
                 </div>
             </div>
@@ -1852,7 +1871,7 @@
                 <div class="settings-section about-section">
                     <strong>Void.md</strong>
                     <p>A single-file Kanban task manager that works with local Markdown files.</p>
-                    <span class="version-badge">v. 1.3.1</span>
+                    <span class="version-badge">v. 1.3.2</span>
                 </div>
             </div>
             <div class="settings-actions">
@@ -2597,7 +2616,7 @@ function deleteFromArchive(taskId) {
         // Options: '' (production), '-core', '-exp'
         const BRANCH_SUFFIX = ''; // Production - no suffix
         
-        let currentVersion = '1.3.1'; // Major UI/UX improvements
+        let currentVersion = '1.3.2'; // Major UI/UX improvements
         let changeLog = []; // In-memory change log
         
         // Get display version with branch suffix
@@ -2815,8 +2834,13 @@ function deleteFromArchive(taskId) {
                 'filters.searchClear': '✕',
 
                 // Welcome screen
-                'welcome.title': 'Welcome! 👋',
+                'welcome.title': 'Welcome',
                 'welcome.description': 'Select the folder containing your Markdown files (kanban.md and archive.md)',
+                'welcome.recentProjects': '📁 Recent Projects',
+                'welcome.loadingProjects': 'Loading projects...',
+                'welcome.lineOr': 'Or',
+                'welcome.lineSelectFolder': 'select a new folder',
+                'welcome.lineCreateProject': 'to create a new project',
                 'welcome.start': '📁 Get Started',
                 'welcome.howItWorks': '💡 How does it work?',
                 'welcome.step1': 'Click "Get Started" above',
@@ -2990,8 +3014,13 @@ function deleteFromArchive(taskId) {
                 'filters.searchClear': '✕',
 
                 // Welcome screen
-                'welcome.title': 'Bienvenue ! 👋',
+                'welcome.title': 'Bienvenue',
                 'welcome.description': 'Sélectionnez le dossier contenant vos fichiers Markdown (kanban.md et archive.md)',
+                'welcome.recentProjects': '📁 Projets récents',
+                'welcome.loadingProjects': 'Chargement des projets...',
+                'welcome.lineOr': 'Ou',
+                'welcome.lineSelectFolder': 'sélectionner un nouveau dossier',
+                'welcome.lineCreateProject': 'pour créer un nouveau projet',
                 'welcome.start': '📁 Commencer',
                 'welcome.howItWorks': '💡 Comment ça marche ?',
                 'welcome.step1': 'Cliquez sur "Commencer" ci-dessus',
@@ -3285,6 +3314,7 @@ function deleteFromArchive(taskId) {
 
             // Update welcome screen
             renderWelcomeScreen();
+            updateWelcomeProjectSelector().catch(() => {});
 
             // Update modals - with debug logging
             if (debugMode) {
@@ -3304,28 +3334,56 @@ function deleteFromArchive(taskId) {
             updateFilterLabels();
         }
 
-        // Render welcome screen with translations
+        // Render welcome screen with translations (must match static markup so project selector and steps stay intact)
         function renderWelcomeScreen() {
             const welcomeScreen = document.getElementById('welcomeScreen');
             if (welcomeScreen) {
                 welcomeScreen.innerHTML = `
-            <h2>${t('welcome.title')}</h2>
-            <p>${t('welcome.description')}</p>
-            <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.8rem 2rem;">
-                ${t('welcome.start')}
-            </button>
-            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 8px; max-width: 600px; margin-left: auto; margin-right: auto; text-align: left; border: 1px solid var(--border-color);">
-                <h3 style="margin-bottom: 1rem;">${t('welcome.howItWorks')}</h3>
-                <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
-                    <li>${t('welcome.step1')}</li>
-                    <li>${t('welcome.step2')}</li>
-                    <li>${t('welcome.step3')}</li>
-                    <li>${t('welcome.step4')}</li>
-                    <li>${t('welcome.step5')}</li>
-                </ol>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                    ${t('welcome.browserWarning')}
-                </p>
+            <div class="welcome-content">
+                <h2 id="welcomeTitle">${escapeHtml(t('welcome.title'))}</h2>
+                <div class="welcome-logo" aria-hidden="true">
+                    <img src="logo.svg" width="240" height="240" alt="Void.md" />
+                </div>
+                <p id="welcomeDescription">${escapeHtml(t('welcome.description'))}</p>
+                <div id="welcomeProjectSelector">
+                    <label for="welcomeProjectSelect">${escapeHtml(t('welcome.recentProjects'))}</label>
+                    <select id="welcomeProjectSelect" onchange="handleWelcomeProjectSwitch(this.value)">
+                        <option value="">${escapeHtml(t('welcome.loadingProjects'))}</option>
+                    </select>
+                    <p>
+                        ${escapeHtml(t('welcome.lineOr'))} <a href="#" onclick="document.getElementById('selectFolderBtn').click(); return false;">${escapeHtml(t('welcome.lineSelectFolder'))}</a> ${escapeHtml(t('welcome.lineCreateProject'))}
+                    </p>
+                </div>
+                <div class="welcome-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">${escapeHtml(t('welcome.step1'))}</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">${escapeHtml(t('welcome.step2'))}</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">${escapeHtml(t('welcome.step3'))}</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">${escapeHtml(t('welcome.step4'))}</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-text">${escapeHtml(t('welcome.step5'))}</div>
+                    </div>
+                </div>
+                <div class="welcome-actions">
+                    <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" id="welcomeGetStarted">
+                        ${escapeHtml(t('welcome.start'))}
+                    </button>
+                </div>
+                <div class="browser-warning" id="welcomeBrowserWarning">
+                    ${escapeHtml(t('welcome.browserWarning'))}
+                </div>
             </div>
                 `;
             }
@@ -5934,7 +5992,7 @@ ${t('markdown.archiveSection')}
                     .replace(/>/g, '&gt;');
 
                 // Create simple code block with language label
-                const codeBlock = `<div style="margin: 1rem 0;"><div style="background: #1a1a1a; color: #888; padding: 0.25rem 0.5rem; border-radius: 6px 6px 0 0; font-size: 0.75rem; font-family: 'Consolas', 'Monaco', monospace;">${lang}</div><pre style="margin: 0; border-radius: 0 0 6px 6px;"><code>${escapedCode}</code></pre></div>`;
+                const codeBlock = `<div style="margin: 1rem 0;"><div style="background: #1a1a1a; color: #888; padding: 0.25rem 0.5rem; border-radius: 6px 6px 0 0; font-size: 0.75rem; font-family: 'Consolas', 'Monaco', monospace;">${escapeHtml(lang)}</div><pre style="margin: 0; border-radius: 0 0 6px 6px;"><code>${escapedCode}</code></pre></div>`;
                 codeBlocks.push(codeBlock);
                 return placeholder;
             });
@@ -6423,7 +6481,7 @@ ${t('markdown.archiveSection')}
                 columnEl.innerHTML = `
                     <div class="column-header">
                         <div class="column-title">
-                            ${column.name}
+                            ${escapeHtml(column.name)}
                         </div>
                         <div class="column-count">${columnTasks.length}</div>
                     </div>
@@ -6456,6 +6514,77 @@ ${t('markdown.archiveSection')}
             board.appendChild(columnsFragment);
         }
 
+        /** HTML for the subtask progress strip on a task card (empty string if no subtasks). */
+        function getSubtaskProgressHtml(task) {
+            if (!task.subtasks || task.subtasks.length === 0) return '';
+            const done = task.subtasks.filter(s => s.completed).length;
+            const total = task.subtasks.length;
+            const pct = done / total * 100;
+            return `<div class="task-subtasks">
+                    <div class="subtask-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${pct}%"></div>
+                        </div>
+                        <span>${done}/${total}</span>
+                    </div>
+                </div>`;
+        }
+
+        function syncTaskListEmptyState(taskListEl) {
+            if (!taskListEl) return;
+            const hasCard = taskListEl.querySelector('.task-card');
+            let empty = taskListEl.querySelector('.empty-state');
+            if (!hasCard && !empty) {
+                taskListEl.insertAdjacentHTML('afterbegin', `<div class="empty-state">${t('empty.noTasks')}</div>`);
+            } else if (hasCard && empty) {
+                empty.remove();
+            }
+        }
+
+        function updateKanbanColumnHeaderCounts() {
+            document.querySelectorAll('#kanbanBoard .kanban-column').forEach(col => {
+                const n = col.querySelectorAll('.task-list .task-card').length;
+                const countEl = col.querySelector('.column-count');
+                if (countEl) countEl.textContent = n;
+            });
+        }
+
+        /** Update subtask progress on one card without re-rendering the full board. */
+        function patchKanbanTaskCard(task) {
+            const board = document.getElementById('kanbanBoard');
+            if (!board || !task) return false;
+            const el = board.querySelector(`[data-task-id="${CSS.escape(task.id)}"]`);
+            if (!el) return false;
+            const nextHtml = getSubtaskProgressHtml(task);
+            const existing = el.querySelector('.task-subtasks');
+            if (nextHtml) {
+                if (existing) {
+                    existing.outerHTML = nextHtml;
+                } else {
+                    el.insertAdjacentHTML('beforeend', nextHtml);
+                }
+            } else if (existing) {
+                existing.remove();
+            }
+            return true;
+        }
+
+        /** Move a card DOM node to another column (avoids full board innerHTML refresh). */
+        function moveTaskCardToColumn(taskId, newColumnId) {
+            const board = document.getElementById('kanbanBoard');
+            if (!board) return false;
+            const card = board.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`);
+            const destCol = board.querySelector(`.kanban-column[data-column-id="${CSS.escape(newColumnId)}"] .task-list`);
+            if (!card || !destCol) return false;
+            const srcList = card.closest('.task-list');
+            card.remove();
+            destCol.appendChild(card);
+            if (srcList) syncTaskListEmptyState(srcList);
+            syncTaskListEmptyState(destCol);
+            updateKanbanColumnHeaderCounts();
+            return true;
+        }
+
         // Create task element
         function createTaskElement(task) {
             const taskEl = document.createElement('div');
@@ -6477,15 +6606,7 @@ ${t('markdown.archiveSection')}
                 }
             }
 
-            const subtaskProgress = task.subtasks.length > 0 ?
-                `<div class="task-subtasks">
-                    <div class="subtask-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${(task.subtasks.filter(s => s.completed).length / task.subtasks.length * 100)}%"></div>
-                        </div>
-                        <span>${task.subtasks.filter(s => s.completed).length}/${task.subtasks.length}</span>
-                    </div>
-                </div>` : '';
+            const subtaskProgress = getSubtaskProgressHtml(task);
 
             const safeTaskId = escapeJsString(task.id);
             const safePriority = escapeJsString(task.priority || '');
@@ -6702,8 +6823,10 @@ ${t('markdown.archiveSection')}
                     const task = tasks.find(t => t.id === taskId);
                     if (task && task.status !== newStatus) {
                         task.status = newStatus;
-                        renderKanban();
-                        debouncedAutoSave();
+                        if (!moveTaskCardToColumn(taskId, newStatus)) {
+                            renderKanban();
+                        }
+                        autoSave();
                         showNotification(t('notif.taskMoved'), 'success');
                     }
                 }
@@ -6890,8 +7013,10 @@ ${t('markdown.archiveSection')}
                 task.subtasks[subtaskIdx].completed = !task.subtasks[subtaskIdx].completed;
                 currentDetailTask = task;
                 syncSubtaskModalView(task);
-                renderKanban();
-                debouncedAutoSave();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
+                autoSave();
             }
         }
 
@@ -6901,8 +7026,10 @@ ${t('markdown.archiveSection')}
                 task.subtasks.splice(subtaskIdx, 1);
                 currentDetailTask = task;
                 showTaskDetail(task);
-                renderKanban();
-                debouncedAutoSave();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
+                autoSave();
             }
         }
 
@@ -6917,8 +7044,10 @@ ${t('markdown.archiveSection')}
                 currentDetailTask = task;
                 input.value = '';
                 showTaskDetail(task);
-                renderKanban();
-                debouncedAutoSave();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
+                autoSave();
             }
         }
 
@@ -6931,10 +7060,12 @@ ${t('markdown.archiveSection')}
                 task.subtasks[subtaskIdx].text = newText.trim();
                 currentDetailTask = task;
                 showTaskDetail(task);
-                renderKanban();
-                debouncedAutoSave();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
+                autoSave();
             }
-            }
+        }
 
         // Archive functions
         async function loadArchive() {

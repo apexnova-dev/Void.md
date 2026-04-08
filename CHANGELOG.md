@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Renamed **`task-manager.html` → `void.html`** (repository root and `core-package/`); updated tests, docs, and scripts
+- Renamed `**task-manager.html` → `void.html`** (repository root and `core-package/`); updated tests, docs, and scripts
 - **Neon City** default: first visit uses dark theme; `<head>` script + `initTheme()`; dark accent tuned to cyan/magenta palette
 - `README.md`: manifesto (*Visual Kanban. Plaintext Soul. No Cloud.*), centered logo, Pseudo-IT sovereignty section
 - Global documentation rename from legacy “Markdown Task Manager” strings to **Void.md** where applicable
@@ -83,7 +83,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- (No new features currently in development)
+- Welcome screen: Void logo (`logo.svg`) below the “Welcome” heading; wave emoji removed from the title
+- `core-package/logo.svg` so the portable package shows the same logo when opened locally
+
+### Fixed
+
+- **Repository:** `.gitignore` no longer excludes root `.cursorrules`; `.cursor/rules/`** remains tracked while other `.cursor/`* local files stay ignored
+- **Security:** Escape column titles in the Kanban board and fenced-code language labels in `markdownToHtml()` before inserting into HTML
+- **Welcome / i18n:** `renderWelcomeScreen()` now rebuilds the full welcome layout (including recent-projects selector and steps) when the language changes, instead of replacing it with a minimal fragment that removed those controls; `updateWelcomeProjectSelector()` runs after a language change so the dropdown stays populated
 
 ---
 
@@ -193,7 +200,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Adaptive layout centered on full screen width
   - Task counters per column
   - Default columns: 📝 To Do, 🚀 In Progress, 👀 Review, ✅ Done
-
 - **Complete Task Management**:
   - Task creation with auto-generated IDs (TASK-XXX)
   - Rich metadata fields:
@@ -207,7 +213,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Subtasks system with progress bar and visual counters
   - Complete task editing modal with instant preview
   - Auto-save on all modifications
-
 - **Advanced Filters System**:
   - Priority filter (🔴🟡🟢 color-coded badges)
   - Tags filter (🔵 blue bubbles)
@@ -217,7 +222,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Individual filter removal (✕ on bubble)
   - Clear all filters at once
   - Smart autocomplete with historical values
-
 - **Archive System**:
   - Manual archiving of completed tasks
   - Organization by sections (by month, by sprint)
@@ -226,30 +230,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Task restoration to original column
   - Metadata preservation on restore
   - Persistent autocomplete history
-
 - **Global Search**:
   - Real-time filtering across all active tasks
   - Search through archived tasks
   - Search in titles, descriptions, and metadata
   - Filter results by column
-
 - **Interface Translation**:
   - English and French language support
   - Complete UI translation
   - Seamless language switching
-
 - **Multi-Project Support**:
   - Last 10 projects memorized
   - Quick project selector in header
   - Custom names per project
   - IndexedDB storage for directory handles
   - Auto-restore last project on launch
-
 - **Auto-Save System**:
   - Immediate file writes on each modification
   - No manual save button required
   - Compatible with external file editing
-
 - **AI Assistants Integration**:
   - Complete guidelines via `docs/AI_WORKFLOW.md` (root `AI_WORKFLOW.md` redirects for compatibility)
   - Configuration templates for:
@@ -298,13 +297,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Version History
 
-| Version | Date | Status |
-|---------|------|--------|
+
+| Version | Date       | Status  |
+| ------- | ---------- | ------- |
 | [1.3.1] | 2026-04-01 | Current |
-| [1.3.0] | 2026-03-31 | Stable |
-| [1.1.2] | 2026-01-20 | Stable |
-| [1.1.1] | 2025-01-15 | Stable |
-| [1.1.0] | Prior | Stable |
+| [1.3.0] | 2026-03-31 | Stable  |
+| [1.1.2] | 2026-01-20 | Stable  |
+| [1.1.1] | 2025-01-15 | Stable  |
+| [1.1.0] | Prior      | Stable  |
+
 
 ---
 
@@ -313,7 +314,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [Release Notes v1.1.2](./RELEASE_NOTES_v1.1.2.md)
 - [Release Notes v1.1.1](./RELEASE_NOTES_v1.1.1.md)
 - [README.md](./README.md) - Main documentation
-- [docs/AI_WORKFLOW.md](./docs/AI_WORKFLOW.md) - AI integration guidelines (root [`AI_WORKFLOW.md`](./AI_WORKFLOW.md) redirects for compatibility)
+- [docs/AI_WORKFLOW.md](./docs/AI_WORKFLOW.md) - AI integration guidelines (root `[AI_WORKFLOW.md](./AI_WORKFLOW.md)` redirects for compatibility)
 
 ## Links
 

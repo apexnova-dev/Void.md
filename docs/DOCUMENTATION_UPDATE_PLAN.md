@@ -1,5 +1,9 @@
 # Documentation Update Plan
 
+> **Status (April 2026):** This checklist is **historical**. For the current documentation map and conventions, see **[`docs/README.md`](README.md)** and **[`docs/DOCUMENTATION_SUMMARY.md`](DOCUMENTATION_SUMMARY.md)**. Use those before editing large sections of this file.
+
+---
+
 ## 📋 Documentation Files to Update
 
 ### Priority 1: Main Documentation (Must Update)

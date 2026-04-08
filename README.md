@@ -18,6 +18,13 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 
 ## 📝 Latest Updates (April 2026)
 
+### Documentation and Kanban behavior
+
+- **[`docs/README.md`](docs/README.md)** — index to all major docs (AI workflow, architecture, templates, core package)
+- **[`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md)** — `**Columns**:` must use `Emoji Name (id)` per column; without IDs, tasks may not appear on the board
+- **[`core-package/AI_GUIDE.md`](core-package/AI_GUIDE.md)** — portable summary for coding agents (same column-ID rules)
+- **Kanban:** checking subtasks, editing subtasks, and dragging cards between columns avoid a full board rebuild when possible (smoother UI; see `CHANGELOG.md` v1.3.2)
+
 ### Rich Text Editor (Tiptap)
 
 - Toggle between plain Markdown and rich text for task Notes
@@ -47,11 +54,13 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 - Welcome screen project selector; stability fixes (task creation, modal close, null checks)
 
 ### Related Documentation
-
-- `CHANGELOG.md` - Full version history
-- `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (implemented)
-- `docs/architecture/FIXES-SUMMARY.md` - Bug fixes
-- `AGENTS.md` - Build/test and code style for AI assistants
+- **[`docs/README.md`](docs/README.md)** — **documentation index** (start here for architecture, templates, and AI files)
+- `CHANGELOG.md` — full version history
+- `docs/UI_UX_RECOMMENDATIONS.md` — UI/UX spec (mostly implemented)
+- `docs/architecture/FIXES-SUMMARY.md` — bug fixes (historical sessions)
+- `docs/AI_WORKFLOW.md` — markdown task format and AI editing rules (including `kanban.md` column IDs)
+- `AGENTS.md` — build/test and code style for AI assistants
+- **[`docs/github-pages.md`](docs/github-pages.md)** — optional: host `void.html` on **GitHub Pages** (three branch builds under one site)
 
 ---
 
@@ -294,6 +303,10 @@ AI assistants (Claude, ChatGPT, Copilot, Gemini, etc.) can:
 4. ✅ Document complete result in `**Notes**:`
 5. ✅ Reference tasks in Git commits (`TASK-XXX`)
 6. ✅ Archive on demand only (not automatically)
+
+### When AI edits `kanban.md` (columns)
+
+Void.md reads **`**Columns**:`** with an **`Emoji Name (id)`** segment per column (documented below under **Configuration and Customization → Kanban Columns**). If an assistant rewrites columns as plain names only (for example `Backlog | Doing | Done` without `(backlog)`, `(doing)`, `(done)`), the app may fall back to default column titles. Your `##` column headings must then match those defaults or **tasks can fail to appear on the board** even though the file loads. The full rules are in **`docs/AI_WORKFLOW.md`** (canonical protocol).
 
 ### Configuration
 
@@ -912,13 +925,13 @@ Customize your columns in `kanban.md`:
 **Columns**: 📝 Backlog (backlog) | 🔍 Analysis (analysis) | 🚀 Dev (dev) | 👀 Review (review) | ✅ Done (done)
 ```
 
-Format: `Emoji Name (id) | ...`
+Format: `Emoji Name (id) | ...` — **each column needs a parenthesized `id`**. Plain pipe-separated names without `(id)` are not parsed as custom columns; the app then uses default column names, which must match your `##` headings or the board can look empty.
 
-Examples:
+Examples (valid):
 
-- Simple development: `To Do | In Progress | Done`
-- Scrum: `Backlog | Sprint | In Progress | Review | Done`
-- Extended Kanban: `Icebox | Backlog | Analysis | Dev | QA | Deploy | Done`
+- Simple development: `📝 To Do (todo) | 🚀 In Progress (in-progress) | ✅ Done (done)`
+- Scrum: `📋 Backlog (backlog) | 🏃 Sprint (sprint) | 🚀 In Progress (in-progress) | 👀 Review (review) | ✅ Done (done)`
+- Extended: `🧊 Icebox (icebox) | 📋 Backlog (backlog) | 🔍 Analysis (analysis) | 🚀 Dev (dev) | 🧪 QA (qa) | 🚢 Deploy (deploy) | ✅ Done (done)`
 
 ### Categories
 
@@ -1300,7 +1313,13 @@ Contributions welcome! Here's how to help:
 - ✅ Auto-save
 - ✅ AI integration
 
-### Version 1.3.1 (Current)
+### Version 1.3.2 (Current)
+
+- ✅ Documentation index ([`docs/README.md`](docs/README.md)), refreshed summaries, and `core-package/AI_GUIDE.md` column-ID guidance aligned with `docs/AI_WORKFLOW.md`
+- ✅ Kanban incremental updates for subtasks and column moves (less full-board flicker)
+- ✅ Welcome screen logo, i18n welcome layout fix, and related fixes (see `CHANGELOG.md`)
+
+### Version 1.3.1
 
 - ✅ Void.md brand identity (Neon City theme, cyan/magenta accents)
 - ✅ Dark mode by default with smooth theme transitions

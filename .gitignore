@@ -5,8 +5,10 @@
 !.claude/skills/
 !.claude/skills/void.md/
 !.claude/skills/void.md/**
-.cursor/
-.cursorrules
+# Cursor: ignore local editor state; commit root `.cursorrules` and `.cursor/rules/*.mdc` explicitly
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
 .idea/
 
 # OS files
