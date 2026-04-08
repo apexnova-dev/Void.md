@@ -47,6 +47,7 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 - `CHANGELOG.md` - Full version history
 - `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (implemented)
 - `docs/architecture/FIXES-SUMMARY.md` - Bug fixes
+- `docs/AI_WORKFLOW.md` - Markdown task format and AI editing rules (including `kanban.md` column IDs)
 - `AGENTS.md` - Build/test and code style for AI assistants
 
 ---
@@ -290,6 +291,10 @@ AI assistants (Claude, ChatGPT, Copilot, Gemini, etc.) can:
 4. ✅ Document complete result in `**Notes**:`
 5. ✅ Reference tasks in Git commits (`TASK-XXX`)
 6. ✅ Archive on demand only (not automatically)
+
+### When AI edits `kanban.md` (columns)
+
+Void.md reads **`**Columns**:`** with an **`Emoji Name (id)`** segment per column (documented below under **Configuration and Customization → Kanban Columns**). If an assistant rewrites columns as plain names only (for example `Backlog | Doing | Done` without `(backlog)`, `(doing)`, `(done)`), the app may fall back to default column titles. Your `##` column headings must then match those defaults or **tasks can fail to appear on the board** even though the file loads. The full rules are in **`docs/AI_WORKFLOW.md`** (canonical protocol).
 
 ### Configuration
 
@@ -907,13 +912,13 @@ Customize your columns in `kanban.md`:
 **Columns**: 📝 Backlog (backlog) | 🔍 Analysis (analysis) | 🚀 Dev (dev) | 👀 Review (review) | ✅ Done (done)
 ```
 
-Format: `Emoji Name (id) | ...`
+Format: `Emoji Name (id) | ...` — **each column needs a parenthesized `id`**. Plain pipe-separated names without `(id)` are not parsed as custom columns; the app then uses default column names, which must match your `##` headings or the board can look empty.
 
-Examples:
+Examples (valid):
 
-- Simple development: `To Do | In Progress | Done`
-- Scrum: `Backlog | Sprint | In Progress | Review | Done`
-- Extended Kanban: `Icebox | Backlog | Analysis | Dev | QA | Deploy | Done`
+- Simple development: `📝 To Do (todo) | 🚀 In Progress (in-progress) | ✅ Done (done)`
+- Scrum: `📋 Backlog (backlog) | 🏃 Sprint (sprint) | 🚀 In Progress (in-progress) | 👀 Review (review) | ✅ Done (done)`
+- Extended: `🧊 Icebox (icebox) | 📋 Backlog (backlog) | 🔍 Analysis (analysis) | 🚀 Dev (dev) | 🧪 QA (qa) | 🚢 Deploy (deploy) | ✅ Done (done)`
 
 ### Categories
 

@@ -16,6 +16,8 @@ This file is the **master protocol** for all AI assistants (Claude, ChatGPT, Cop
 
 **TASK-XXX IDs** must stay unique and sequential per project rules (e.g. TASK-001, TASK-002).
 
+**Column IDs (required for a working board):** On the `**Columns**:` line, each column must use `Emoji Name (column-id)`, separated by `|`. Example: `📝 To Do (todo) | 🚀 In Progress (in-progress)`. The text before `(…)` must match each column’s `##` heading exactly. If IDs are omitted, Void.md cannot parse columns and falls back to default names (`📝 To Do`, etc.); your `##` section titles then no longer match, tasks parse into the wrong place or the board looks empty. Keep the `---` line after the Configuration block so the app reads columns, categories, and tags reliably.
+
 ### Metadata keys
 
 Tasks use **Priority**, **Category**, **Assigned**, **Tags**, and the date/author fields in the template below. Optional fields follow the same line format.
@@ -291,7 +293,7 @@ Real-time notifications with WebSockets.
 
 ## ⚙️ Configuration
 
-**Columns**: 📝 To Do | 🚀 In Progress | 👀 Review | ✅ Done
+**Columns**: 📝 To Do (todo) | 🚀 In Progress (in-progress) | 👀 Review (review) | ✅ Done (done)
 **Categories**: Frontend, Backend, DevOps
 **Users**: @alice, @bob
 **Tags**: #bug, #feature, #docs
