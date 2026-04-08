@@ -23,6 +23,6 @@ This folder contains documentation from previous versions of Void.md that are no
 
 ---
 
-**Current version:** [v1.3.1](../../CHANGELOG.md)
+**Current version:** [v1.3.2](../../CHANGELOG.md)
 
 **Note:** These files are kept for historical reference only. Current documentation is in the `docs/` folder.

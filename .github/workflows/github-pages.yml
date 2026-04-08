@@ -1,0 +1,78 @@
+# Deploy void.html (and static assets) from production, core, and experimental
+# to one GitHub Pages site with three URLs:
+#   https://<user>.github.io/<repo>/production/void.html
+#   https://<user>.github.io/<repo>/core/void.html
+#   https://<user>.github.io/<repo>/experimental/void.html
+#
+# Prerequisite: Repo Settings → Pages → Build and deployment → Source: GitHub Actions.
+# The workflow file must exist on the repository default branch to run reliably.
+
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [production, core, experimental]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout (full history for git show from branches)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch remote branches
+        run: git fetch --no-tags --prune origin "+refs/heads/*:refs/remotes/origin/*"
+
+      - name: Build site (copy void.html + assets from each branch)
+        run: |
+          set -e
+          mkdir -p site/production site/core site/experimental
+
+          copy_branch() {
+            local name="$1"
+            local dest="site/$2"
+            mkdir -p "$dest"
+            local ref="origin/${name}"
+            if ! git rev-parse --verify "$ref" >/dev/null 2>&1; then
+              echo "Skipping missing branch: $name"
+              return 0
+            fi
+            for f in void.html logo.svg favicon.svg; do
+              if git cat-file -e "${ref}:${f}" 2>/dev/null; then
+                git show "${ref}:${f}" > "${dest}/${f}"
+                echo "OK ${ref}:${f} -> ${dest}/${f}"
+              else
+                echo "WARN: ${ref}:${f} not found (skipped)"
+              fi
+            done
+          }
+
+          copy_branch production production
+          copy_branch core core
+          copy_branch experimental experimental
+
+          cp .github/pages-index.html site/index.html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

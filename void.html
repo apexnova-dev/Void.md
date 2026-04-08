@@ -1605,7 +1605,7 @@
         <div class="header-content">
             <div class="header-brand">
                 <img src="logo.svg" alt="Void.md" class="header-logo" id="headerLogo">
-                <h1 id="headerTitle">Void.md <span id="versionBadge">v. 1.3.1</span></h1>
+                <h1 id="headerTitle">Void.md <span id="versionBadge">v. 1.3.2</span></h1>
             </div>
             <div class="header-actions">
                 <div id="headerProjectGroup" class="header-project-group">
@@ -1829,7 +1829,7 @@
                 <div class="settings-section about-section">
                     <strong>Void.md</strong>
                     <p>A single-file Kanban task manager that works with local Markdown files.</p>
-                    <span class="version-badge">v. 1.3.1</span>
+                    <span class="version-badge">v. 1.3.2</span>
                 </div>
             </div>
             <div class="settings-actions">
@@ -2464,7 +2464,7 @@ function deleteFromArchive(taskId) {
         // Options: '' (production), '-core', '-exp'
         const BRANCH_SUFFIX = '-core'; // CHANGE THIS when merging to other branches
         
-        let currentVersion = '1.3.1'; // Major UI/UX improvements
+        let currentVersion = '1.3.2'; // Major UI/UX improvements
         let changeLog = []; // In-memory change log
         
         // Get display version with branch suffix
@@ -6290,6 +6290,77 @@ ${t('markdown.archiveSection')}
             });
         }
 
+        /** HTML for the subtask progress strip on a task card (empty string if no subtasks). */
+        function getSubtaskProgressHtml(task) {
+            if (!task.subtasks || task.subtasks.length === 0) return '';
+            const done = task.subtasks.filter(s => s.completed).length;
+            const total = task.subtasks.length;
+            const pct = done / total * 100;
+            return `<div class="task-subtasks">
+                    <div class="subtask-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${pct}%"></div>
+                        </div>
+                        <span>${done}/${total}</span>
+                    </div>
+                </div>`;
+        }
+
+        function syncTaskListEmptyState(taskListEl) {
+            if (!taskListEl) return;
+            const hasCard = taskListEl.querySelector('.task-card');
+            let empty = taskListEl.querySelector('.empty-state');
+            if (!hasCard && !empty) {
+                taskListEl.insertAdjacentHTML('afterbegin', `<div class="empty-state">${t('empty.noTasks')}</div>`);
+            } else if (hasCard && empty) {
+                empty.remove();
+            }
+        }
+
+        function updateKanbanColumnHeaderCounts() {
+            document.querySelectorAll('#kanbanBoard .kanban-column').forEach(col => {
+                const n = col.querySelectorAll('.task-list .task-card').length;
+                const countEl = col.querySelector('.column-count');
+                if (countEl) countEl.textContent = n;
+            });
+        }
+
+        /** Update subtask progress on one card without re-rendering the full board. */
+        function patchKanbanTaskCard(task) {
+            const board = document.getElementById('kanbanBoard');
+            if (!board || !task) return false;
+            const el = board.querySelector(`[data-task-id="${CSS.escape(task.id)}"]`);
+            if (!el) return false;
+            const nextHtml = getSubtaskProgressHtml(task);
+            const existing = el.querySelector('.task-subtasks');
+            if (nextHtml) {
+                if (existing) {
+                    existing.outerHTML = nextHtml;
+                } else {
+                    el.insertAdjacentHTML('beforeend', nextHtml);
+                }
+            } else if (existing) {
+                existing.remove();
+            }
+            return true;
+        }
+
+        /** Move a card DOM node to another column (avoids full board innerHTML refresh). */
+        function moveTaskCardToColumn(taskId, newColumnId) {
+            const board = document.getElementById('kanbanBoard');
+            if (!board) return false;
+            const card = board.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`);
+            const destCol = board.querySelector(`.kanban-column[data-column-id="${CSS.escape(newColumnId)}"] .task-list`);
+            if (!card || !destCol) return false;
+            const srcList = card.closest('.task-list');
+            card.remove();
+            destCol.appendChild(card);
+            if (srcList) syncTaskListEmptyState(srcList);
+            syncTaskListEmptyState(destCol);
+            updateKanbanColumnHeaderCounts();
+            return true;
+        }
+
         // Create task element
         function createTaskElement(task) {
             const taskEl = document.createElement('div');
@@ -6308,15 +6379,7 @@ ${t('markdown.archiveSection')}
                 }
             }
 
-            const subtaskProgress = task.subtasks.length > 0 ?
-                `<div class="task-subtasks">
-                    <div class="subtask-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${(task.subtasks.filter(s => s.completed).length / task.subtasks.length * 100)}%"></div>
-                        </div>
-                        <span>${task.subtasks.filter(s => s.completed).length}/${task.subtasks.length}</span>
-                    </div>
-                </div>` : '';
+            const subtaskProgress = getSubtaskProgressHtml(task);
 
             const safeTaskId = escapeJsString(task.id);
             const safePriority = escapeJsString(task.priority || '');
@@ -6382,7 +6445,9 @@ ${t('markdown.archiveSection')}
                     const task = tasks.find(t => t.id === taskId);
                     if (task && task.status !== newStatus) {
                         task.status = newStatus;
-                        renderKanban();
+                        if (!moveTaskCardToColumn(taskId, newStatus)) {
+                            renderKanban();
+                        }
                         autoSave();
                         showNotification(t('notif.taskMoved'), 'success');
                     }
@@ -6570,7 +6635,9 @@ ${t('markdown.archiveSection')}
                 task.subtasks[subtaskIdx].completed = !task.subtasks[subtaskIdx].completed;
                 currentDetailTask = task;
                 syncSubtaskModalView(task);
-                renderKanban();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
                 autoSave();
             }
         }
@@ -6581,7 +6648,9 @@ ${t('markdown.archiveSection')}
                 task.subtasks.splice(subtaskIdx, 1);
                 currentDetailTask = task;
                 showTaskDetail(task);
-                renderKanban();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
                 autoSave();
             }
         }
@@ -6597,7 +6666,9 @@ ${t('markdown.archiveSection')}
                 currentDetailTask = task;
                 input.value = '';
                 showTaskDetail(task);
-                renderKanban();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
                 autoSave();
             }
         }
@@ -6611,10 +6682,12 @@ ${t('markdown.archiveSection')}
                 task.subtasks[subtaskIdx].text = newText.trim();
                 currentDetailTask = task;
                 showTaskDetail(task);
-                renderKanban();
+                if (!patchKanbanTaskCard(task)) {
+                    renderKanban();
+                }
                 autoSave();
             }
-            }
+        }
 
         // Archive functions
         async function loadArchive() {

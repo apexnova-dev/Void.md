@@ -77,6 +77,7 @@ This package tracks the **core** branch: Kanban, task create/edit, filters, arch
 |-------|------------|
 | “File System Access API not supported” | Use Chrome, Edge, or Opera (see step 1). |
 | App won’t open / blank page | Open the browser console (F12) and check for errors; ensure you’re opening the file via `file://` or a local server. |
+| **Kanban looks empty** but `kanban.md` has tasks | In `## ⚙️ Configuration`, the `**Columns**:` line must list each column as `Emoji Name (column-id)` (for example `📝 To Do (todo)`). Names before `(…)` must match your `##` column headings. If IDs are missing, the app cannot map tasks to columns. See [`AI_GUIDE.md`](./AI_GUIDE.md) and the full repo’s `docs/AI_WORKFLOW.md`. |
 | Wrong or old version | Replace `void.html` in this folder with the one from the **core** branch of the repo. |
 
 ---

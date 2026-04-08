@@ -18,6 +18,13 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 
 ## 📝 Latest Updates (April 2026)
 
+### Documentation and Kanban behavior
+
+- **[`docs/README.md`](docs/README.md)** — index to all major docs (AI workflow, architecture, templates, core package)
+- **[`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md)** — `**Columns**:` must use `Emoji Name (id)` per column; without IDs, tasks may not appear on the board
+- **[`core-package/AI_GUIDE.md`](core-package/AI_GUIDE.md)** — portable summary for coding agents (same column-ID rules)
+- **Kanban:** checking subtasks, editing subtasks, and dragging cards between columns avoid a full board rebuild when possible (smoother UI; see `CHANGELOG.md` v1.3.2)
+
 ### Rich Text Editor (Tiptap)
 
 - Toggle between plain Markdown and rich text for task Notes
@@ -44,11 +51,13 @@ Void.md is **plaintext infrastructure**: `kanban.md` and `archive.md` live where
 - Welcome screen project selector; stability fixes (task creation, modal close, null checks)
 
 ### Related Documentation
-- `CHANGELOG.md` - Full version history
-- `docs/UI_UX_RECOMMENDATIONS.md` - UI/UX spec (implemented)
-- `docs/architecture/FIXES-SUMMARY.md` - Bug fixes
-- `docs/AI_WORKFLOW.md` - Markdown task format and AI editing rules (including `kanban.md` column IDs)
-- `AGENTS.md` - Build/test and code style for AI assistants
+- **[`docs/README.md`](docs/README.md)** — **documentation index** (start here for architecture, templates, and AI files)
+- `CHANGELOG.md` — full version history
+- `docs/UI_UX_RECOMMENDATIONS.md` — UI/UX spec (mostly implemented)
+- `docs/architecture/FIXES-SUMMARY.md` — bug fixes (historical sessions)
+- `docs/AI_WORKFLOW.md` — markdown task format and AI editing rules (including `kanban.md` column IDs)
+- `AGENTS.md` — build/test and code style for AI assistants
+- **[`docs/github-pages.md`](docs/github-pages.md)** — optional: host `void.html` on **GitHub Pages** (three branch builds under one site)
 
 ---
 
@@ -1300,7 +1309,13 @@ Contributions welcome! Here's how to help:
 - ✅ Auto-save
 - ✅ AI integration
 
-### Version 1.3.1 (Current)
+### Version 1.3.2 (Current)
+
+- ✅ Documentation index ([`docs/README.md`](docs/README.md)), refreshed summaries, and `core-package/AI_GUIDE.md` column-ID guidance aligned with `docs/AI_WORKFLOW.md`
+- ✅ Kanban incremental updates for subtasks and column moves (less full-board flicker)
+- ✅ Welcome screen logo, i18n welcome layout fix, and related fixes (see `CHANGELOG.md`)
+
+### Version 1.3.1
 
 - ✅ Void.md brand identity (Neon City theme, cyan/magenta accents)
 - ✅ Dark mode by default with smooth theme transitions
