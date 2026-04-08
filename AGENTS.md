@@ -9,6 +9,7 @@
 ### Key Rules for Task Management
 
 - Preserve **H1** project title, **H2** column sections, and **H3** task headings (`### TASK-XXX | …`)
+- On `**Columns**:` in `kanban.md`, use **`Emoji Name (column-id)`** for every column (see [`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md)). Plain names without `(id)` break column parsing; the board can look empty even when tasks exist.
 - **No `##` or `###` inside task bodies**
 - Archive only on user request, never automatically
 - Document only real work in **Result**, **Modified files**, **Tests performed**
@@ -372,6 +373,7 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 ## 📚 Key Files Reference
 
 - `void.html` - Main application file
+- `docs/README.md` - Documentation index (architecture, AI workflow, templates)
 - `docs/architecture/tests/unit-tests.js` - Core test suite
 - `docs/architecture/tests/phase2-tests.js` - Tiptap editor tests
 - `docs/architecture/editor-standards.md` - Editor quality criteria
@@ -386,4 +388,4 @@ TaskManagerDocumentation.testAllFeatures()       - Test all features
 ---
 
 *Last updated: April 2026*  
-*Version: 1.3.1*
+*Version: 1.3.2*

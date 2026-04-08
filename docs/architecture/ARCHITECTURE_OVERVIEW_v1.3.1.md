@@ -1,6 +1,6 @@
 # Architecture Overview - Void.md v1.3.1
 
-**Version**: 1.3.1  
+**Version**: 1.3.1 (baseline) — **§11** documents v1.3.2 documentation and Kanban UX additions  
 **Last Updated**: April 2026  
 **Status**: Current Implementation
 
@@ -153,7 +153,7 @@ indexes: ['updatedAt']
 ```html
 <header class="header">
   <div class="header-content">
-    <h1>Void.md <span>v. 1.3.1</span></h1>
+    <h1>Void.md <span>v. 1.3.2</span></h1>
     <div class="header-actions">
       <div class="header-project-group">
         <label>Project</label>
@@ -293,8 +293,22 @@ fetch('docs/architecture/tests/phase2-tests.js')
 | 1.1.1 | Jan 2026 | Dark mode foundation |
 | 1.1.2 | Jan 2026 | UI/UX overhaul |
 | 1.3.1 | Apr 2026 | Rich text editor, feature flags |
+| 1.3.2 | Apr 2026 | Docs index (`docs/README.md`), `AI_GUIDE` column-ID alignment, incremental Kanban DOM updates for subtasks / drag-drop |
+
+---
+
+## 11. Supplement — v1.3.2 (documentation and Kanban UX)
+
+**Documentation**
+
+- **[`docs/README.md`](../README.md)** lists canonical files for users, AI assistants, architecture, and the core package.
+- **[`docs/AI_WORKFLOW.md`](../AI_WORKFLOW.md)** remains the master markdown protocol; **[`../../core-package/AI_GUIDE.md`](../../core-package/AI_GUIDE.md)** mirrors the **required** `**Columns**:` format: each column `Emoji Name (column-id)` so `void.html` can populate `config.columns` and match `##` headings.
+
+**Kanban rendering**
+
+- For subtask checkbox changes and moves between columns, the app may **patch the DOM** (single card or move node) instead of clearing `#kanbanBoard` on every action, reducing scroll jump and flicker. Full `renderKanban()` still runs where a full redraw is required (filters, new task from form, structural changes, etc.).
 
 ---
 
 *Last updated: April 2026*
-*This document supersedes older architecture docs for v1.3.1*
+*This document supersedes older architecture docs for v1.3.1; section 11 extends through v1.3.2.*
