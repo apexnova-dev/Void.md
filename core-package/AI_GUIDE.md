@@ -64,6 +64,7 @@ The web app parses tasks as **Markdown sections**. Headings **inside** a task bo
 **Tags**: #tag1 #tag2
 
 Description paragraph(s). **Do not use `##` or `###` headings inside a task.**
+**Do not use tables as a substitute for task cards.** Each action item needs its own `### TASK-XXX |`.
 
 **Subtasks**:
 - [ ] Open item
@@ -85,8 +86,10 @@ Summary of outcome when closing work.
 
 - `## Anything` or `### Anything` (any ATX heading).
 - `**Subtasks`** or `**Notes**` **without** a trailing colon on that same label line (the format expects `**Subtasks**:` and `**Notes**:`).
+- **Tables as task lists** — tables are visual only, NOT parsed as tasks.
+- **Tables inside columns** — only `### TASK-XXX |` creates task cards.
 
-**Why:** The HTML parser treats headings as structure; inner `##` / `###` are not supported for task bodies.
+**Why:** The HTML parser treats headings as structure; inner `##` / `###` are not supported for task bodies. **Tables are NOT tasks** — only `### TASK-XXX |` headings create individual task cards that appear on the Kanban board.
 
 ### 3.2 Task IDs and config comment
 
@@ -179,7 +182,42 @@ The shipped `void.html` may still contain **feature flags** in code (e.g. rich t
 - Each `##` column heading matches the name before the `(id)` on the `**Columns**:` line
 - New tasks use the next ID and live under the correct `##` column section
 - `**Notes**:` / `**Subtasks**:` labels use colons
+- **Tables are NOT tasks** — each action item must be a separate `### TASK-XXX |`
 - Archive only when the user requested it
+
+---
+
+## 8. ⚠️ Tables Are NOT Tasks (Critical)
+
+**CRITICAL:** Tables in columns are NOT parsed as tasks. Only `### TASK-XXX |` creates task cards.
+
+| ❌ WRONG | ✅ RIGHT |
+|----------|----------|
+| Column contains table with 15 rows | Column contains 15 separate `### TASK-XXX |` entries |
+| `### High Priority Items` with table inside | One `### TASK-001 |` per item |
+| Each table row is invisible to Void.md | Each `TASK-XXX` appears as a card |
+
+**Rule:** If it needs an action → it gets a `### TASK-XXX |` heading.
+
+**Tables can only exist INSIDE a task as supplementary info:**
+```markdown
+### TASK-001 | Contact Agency XYZ
+
+**Priority**: High | **Category**: Contact | **Assigned**: @gage
+**Created**: 2026-04-09 | **Author**: Claude Code
+
+Send outreach email about missing data.
+
+**Contact Info**:
+| Field | Value |
+|-------|-------|
+| Name | Contact Person |
+| Email | email@example.com |
+
+**Subtasks**:
+- [ ] Send email
+- [ ] Document response
+```
 
 > **Need more details?** See `docs/AI_WORKFLOW.md` in the full repository for session tracking, Git integration, and AI configuration examples.
 

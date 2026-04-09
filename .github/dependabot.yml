@@ -1,0 +1,23 @@
+# Dependabot configuration for automatic dependency updates
+
+version: 2
+
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: UTC
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - dependencies
+      - npm
+    reviewers:
+      - owner
+    versioning-strategy: increase

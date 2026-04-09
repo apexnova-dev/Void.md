@@ -76,8 +76,10 @@ What was done.
 
 - `## Title` or `### Title` inside a task
 - `**Subtasks**` or `**Notes**` without `:`
+- **Tables as task lists** — tables are NOT parsed as Void.md tasks
+- **Tables in columns** — only `### TASK-XXX |` creates task cards
 
-**Why?** Void.md (`void.html`) does not treat `##` / `###` inside a task body as structure — keep task text free of inner headings.
+**Why?** Void.md (`void.html`) does not treat `##` / `###` inside a task body as structure — keep task text free of inner headings. **Tables are visual only** — they are not parsed as individual tasks. Each action item must be a separate `### TASK-XXX |` heading.
 
 ### ✅ Integrity rule
 

@@ -79,7 +79,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [Unreleased]
+## [1.3.2] - 2026-04-09
 
 ### Added
 
@@ -300,7 +300,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 | Version | Date       | Status  |
 | ------- | ---------- | ------- |
-| [1.3.1] | 2026-04-01 | Current |
+| [1.3.2] | 2026-04-09 | Current |
+| [1.3.1] | 2026-04-01 | Stable  |
 | [1.3.0] | 2026-03-31 | Stable  |
 | [1.1.2] | 2026-01-20 | Stable  |
 | [1.1.1] | 2025-01-15 | Stable  |
