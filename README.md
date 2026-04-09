@@ -305,6 +305,44 @@ AI assistants (Claude, ChatGPT, Copilot, Gemini, etc.) can:
 
 Void.md reads **`**Columns**:`** with an **`Emoji Name (id)`** segment per column (documented below under **Configuration and Customization → Kanban Columns**). If an assistant rewrites columns as plain names only (for example `Backlog | Doing | Done` without `(backlog)`, `(doing)`, `(done)`), the app may fall back to default column titles. Your `##` column headings must then match those defaults or **tasks can fail to appear on the board** even though the file loads. The full rules are in **`docs/AI_WORKFLOW.md`** (canonical protocol).
 
+### 🤖 AI Task Format
+
+For complete documentation, see **[`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md)**.
+
+**Minimal task template:**
+```markdown
+### TASK-001 | Task title
+**Priority**: High | **Category**: Frontend | **Assigned**: @user
+**Created**: 2025-01-20 | **Due**: 2025-02-01
+**Tags**: #feature
+
+Task description...
+
+**Subtasks**:
+- [ ] Subtask 1
+- [ ] Subtask 2
+
+**Notes**:
+Work in progress...
+
+**Result**:
+What was accomplished.
+```
+
+**5 Required fields:**
+1. `### TASK-XXX | Title` — task ID + title
+2. `**Priority**: X` — priority level  
+3. `**Category**: X` — category
+4. `**Created**: YYYY-MM-DD` — creation date
+5. Body content — description or at least an empty line
+
+**3 Forbidden patterns:**
+- ❌ No `##` or `###` inside task bodies
+- ❌ No headings other than the task heading itself
+- ❌ Never use `##` level for column sections (always `###` for tasks)
+
+**Column ID format:** `📝 To Do (todo)` — each column needs `(id)` in the `**Columns**:` line. Without IDs, tasks may not appear on the board. See [`docs/AI_WORKFLOW.md`](docs/AI_WORKFLOW.md) for full details.
+
 ### Configuration
 
 Each AI has its own configuration file that should reference `AI_WORKFLOW.md`:
