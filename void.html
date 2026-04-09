@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     <title>Void.md</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script>
@@ -4064,11 +4066,17 @@ function deleteFromArchive(taskId) {
             // Mark as loading
             window._tiptapLoading = true;
             
-            // CDN URLs for Tiptap
+            // CDN URLs for Tiptap with SRI hashes for security
             const CDN_URLS = [
                 'https://unpkg.com/@tiptap/core@2.1.13/dist/tiptap.umd.min.js',
                 'https://cdn.jsdelivr.net/npm/@tiptap/core@2.1.13/dist/tiptap.umd.min.js'
             ];
+            
+            // SRI hashes for CDN scripts (calculated from jsdelivr CDN content)
+            const SRI_HASHES = {
+                'https://unpkg.com/@tiptap/core@2.1.13/dist/tiptap.umd.min.js': 'sha384-c6JRBdfui5+tOp0b4QuzqnxTNh+oDUgOdhfExYFpPX3uE5XZOCn+7YecJ/cE+HyM',
+                'https://cdn.jsdelivr.net/npm/@tiptap/core@2.1.13/dist/tiptap.umd.min.js': 'sha384-c6JRBdfui5+tOp0b4QuzqnxTNh+oDUgOdhfExYFpPX3uE5XZOCn+7YecJ/cE+HyM'
+            };
             
             let lastError = null;
             
@@ -4082,6 +4090,8 @@ function deleteFromArchive(taskId) {
                     const result = await new Promise((resolve, reject) => {
                         const script = document.createElement('script');
                         script.src = cdnUrl;
+                        script.integrity = SRI_HASHES[cdnUrl] || '';
+                        script.crossOrigin = 'anonymous';
                         script.async = false;
                         script.defer = false;
                         
@@ -4112,10 +4122,13 @@ function deleteFromArchive(taskId) {
                     // Optionally load StarterKit for bold/italic/lists (same CDN base)
                     const base = cdnUrl.includes('jsdelivr') ? 'https://cdn.jsdelivr.net/npm' : 'https://unpkg.com';
                     const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/index.umd.js`;
+                    const starterKitSRI = 'sha384-NWmaSF+fEoAkvY7fyUIIWWzgviNVIDWG/wQvTdZzaY9fQvBjijjQVnHlX/614pMg';
                     try {
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = starterKitUrl;
+                            s.integrity = starterKitSRI;
+                            s.crossOrigin = 'anonymous';
                             s.onload = () => { console.log('✅ StarterKit loaded'); resolve(); };
                             s.onerror = () => reject(new Error('StarterKit load failed'));
                             document.head.appendChild(s);
@@ -6097,7 +6110,7 @@ ${t('markdown.archiveSection')}
 
                 return `
                 <span style="background: ${colors[f.type]}; color: white; padding: 0.35rem 0.75rem; border-radius: 16px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500;">
-                    ${displayPriority(displayValue)}
+                    ${escapeHtml(displayPriority(displayValue))}
                     <button onclick="removeFilter(${idx})" style="background: none; border: none; color: white; cursor: pointer; padding: 0; font-weight: bold; font-size: 1.1rem; line-height: 1;" title="Remove this filter">✕</button>
                 </span>
                 `;
