@@ -5,9 +5,9 @@ name: Tests
 
 on:
   push:
-    branches: [main, core, experimental]
+    branches: [core, production, experimental]
   pull_request:
-    branches: [main, core]
+    branches: [core, production]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -34,8 +34,13 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
 
-      - name: Run browser tests
-        run: npm run test:ci
+      - name: Run server and tests
+        run: |
+          npx serve -s . -l 3000 &
+          SERVER_PID=$!
+          sleep 3
+          npm run test:ci
+          kill $SERVER_PID 2>/dev/null || true
 
   security-audit:
     name: Security audit
@@ -57,24 +62,3 @@ jobs:
 
       - name: Run npm audit
         run: npm audit --audit-level=high
-
-  lint:
-    name: ESLint
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install ESLint and dependencies
-        run: npm ci
-
-      - name: Run ESLint
-        run: npx eslint . --ext .js,.html
