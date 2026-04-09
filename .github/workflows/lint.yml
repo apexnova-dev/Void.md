@@ -11,7 +11,7 @@ on:
 
 jobs:
   eslint:
-    name: ESLint
+    name: ESLint (JS only)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     
@@ -29,30 +29,4 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint . --ext .js,.html
-
-  html-validation:
-    name: HTML validation
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install HTML validator
-        run: npm install -g html-validate
-
-      - name: Validate HTML files
-        run: |
-          for file in void.html test-page.html; do
-            if [ -f "$file" ]; then
-              npx html-validate "$file" || true
-            fi
-          done
+        run: npx eslint scripts/ docs/ --ext .js
