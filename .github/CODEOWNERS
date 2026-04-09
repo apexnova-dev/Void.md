@@ -1,0 +1,7 @@
+# Code Owners
+
+# Default owner for everything
+* @glyons-smemsc
+
+# GitHub Actions workflows
+/.github/workflows/ @glyons-smemsc
