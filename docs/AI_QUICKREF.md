@@ -58,8 +58,46 @@ What was done.
 | Create task without ID | Always use `TASK-XXX` format |
 | Code without creating task | Create task first in "To Do" |
 | Archive without user request | Leave in "Done" column |
+| **Tables as task lists** | Each row = separate `### TASK-XXX |` |
+| **Tables inside columns** | Tables are free-form, not parsed as tasks |
 
-**Why?** The HTML parser (`void.html`) treats `##` / `###` as structure delimiters, not task content.
+**Why?** The HTML parser (`void.html`) treats `##` / `###` as structure delimiters, not task content. **Tables are NOT parsed as tasks** — only `### TASK-XXX |` headings are.
+
+---
+
+## 3b. ⚠️ Tables Are NOT Tasks
+
+**CRITICAL:** Tables are free-form documentation only. They are NOT parsed as individual tasks.
+
+| ❌ WRONG (tables as tasks) | ✅ RIGHT (individual TASK-XXX) |
+|---------------------------|-------------------------------|
+| Column contains table with 15 rows | Column contains 15 separate `### TASK-XXX |` entries |
+| `### High Priority Agencies` with table inside | One `### TASK-001 |` per agency, all in column |
+| Each table row is invisible to Void.md | Each `TASK-XXX` appears as a card |
+
+**Rule:** If it needs an action → it gets a `### TASK-XXX |` heading. Tables can only contain supplementary information *within* a task.
+
+**Example of correct table usage (inside a task):**
+```markdown
+### TASK-001 | Contact Berlin Area Ambulance
+
+**Priority**: High | **Category**: Agency | **Assigned**: @gage
+**Created**: 2026-03-16 | **Due**: 2026-04-17
+**Tags**: #agency-followup
+
+Contact agency to verify data submission.
+
+**Contact Info**:
+| Field | Value |
+|-------|-------|
+| Contact | [Name] |
+| Email | [Email] |
+| Phone | [Phone] |
+
+**Subtasks**:
+- [ ] Send email
+- [ ] Document response
+```
 
 ---
 

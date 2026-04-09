@@ -27,6 +27,10 @@ This project uses **Void.md** — local-first Kanban over Markdown (`kanban.md`)
 1. `##`/`###` inside tasks — use `**Notes**:` instead
 2. Code without creating task first
 3. Fabricate results
+4. **Tables as task lists** — tables are NOT parsed as tasks
+5. **Tables in columns** — only `### TASK-XXX |` creates task cards
+
+**⚠️ CRITICAL:** If it needs an action → it needs `### TASK-XXX |`. Tables are visual only.
 
 ---
 
