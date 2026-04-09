@@ -2614,7 +2614,7 @@ function deleteFromArchive(taskId) {
 // ===== CHANGE LOG SYSTEM =====
         // Branch identifier - set suffix for non-production builds
         // Options: '' (production), '-core', '-exp'
-        const BRANCH_SUFFIX = '-core'; // Core development branch
+        const BRANCH_SUFFIX = ''; // Production - no suffix
         
         let currentVersion = '1.3.2'; // Major UI/UX improvements
         let changeLog = []; // In-memory change log
