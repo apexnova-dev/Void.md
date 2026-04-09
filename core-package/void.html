@@ -5592,6 +5592,7 @@ function deleteFromArchive(taskId) {
 
                 console.log('  → Rendering kanban board...');
                 renderKanban();
+                initEventDelegation();
                 console.log('  ✅ Kanban rendered');
             } catch (error) {
                 console.error('❌ loadKanbanFile() ERROR:');
@@ -5633,6 +5634,7 @@ function deleteFromArchive(taskId) {
 
                         console.log('  → Rendering kanban board...');
                         renderKanban();
+                        initEventDelegation();
                         console.log('  ✅ Default files initialized');
                     } catch (createError) {
                         console.error('❌ ERROR creating default files:');
