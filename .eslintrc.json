@@ -25,7 +25,7 @@
   "overrides": [
     {
       "files": ["*.html"],
-      "parser": "html-eslint-parser",
+      "parser": "@html-eslint/parser",
       "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "script"
