@@ -474,6 +474,24 @@
             min-height: calc(100vh - 200px);
         }
 
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--accent, #00d4e8);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            z-index: 9999;
+            text-decoration: none;
+            font-weight: 600;
+            transition: top 0.3s;
+        }
+        .skip-link:focus {
+            top: 0;
+            outline: 3px solid var(--accent, #00d4e8);
+            outline-offset: 2px;
+        }
+
         .kanban-board {
             display: flex;
             gap: 1.5rem;
@@ -1599,6 +1617,7 @@
     </style>
 </head>
 <body>
+    <a href="#kanbanBoard" class="skip-link">Skip to Kanban board</a>
     <div id="unsupportedBrowserBanner" role="alert" aria-live="polite">
         <button type="button" class="banner-dismiss" onclick="document.getElementById('unsupportedBrowserBanner').classList.remove('show')" aria-label="Dismiss">×</button>
         <span id="unsupportedBrowserBannerText"></span>
@@ -2095,6 +2114,8 @@ function openSettingsModal() {
     if (modal) {
         modal.classList.add('active');
         setBodyModalOpen(true);
+        setFocusToModal(modal);
+        trapFocus(modal);
         console.log('✅ Settings modal opened');
     }
 }
@@ -2369,6 +2390,8 @@ function openTaskModal(task = null) {
 
     modal.classList.add('active');
     setBodyModalOpen(true);
+    setFocusToModal(modal);
+    trapFocus(modal);
     console.log(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
 }
 
@@ -6173,7 +6196,10 @@ ${t('markdown.archiveSection')}
                     <button onclick="deleteColumn(${idx})" class="btn btn-secondary" style="padding: 0.5rem;">🗑️</button>
                 </div>
             `).join('');
+            const modal = document.getElementById('columnsModal');
             modal.classList.add('active');
+            setFocusToModal(modal);
+            trapFocus(modal);
         }
 
         function closeColumnsModal() {
@@ -6380,6 +6406,17 @@ ${t('markdown.archiveSection')}
             taskEl.className = 'task-card';
             taskEl.draggable = true;
             taskEl.dataset.taskId = task.id;
+
+            // Keyboard accessibility: make task card focusable and activatable
+            taskEl.setAttribute('role', 'button');
+            taskEl.setAttribute('tabindex', '0');
+            taskEl.setAttribute('aria-label', `Task: ${task.title}. Press Enter to view details.`);
+            taskEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showTaskDetail(task);
+                }
+            });
 
             let priorityBadgeClass = "Default";
             if (config.priorities) {
@@ -6612,6 +6649,8 @@ ${t('markdown.archiveSection')}
 
             modal.classList.add('active');
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
+            setFocusToModal(modal);
+            trapFocus(modal);
         }
 
         /** Update subtask rows in the open task modal without replacing modalBody (preserves focus and scroll). */
@@ -6807,8 +6846,11 @@ ${t('markdown.archiveSection')}
             console.log('\n📂 === OPENING ARCHIVE MODAL ===');
             await loadArchive();
             renderArchiveList();
-            document.getElementById('archiveModal').classList.add('active');
+            const archiveModal = document.getElementById('archiveModal');
+            archiveModal.classList.add('active');
             if (typeof setBodyModalOpen === 'function') setBodyModalOpen(true);
+            setFocusToModal(archiveModal);
+            trapFocus(archiveModal);
             console.log('✓ Archive modal opened');
         }
 

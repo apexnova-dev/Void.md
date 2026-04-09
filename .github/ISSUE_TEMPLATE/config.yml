@@ -1,0 +1,31 @@
+---
+blank_issues_enabled: false
+contact_links:
+  - name: Discussion
+    url: https://github.com/glyons/Markdown-Task-Manager-1.1.1/discussions
+    about: Ask questions and discuss features
+
+labels:
+  - name: bug
+    description: Something isn't working correctly
+    color: d73a4a
+  - name: enhancement
+    description: New feature or request
+    color: a2eeef
+  - name: documentation
+    description: Improvements or additions to documentation
+    color: 0075ca
+  - name: security
+    description: Security vulnerability or concern
+    color: e4e669
+  - name: accessibility
+    description: Accessibility-related issue
+    color: 9530b3
+  - name: question
+    description: Further information is requested
+    color: d876e3
+
+template:
+  name: bug_report
+  description: Report a bug to help us improve
+  title: '[BUG] '

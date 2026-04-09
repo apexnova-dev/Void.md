@@ -167,4 +167,4 @@ For security concerns not appropriate for public disclosure, please contact the 
 ---
 
 *Last updated: April 2026*  
-*Version: 1.3.1*
+*Version: 1.3.2*
