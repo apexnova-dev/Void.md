@@ -249,6 +249,29 @@
       border-color: var(--accent);
     }
 
+    /* AI Badge - special Neon City glow */
+    .feature-badge.ai-badge {
+      background: linear-gradient(135deg, rgba(0, 212, 232, 0.2), rgba(255, 0, 234, 0.2));
+      border-color: var(--accent);
+      animation: aiPulse 3s ease-in-out infinite;
+    }
+
+    [data-theme="dark"] .feature-badge.ai-badge {
+      box-shadow: 0 0 15px rgba(0, 212, 232, 0.4);
+      color: #00d4e8;
+    }
+
+    [data-theme="light"] .feature-badge.ai-badge {
+      background: linear-gradient(135deg, rgba(0, 150, 136, 0.15), rgba(33, 150, 243, 0.15));
+      border-color: #009688;
+      color: #009688;
+    }
+
+    @keyframes aiPulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 232, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(255, 0, 234, 0.4); }
+    }
+
     /* ===== Local Info ===== */
     .local-info {
       margin-bottom: 2rem;
@@ -296,6 +319,7 @@
       <span class="feature-badge">💾 Local-First</span>
       <span class="feature-badge">🔒 Private</span>
       <span class="feature-badge">📁 Markdown Files</span>
+      <span class="feature-badge ai-badge">🤖 AI-Informed</span>
       <span class="feature-badge">🌙 Dark Mode</span>
       <span class="feature-badge">⚡ Fast</span>
     </div>
