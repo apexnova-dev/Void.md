@@ -211,18 +211,48 @@
       opacity: 0.7;
     }
 
-    /* ===== Local-First Badge ===== */
-    .local-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
+    /* ===== Feature Badges ===== */
+    .feature-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-badge {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid var(--border-color);
+    }
+
+    [data-theme="dark"] .feature-badge {
       background: var(--accent-subtle);
       color: var(--accent);
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-      font-size: 0.85rem;
-      font-weight: 500;
+      border-color: var(--accent);
+    }
+
+    /* ===== Local Info ===== */
+    .local-info {
       margin-bottom: 2rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .local-info p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .local-sub {
+      font-size: 0.85rem !important;
+      opacity: 0.7;
     }
 
     /* ===== Responsive ===== */
@@ -248,9 +278,19 @@
     <h1>Void.md</h1>
     <p class="tagline">Visual Kanban. Plaintext Soul. No Cloud.</p>
 
-    <!-- Local-First Badge -->
-    <div class="local-badge">
-      💾 Your data stays on your device
+    <!-- Feature Badges -->
+    <div class="feature-badges">
+      <span class="feature-badge">💾 Local-First</span>
+      <span class="feature-badge">🔒 Private</span>
+      <span class="feature-badge">📁 Markdown Files</span>
+      <span class="feature-badge">🌙 Dark Mode</span>
+      <span class="feature-badge">⚡ Fast</span>
+    </div>
+
+    <!-- Local-First Description -->
+    <div class="local-info">
+      <p>Your tasks live in a folder you choose — on your device, not our servers.</p>
+      <p class="local-sub">No accounts. No sync fees. No vendor lock-in. Your data, your control.</p>
     </div>
 
     <!-- Build Links -->
