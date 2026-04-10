@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     <title>Void.md</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script>
@@ -1848,6 +1849,14 @@
                     </div>
                 </div>
 
+                <!-- Experimental Features Section (dynamically populated) -->
+                <div id="experimentalFeaturesSection" class="settings-section" style="display: none;">
+                    <h3 id="experimentalFeaturesTitle">🔬 Experimental Features</h3>
+                    <div id="experimentalFeaturesList">
+                        <!-- Features populated by JavaScript -->
+                    </div>
+                </div>
+
                 <!-- Project Management Section -->
                 <div class="settings-section">
                     <h3>📁 Project Management</h3>
@@ -2212,6 +2221,7 @@ function openSettingsModal() {
         setBodyModalOpen(true);
         trapFocus(modal);
         setFocusToModal(modal);
+        populateExperimentalFeatures(); // Populate feature toggles
         debugLog('✅ Settings modal opened');
     }
 }
@@ -2225,6 +2235,54 @@ function closeSettingsModal() {
         returnFocus();
         debugLog('✅ Settings modal closed');
     }
+}
+
+// Populate experimental features section based on current branch
+function populateExperimentalFeatures() {
+    const section = document.getElementById('experimentalFeaturesSection');
+    const list = document.getElementById('experimentalFeaturesList');
+    const title = document.getElementById('experimentalFeaturesTitle');
+    
+    if (!section || !list) return;
+    
+    const visibleFeatures = getVisibleFeatures();
+    
+    if (visibleFeatures.length === 0) {
+        section.style.display = 'none';
+        return;
+    }
+    
+    // Update title based on branch
+    const suffix = BRANCH_SUFFIX || '';
+    if (suffix === '-core') {
+        title.textContent = '🔧 Developer Features (Core)';
+    } else if (suffix === '-exp') {
+        title.textContent = '🔬 Experimental Features';
+    } else {
+        title.textContent = '✨ Featured Upgrades';
+    }
+    
+    // Build the feature list HTML
+    list.innerHTML = visibleFeatures.map(feature => `
+        <div class="setting-row">
+            <div class="setting-info">
+                <span>${feature.name}</span>
+                <small>${feature.description}</small>
+            </div>
+            <div class="toggle-switch ${FEATURE_FLAGS[feature.key]?.enabled ? 'active' : ''}" 
+                 id="${feature.key}Switch" 
+                 role="switch" 
+                 aria-checked="${FEATURE_FLAGS[feature.key]?.enabled ? 'true' : 'false'}" 
+                 aria-label="Toggle ${feature.name}"
+                 tabindex="0" 
+                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFeature('${feature.key}');}"
+                 onclick="toggleFeature('${feature.key}')">
+                <div class="toggle-thumb"></div>
+            </div>
+        </div>
+    `).join('');
+    
+    section.style.display = 'block';
 }
 
 // Helper function to open Columns modal from Settings
@@ -3702,32 +3760,38 @@ function deleteFromArchive(taskId) {
         }
 
         // ===== FEATURE FLAG SYSTEM (v1.2.0) =====
-        
+
         // Feature flags configuration - all disabled by default for safety
+        // branchLevel: 'experimental' = only shown in experimental branch
+        //             'production' = shown in production branch (promoted features)
         const FEATURE_FLAGS = {
             ENABLE_RICH_TEXT_EDITOR: {
                 enabled: false,
                 key: 'featureRichText',
                 name: 'Rich Text Editor',
-                description: 'Enhanced notes with Tiptap editor and formatting toolbar'
+                description: 'Enhanced notes with Tiptap editor and formatting toolbar',
+                branchLevel: 'experimental'
             },
             ENABLE_COMMENTS: {
                 enabled: false,
                 key: 'featureComments',
                 name: 'Comments System',
-                description: 'Threaded comments with @mentions and reactions'
+                description: 'Threaded comments with @mentions and reactions',
+                branchLevel: 'experimental'
             },
             ENABLE_SLASH_COMMANDS: {
                 enabled: false,
                 key: 'featureSlashCommands',
                 name: 'Slash Commands',
-                description: 'Notion-style "/" commands for quick formatting'
+                description: 'Notion-style "/" commands for quick formatting',
+                branchLevel: 'experimental'
             },
             ENABLE_PERFORMANCE_LOGGING: {
                 enabled: false,
                 key: 'featurePerformance',
                 name: 'Performance Logging',
-                description: 'Log performance metrics for new features'
+                description: 'Log performance metrics for new features',
+                branchLevel: 'experimental'
             }
         };
 
@@ -3747,6 +3811,30 @@ function deleteFromArchive(taskId) {
             updateRichTextStatus(); // Show initial status
             updateEditorBadge(); // Update badge in task form
             debugLog('🎛️ Feature flags initialized:', Object.entries(FEATURE_FLAGS).filter(([_, f]) => f.enabled).map(([k]) => k));
+        }
+
+        // Check if a feature should be visible based on branch level
+        function isFeatureVisibleForBranch(feature) {
+            const suffix = BRANCH_SUFFIX || '';
+            
+            // experimental branch shows everything
+            if (suffix === '-exp') return true;
+            
+            // production branch only shows promoted features
+            if (suffix === '') return feature.branchLevel === 'production';
+            
+            // core branch shows everything for developer testing
+            if (suffix === '-core') return true;
+            
+            // Default: show if no branchLevel specified or unknown branch
+            return feature.branchLevel !== 'experimental';
+        }
+
+        // Get all visible features for current branch
+        function getVisibleFeatures() {
+            return Object.entries(FEATURE_FLAGS)
+                .filter(([_, config]) => isFeatureVisibleForBranch(config))
+                .map(([key, config]) => ({ key, ...config }));
         }
 
         // Toggle a specific feature flag
