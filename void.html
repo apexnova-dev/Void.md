@@ -2295,13 +2295,24 @@ function populateExperimentalFeatures() {
                  role="switch" 
                  aria-checked="${FEATURE_FLAGS[feature.key]?.enabled ? 'true' : 'false'}" 
                  aria-label="Toggle ${feature.name}"
-                 tabindex="0" 
-                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFeature('${feature.key}');}"
-                 onclick="toggleFeature('${feature.key}')">
+                 tabindex="0"
+                 data-feature="${feature.key}">
                 <div class="toggle-thumb"></div>
             </div>
         </div>
     `).join('');
+
+    // Attach event listeners to toggle switches
+    list.querySelectorAll('.toggle-switch').forEach(toggle => {
+        const featureKey = toggle.dataset.feature;
+        toggle.addEventListener('click', () => toggleFeature(featureKey));
+        toggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleFeature(featureKey);
+            }
+        });
+    });
     
     section.style.display = 'block';
 }
