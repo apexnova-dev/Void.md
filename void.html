@@ -3882,8 +3882,8 @@ function deleteFromArchive(taskId) {
             // production branch only shows promoted features
             if (suffix === '') return feature.branchLevel === 'production';
             
-            // core branch shows everything for developer testing
-            if (suffix === '-core') return true;
+            // core branch is the basic engine - no add-ons shown
+            if (suffix === '-core') return false;
             
             // Default: show if no branchLevel specified or unknown branch
             return feature.branchLevel !== 'experimental';
