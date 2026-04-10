@@ -219,6 +219,21 @@
       font-size: 0.85rem;
     }
 
+    .footer-brand {
+      margin-bottom: 1rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    [data-theme="light"] .footer-brand {
+      color: var(--accent);
+      -webkit-text-fill-color: initial;
+      background: none;
+    }
+
     .footer-note {
       margin-top: 0.5rem;
       opacity: 0.7;
@@ -355,6 +370,7 @@
 
     <!-- Footer -->
     <div class="footer">
+      <p class="footer-brand">Void.md — A Neon City Production</p>
       <p>Pick a build above. Your task data lives in the folder you choose.</p>
       <p class="footer-note">If a link 404s, that branch may not exist yet.</p>
     </div>
