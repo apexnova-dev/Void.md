@@ -83,7 +83,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Welcome screen: Void logo (`logo.svg`) below the “Welcome” heading; wave emoji removed from the title
+- Welcome screen: Void logo (`logo.svg`) below the "Welcome" heading; wave emoji removed from the title
 - `core-package/logo.svg` so the portable package shows the same logo when opened locally
 
 ### Fixed
@@ -91,6 +91,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Repository:** `.gitignore` no longer excludes root `.cursorrules`; `.cursor/rules/`** remains tracked while other `.cursor/`* local files stay ignored
 - **Security:** Escape column titles in the Kanban board and fenced-code language labels in `markdownToHtml()` before inserting into HTML
 - **Welcome / i18n:** `renderWelcomeScreen()` now rebuilds the full welcome layout (including recent-projects selector and steps) when the language changes, instead of replacing it with a minimal fragment that removed those controls; `updateWelcomeProjectSelector()` runs after a language change so the dropdown stays populated
+
+---
+
+## [1.3.3] - 2026-04-10
+
+### Added
+
+- **Feature flag system:** Branch-based feature visibility with `branchLevel` property ('experimental' or 'production')
+- **Settings modal:** New "Experimental Features" section dynamically populated based on branch:
+  - `experimental` branch: "🔬 Experimental Features" - all feature toggles visible
+  - `production` branch: "✨ Featured Upgrades" - only promoted features visible
+  - `core` branch: No section (basic engine only)
+- **Report button:** "🐛 Report" button in header opens GitHub Issues with pre-filled template including browser info and version
+- **Feature promotion workflow:** Features can be promoted from 'experimental' to 'production' by changing `branchLevel` property
+
+### Changed
+
+- **Header layout:** +Task button moved before Project selector with glow effect styling
+- **Logo positioning:** Logo restored to far left, +Task button placed before Project dropdown
+
+### Fixed
+
+- **Task card clicks:** Fixed `initEventDelegation()` to be called on page load, not just on task creation
+- **CI/CD:** Removed environment restriction from GitHub Pages workflow; simplified test workflow (security audit only)
+- **Security headers:** Added CSP, X-Frame-Options, and SRI integrity hashes for CDN resources
+
+### Known Issues
+
+- **Feature toggles in Settings:** Click handlers on dynamically created toggle switches are not responding (see [#4](https://github.com/glyons-smemsc/Void.md/issues/4))
 
 ---
 
