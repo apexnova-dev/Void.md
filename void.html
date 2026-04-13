@@ -1348,6 +1348,403 @@
             margin-top: 0.5rem;
         }
 
+        /* About Modal - Neon City Styles */
+        .void-modal {
+            background-color: rgba(10, 11, 16, 0.95);
+            color: #e0e0e0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        .void-modal-content {
+            max-width: 500px;
+            margin: 5% auto;
+            background: #0a0b10;
+            border-radius: 8px;
+        }
+
+        .void-modal-content.neon-border {
+            border: 1px solid #00f2ff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        .void-system-header {
+            background: linear-gradient(90deg, #00f2ff, #ff00ea);
+            color: #000;
+            padding: 5px 15px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 0.8rem;
+            border-radius: 7px 7px 0 0;
+        }
+
+        .void-modal-body {
+            padding: 20px;
+        }
+
+        .void-branding-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .void-title {
+            font-size: 2.5rem;
+            color: #00f2ff;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+            margin-bottom: 0;
+        }
+
+        .void-tagline {
+            color: #ff00ea;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .void-manifesto-box {
+            background: rgba(123, 46, 255, 0.1);
+            border-left: 3px solid #7b2eff;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .manifesto-subtext {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        .void-tech-specs h3 {
+            color: #00f2ff;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .void-tech-specs ul {
+            list-style: none;
+            padding-left: 0;
+            font-size: 0.85rem;
+        }
+
+        .void-tech-specs li {
+            margin-bottom: 8px;
+        }
+
+        .void-tech-specs strong {
+            color: #ff00ea;
+        }
+
+        .void-divider {
+            border: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .void-credits {
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .infrastructure-tag a {
+            color: #00f2ff;
+            text-decoration: none;
+        }
+
+        .version-tag {
+            opacity: 0.5;
+            font-size: 0.7rem;
+            margin-top: 10px;
+        }
+
+        /* ============================================
+           NEON CITY MODAL SYSTEM - Dark Mode Only
+           Applied to all modals when data-theme="dark"
+           ============================================ */
+
+        [data-theme="dark"] .modal {
+            background-color: rgba(10, 11, 16, 0.95);
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: #0a0b10;
+            color: #e0e0e0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+        }
+
+        [data-theme="dark"] .modal-content.neon-border {
+            border: 1px solid #00f2ff;
+        }
+
+        /* Modal-specific accent colors - each modal gets its own identity */
+        [data-theme="dark"] .modal-content--settings {
+            border-color: #7b2eff;
+            box-shadow: 0 0 30px rgba(123, 46, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail {
+            border-color: #ff00ea;
+            box-shadow: 0 0 30px rgba(255, 0, 234, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--task-form {
+            border-color: #00f2ff;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--columns {
+            border-color: #00f2ff;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--archive {
+            border-color: #7b2eff;
+            box-shadow: 0 0 30px rgba(123, 46, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--settings,
+        [data-theme="dark"] .modal-content--task-detail,
+        [data-theme="dark"] .modal-content--task-form,
+        [data-theme="dark"] .modal-content--columns,
+        [data-theme="dark"] .modal-content--archive {
+            border: 1px solid;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 5% auto;
+        }
+
+        [data-theme="dark"] .modal-header {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 7px 7px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Modal-specific header gradients - match border accent */
+        [data-theme="dark"] .modal-content--settings .modal-header,
+        [data-theme="dark"] .modal-content--archive .modal-header {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .modal-header {
+            background: linear-gradient(90deg, #ff00ea, #00f2ff);
+        }
+
+        [data-theme="dark"] .modal-content--task-form .modal-header,
+        [data-theme="dark"] .modal-content--columns .modal-header {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+        }
+
+        [data-theme="dark"] .modal-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        [data-theme="dark"] .modal-header .close-btn {
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        [data-theme="dark"] .modal-header .close-btn:hover {
+            opacity: 1;
+        }
+
+        [data-theme="dark"] .task-detail,
+        [data-theme="dark"] .modal-body-scroll {
+            background: #0a0b10;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        [data-theme="dark"] .actions {
+            background: #0a0b10;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(0, 242, 255, 0.2);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        [data-theme="dark"] .btn {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        [data-theme="dark"] .btn-primary {
+            background: #00f2ff;
+            color: #000;
+            border: none;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .btn-primary:hover {
+            background: #7b2eff;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        [data-theme="dark"] .btn-secondary {
+            background: transparent;
+            color: #00f2ff;
+            border: 1px solid #00f2ff;
+        }
+
+        [data-theme="dark"] .btn-secondary:hover {
+            background: rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+
+        [data-theme="dark"] .btn-danger {
+            color: #ff00ea;
+            border-color: #ff00ea;
+        }
+
+        [data-theme="dark"] .btn-danger:hover {
+            background: rgba(255, 0, 234, 0.15);
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.3);
+        }
+
+        [data-theme="dark"] .btn-archive {
+            color: #7b2eff;
+            border-color: #7b2eff;
+        }
+
+        [data-theme="dark"] .btn-archive:hover {
+            background: rgba(123, 46, 255, 0.15);
+            box-shadow: 0 0 10px rgba(123, 46, 255, 0.3);
+        }
+
+        /* Settings modal specific - purple accent */
+        [data-theme="dark"] .modal-content--settings .btn {
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        [data-theme="dark"] .modal-content--settings .btn-secondary {
+            color: #7b2eff;
+            border-color: #7b2eff;
+            background: transparent;
+        }
+
+        [data-theme="dark"] .modal-content--settings .btn-secondary:hover {
+            background: rgba(123, 46, 255, 0.15);
+            box-shadow: 0 0 10px rgba(123, 46, 255, 0.3);
+        }
+
+        [data-theme="dark"] .modal-content--settings .btn-danger {
+            color: #ff00ea;
+            border-color: #ff00ea;
+        }
+
+        [data-theme="dark"] .modal-content--settings .btn-danger:hover {
+            background: rgba(255, 0, 234, 0.15);
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.3);
+        }
+
+        [data-theme="dark"] form {
+            background: #0a0b10;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        [data-theme="dark"] form label {
+            color: #00f2ff;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] form input,
+        [data-theme="dark"] form textarea,
+        [data-theme="dark"] form select {
+            background: #1a1b24;
+            color: #e0e0e0;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 4px;
+            padding: 10px 12px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] form input:focus,
+        [data-theme="dark"] form textarea:focus,
+        [data-theme="dark"] form select:focus {
+            outline: none;
+            border-color: #00f2ff;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        /* Form input colors by modal context */
+        [data-theme="dark"] .modal-content--task-form form input:focus,
+        [data-theme="dark"] .modal-content--task-form form textarea:focus,
+        [data-theme="dark"] .modal-content--task-form form select:focus {
+            border-color: #00f2ff;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--settings form input:focus,
+        [data-theme="dark"] .modal-content--settings form textarea:focus,
+        [data-theme="dark"] .modal-content--settings form select:focus {
+            border-color: #7b2eff;
+            box-shadow: 0 0 10px rgba(123, 46, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--columns form input:focus,
+        [data-theme="dark"] .modal-content--columns form textarea:focus,
+        [data-theme="dark"] .modal-content--columns form select:focus {
+            border-color: #00f2ff;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        /* Separator lines with accent colors */
+        [data-theme="dark"] .actions {
+            border-top: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .actions {
+            border-top-color: rgba(255, 0, 234, 0.3);
+        }
+
+        [data-theme="dark"] .modal-content--settings .actions,
+        [data-theme="dark"] .modal-content--archive .actions {
+            border-top-color: rgba(123, 46, 255, 0.3);
+        }
+
+        /* Status indicators with accent colors */
+        [data-theme="dark"] .task-priority-Critical,
+        [data-theme="dark"] .task-priority-High {
+            color: #ff00ea;
+        }
+
+        [data-theme="dark"] .task-priority-Medium {
+            color: #00f2ff;
+        }
+
+        [data-theme="dark"] .task-priority-Low {
+            color: #7b2eff;
+        }
+
         /* Unsupported browser notice (Firefox/Safari) */
         #unsupportedBrowserBanner {
             display: none;
@@ -1791,6 +2188,9 @@
                     <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" id="welcomeGetStarted">
                         📁 Get Started
                     </button>
+                    <button onclick="showAboutModal()" class="btn btn-secondary" id="welcomeAboutBtn">
+                        ℹ️ About
+                    </button>
                 </div>
                 
                 <div class="browser-warning" id="welcomeBrowserWarning">
@@ -1807,7 +2207,7 @@
 
     <!-- Modal Settings -->
     <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" aria-describedby="settingsModalBody">
-        <div class="modal-content modal-content--settings">
+        <div class="modal-content modal-content--settings neon-border">
             <div class="modal-header">
                 <h2 id="settingsModalTitle">⚙️ Settings</h2>
                 <button type="button" class="close-btn" onclick="closeSettingsModal()" aria-label="Close settings">&times;</button>
@@ -1902,6 +2302,7 @@
                     <strong>Void.md</strong>
                     <p>A single-file Kanban task manager that works with local Markdown files.</p>
                     <span class="version-badge">v. 1.3.3</span>
+                    <button onclick="showAboutModal()" class="btn btn-secondary pad-sm">ℹ️ About</button>
                 </div>
             </div>
             <div class="settings-actions">
@@ -1910,9 +2311,22 @@
         </div>
     </div>
 
+    <!-- About Modal (experimental) -->
+    <div id="aboutModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutModalTitle" aria-describedby="aboutModalBody">
+        <div class="void-modal-content neon-border">
+            <div class="void-system-header">
+                <span class="system-label">SYSTEM_INFO // VOID.MD</span>
+                <button class="close-btn" onclick="closeAboutModal()" aria-label="Close about">&times;</button>
+            </div>
+            <div id="aboutModalBody" class="void-modal-body">
+                <!-- Content loaded from about.html -->
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Task Detail -->
     <div id="taskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody">
-        <div class="modal-content modal-content--task-detail">
+        <div class="modal-content modal-content--task-detail neon-border">
             <div class="modal-header">
                 <h2 id="modalTitle">Task Details</h2>
                 <button type="button" class="close-btn" onclick="closeModal()" aria-label="Close task details">&times;</button>
@@ -1929,7 +2343,7 @@
 
     <!-- Modal New Task -->
     <div id="newTaskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="newTaskModalTitle" aria-describedby="newTaskForm">
-        <div class="modal-content modal-content--task-form">
+        <div class="modal-content modal-content--task-form neon-border">
             <div class="modal-header">
                 <h2 id="newTaskModalTitle">New Task</h2>
                 <button type="button" class="close-btn" onclick="closeTaskModal()" aria-label="Close task form">&times;</button>
@@ -2040,7 +2454,7 @@ You can use Markdown:
 
     <!-- Modal Manage Columns -->
     <div id="columnsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="columnsModalTitle" aria-describedby="columnsList">
-        <div class="modal-content modal-content--columns">
+        <div class="modal-content modal-content--columns neon-border">
             <div class="modal-header">
                 <h2 id="columnsModalTitle">Manage Columns</h2>
                 <button type="button" class="close-btn" onclick="closeColumnsModal()" aria-label="Close columns">&times;</button>
@@ -2058,7 +2472,7 @@ You can use Markdown:
 
     <!-- Modal Archives -->
     <div id="archiveModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="archiveModalTitle" aria-describedby="archiveList">
-        <div class="modal-content modal-content--archive">
+        <div class="modal-content modal-content--archive neon-border">
             <div class="modal-header">
                 <h2 id="archiveModalTitle">📦 Archives</h2>
                 <button type="button" class="close-btn" onclick="closeArchiveModal()" aria-label="Close archives">&times;</button>
@@ -2255,6 +2669,54 @@ function closeSettingsModal() {
         setBodyModalOpen(false);
         returnFocus();
         debugLog('✅ Settings modal closed');
+    }
+}
+
+// Global function to show about modal (experimental)
+async function showAboutModal() {
+    const modal = document.getElementById('aboutModal');
+    const modalBody = document.getElementById('aboutModalBody');
+    if (!modal || !modalBody) {
+        console.error('About modal elements not found!');
+        return;
+    }
+    
+    try {
+        // Fetch the about.html content
+        const response = await fetch('about.html');
+        if (!response.ok) throw new Error('Failed to load about.html');
+        
+        // Extract body content from the fetched HTML
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const bodyContent = doc.body.innerHTML;
+        
+        // Update modal body
+        modalBody.innerHTML = bodyContent;
+        
+        // Show the modal
+        modal.classList.add('active');
+        setBodyModalOpen(true);
+        trapFocus(modal);
+        setFocusToModal(modal);
+        
+        debugLog('✅ About modal opened');
+    } catch (error) {
+        console.error('Error loading about.html:', error);
+        modalBody.innerHTML = '<p style="text-align:center;padding:20px;">Error loading about information.</p>';
+        modal.classList.add('active');
+    }
+}
+
+// Global function to close about modal
+function closeAboutModal() {
+    const modal = document.getElementById('aboutModal');
+    if (modal) {
+        modal.classList.remove('active');
+        setBodyModalOpen(false);
+        returnFocus();
+        debugLog('✅ About modal closed');
     }
 }
 
@@ -2643,11 +3105,13 @@ document.addEventListener('keydown', function (e) {
     const settingsModal = document.getElementById('settingsModal');
     const columnsModal = document.getElementById('columnsModal');
     const archiveModal = document.getElementById('archiveModal');
+    const aboutModal = document.getElementById('aboutModal');
     if (taskModal && taskModal.classList.contains('active')) { closeModal(); e.preventDefault(); return; }
     if (newTaskModal && newTaskModal.classList.contains('active')) { closeTaskModal(); e.preventDefault(); return; }
     if (settingsModal && settingsModal.classList.contains('active')) { closeSettingsModal(); e.preventDefault(); return; }
     if (columnsModal && columnsModal.classList.contains('active')) { closeColumnsModal(); e.preventDefault(); return; }
     if (archiveModal && archiveModal.classList.contains('active')) { closeArchiveModal(); e.preventDefault(); return; }
+    if (aboutModal && aboutModal.classList.contains('active')) { closeAboutModal(); e.preventDefault(); return; }
 });
 
 // Close modal when clicking the backdrop (outside the content) - run when DOM is ready
@@ -2665,6 +3129,7 @@ function initModalBackdropClose() {
             else if (modal.id === 'settingsModal') closeSettingsModal();
             else if (modal.id === 'columnsModal') closeColumnsModal();
             else if (modal.id === 'archiveModal') closeArchiveModal();
+            else if (modal.id === 'aboutModal') closeAboutModal();
         };
         modal.addEventListener('click', listener);
         modalBackdropListeners.push({ modal: modal, listener: listener });
@@ -3496,6 +3961,9 @@ function deleteFromArchive(taskId) {
                 <div class="welcome-actions">
                     <button onclick="document.getElementById('selectFolderBtn').click()" class="btn btn-primary" id="welcomeGetStarted">
                         ${escapeHtml(t('welcome.start'))}
+                    </button>
+                    <button onclick="showAboutModal()" class="btn btn-secondary" id="welcomeAboutBtn">
+                        ℹ️ About
                     </button>
                 </div>
                 <div class="browser-warning" id="welcomeBrowserWarning">
