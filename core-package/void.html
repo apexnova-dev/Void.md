@@ -3876,7 +3876,14 @@ function deleteFromArchive(taskId) {
         function isFeatureVisibleForBranch(feature) {
             const suffix = BRANCH_SUFFIX || '';
             
-            // experimental branch shows everything
+            // Hide features that are not yet implemented (regardless of branch)
+            // These features are defined in FEATURE_FLAGS but have no actual implementation
+            const unimplementedFeatures = ['featureComments', 'featureSlashCommands'];
+            if (unimplementedFeatures.includes(feature.key)) {
+                return false;
+            }
+            
+            // experimental branch shows everything (except unimplemented)
             if (suffix === '-exp') return true;
             
             // production branch only shows promoted features
@@ -3960,14 +3967,14 @@ function deleteFromArchive(taskId) {
             }
             
             if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
-                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Editor loaded and ready</span>';
+                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Rich text library loaded (basic formatting available)</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
                     modeSelect.value = savedMode;
                 }
             } else if (typeof window.Tiptap !== 'undefined') {
-                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Library loaded. Select Rich Text in Editor Mode below to use.</span>';
+                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Library loaded. Select Rich Text mode below for basic formatting.</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
@@ -4045,7 +4052,7 @@ function deleteFromArchive(taskId) {
             if (mode === 'rich' && typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 badge.innerHTML = '<span style="background: #22C55E; color: white;">Rich Text</span>';
                 badge.style.display = 'inline-block';
-                status.innerHTML = '✓ Rich text editor active.';
+                status.innerHTML = '✓ Rich text mode active (basic formatting available)';
                 status.style.color = '#22C55E';
             } else if (mode === 'rich' && FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
                 badge.innerHTML = '<span style="background: #f59e0b; color: white;">Loading...</span>';
@@ -4056,9 +4063,9 @@ function deleteFromArchive(taskId) {
                 badge.style.display = 'none';
                 const richFlagOn = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled;
                 if (richFlagOn) {
-                    status.innerHTML = 'Plain text mode. Open Settings and switch to Rich Text to use formatting tools.';
+                    status.innerHTML = 'Plain text mode. Rich text editor is experimental with limited formatting support.';
                 } else {
-                    status.innerHTML = 'Plain text notes. Enable Rich Text Editor in Settings to unlock formatting tools.';
+                    status.innerHTML = 'Plain text notes. Enable Rich Text Editor in Settings for basic formatting (experimental).';
                 }
                 status.style.color = 'var(--text-secondary)';
             }
