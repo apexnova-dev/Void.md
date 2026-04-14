@@ -1098,25 +1098,29 @@ async function runAllTests() {
     const crudResults = runTaskCrudTests();
     const fsResults = runFileSystemApiTests();
     const themeResults = runThemeTests();
+    const dragDropResults = typeof runDragAndDropTests === 'function' ? runDragAndDropTests() : { passed: 0, failed: 0 };
+    const markdownResults = typeof runMarkdownParsingTests === 'function' ? runMarkdownParsingTests() : { passed: 0, failed: 0 };
     const integrationResults = runIntegrationTests();
     
     // Summary
-    const totalPassed = featureResults.passed + fallbackResults.passed + storageResults.passed + projectResults.passed + crudResults.passed + fsResults.passed + themeResults.passed + integrationResults.passed;
-    const totalFailed = featureResults.failed + fallbackResults.failed + storageResults.failed + projectResults.failed + crudResults.failed + fsResults.failed + themeResults.failed + integrationResults.failed;
+    const totalPassed = featureResults.passed + fallbackResults.passed + storageResults.passed + projectResults.passed + crudResults.passed + fsResults.passed + themeResults.passed + dragDropResults.passed + markdownResults.passed + integrationResults.passed;
+    const totalFailed = featureResults.failed + fallbackResults.failed + storageResults.failed + projectResults.failed + crudResults.failed + fsResults.failed + themeResults.failed + dragDropResults.failed + markdownResults.failed + integrationResults.failed;
     const totalTests = totalPassed + totalFailed;
     
     console.log('\n');
     console.log('═'.repeat(60));
     console.log('📊 FINAL TEST SUMMARY');
     console.log('═'.repeat(60));
-    console.log(`Feature Flag Tests:    ${featureResults.passed}/${featureResults.passed + featureResults.failed} passed`);
-    console.log(`Fallback Tests:        ${fallbackResults.passed}/${fallbackResults.passed + fallbackResults.failed} passed`);
-    console.log(`Storage Tests:         ${storageResults.passed}/${storageResults.passed + storageResults.failed} passed`);
+    console.log(`Feature Flag Tests:     ${featureResults.passed}/${featureResults.passed + featureResults.failed} passed`);
+    console.log(`Fallback Tests:         ${fallbackResults.passed}/${fallbackResults.passed + fallbackResults.failed} passed`);
+    console.log(`Storage Tests:          ${storageResults.passed}/${storageResults.passed + storageResults.failed} passed`);
     console.log(`Project Tests:          ${projectResults.passed}/${projectResults.passed + projectResults.failed} passed`);
-    console.log(`Task CRUD Tests:       ${crudResults.passed}/${crudResults.passed + crudResults.failed} passed`);
-    console.log(`File System API Tests: ${fsResults.passed}/${fsResults.passed + fsResults.failed} passed`);
-    console.log(`Theme Tests:           ${themeResults.passed}/${themeResults.passed + themeResults.failed} passed`);
-    console.log(`Integration Tests:     ${integrationResults.passed}/${integrationResults.passed + integrationResults.failed} passed`);
+    console.log(`Task CRUD Tests:        ${crudResults.passed}/${crudResults.passed + crudResults.failed} passed`);
+    console.log(`File System API Tests:  ${fsResults.passed}/${fsResults.passed + fsResults.failed} passed`);
+    console.log(`Theme Tests:            ${themeResults.passed}/${themeResults.passed + themeResults.failed} passed`);
+    console.log(`Drag & Drop Tests:      ${dragDropResults.passed}/${dragDropResults.passed + dragDropResults.failed} passed`);
+    console.log(`Markdown Parsing Tests: ${markdownResults.passed}/${markdownResults.passed + markdownResults.failed} passed`);
+    console.log(`Integration Tests:      ${integrationResults.passed}/${integrationResults.passed + integrationResults.failed} passed`);
     console.log('─'.repeat(60));
     console.log(`TOTAL:                 ${totalPassed}/${totalTests} passed`);
     console.log('═'.repeat(60));
@@ -1135,6 +1139,8 @@ async function runAllTests() {
         crudResults,
         fsResults,
         themeResults,
+        dragDropResults,
+        markdownResults,
         integrationResults,
         totalPassed,
         totalFailed,
@@ -1163,4 +1169,8 @@ console.log('  runProjectTests()               - Project management tests');
 console.log('  runTaskCrudTests()              - Task CRUD tests');
 console.log('  runFileSystemApiTests()         - File System API tests');
 console.log('  runThemeTests()                 - Theme switching tests');
+console.log('  runDragAndDropTests()           - Drag & drop tests (load additional-tests.js)');
+console.log('  runMarkdownParsingTests()       - Markdown parsing tests (load additional-tests.js)');
 console.log('  runIntegrationTests()           - Integration tests');
+console.log('\nTo load additional tests:');
+console.log("  fetch('docs/architecture/tests/additional-tests.js').then(r => r.text()).then(code => eval(code))");

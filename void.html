@@ -2053,6 +2053,149 @@
             max-height: 500px;
             overflow-y: auto;
         }
+        
+        /* ===== UTILITY CLASSES FOR INLINE STYLE EXTRACTION ===== */
+        
+        /* Filter badge styles */
+        .filter-badge {
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        .filter-badge__remove {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        
+        /* Column editor styles */
+        .column-editor__row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            align-items: center;
+        }
+        .column-editor__controls {
+            display: flex;
+            gap: 0.25rem;
+        }
+        .column-editor__btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.85rem;
+        }
+        .column-editor__input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--surface-card);
+            color: var(--text-primary);
+        }
+        .column-editor__input--id {
+            width: 120px;
+            flex: none;
+        }
+        
+        /* Form subtask styles */
+        .form-subtask__item {
+            padding: 0.5rem;
+            margin-bottom: 0.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .form-subtask__checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .form-subtask__text {
+            flex: 1;
+        }
+        .form-subtask__text--completed {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+        .form-subtask__remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #e53e3e;
+            font-size: 1rem;
+        }
+        
+        /* Archive item styles */
+        .archive-item {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .archive-item__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.5rem;
+        }
+        .archive-item__id {
+            background: var(--text-secondary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .archive-item__title {
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .archive-item__actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .archive-item__btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+        .archive-item__btn--delete {
+            background: #ef4444;
+            color: white;
+        }
+        .archive-item__meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .archive-item__tag {
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        /* Status message styles */
+        .status-success { color: #22C55E; }
+        .status-warning { color: #f59e0b; }
+        .status-error { color: #ef4444; }
     </style>
 </head>
 <body>
@@ -3031,10 +3174,32 @@ function openTaskModal(task = null) {
         document.getElementById('taskDescription').value = task.description || '';
         document.getElementById('taskNotes').value = task.notes || '';
         formSubtasks = JSON.parse(JSON.stringify(task.subtasks || []));
+        // Don't restore draft when editing existing task
+        formIsDirty = false;
     } else {
-        form.reset();
-        document.getElementById('taskEditId').value = '';
-        formSubtasks = [];
+        // New task - check for draft first
+        const draft = loadFormDraft();
+        if (draft) {
+            // Restore draft values
+            document.getElementById('taskEditId').value = '';
+            document.getElementById('taskTitle').value = draft.title || '';
+            document.getElementById('taskCategory').value = draft.category || '';
+            document.getElementById('taskAssignee').value = draft.assignees || '';
+            document.getElementById('taskDue').value = draft.due || '';
+            document.getElementById('taskTags').value = draft.tags || '';
+            document.getElementById('taskDescription').value = draft.description || '';
+            document.getElementById('taskNotes').value = draft.notes || '';
+            document.getElementById('taskPriority').value = draft.priority || '';
+            formSubtasks = draft.subtasks || [];
+            formIsDirty = true; // Mark as dirty since we restored a draft
+            if (debugMode) console.log('📋 Draft restored for new task');
+            showNotification('Restored unsaved draft', 'info');
+        } else {
+            form.reset();
+            document.getElementById('taskEditId').value = '';
+            formSubtasks = [];
+            formIsDirty = false;
+        }
         const createdEl = document.getElementById('taskCreated');
         if (createdEl) createdEl.value = new Date().toISOString().split('T')[0];
     }
@@ -3072,10 +3237,29 @@ function openTaskModal(task = null) {
     setBodyModalOpen(true);
     trapFocus(modal);
     setFocusToModal(modal);
+
+    // Start auto-save interval for draft persistence
+    startFormAutoSave();
+
+    // Add input listeners to track dirty state
+    const formInputs = form.querySelectorAll('input, textarea, select');
+    formInputs.forEach(input => {
+        input.addEventListener('input', markFormDirty);
+        input.addEventListener('change', markFormDirty);
+    });
+
     debugLog(task ? '✏️ Task edit modal opened' : '➕ Task creation modal opened');
 }
 
 function closeTaskModal() {
+    // Save draft before closing (only for new tasks with unsaved changes)
+    if (!isEditMode && formIsDirty) {
+        saveFormDraft();
+    }
+
+    // Stop auto-save interval
+    stopFormAutoSave();
+
     const taskNotesEl = document.getElementById('taskNotes');
     const richWrap = document.getElementById('notesRichEditorWrap');
     if (window.TiptapEditor && window.TiptapEditor.hasInstance()) {
@@ -3094,7 +3278,129 @@ function closeTaskModal() {
     if (form) form.reset();
     isEditMode = false;
     formSubtasks = [];
+    formIsDirty = false;
     debugLog('✅ Task modal closed');
+}
+
+// ===== FORM AUTO-SAVE DRAFT MANAGEMENT =====
+// Save form data periodically to prevent data loss when modal is accidentally closed
+
+let formAutoSaveInterval = null;
+let formIsDirty = false;
+const DRAFT_STORAGE_KEY = 'taskFormDraft';
+const DRAFT_MAX_AGE = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const AUTO_SAVE_INTERVAL = 3000; // 3 seconds
+
+/**
+ * Save current form state to localStorage as a draft
+ * Includes all form fields: title, description, priority, category, assignees, tags, due date, notes, subtasks
+ */
+function saveFormDraft() {
+    if (!formIsDirty) {
+        if (debugMode) console.log('⏸️ Form not dirty, skipping draft save');
+        return;
+    }
+
+    const draft = {
+        timestamp: Date.now(),
+        title: document.getElementById('taskTitle')?.value || '',
+        description: document.getElementById('taskDescription')?.value || '',
+        priority: document.getElementById('taskPriority')?.value || '',
+        category: document.getElementById('taskCategory')?.value || '',
+        assignees: document.getElementById('taskAssignee')?.value || '',
+        tags: document.getElementById('taskTags')?.value || '',
+        due: document.getElementById('taskDue')?.value || '',
+        notes: document.getElementById('taskNotes')?.value || '',
+        subtasks: [...formSubtasks]
+    };
+
+    try {
+        localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+        if (debugMode) console.log('💾 Draft saved:', new Date().toISOString());
+    } catch (e) {
+        console.warn('⚠️ Failed to save form draft:', e);
+    }
+}
+
+/**
+ * Load draft from localStorage if it exists and is not expired
+ * @returns {Object|null} Draft object or null if no valid draft found
+ */
+function loadFormDraft() {
+    try {
+        const saved = localStorage.getItem(DRAFT_STORAGE_KEY);
+        if (!saved) return null;
+
+        const draft = JSON.parse(saved);
+
+        // Check if draft is expired (older than 24 hours)
+        if (draft.timestamp && (Date.now() - draft.timestamp) > DRAFT_MAX_AGE) {
+            if (debugMode) console.log('🗑️ Draft expired, clearing...');
+            clearFormDraft();
+            return null;
+        }
+
+        if (debugMode) console.log('📂 Draft loaded, age:', Date.now() - draft.timestamp, 'ms');
+        return draft;
+    } catch (e) {
+        console.warn('⚠️ Failed to load form draft:', e);
+        return null;
+    }
+}
+
+/**
+ * Clear draft from localStorage
+ * Called after successful save, explicit cancel, or when draft expires
+ */
+function clearFormDraft() {
+    try {
+        localStorage.removeItem(DRAFT_STORAGE_KEY);
+        formIsDirty = false;
+        if (debugMode) console.log('🗑️ Draft cleared');
+    } catch (e) {
+        console.warn('⚠️ Failed to clear form draft:', e);
+    }
+}
+
+/**
+ * Start auto-save interval
+ * Saves draft immediately and then every 3 seconds when form is dirty
+ */
+function startFormAutoSave() {
+    // Stop any existing interval first
+    stopFormAutoSave();
+
+    // Save initial state
+    saveFormDraft();
+
+    // Start periodic auto-save
+    formAutoSaveInterval = setInterval(() => {
+        if (formIsDirty) {
+            saveFormDraft();
+        }
+    }, AUTO_SAVE_INTERVAL);
+
+    if (debugMode) console.log('▶️ Form auto-save started');
+}
+
+/**
+ * Stop auto-save interval
+ * Called when form is closed or saved
+ */
+function stopFormAutoSave() {
+    if (formAutoSaveInterval) {
+        clearInterval(formAutoSaveInterval);
+        formAutoSaveInterval = null;
+        if (debugMode) console.log('⏹️ Form auto-save stopped');
+    }
+}
+
+/**
+ * Mark form as dirty (has unsaved changes)
+ * Should be called when any form field changes
+ */
+function markFormDirty() {
+    formIsDirty = true;
 }
 
 // Close topmost modal on Escape (accessibility)
@@ -4435,25 +4741,25 @@ function deleteFromArchive(taskId) {
             }
             
             if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
-                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Rich text library loaded (basic formatting available)</span>';
+                statusEl.innerHTML = '<span class="status-success">✓ Rich text library loaded (basic formatting available)</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
                     modeSelect.value = savedMode;
                 }
             } else if (typeof window.Tiptap !== 'undefined') {
-                statusEl.innerHTML = '<span style="color: #22C55E;">✓ Library loaded. Select Rich Text mode below for basic formatting.</span>';
+                statusEl.innerHTML = '<span class="status-success">✓ Library loaded. Select Rich Text mode below for basic formatting.</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
                     modeSelect.value = savedMode;
                 }
             } else if (window._tiptapLoading) {
-                statusEl.innerHTML = '<span style="color: #f59e0b;">⏳ Loading editor...</span>';
+                statusEl.innerHTML = '<span class="status-warning">⏳ Loading editor...</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'none';
             } else if (FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
-                statusEl.innerHTML = '<span style="color: #ef4444;">⚠️ Failed to load - using plain text</span>';
+                statusEl.innerHTML = '<span class="status-error">⚠️ Failed to load - using plain text</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'none';
             } else {
@@ -5942,6 +6248,8 @@ function deleteFromArchive(taskId) {
                 invalidateFilterCache();
                 initEventDelegation();
                 debouncedAutoSave();
+                clearFormDraft();  // Clear draft after successful save
+                stopFormAutoSave();  // Stop auto-save interval
                 closeTaskModal();  // Close the new task form modal
             });
 
@@ -6905,9 +7213,9 @@ ${t('markdown.archiveSection')}
                 }
 
                 return `
-                <span style="background: ${colors[f.type]}; color: white; padding: 0.35rem 0.75rem; border-radius: 16px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500;">
+                <span class="filter-badge" style="background: ${colors[f.type]};">
                     ${displayPriority(displayValue)}
-                    <button onclick="removeFilter(${idx})" style="background: none; border: none; color: white; cursor: pointer; padding: 0; font-weight: bold; font-size: 1.1rem; line-height: 1;" title="Remove this filter">✕</button>
+                    <button onclick="removeFilter(${idx})" class="filter-badge__remove" title="Remove this filter">✕</button>
                 </span>
                 `;
             }).join('');
@@ -6960,13 +7268,13 @@ ${t('markdown.archiveSection')}
             const modal = document.getElementById('columnsModal');
             const list = document.getElementById('columnsList');
             list.innerHTML = config.columns.map((col, idx) => `
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 6px; align-items: center;">
-                    <div style="display: flex; gap: 0.25rem;">
-                        <button onclick="moveColumn(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveUp')}">↑</button>
-                        <button onclick="moveColumn(${idx}, 1)" ${idx === config.columns.length - 1 ? 'disabled' : ''} class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" title="${t('action.moveDown')}">↓</button>
+                <div class="column-editor__row">
+                    <div class="column-editor__controls">
+                        <button onclick="moveColumn(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} class="btn btn-secondary column-editor__btn" title="${t('action.moveUp')}">↑</button>
+                        <button onclick="moveColumn(${idx}, 1)" ${idx === config.columns.length - 1 ? 'disabled' : ''} class="btn btn-secondary column-editor__btn" title="${t('action.moveDown')}">↓</button>
                     </div>
-                    <input type="text" value="${col.name}" onchange="updateColumn(${idx}, 'name', this.value)" style="flex: 1; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;">
-                    <input type="text" value="${col.id}" onchange="updateColumn(${idx}, 'id', this.value)" style="width: 120px; padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;" placeholder="ID">
+                    <input type="text" value="${col.name}" onchange="updateColumn(${idx}, 'name', this.value)" class="column-editor__input">
+                    <input type="text" value="${col.id}" onchange="updateColumn(${idx}, 'id', this.value)" class="column-editor__input column-editor__input--id" placeholder="ID">
                     <button onclick="deleteColumn(${idx})" class="btn btn-secondary" style="padding: 0.5rem;">🗑️</button>
                 </div>
             `).join('');
@@ -7023,10 +7331,10 @@ ${t('markdown.archiveSection')}
             const list = document.getElementById('formSubtasksList');
             if (!list) return;
             list.innerHTML = formSubtasks.map((st, idx) => `
-                <li style="padding: 0.5rem; margin-bottom: 0.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px; display: flex; align-items: center; gap: 0.5rem;">
-                    <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="toggleFormSubtask(${idx})" style="width: 16px; height: 16px; cursor: pointer;">
-                        <span style="flex: 1; ${st.completed ? 'text-decoration: line-through; color: var(--text-secondary);' : ''}">${escapeHtml(st.text)}</span>
-                    <button type="button" onclick="removeFormSubtask(${idx})" style="background: none; border: none; cursor: pointer; color: #e53e3e; font-size: 1rem;">🗑️</button>
+                <li class="form-subtask__item">
+                    <input type="checkbox" ${st.completed ? 'checked' : ''} onchange="toggleFormSubtask(${idx})" class="form-subtask__checkbox">
+                        <span class="form-subtask__text ${st.completed ? 'form-subtask__text--completed' : ''}">${escapeHtml(st.text)}</span>
+                    <button type="button" onclick="removeFormSubtask(${idx})" class="form-subtask__remove">🗑️</button>
                 </li>
             `).join('');
         }
@@ -7037,12 +7345,14 @@ ${t('markdown.archiveSection')}
             if (!text) return;
             formSubtasks.push({ completed: false, text });
             input.value = '';
+            markFormDirty();
             renderFormSubtasks();
         }
 
         function toggleFormSubtask(idx) {
             if (formSubtasks[idx]) {
                 formSubtasks[idx].completed = !formSubtasks[idx].completed;
+                markFormDirty();
                 renderFormSubtasks();
             }
         }
@@ -7050,6 +7360,7 @@ ${t('markdown.archiveSection')}
         function removeFormSubtask(idx) {
             if (formSubtasks[idx]) {
                 formSubtasks.splice(idx, 1);
+                markFormDirty();
                 renderFormSubtasks();
             }
         }
@@ -7842,22 +8153,22 @@ ${t('markdown.archiveSection')}
             list.innerHTML = filtered.map(task => {
                 const safeId = escapeJsString(task.id);
                 return `
-                <div style="background: var(--bg-secondary); border: 2px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <div class="archive-item">
+                    <div class="archive-item__header">
                         <div>
-                            <span style="background: var(--text-secondary); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${escapeHtml(task.id)}</span>
-                            <strong style="margin-left: 0.5rem; font-size: 1.1rem;">${escapeHtml(task.title)}</strong>
+                            <span class="archive-item__id">${escapeHtml(task.id)}</span>
+                            <strong class="archive-item__title">${escapeHtml(task.title)}</strong>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="deleteTask('${safeId}', true)" aria-label="Delete task permanently" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; background: #ef4444; color: white;">🗑️</button>
-                            <button onclick="unarchiveTask('${safeId}')" aria-label="Restore task" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">${t('action.restore')}</button>
+                        <div class="archive-item__actions">
+                            <button onclick="deleteTask('${safeId}', true)" aria-label="Delete task permanently" class="btn btn-secondary archive-item__btn archive-item__btn--delete">🗑️</button>
+                            <button onclick="unarchiveTask('${safeId}')" aria-label="Restore task" class="btn btn-primary archive-item__btn">${t('action.restore')}</button>
                         </div>
                     </div>
                     ${task.description ? `<p style="color: var(--text-secondary); margin: 0.5rem 0;">${markdownToHtml(task.description)}</p>` : ''}
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                        ${task.priority ? `<span style="background: #fbbf24; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${escapeHtml(displayPriority(task.priority))}</span>` : ''}
-                        ${task.category ? `<span style="background: #8b5cf6; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${escapeHtml(task.category)}</span>` : ''}
-                        ${task.tags.map(t => `<span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">${escapeHtml(t)}</span>`).join('')}
+                    <div class="archive-item__meta">
+                        ${task.priority ? `<span class="archive-item__tag" style="background: #fbbf24;">${escapeHtml(displayPriority(task.priority))}</span>` : ''}
+                        ${task.category ? `<span class="archive-item__tag" style="background: #8b5cf6;">${escapeHtml(task.category)}</span>` : ''}
+                        ${task.tags.map(t => `<span class="archive-item__tag" style="background: #3b82f6;">${escapeHtml(t)}</span>`).join('')}
                     </div>
                 </div>
             `;
