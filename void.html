@@ -3631,13 +3631,18 @@ function closeAboutModal() {
 
 // Populate experimental features section based on current branch
 function populateExperimentalFeatures() {
+    console.log('[Features] Populating experimental features...');
     const section = document.getElementById('experimentalFeaturesSection');
     const list = document.getElementById('experimentalFeaturesList');
     const title = document.getElementById('experimentalFeaturesTitle');
     
-    if (!section || !list) return;
+    if (!section || !list) {
+        console.warn('[Features] Section or list element not found');
+        return;
+    }
     
     const visibleFeatures = getVisibleFeatures();
+    console.log('[Features] Visible features:', visibleFeatures.map(f => `${f.flagName} (${f.key}): ${f.enabled}`));
     
     if (visibleFeatures.length === 0) {
         section.style.display = 'none';
@@ -3655,11 +3660,9 @@ function populateExperimentalFeatures() {
     }
     
     // Build the feature list HTML
-    // Note: feature.flagName is the full flag name (e.g., 'ENABLE_RICH_TEXT_EDITOR')
-    // feature.key is the short key (e.g., 'featureRichText') used for element IDs
     list.innerHTML = visibleFeatures.map(feature => {
-        const flagName = feature.key; // This is actually the flag name from Object.entries
-        const shortKey = FEATURE_FLAGS[flagName]?.key || flagName; // Get the short key for ID
+        const flagName = feature.flagName;  // Full flag name like 'ENABLE_RICH_TEXT_EDITOR'
+        const shortKey = feature.key;        // Short key like 'featureRichText'
         const isEnabled = FEATURE_FLAGS[flagName]?.enabled || false;
         return `
         <div class="setting-row">
@@ -3682,10 +3685,15 @@ function populateExperimentalFeatures() {
     // Attach event listeners to toggle switches
     list.querySelectorAll('.toggle-switch').forEach(toggle => {
         const featureKey = toggle.dataset.feature;
-        toggle.addEventListener('click', () => toggleFeature(featureKey));
+        console.log(`[Features] Attaching listener to ${toggle.id} for flag: ${featureKey}`);
+        toggle.addEventListener('click', () => {
+            console.log(`[Features] Toggle clicked: ${featureKey}`);
+            toggleFeature(featureKey);
+        });
         toggle.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
+                console.log(`[Features] Toggle key pressed: ${featureKey}`);
                 toggleFeature(featureKey);
             }
         });
@@ -5727,7 +5735,10 @@ function deleteFromArchive(taskId) {
         function getVisibleFeatures() {
             return Object.entries(FEATURE_FLAGS)
                 .filter(([_, config]) => isFeatureVisibleForBranch(config))
-                .map(([key, config]) => ({ key, ...config }));
+                .map(([flagName, config]) => ({ 
+                    flagName: flagName,  // Full flag name like 'ENABLE_RICH_TEXT_EDITOR'
+                    ...config             // Includes short key: 'featureRichText'
+                }));
         }
 
         // Toggle a specific feature flag
