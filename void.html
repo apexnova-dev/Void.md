@@ -709,89 +709,119 @@
         }
 
         /* ========================================
-           NEON CITY - DARK MODE KANBAN COLUMNS (Multi-Color)
+           NEON CITY - DARK MODE KANBAN COLUMNS (Multi-Color by Position)
            ======================================== */
 
-        /* Column 1: Cyan */
-        [data-theme="dark"] .kanban-column[data-column-id="todo"] {
+        /* Column 1st child: Cyan */
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1) {
             border-color: #00f2ff;
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="todo"]::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1)::before {
             background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="todo"] .column-header {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1) .column-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="todo"] .column-title::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1) .column-title::before {
             content: '> ';
             color: #00f2ff;
         }
 
-        /* Column 2: Magenta */
-        [data-theme="dark"] .kanban-column[data-column-id="in-progress"] {
+        /* Column 2nd child: Magenta */
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2) {
             border-color: #ff00ea;
             box-shadow: 0 0 20px rgba(255, 0, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="in-progress"]::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2)::before {
             background: linear-gradient(90deg, #ff00ea, #00f2ff, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="in-progress"] .column-header {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2) .column-header {
             background: linear-gradient(90deg, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="in-progress"] .column-title::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2) .column-title::before {
             content: '> ';
             color: #ff00ea;
         }
 
-        /* Column 3: Purple */
-        [data-theme="dark"] .kanban-column[data-column-id="review"] {
+        /* Column 3rd child: Purple */
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3) {
             border-color: #7b2eff;
             box-shadow: 0 0 20px rgba(123, 46, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="review"]::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3)::before {
             background: linear-gradient(90deg, #7b2eff, #ff00ea, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="review"] .column-header {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3) .column-header {
             background: linear-gradient(90deg, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="review"] .column-title::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3) .column-title::before {
             content: '> ';
             color: #7b2eff;
         }
 
-        /* Column 4: Back to Cyan */
-        [data-theme="dark"] .kanban-column[data-column-id="done"] {
+        /* Column 4th+ child: Cycle back to Cyan, Magenta, Purple */
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4) {
             border-color: #00f2ff;
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="done"]::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4)::before {
             background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="done"] .column-header {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4) .column-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-column[data-column-id="done"] .column-title::before {
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4) .column-title::before {
             content: '> ';
             color: #00f2ff;
         }
 
-        /* Generic column fallback */
-        [data-theme="dark"] .kanban-column:not([data-column-id]) {
-            border-color: #00f2ff;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5) {
+            border-color: #ff00ea;
+            box-shadow: 0 0 20px rgba(255, 0, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5)::before {
+            background: linear-gradient(90deg, #ff00ea, #00f2ff, #7b2eff, #ff00ea);
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5) .column-header {
+            background: linear-gradient(90deg, #ff00ea, #00f2ff);
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5) .column-title::before {
+            content: '> ';
+            color: #ff00ea;
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6) {
+            border-color: #7b2eff;
+            box-shadow: 0 0 20px rgba(123, 46, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6)::before {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea, #00f2ff, #7b2eff);
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6) .column-header {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+        }
+
+        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6) .column-title::before {
+            content: '> ';
+            color: #7b2eff;
         }
 
         /* ========================================
@@ -3762,9 +3792,21 @@ function openTaskModal(task = null) {
     // Populate priorities dropdown from config (when helpers available; else keep default HTML options)
     const taskPriority = document.getElementById('taskPriority');
     if (taskPriority && config.priorities && config.priorities.length > 0 && typeof clean === 'function' && typeof displayPriority === 'function') {
-        taskPriority.innerHTML = config.priorities.map(priority =>
-            `<option value="${escapeHtml(clean(priority))}">${escapeHtml(displayPriority(priority))}</option>`
-        ).join('');
+        const priorityOptions = config.priorities.map(priority => {
+            const cleanedValue = clean(priority);
+            const displayText = displayPriority(priority);
+            return `<option value="${escapeHtml(cleanedValue)}">${escapeHtml(displayText)}</option>`;
+        }).join('');
+        taskPriority.innerHTML = priorityOptions;
+        
+        // Debug logging
+        if (debugMode) {
+            console.log('📋 Priority dropdown populated:', config.priorities.map(p => ({
+                original: p,
+                cleaned: clean(p),
+                display: displayPriority(p)
+            })));
+        }
     }
 
     if (typeof updateAutocomplete === 'function') updateAutocomplete();
@@ -3773,7 +3815,19 @@ function openTaskModal(task = null) {
         document.getElementById('taskEditId').value = task.id;
         document.getElementById('taskTitle').value = task.title || '';
         document.getElementById('taskStatus').value = task.status || '';
-        document.getElementById('taskPriority').value = task.priority || '';
+        
+        // Set priority with debugging
+        const priorityValue = task.priority || '';
+        const prioritySelect = document.getElementById('taskPriority');
+        if (prioritySelect) {
+            prioritySelect.value = priorityValue;
+            if (debugMode) {
+                console.log('🎯 Setting priority value:', priorityValue);
+                console.log('🎯 Priority select options:', Array.from(prioritySelect.options).map(o => o.value));
+                console.log('🎯 Priority matched:', prioritySelect.value === priorityValue);
+            }
+        }
+        
         document.getElementById('taskCategory').value = task.category || '';
         document.getElementById('taskAssignee').value = (task.assignees && task.assignees.length) ? task.assignees.join(', ') : '';
         document.getElementById('taskCreated').value = task.created || '';
