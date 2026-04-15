@@ -709,6 +709,92 @@
         }
 
         /* ========================================
+           NEON CITY - DARK MODE KANBAN COLUMNS (Multi-Color)
+           ======================================== */
+
+        /* Column 1: Cyan */
+        [data-theme="dark"] .kanban-column[data-column-id="todo"] {
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="todo"]::before {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="todo"] .column-header {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="todo"] .column-title::before {
+            content: '> ';
+            color: #00f2ff;
+        }
+
+        /* Column 2: Magenta */
+        [data-theme="dark"] .kanban-column[data-column-id="in-progress"] {
+            border-color: #ff00ea;
+            box-shadow: 0 0 20px rgba(255, 0, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="in-progress"]::before {
+            background: linear-gradient(90deg, #ff00ea, #00f2ff, #7b2eff, #ff00ea);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="in-progress"] .column-header {
+            background: linear-gradient(90deg, #ff00ea, #00f2ff);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="in-progress"] .column-title::before {
+            content: '> ';
+            color: #ff00ea;
+        }
+
+        /* Column 3: Purple */
+        [data-theme="dark"] .kanban-column[data-column-id="review"] {
+            border-color: #7b2eff;
+            box-shadow: 0 0 20px rgba(123, 46, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="review"]::before {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea, #00f2ff, #7b2eff);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="review"] .column-header {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="review"] .column-title::before {
+            content: '> ';
+            color: #7b2eff;
+        }
+
+        /* Column 4: Back to Cyan */
+        [data-theme="dark"] .kanban-column[data-column-id="done"] {
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="done"]::before {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="done"] .column-header {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+        }
+
+        [data-theme="dark"] .kanban-column[data-column-id="done"] .column-title::before {
+            content: '> ';
+            color: #00f2ff;
+        }
+
+        /* Generic column fallback */
+        [data-theme="dark"] .kanban-column:not([data-column-id]) {
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ========================================
            NEON CITY - DARK MODE TASK CARDS
            ======================================== */
         [data-theme="dark"] .task-card {
@@ -4841,7 +4927,7 @@ function deleteFromArchive(taskId) {
         // Clean function
         function clean(text) {
             // Remove any non-alphanumeric characters (emojis, symbols, etc.)
-            return text.replace(/[^\w\s]+/, '').trim();
+            return text.replace(/[^\w\s]+/g, '').trim();
         }
 
         // Get first emoji from text
