@@ -4108,40 +4108,92 @@ function openTaskModal(task = null) {
         console.warn('localStorage read failed:', e);
     }
     const Tiptap = window.Tiptap || window['@tiptap/core'];
-    const useRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled &&
-        editorMode === 'rich' &&
-        typeof Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
+    const wantsRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled && editorMode === 'rich';
+    const tiptapReady = typeof Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
+    const useRich = wantsRich && tiptapReady;
     
-    debugLog(`📝 Task modal opening: useRich=${useRich}, editorMode=${editorMode}, Tiptap=${typeof Tiptap}, TiptapEditor=${typeof window.TiptapEditor}`);
+    debugLog(`📝 Task modal opening: wantsRich=${wantsRich}, tiptapReady=${tiptapReady}, useRich=${useRich}, editorMode=${editorMode}`);
     
     // Show appropriate editor based on mode
     if (taskNotesEl) taskNotesEl.style.display = useRich ? 'none' : 'block';
-    if (richWrap) richWrap.style.display = useRich ? 'block' : 'none';
+    if (richWrap) richWrap.style.display = useRich || (wantsRich && !tiptapReady) ? 'block' : 'none';
     
-    // Initialize rich text editor if needed
-    if (useRich && window.TiptapEditor) {
-        // Show loading state
+    // Handle rich text editor
+    if (wantsRich) {
         const container = document.getElementById('tiptapContainer');
-        if (container) {
-            container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);"><div style="font-size: 2rem; margin-bottom: 0.5rem;">🔄</div><div>Loading editor...</div></div>';
-        }
         
-        debugLog('📝 Creating Tiptap editor...');
-        const created = window.TiptapEditor.create('tiptapContainer');
-        debugLog(`📝 Tiptap editor created: ${created}`);
-        
-        if (created) {
-            const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
-            window.TiptapEditor.setMarkdown(notesMd);
-            debugLog('✅ Tiptap editor initialized successfully');
+        if (tiptapReady && window.TiptapEditor) {
+            // Tiptap is ready - initialize editor
+            if (container) {
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);"><div style="font-size: 2rem; margin-bottom: 0.5rem;">🔄</div><div>Loading editor...</div></div>';
+            }
+            
+            debugLog('📝 Creating Tiptap editor...');
+            const created = window.TiptapEditor.create('tiptapContainer');
+            debugLog(`📝 Tiptap editor created: ${created}`);
+            
+            if (created) {
+                const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
+                window.TiptapEditor.setMarkdown(notesMd);
+                debugLog('✅ Tiptap editor initialized successfully');
+            } else {
+                // Fallback to plain text with notification
+                if (taskNotesEl) taskNotesEl.style.display = 'block';
+                if (richWrap) richWrap.style.display = 'none';
+                showNotification('⚠️ Rich text editor failed to load. Using plain text.', 'warning', 5000);
+                debugLog('❌ Tiptap editor creation failed, fell back to plain text');
+            }
+        } else if (window._tiptapLoading) {
+            // Tiptap is loading - show loading state and wait
+            if (container) {
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);"><div style="font-size: 2rem; margin-bottom: 0.5rem; animation: spin 1s linear infinite;">🔄</div><div>Loading rich text editor...</div><div style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-muted);">This may take a few seconds</div></div>';
+            }
+            showNotification('Loading rich text editor... Please wait', 'info', 3000);
+            
+            // Wait for Tiptap to load then initialize
+            loadTiptapLibrary().then(() => {
+                debugLog('✅ Tiptap loaded in background, creating editor...');
+                if (window.TiptapEditor && document.getElementById('newTaskModal')?.classList.contains('active')) {
+                    const created = window.TiptapEditor.create('tiptapContainer');
+                    if (created) {
+                        const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
+                        window.TiptapEditor.setMarkdown(notesMd);
+                        showNotification('✅ Rich text editor ready!', 'success', 2000);
+                    }
+                }
+            }).catch((err) => {
+                console.error('Failed to load Tiptap:', err);
+                if (taskNotesEl) taskNotesEl.style.display = 'block';
+                if (richWrap) richWrap.style.display = 'none';
+                showNotification('⚠️ Rich text editor failed to load. Using plain text.', 'error', 5000);
+            });
         } else {
-            // Fallback to plain text with notification
-            if (taskNotesEl) taskNotesEl.style.display = 'block';
-            if (richWrap) richWrap.style.display = 'none';
-            showNotification('⚠️ Rich text editor failed to load. Using plain text.', 'warning', 5000);
-            debugLog('❌ Tiptap editor creation failed, fell back to plain text');
+            // Tiptap not loaded and not loading - trigger load
+            if (container) {
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);"><div style="font-size: 2rem; margin-bottom: 0.5rem; animation: spin 1s linear infinite;">🔄</div><div>Loading rich text editor...</div><div style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-muted);">First time initialization</div></div>';
+            }
+            showNotification('Loading rich text editor... Please wait', 'info', 3000);
+            
+            // Load Tiptap and initialize
+            loadTiptapLibrary().then(() => {
+                debugLog('✅ Tiptap loaded, creating editor...');
+                if (window.TiptapEditor && document.getElementById('newTaskModal')?.classList.contains('active')) {
+                    const created = window.TiptapEditor.create('tiptapContainer');
+                    if (created) {
+                        const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
+                        window.TiptapEditor.setMarkdown(notesMd);
+                        showNotification('✅ Rich text editor ready!', 'success', 2000);
+                    }
+                }
+            }).catch((err) => {
+                console.error('Failed to load Tiptap:', err);
+                if (taskNotesEl) taskNotesEl.style.display = 'block';
+                if (richWrap) richWrap.style.display = 'none';
+                showNotification('⚠️ Rich text editor failed to load. Using plain text.', 'error', 5000);
+            });
         }
     } else if (window.TiptapEditor && window.TiptapEditor.hasInstance()) {
+        // Switching from rich to plain - destroy editor instance
         window.TiptapEditor.destroy();
     }
 
