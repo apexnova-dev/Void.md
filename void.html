@@ -14,7 +14,9 @@
         (function () {
             try {
                 var t = localStorage.getItem('preferredTheme');
-                document.documentElement.setAttribute('data-theme', (t === 'light' || t === 'dark') ? t : 'dark');
+                // Support three themes: light, dark, neon
+                var validThemes = ['light', 'dark', 'neon'];
+                document.documentElement.setAttribute('data-theme', validThemes.includes(t) ? t : 'dark');
             } catch (e) {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
@@ -61,29 +63,29 @@
             --priority-black: #1F2937;
         }
 
-        /* Dark theme - rich and dimensional */
+        /* Dark theme - rich and dimensional (standard dark mode) */
         [data-theme="dark"] {
             /* Background layers - creating depth from darkest to lightest */
-            --bg-primary: #0a0a0a;           /* Main background - darkest */
-            --bg-secondary: #141414;         /* Header - slightly lighter */
-            --bg-tertiary: #1a1a1a;          /* Secondary surfaces */
-            --surface-column: #1e1e1e;       /* Kanban columns - distinct from bg */
-            --surface-card: #252525;         /* Task cards - lighter than columns */
-            --surface-modal: #2a2a2a;        /* Modals - distinct and elevated */
+            --bg-primary: #1a1a1a;           /* Main background */
+            --bg-secondary: #252525;         /* Header */
+            --bg-tertiary: #2d2d2d;          /* Secondary surfaces */
+            --surface-column: #333333;       /* Kanban columns */
+            --surface-card: #3a3a3a;         /* Task cards */
+            --surface-modal: #404040;        /* Modals */
 
             /* Borders - visible but subtle */
-            --border-color: #333333;         /* Primary borders */
-            --border-subtle: #2a2a2a;        /* Subtle borders */
+            --border-color: #4a4a4a;         /* Primary borders */
+            --border-subtle: #3a3a3a;        /* Subtle borders */
 
             /* Text - clear hierarchy */
             --text-primary: #e5e5e5;         /* Primary text - bright white */
             --text-secondary: #a0a0a0;       /* Secondary text - muted */
             --text-muted: #666666;           /* Muted text - very subtle */
 
-            /* Accent — Neon City (cyan/magenta soul) */
-            --accent: #00d4e8;
-            --accent-hover: #33e8ff;
-            --accent-subtle: #1a3a42;
+            /* Accent - Standard blue (not neon) */
+            --accent: #2196F3;
+            --accent-hover: #1976D2;
+            --accent-subtle: #1e3a5f;
 
             /* Shadows - more pronounced for dark mode depth */
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
@@ -102,6 +104,49 @@
             --priority-purple: #c084fc;
             --priority-white: #d4d4d8;
             --priority-black: #27272a;
+        }
+
+        /* Neon City theme - cyberpunk aesthetic */
+        [data-theme="neon"] {
+            /* Background layers - cyberpunk dark */
+            --bg-primary: #0a0b10;           /* Main background - deep black */
+            --bg-secondary: #0f1117;         /* Header */
+            --bg-tertiary: #14161d;          /* Secondary surfaces */
+            --surface-column: #0a0b10;       /* Kanban columns */
+            --surface-card: #0f1117;         /* Task cards */
+            --surface-modal: #0a0b10;        /* Modals */
+
+            /* Borders - neon colored */
+            --border-color: #00f2ff;         /* Cyan primary borders */
+            --border-subtle: #1a1a2e;        /* Subtle borders */
+
+            /* Text - clear hierarchy */
+            --text-primary: #e0e0e0;         /* Primary text */
+            --text-secondary: #a0a0a0;       /* Secondary text */
+            --text-muted: #666666;           /* Muted text */
+
+            /* Accent - Neon City colors */
+            --accent: #00f2ff;               /* Cyan */
+            --accent-hover: #33e8ff;         /* Bright cyan */
+            --accent-subtle: #1a3a42;
+
+            /* Shadows - neon glow effects */
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+            --shadow: 0 2px 4px rgba(0,0,0,0.5);
+            --shadow-md: 0 0 20px rgba(0, 242, 255, 0.15);
+            --shadow-lg: 0 0 30px rgba(0, 242, 255, 0.2);
+            --shadow-hover: 0 0 15px rgba(0, 242, 255, 0.3);
+
+            /* Priority colors - neon versions */
+            --priority-default: #888888;
+            --priority-red: #ff00ea;         /* Magenta */
+            --priority-orange: #ff6600;
+            --priority-yellow: #facc15;
+            --priority-green: #00f2ff;       /* Cyan */
+            --priority-blue: #00f2ff;
+            --priority-purple: #7b2eff;      /* Purple */
+            --priority-white: #e5e7eb;
+            --priority-black: #1f2937;
         }
 
         /* Smooth transitions for theme switching */
@@ -556,7 +601,7 @@
         }
 
         /* Neon gradient border effect */
-        [data-theme="dark"] .kanban-column::before {
+        [data-theme="neon"] .kanban-column::before {
             content: '';
             position: absolute;
             top: 0;
@@ -573,7 +618,7 @@
             100% { background-position: 300% 50%; }
         }
 
-        [data-theme="dark"] .column-header {
+        [data-theme="neon"] .column-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
             color: #000;
             padding: 10px 14px;
@@ -585,7 +630,7 @@
         }
 
         /* Subtle glow under header */
-        [data-theme="dark"] .column-header::after {
+        [data-theme="neon"] .column-header::after {
             content: '';
             position: absolute;
             bottom: -10px;
@@ -595,7 +640,7 @@
             background: linear-gradient(180deg, rgba(0, 242, 255, 0.3), transparent);
         }
 
-        [data-theme="dark"] .column-title {
+        [data-theme="neon"] .column-title {
             color: #000;
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
             font-weight: 700;
@@ -605,12 +650,12 @@
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
         }
 
-        [data-theme="dark"] .column-title::before {
+        [data-theme="neon"] .column-title::before {
             content: '> ';
             opacity: 0.6;
         }
 
-        [data-theme="dark"] .column-count {
+        [data-theme="neon"] .column-count {
             background: rgba(0, 0, 0, 0.25);
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
@@ -624,29 +669,29 @@
             background: transparent;
         }
 
-        [data-theme="dark"] .task-list::-webkit-scrollbar {
+        [data-theme="neon"] .task-list::-webkit-scrollbar {
             width: 6px;
         }
 
-        [data-theme="dark"] .task-list::-webkit-scrollbar-track {
+        [data-theme="neon"] .task-list::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 3px;
             margin: 4px;
         }
 
-        [data-theme="dark"] .task-list::-webkit-scrollbar-thumb {
+        [data-theme="neon"] .task-list::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #00f2ff, #7b2eff);
             border-radius: 3px;
             box-shadow: 0 0 8px rgba(0, 242, 255, 0.5);
         }
 
-        [data-theme="dark"] .task-list::-webkit-scrollbar-thumb:hover {
+        [data-theme="neon"] .task-list::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(180deg, #7b2eff, #ff00ea);
             box-shadow: 0 0 12px rgba(123, 46, 255, 0.7);
         }
 
         /* Empty state in dark mode */
-        [data-theme="dark"] .empty-state {
+        [data-theme="neon"] .empty-state {
             color: #555;
             font-style: italic;
             text-align: center;
@@ -713,113 +758,113 @@
            ======================================== */
 
         /* Column 1st child: Cyan */
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1) {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(1) {
             border-color: #00f2ff;
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1)::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(1)::before {
             background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1) .column-header {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(1) .column-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(1) .column-title::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(1) .column-title::before {
             content: '> ';
             color: #00f2ff;
         }
 
         /* Column 2nd child: Magenta */
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2) {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(2) {
             border-color: #ff00ea;
             box-shadow: 0 0 20px rgba(255, 0, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2)::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(2)::before {
             background: linear-gradient(90deg, #ff00ea, #00f2ff, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2) .column-header {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(2) .column-header {
             background: linear-gradient(90deg, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(2) .column-title::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(2) .column-title::before {
             content: '> ';
             color: #ff00ea;
         }
 
         /* Column 3rd child: Purple */
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3) {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(3) {
             border-color: #7b2eff;
             box-shadow: 0 0 20px rgba(123, 46, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3)::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(3)::before {
             background: linear-gradient(90deg, #7b2eff, #ff00ea, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3) .column-header {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(3) .column-header {
             background: linear-gradient(90deg, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(3) .column-title::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(3) .column-title::before {
             content: '> ';
             color: #7b2eff;
         }
 
         /* Column 4th+ child: Cycle back to Cyan, Magenta, Purple */
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4) {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(4) {
             border-color: #00f2ff;
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4)::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(4)::before {
             background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4) .column-header {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(4) .column-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(4) .column-title::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(4) .column-title::before {
             content: '> ';
             color: #00f2ff;
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5) {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(5) {
             border-color: #ff00ea;
             box-shadow: 0 0 20px rgba(255, 0, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5)::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(5)::before {
             background: linear-gradient(90deg, #ff00ea, #00f2ff, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5) .column-header {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(5) .column-header {
             background: linear-gradient(90deg, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(5) .column-title::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(5) .column-title::before {
             content: '> ';
             color: #ff00ea;
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6) {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(6) {
             border-color: #7b2eff;
             box-shadow: 0 0 20px rgba(123, 46, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6)::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(6)::before {
             background: linear-gradient(90deg, #7b2eff, #ff00ea, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6) .column-header {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(6) .column-header {
             background: linear-gradient(90deg, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .kanban-board .kanban-column:nth-child(6) .column-title::before {
+        [data-theme="neon"] .kanban-board .kanban-column:nth-child(6) .column-title::before {
             content: '> ';
             color: #7b2eff;
         }
@@ -827,7 +872,7 @@
         /* ========================================
            NEON CITY - DARK MODE TASK CARDS
            ======================================== */
-        [data-theme="dark"] .task-card {
+        [data-theme="neon"] .task-card {
             background: #0f1117;
             border: 1px solid #333;
             border-radius: 6px;
@@ -840,14 +885,14 @@
         }
 
         /* Neon border glow on hover */
-        [data-theme="dark"] .task-card:hover {
+        [data-theme="neon"] .task-card:hover {
             border-color: #00f2ff;
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.3), 0 4px 8px rgba(0, 0, 0, 0.4);
             transform: translateY(-2px);
         }
 
         /* Subtle left border accent */
-        [data-theme="dark"] .task-card::before {
+        [data-theme="neon"] .task-card::before {
             content: '';
             position: absolute;
             left: 0;
@@ -858,12 +903,12 @@
             transition: background 0.2s ease;
         }
 
-        [data-theme="dark"] .task-card:hover::before {
+        [data-theme="neon"] .task-card:hover::before {
             background: linear-gradient(180deg, #00f2ff, #7b2eff);
         }
 
         /* Dragging State - Neon glow effect */
-        [data-theme="dark"] .task-card.dragging {
+        [data-theme="neon"] .task-card.dragging {
             opacity: 0.8;
             border-color: #00f2ff;
             box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
@@ -871,7 +916,7 @@
         }
 
         /* Focus State - Cyan outline glow */
-        [data-theme="dark"] .task-card:focus-visible {
+        [data-theme="neon"] .task-card:focus-visible {
             outline: 2px solid #00f2ff;
             outline-offset: 2px;
             border-color: #00f2ff;
@@ -879,14 +924,14 @@
         }
 
         /* Task Card Header - Dark Mode */
-        [data-theme="dark"] .task-header {
+        [data-theme="neon"] .task-header {
             display: flex;
             justify-content: space-between;
             align-items: start;
             margin-bottom: 8px;
         }
 
-        [data-theme="dark"] .task-title {
+        [data-theme="neon"] .task-title {
             color: #e0e0e0;
             font-size: 0.95rem;
             font-weight: 500;
@@ -894,7 +939,7 @@
         }
 
         /* Task Meta & Badges - Dark Mode */
-        [data-theme="dark"] .task-meta {
+        [data-theme="neon"] .task-meta {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
@@ -902,7 +947,7 @@
         }
 
         /* Priority badges with neon colors */
-        [data-theme="dark"] .badge-priority {
+        [data-theme="neon"] .badge-priority {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -913,26 +958,26 @@
             background: transparent;
         }
 
-        [data-theme="dark"] .badge-priority-high {
+        [data-theme="neon"] .badge-priority-high {
             color: #ff00ea;
             border-color: #ff00ea;
             box-shadow: 0 0 5px rgba(255, 0, 234, 0.3);
         }
 
-        [data-theme="dark"] .badge-priority-medium {
+        [data-theme="neon"] .badge-priority-medium {
             color: #00f2ff;
             border-color: #00f2ff;
             box-shadow: 0 0 5px rgba(0, 242, 255, 0.3);
         }
 
-        [data-theme="dark"] .badge-priority-low {
+        [data-theme="neon"] .badge-priority-low {
             color: #7b2eff;
             border-color: #7b2eff;
             box-shadow: 0 0 5px rgba(123, 46, 255, 0.3);
         }
 
         /* Category badge - Dark Mode */
-        [data-theme="dark"] .badge-category {
+        [data-theme="neon"] .badge-category {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             padding: 2px 8px;
@@ -943,7 +988,7 @@
         }
 
         /* Tags - Dark Mode */
-        [data-theme="dark"] .tag {
+        [data-theme="neon"] .tag {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             padding: 2px 8px;
@@ -1827,43 +1872,43 @@
         }
 
         /* Modal-specific accent colors - each modal gets its own identity */
-        [data-theme="dark"] .modal-content--settings {
+        [data-theme="neon"] .modal-content--settings {
             border-color: #7b2eff;
             box-shadow: 0 0 30px rgba(123, 46, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--task-detail {
+        [data-theme="neon"] .modal-content--task-detail {
             border-color: #ff00ea;
             box-shadow: 0 0 30px rgba(255, 0, 234, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--task-form {
+        [data-theme="neon"] .modal-content--task-form {
             border-color: #00f2ff;
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--columns {
+        [data-theme="neon"] .modal-content--columns {
             border-color: #00f2ff;
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--archive {
+        [data-theme="neon"] .modal-content--archive {
             border-color: #7b2eff;
             box-shadow: 0 0 30px rgba(123, 46, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--settings,
-        [data-theme="dark"] .modal-content--task-detail,
-        [data-theme="dark"] .modal-content--task-form,
-        [data-theme="dark"] .modal-content--columns,
-        [data-theme="dark"] .modal-content--archive {
+        [data-theme="neon"] .modal-content--settings,
+        [data-theme="neon"] .modal-content--task-detail,
+        [data-theme="neon"] .modal-content--task-form,
+        [data-theme="neon"] .modal-content--columns,
+        [data-theme="neon"] .modal-content--archive {
             border: 1px solid;
             border-radius: 8px;
             max-width: 600px;
             margin: 5% auto;
         }
 
-        [data-theme="dark"] .modal-header {
+        [data-theme="neon"] .modal-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
             color: #000;
             padding: 8px 15px;
@@ -1874,21 +1919,21 @@
         }
 
         /* Modal-specific header gradients - match border accent */
-        [data-theme="dark"] .modal-content--settings .modal-header,
-        [data-theme="dark"] .modal-content--archive .modal-header {
+        [data-theme="neon"] .modal-content--settings .modal-header,
+        [data-theme="neon"] .modal-content--archive .modal-header {
             background: linear-gradient(90deg, #7b2eff, #ff00ea);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .modal-header {
+        [data-theme="neon"] .modal-content--task-detail .modal-header {
             background: linear-gradient(90deg, #ff00ea, #00f2ff);
         }
 
-        [data-theme="dark"] .modal-content--task-form .modal-header,
-        [data-theme="dark"] .modal-content--columns .modal-header {
+        [data-theme="neon"] .modal-content--task-form .modal-header,
+        [data-theme="neon"] .modal-content--columns .modal-header {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
         }
 
-        [data-theme="dark"] .modal-header h2 {
+        [data-theme="neon"] .modal-header h2 {
             font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -1898,12 +1943,12 @@
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
         }
 
-        [data-theme="dark"] .modal-header h2::before {
+        [data-theme="neon"] .modal-header h2::before {
             content: '// ';
             opacity: 0.7;
         }
 
-        [data-theme="dark"] .modal-header .close-btn {
+        [data-theme="neon"] .modal-header .close-btn {
             color: #000;
             font-size: 1.5rem;
             font-weight: bold;
@@ -1913,7 +1958,7 @@
             opacity: 0.7;
         }
 
-        [data-theme="dark"] .modal-header .close-btn:hover {
+        [data-theme="neon"] .modal-header .close-btn:hover {
             opacity: 1;
         }
 
@@ -1924,7 +1969,7 @@
             padding: 20px;
         }
 
-        [data-theme="dark"] .actions {
+        [data-theme="neon"] .actions {
             background: #0a0b10;
             padding: 15px 20px;
             border-top: 1px solid rgba(0, 242, 255, 0.2);
@@ -1968,34 +2013,34 @@
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
         }
 
-        [data-theme="dark"] .btn-danger {
+        [data-theme="neon"] .btn-danger {
             background: rgba(255, 0, 234, 0.1);
             color: #ff00ea;
             border: 1px solid #ff00ea;
             box-shadow: 0 0 5px rgba(255, 0, 234, 0.2);
         }
 
-        [data-theme="dark"] .btn-danger:hover {
+        [data-theme="neon"] .btn-danger:hover {
             background: rgba(255, 0, 234, 0.25);
             box-shadow: 0 0 15px rgba(255, 0, 234, 0.4);
             transform: translateY(-1px);
         }
 
-        [data-theme="dark"] .btn-archive {
+        [data-theme="neon"] .btn-archive {
             background: rgba(123, 46, 255, 0.1);
             color: #7b2eff;
             border: 1px solid #7b2eff;
             box-shadow: 0 0 5px rgba(123, 46, 255, 0.2);
         }
 
-        [data-theme="dark"] .btn-archive:hover {
+        [data-theme="neon"] .btn-archive:hover {
             background: rgba(123, 46, 255, 0.25);
             box-shadow: 0 0 15px rgba(123, 46, 255, 0.4);
             transform: translateY(-1px);
         }
 
         /* Task detail modal - cohesive button styling */
-        [data-theme="dark"] .modal-content--task-detail .actions {
+        [data-theme="neon"] .modal-content--task-detail .actions {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
@@ -2004,7 +2049,7 @@
             border-top: 1px solid rgba(255, 0, 234, 0.3);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn {
+        [data-theme="neon"] .modal-content--task-detail .btn {
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
             text-transform: uppercase;
             font-size: 0.75rem;
@@ -2017,45 +2062,45 @@
             font-weight: 600;
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-secondary {
+        [data-theme="neon"] .modal-content--task-detail .btn-secondary {
             background: transparent;
             color: #888;
             border-color: #444;
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-secondary:hover {
+        [data-theme="neon"] .modal-content--task-detail .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: #666;
             color: #aaa;
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-danger {
+        [data-theme="neon"] .modal-content--task-detail .btn-danger {
             background: rgba(255, 0, 234, 0.15);
             color: #ff00ea;
             border-color: #ff00ea;
             box-shadow: 0 0 10px rgba(255, 0, 234, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-danger:hover {
+        [data-theme="neon"] .modal-content--task-detail .btn-danger:hover {
             background: rgba(255, 0, 234, 0.3);
             box-shadow: 0 0 20px rgba(255, 0, 234, 0.4);
             transform: translateY(-1px);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-archive {
+        [data-theme="neon"] .modal-content--task-detail .btn-archive {
             background: rgba(123, 46, 255, 0.15);
             color: #7b2eff;
             border-color: #7b2eff;
             box-shadow: 0 0 10px rgba(123, 46, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-archive:hover {
+        [data-theme="neon"] .modal-content--task-detail .btn-archive:hover {
             background: rgba(123, 46, 255, 0.3);
             box-shadow: 0 0 20px rgba(123, 46, 255, 0.4);
             transform: translateY(-1px);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-primary {
+        [data-theme="neon"] .modal-content--task-detail .btn-primary {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
             color: #000;
             border: none;
@@ -2063,36 +2108,36 @@
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .btn-primary:hover {
+        [data-theme="neon"] .modal-content--task-detail .btn-primary:hover {
             background: linear-gradient(90deg, #7b2eff, #ff00ea);
             box-shadow: 0 0 25px rgba(123, 46, 255, 0.5);
             transform: translateY(-1px);
         }
 
         /* Settings modal specific - purple accent */
-        [data-theme="dark"] .modal-content--settings .btn {
+        [data-theme="neon"] .modal-content--settings .btn {
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        [data-theme="dark"] .modal-content--settings .btn-secondary {
+        [data-theme="neon"] .modal-content--settings .btn-secondary {
             color: #7b2eff;
             border-color: #7b2eff;
             background: transparent;
         }
 
-        [data-theme="dark"] .modal-content--settings .btn-secondary:hover {
+        [data-theme="neon"] .modal-content--settings .btn-secondary:hover {
             background: rgba(123, 46, 255, 0.15);
             box-shadow: 0 0 10px rgba(123, 46, 255, 0.3);
         }
 
-        [data-theme="dark"] .modal-content--settings .btn-danger {
+        [data-theme="neon"] .modal-content--settings .btn-danger {
             color: #ff00ea;
             border-color: #ff00ea;
         }
 
-        [data-theme="dark"] .modal-content--settings .btn-danger:hover {
+        [data-theme="neon"] .modal-content--settings .btn-danger:hover {
             background: rgba(255, 0, 234, 0.15);
             box-shadow: 0 0 10px rgba(255, 0, 234, 0.3);
         }
@@ -2132,38 +2177,38 @@
         }
 
         /* Form input colors by modal context */
-        [data-theme="dark"] .modal-content--task-form form input:focus,
-        [data-theme="dark"] .modal-content--task-form form textarea:focus,
-        [data-theme="dark"] .modal-content--task-form form select:focus {
+        [data-theme="neon"] .modal-content--task-form form input:focus,
+        [data-theme="neon"] .modal-content--task-form form textarea:focus,
+        [data-theme="neon"] .modal-content--task-form form select:focus {
             border-color: #00f2ff;
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--settings form input:focus,
-        [data-theme="dark"] .modal-content--settings form textarea:focus,
-        [data-theme="dark"] .modal-content--settings form select:focus {
+        [data-theme="neon"] .modal-content--settings form input:focus,
+        [data-theme="neon"] .modal-content--settings form textarea:focus,
+        [data-theme="neon"] .modal-content--settings form select:focus {
             border-color: #7b2eff;
             box-shadow: 0 0 10px rgba(123, 46, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--columns form input:focus,
-        [data-theme="dark"] .modal-content--columns form textarea:focus,
-        [data-theme="dark"] .modal-content--columns form select:focus {
+        [data-theme="neon"] .modal-content--columns form input:focus,
+        [data-theme="neon"] .modal-content--columns form textarea:focus,
+        [data-theme="neon"] .modal-content--columns form select:focus {
             border-color: #00f2ff;
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
         }
 
         /* Separator lines with accent colors */
-        [data-theme="dark"] .actions {
+        [data-theme="neon"] .actions {
             border-top: 1px solid rgba(0, 242, 255, 0.2);
         }
 
-        [data-theme="dark"] .modal-content--task-detail .actions {
+        [data-theme="neon"] .modal-content--task-detail .actions {
             border-top-color: rgba(255, 0, 234, 0.3);
         }
 
-        [data-theme="dark"] .modal-content--settings .actions,
-        [data-theme="dark"] .modal-content--archive .actions {
+        [data-theme="neon"] .modal-content--settings .actions,
+        [data-theme="neon"] .modal-content--archive .actions {
             border-top-color: rgba(123, 46, 255, 0.3);
         }
 
@@ -3039,10 +3084,10 @@
                     <h3>🎨 Appearance</h3>
                     <div class="setting-row">
                         <div class="setting-info">
-                            <span>Theme</span>
-                            <small>Toggle between light and dark mode</small>
+                            <span>Theme <span id="currentThemeLabel" style="color: var(--accent); font-weight: 600;">🌙 Dark</span></span>
+                            <small>Click toggle to cycle: Light → Dark → Neon City</small>
                         </div>
-                        <div class="toggle-switch" id="themeToggleSwitch" role="switch" aria-checked="false" aria-label="Toggle dark theme" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThemeFromToggle();}" onclick="toggleThemeFromToggle()">
+                        <div class="toggle-switch" id="themeToggleSwitch" role="switch" aria-checked="true" aria-label="Toggle theme" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThemeFromToggle();}" onclick="toggleThemeFromToggle()">
                             <div class="toggle-thumb"></div>
                         </div>
                     </div>
@@ -4625,7 +4670,7 @@ function deleteFromArchive(taskId) {
         };
 
         // ===== THEME SYSTEM =====
-        let currentTheme = 'dark'; // Neon City default
+         let currentTheme = 'dark'; // Default to standard dark mode
 
         // ===== TRANSLATION SYSTEM =====
         let currentLanguage = 'en'; // Default language
@@ -5463,11 +5508,13 @@ function deleteFromArchive(taskId) {
 
         // ===== THEME FUNCTIONS =====
         
-        // Toggle between light and dark themes (called from header toggle)
+        // Toggle between light, dark, and neon themes (called from settings)
         function toggleTheme() {
             const previousTheme = currentTheme;
-            const newTheme = previousTheme === 'light' ? 'dark' : 'light';
+            const themeCycle = { 'light': 'dark', 'dark': 'neon', 'neon': 'light' };
+            const newTheme = themeCycle[previousTheme] || 'light';
             setTheme(newTheme, true, { skipChangelog: true });
+            showNotification(`Theme: ${newTheme.toUpperCase()}`, 'success', 1500);
         }
 
         // Toggle theme from settings modal toggle switch
@@ -5476,9 +5523,17 @@ function deleteFromArchive(taskId) {
             // Update aria-checked for accessibility
             const themeToggle = document.getElementById('themeToggleSwitch');
             if (themeToggle) {
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                themeToggle.setAttribute('aria-checked', isDark.toString());
+                const currentThemeValue = document.documentElement.getAttribute('data-theme');
+                themeToggle.setAttribute('aria-checked', (currentThemeValue !== 'light').toString());
+                // Update visual indicator
+                updateThemeToggle();
             }
+        }
+
+        // Get theme display name for UI
+        function getThemeDisplayName(theme) {
+            const names = { 'light': '☀️ Light', 'dark': '🌙 Dark', 'neon': '🌃 Neon' };
+            return names[theme] || theme;
         }
 
         // Toggle debug mode
@@ -6418,15 +6473,22 @@ function deleteFromArchive(taskId) {
             // Update the settings modal toggle switch
             const settingsToggle = document.getElementById('themeToggleSwitch');
             if (settingsToggle) {
-                if (currentTheme === 'dark') {
-                    settingsToggle.classList.add('active');
-                } else {
+                // For three themes, use "active" for dark and neon, remove for light
+                if (currentTheme === 'light') {
                     settingsToggle.classList.remove('active');
+                } else {
+                    settingsToggle.classList.add('active');
                 }
+            }
+            
+            // Update theme label if it exists
+            const themeLabel = document.getElementById('currentThemeLabel');
+            if (themeLabel) {
+                themeLabel.textContent = getThemeDisplayName(currentTheme);
             }
         }
 
-        // Initialize theme from storage (or Neon default). Does not call setTheme() — avoids duplicate
+        // Initialize theme from storage (or Dark default). Does not call setTheme() — avoids duplicate
         // ChangeLog entries and redundant localStorage writes; <head> script already set data-theme for first paint.
         function initTheme() {
             let savedTheme = null;
@@ -6435,12 +6497,14 @@ function deleteFromArchive(taskId) {
             } catch (e) {
                 console.warn('localStorage read failed:', e);
             }
-            if (savedTheme === 'light' || savedTheme === 'dark') {
+            const validThemes = ['light', 'dark', 'neon'];
+            if (validThemes.includes(savedTheme)) {
                 currentTheme = savedTheme;
                 document.documentElement.setAttribute('data-theme', savedTheme);
                 updateThemeToggle();
                 return;
             }
+            // Default to dark (not neon)
             currentTheme = 'dark';
             document.documentElement.setAttribute('data-theme', 'dark');
             try {
