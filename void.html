@@ -5826,7 +5826,8 @@ function deleteFromArchive(taskId) {
                 console.warn('localStorage read failed:', e);
             }
             
-            if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
+            const Tiptap = window.Tiptap || window.tiptap;
+            if (typeof Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 statusEl.innerHTML = '<span class="status-success">✓ Rich text editor ready! Select "Rich" mode below, then open a task to use it.</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
@@ -5837,7 +5838,7 @@ function deleteFromArchive(taskId) {
                 if (savedMode === 'plain') {
                     showNotification('Rich Text Editor loaded! Switch Editor Mode to "Rich" to use it.', 'info', 5000);
                 }
-            } else if (typeof window.Tiptap !== 'undefined') {
+            } else if (typeof Tiptap !== 'undefined') {
                 statusEl.innerHTML = '<span class="status-success">✓ Library loaded. Select Rich Text mode below for basic formatting.</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
@@ -6131,18 +6132,32 @@ function deleteFromArchive(taskId) {
             create(containerId) {
                 const id = containerId || this._containerId;
                 const el = document.getElementById(id);
-                if (!el) return false;
-                if (this._editor) { this.destroy(); }
-                if (typeof window.Tiptap === 'undefined' || !window.Tiptap.Editor) {
-                    console.warn('TiptapEditor: Tiptap.Editor not available');
+                if (!el) {
+                    console.warn('TiptapEditor: Container element not found:', id);
                     return false;
                 }
+                if (this._editor) { this.destroy(); }
+                
+                // Normalize Tiptap reference
+                const Tiptap = window.Tiptap || window.tiptap;
+                if (typeof Tiptap === 'undefined' || !Tiptap.Editor) {
+                    console.warn('TiptapEditor: Tiptap.Editor not available');
+                    console.log('Window.Tiptap:', window.Tiptap);
+                    console.log('Window.tiptap:', window.tiptap);
+                    return false;
+                }
+                
+                // Ensure window.Tiptap is set for other code
+                if (!window.Tiptap) {
+                    window.Tiptap = Tiptap;
+                }
+                
                 el.innerHTML = '';
                 const extensions = [];
 
                 // Add StarterKit with history support
-                if (window.Tiptap.StarterKit) {
-                    extensions.push(window.Tiptap.StarterKit.configure({
+                if (Tiptap.StarterKit) {
+                    extensions.push(Tiptap.StarterKit.configure({
                         history: {
                             depth: 100,
                             newGroupDelay: 500
@@ -6153,8 +6168,8 @@ function deleteFromArchive(taskId) {
                 }
 
                 // Add Link extension if available
-                if (window.Tiptap.Link || window.LinkExtension) {
-                    const LinkExt = window.Tiptap.Link || window.LinkExtension;
+                if (Tiptap.Link || window.LinkExtension) {
+                    const LinkExt = Tiptap.Link || window.LinkExtension;
                     extensions.push(LinkExt.configure({
                         openOnClick: false,
                         linkOnPaste: true,
@@ -6163,8 +6178,8 @@ function deleteFromArchive(taskId) {
                 }
 
                 // Add Placeholder extension if available
-                if (window.Tiptap.Placeholder || window.PlaceholderExtension) {
-                    const PlaceholderExt = window.Tiptap.Placeholder || window.PlaceholderExtension;
+                if (Tiptap.Placeholder || window.PlaceholderExtension) {
+                    const PlaceholderExt = Tiptap.Placeholder || window.PlaceholderExtension;
                     extensions.push(PlaceholderExt.configure({
                         placeholder: 'Enter notes here... Use formatting tools above or type Markdown'
                     }));
@@ -6172,7 +6187,7 @@ function deleteFromArchive(taskId) {
 
                 // Fallback extensions
                 if (!extensions.length) {
-                    const fallback = [window.Tiptap.Document, window.Tiptap.Paragraph, window.Tiptap.Text].filter(Boolean);
+                    const fallback = [Tiptap.Document, Tiptap.Paragraph, Tiptap.Text].filter(Boolean);
                     if (fallback.length) {
                         extensions.push(...fallback);
                     } else {
@@ -6182,7 +6197,7 @@ function deleteFromArchive(taskId) {
                 }
 
                 try {
-                    this._editor = new window.Tiptap.Editor({
+                    this._editor = new Tiptap.Editor({
                         element: el,
                         extensions: extensions,
                         content: '<p></p>',
@@ -6446,11 +6461,19 @@ function deleteFromArchive(taskId) {
                         let attempts = 0;
                         const checkInterval = setInterval(() => {
                             attempts++;
-                            if (typeof window.Tiptap !== 'undefined' && window.Tiptap.Editor) {
+                            // Check for Tiptap core - v2 exports as window.Tiptap or window.tiptap
+                            const tiptap = window.Tiptap || window.tiptap;
+                            if (typeof tiptap !== 'undefined' && (tiptap.Editor || tiptap.core)) {
                                 clearInterval(checkInterval);
+                                // Normalize to window.Tiptap
+                                if (!window.Tiptap && window.tiptap) {
+                                    window.Tiptap = window.tiptap;
+                                }
                                 resolve();
                             } else if (attempts > 50) { // 5 second timeout
                                 clearInterval(checkInterval);
+                                console.error('[Tiptap] Window.Tiptap:', window.Tiptap);
+                                console.error('[Tiptap] Window.tiptap:', window.tiptap);
                                 reject(new Error('Tiptap core not initialized'));
                             }
                         }, 100);
