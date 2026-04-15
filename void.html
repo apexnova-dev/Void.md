@@ -1994,6 +1994,81 @@
             transform: translateY(-1px);
         }
 
+        /* Task detail modal - cohesive button styling */
+        [data-theme="dark"] .modal-content--task-detail .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background: #0a0b10;
+            border-top: 1px solid rgba(255, 0, 234, 0.3);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-secondary {
+            background: transparent;
+            color: #888;
+            border-color: #444;
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #666;
+            color: #aaa;
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-danger {
+            background: rgba(255, 0, 234, 0.15);
+            color: #ff00ea;
+            border-color: #ff00ea;
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-danger:hover {
+            background: rgba(255, 0, 234, 0.3);
+            box-shadow: 0 0 20px rgba(255, 0, 234, 0.4);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-archive {
+            background: rgba(123, 46, 255, 0.15);
+            color: #7b2eff;
+            border-color: #7b2eff;
+            box-shadow: 0 0 10px rgba(123, 46, 255, 0.2);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-archive:hover {
+            background: rgba(123, 46, 255, 0.3);
+            box-shadow: 0 0 20px rgba(123, 46, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-primary {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            border: none;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        [data-theme="dark"] .modal-content--task-detail .btn-primary:hover {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+            box-shadow: 0 0 25px rgba(123, 46, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
         /* Settings modal specific - purple accent */
         [data-theme="dark"] .modal-content--settings .btn {
             border-radius: 4px;
