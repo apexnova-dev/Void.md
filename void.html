@@ -2117,6 +2117,23 @@
             transform: translateY(-1px);
         }
 
+        /* Neon City - Header buttons with dark text for readability */
+        [data-theme="neon"] .btn-new-task {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            border: none;
+            font-weight: 700;
+            text-shadow: none;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
+        [data-theme="neon"] .btn-new-task:hover {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+            color: #000;
+            box-shadow: 0 0 25px rgba(123, 46, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
         /* Settings modal specific - purple accent */
         [data-theme="neon"] .modal-content--settings .btn {
             border-radius: 4px;
