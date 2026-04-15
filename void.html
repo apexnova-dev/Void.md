@@ -659,12 +659,12 @@
         }
 
         [data-theme="neon"] .column-count {
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.6);
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         /* Enhanced task list scrollbar for dark mode */
@@ -2117,6 +2117,21 @@
             transform: translateY(-1px);
         }
 
+        /* Neon City - General primary buttons with dark text for readability */
+        [data-theme="neon"] .btn-primary {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            border: none;
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        [data-theme="neon"] .btn-primary:hover {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+            color: #000;
+            box-shadow: 0 0 15px rgba(123, 46, 255, 0.5);
+        }
+
         /* Neon City - Header buttons with dark text for readability */
         [data-theme="neon"] .btn-new-task {
             background: linear-gradient(90deg, #00f2ff, #7b2eff);
@@ -2132,6 +2147,33 @@
             color: #000;
             box-shadow: 0 0 25px rgba(123, 46, 255, 0.6);
             transform: translateY(-2px);
+        }
+
+        /* Neon City - Filter buttons (small + buttons) */
+        [data-theme="neon"] .filter-btn-sm {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            border: none;
+            font-weight: 700;
+            text-shadow: none;
+        }
+
+        [data-theme="neon"] .filter-btn-sm:hover {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+            color: #000;
+            box-shadow: 0 0 15px rgba(123, 46, 255, 0.5);
+        }
+
+        /* Neon City - Secondary buttons (like Clear Filters) */
+        [data-theme="neon"] .btn-secondary {
+            background: transparent;
+            color: #00f2ff;
+            border: 1px solid #00f2ff;
+        }
+
+        [data-theme="neon"] .btn-secondary:hover {
+            background: rgba(0, 242, 255, 0.15);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
         }
 
         /* Settings modal specific - purple accent */
@@ -2160,6 +2202,18 @@
         [data-theme="neon"] .modal-content--settings .btn-danger:hover {
             background: rgba(255, 0, 234, 0.15);
             box-shadow: 0 0 10px rgba(255, 0, 234, 0.3);
+        }
+
+        /* Neon City - Tiptap toolbar active button needs dark text for readability */
+        [data-theme="neon"] .tiptap-toolbar-btn.is-active {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            font-weight: 600;
+        }
+
+        [data-theme="neon"] .tiptap-toolbar-btn.is-active:hover {
+            background: linear-gradient(90deg, #7b2eff, #ff00ea);
+            color: #000;
         }
 
         [data-theme="dark"] form {
@@ -6511,72 +6565,113 @@ function deleteFromArchive(taskId) {
                         }, 100);
                     });
                     
-                    // Wait for Tiptap to be available on window before loading extensions
-                    await new Promise(r => setTimeout(r, 300));
+                    // Ensure window.Tiptap is set BEFORE loading extensions (they need it to register)
+                    if (!window.Tiptap && window['@tiptap/core']) {
+                        window.Tiptap = window['@tiptap/core'];
+                    }
                     
-                    // Optionally load StarterKit for bold/italic/lists (same CDN base)
+                    // Helper to poll for extension availability
+                    async function pollForExtension(name, globalChecks, timeout = 5000) {
+                        const startTime = Date.now();
+                        while (Date.now() - startTime < timeout) {
+                            for (const check of globalChecks) {
+                                const ext = check();
+                                if (ext) {
+                                    // Attach to Tiptap namespace for consistency
+                                    if (!window.Tiptap[name]) {
+                                        window.Tiptap[name] = ext;
+                                    }
+                                    return ext;
+                                }
+                            }
+                            await new Promise(r => setTimeout(r, 50));
+                        }
+                        return null;
+                    }
+                    
+                    // CDN base for extensions
                     const base = cdnUrl.includes('jsdelivr') ? 'https://cdn.jsdelivr.net/npm' : 'https://unpkg.com';
                     
-                    // Load StarterKit
+                    // Load StarterKit - MUST have window.Tiptap set before loading
                     try {
                         const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/starter-kit.umd.js`;
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = starterKitUrl;
-                            s.onload = () => {
-                                // Wait for StarterKit to register itself
-                                setTimeout(() => {
-                                    debugLog('✅ StarterKit script loaded');
-                                    resolve();
-                                }, 200);
-                            };
+                            s.async = false; // Ensure sequential execution
+                            s.onload = resolve;
                             s.onerror = () => reject(new Error('StarterKit load failed'));
                             document.head.appendChild(s);
                         });
+                        
+                        // Poll for StarterKit registration
+                        const starterKit = await pollForExtension('StarterKit', [
+                            () => window.StarterKit,
+                            () => window.Tiptap?.StarterKit
+                        ]);
+                        
+                        if (starterKit) {
+                            debugLog('✅ StarterKit registered successfully');
+                        } else {
+                            console.warn('⚠️ StarterKit not found after loading');
+                        }
                     } catch (e) {
                         console.warn('StarterKit not loaded:', e.message);
                     }
                     
-                    // Load Link extension for hyperlink support
+                    // Load Link extension
                     try {
                         const linkUrl = `${base}/@tiptap/extension-link@2.1.13/dist/index.umd.js`;
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = linkUrl;
-                            s.onload = () => {
-                                setTimeout(() => {
-                                    debugLog('✅ Link extension loaded');
-                                    resolve();
-                                }, 200);
-                            };
+                            s.async = false;
+                            s.onload = resolve;
                             s.onerror = () => reject(new Error('Link extension load failed'));
                             document.head.appendChild(s);
                         });
+                        
+                        const linkExt = await pollForExtension('Link', [
+                            () => window.LinkExtension,
+                            () => window.Tiptap?.Link
+                        ]);
+                        
+                        if (linkExt) {
+                            debugLog('✅ Link extension registered successfully');
+                        }
                     } catch (e) {
                         console.warn('Link extension not loaded:', e.message);
                     }
                     
-                    // Load Placeholder extension for placeholder text
+                    // Load Placeholder extension
                     try {
                         const placeholderUrl = `${base}/@tiptap/extension-placeholder@2.1.13/dist/index.umd.js`;
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = placeholderUrl;
-                            s.onload = () => {
-                                setTimeout(() => {
-                                    debugLog('✅ Placeholder extension loaded');
-                                    resolve();
-                                }, 200);
-                            };
+                            s.async = false;
+                            s.onload = resolve;
                             s.onerror = () => reject(new Error('Placeholder extension load failed'));
                             document.head.appendChild(s);
                         });
+                        
+                        const placeholderExt = await pollForExtension('Placeholder', [
+                            () => window.PlaceholderExtension,
+                            () => window.Tiptap?.Placeholder
+                        ]);
+                        
+                        if (placeholderExt) {
+                            debugLog('✅ Placeholder extension registered successfully');
+                        }
                     } catch (e) {
                         console.warn('Placeholder extension not loaded:', e.message);
                     }
                     
-                    // Final wait for all extensions to initialize
-                    await new Promise(r => setTimeout(r, 500));
+                    // Log final state for debugging
+                    debugLog('Tiptap extensions registered:', Object.keys(window.Tiptap || {}).filter(k => k !== 'Editor'));
+                    
+                    // Short delay to ensure everything is settled
+                    await new Promise(r => setTimeout(r, 100));
                     
                     showNotification('Rich text editor loaded!', 'success');
                     

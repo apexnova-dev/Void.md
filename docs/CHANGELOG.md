@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.4.1] - 2026-04-15
+
+### Fixed
+
+- **Tiptap Extension Loading**: Robust async loading with polling
+  - Fixed race condition where extensions loaded before Tiptap core was ready
+  - Added `pollForExtension()` helper to wait for extension registration
+  - Extensions now properly register to `window.Tiptap` namespace
+  - Sequential script loading with `async: false` ensures correct execution order
+  - Proper detection of extensions at both `window.ExtensionName` and `window.Tiptap.ExtensionName`
+- **Neon City Text Contrast**: Fixed readability on bright neon backgrounds
+  - All primary buttons (`.btn-primary`) now use dark text (#000) on cyan-purple gradients
+  - Header buttons (Folder, Settings, Report) now have proper dark text in Neon City mode
+  - Filter "+" buttons (`.filter-btn-sm`) now use dark text on gradients
+  - Tiptap toolbar active buttons use dark text (#000) on neon gradients
+  - Column count badges have darker background (rgba(0,0,0,0.6)) for better contrast
+  - Secondary buttons (Clear Filters, Settings) remain cyan outline style for visual hierarchy
+
+---
+
 ## [1.4.0] - 2026-04-14
 
 ### Added
