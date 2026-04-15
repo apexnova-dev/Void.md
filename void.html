@@ -4153,13 +4153,25 @@ function openTaskModal(task = null) {
             // Wait for Tiptap to load then initialize
             loadTiptapLibrary().then(() => {
                 debugLog('✅ Tiptap loaded in background, creating editor...');
-                if (window.TiptapEditor && document.getElementById('newTaskModal')?.classList.contains('active')) {
+                const modal = document.getElementById('newTaskModal');
+                if (window.TiptapEditor && modal?.classList.contains('active')) {
                     const created = window.TiptapEditor.create('tiptapContainer');
                     if (created) {
                         const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
                         window.TiptapEditor.setMarkdown(notesMd);
                         showNotification('✅ Rich text editor ready!', 'success', 2000);
+                    } else {
+                        // Editor creation failed (no extensions) - fallback to plain text
+                        debugLog('❌ TiptapEditor.create() returned false (no extensions)');
+                        if (taskNotesEl) taskNotesEl.style.display = 'block';
+                        if (richWrap) richWrap.style.display = 'none';
+                        showNotification('⚠️ Rich text editor unavailable (extensions failed). Using plain text.', 'warning', 5000);
                     }
+                } else if (!window.TiptapEditor) {
+                    debugLog('❌ Tiptap loaded but TiptapEditor not available');
+                    if (taskNotesEl) taskNotesEl.style.display = 'block';
+                    if (richWrap) richWrap.style.display = 'none';
+                    showNotification('⚠️ Rich text editor unavailable. Using plain text.', 'warning', 5000);
                 }
             }).catch((err) => {
                 console.error('Failed to load Tiptap:', err);
@@ -4177,13 +4189,25 @@ function openTaskModal(task = null) {
             // Load Tiptap and initialize
             loadTiptapLibrary().then(() => {
                 debugLog('✅ Tiptap loaded, creating editor...');
-                if (window.TiptapEditor && document.getElementById('newTaskModal')?.classList.contains('active')) {
+                const modal = document.getElementById('newTaskModal');
+                if (window.TiptapEditor && modal?.classList.contains('active')) {
                     const created = window.TiptapEditor.create('tiptapContainer');
                     if (created) {
                         const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
                         window.TiptapEditor.setMarkdown(notesMd);
                         showNotification('✅ Rich text editor ready!', 'success', 2000);
+                    } else {
+                        // Editor creation failed - fallback to plain text
+                        debugLog('❌ TiptapEditor.create() returned false (no extensions)');
+                        if (taskNotesEl) taskNotesEl.style.display = 'block';
+                        if (richWrap) richWrap.style.display = 'none';
+                        showNotification('⚠️ Rich text editor unavailable (extensions failed). Using plain text.', 'warning', 5000);
                     }
+                } else if (!window.TiptapEditor) {
+                    debugLog('❌ Tiptap loaded but TiptapEditor not available');
+                    if (taskNotesEl) taskNotesEl.style.display = 'block';
+                    if (richWrap) richWrap.style.display = 'none';
+                    showNotification('⚠️ Rich text editor unavailable. Using plain text.', 'warning', 5000);
                 }
             }).catch((err) => {
                 console.error('Failed to load Tiptap:', err);
@@ -6617,9 +6641,19 @@ function deleteFromArchive(taskId) {
                         }, 100);
                     });
                     
-                    // Ensure window.Tiptap is set BEFORE loading extensions (they need it to register)
+                    // CRITICAL: Set window.Tiptap BEFORE loading extensions
+                    // Extensions are UMD bundles that execute immediately when script is appended
                     if (!window.Tiptap && window['@tiptap/core']) {
                         window.Tiptap = window['@tiptap/core'];
+                        debugLog('✅ window.Tiptap set before extension loading');
+                    }
+                    
+                    // Extensions need base classes on window - expose them BEFORE loading
+                    if (window.Tiptap) {
+                        window.Mark = window.Tiptap.Mark;
+                        window.Extension = window.Tiptap.Extension;
+                        window.Node = window.Tiptap.Node;
+                        debugLog('✅ Exposed Tiptap base classes for extensions');
                     }
                     
                     // Helper to poll for extension availability
