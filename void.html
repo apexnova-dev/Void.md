@@ -5827,14 +5827,17 @@ function deleteFromArchive(taskId) {
                 console.warn('localStorage read failed:', e);
             }
             
+            // Always show mode selector when Rich Text feature is enabled
+            if (modeRow) {
+                modeRow.style.display = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled ? 'flex' : 'none';
+            }
+            
+            // Update status message and mode selector based on Tiptap state
             const Tiptap = window.Tiptap || window['@tiptap/core'];
             if (typeof Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 statusEl.innerHTML = '<span class="status-success">✓ Rich text editor ready! Select "Rich" mode below, then open a task to use it.</span>';
                 statusEl.style.display = 'block';
-                if (modeRow) modeRow.style.display = 'flex';
-                if (modeSelect) {
-                    modeSelect.value = savedMode;
-                }
+                if (modeSelect) modeSelect.value = savedMode;
                 // Show helpful notification
                 if (savedMode === 'plain') {
                     showNotification('Rich Text Editor loaded! Switch Editor Mode to "Rich" to use it.', 'info', 5000);
@@ -5842,21 +5845,15 @@ function deleteFromArchive(taskId) {
             } else if (typeof Tiptap !== 'undefined') {
                 statusEl.innerHTML = '<span class="status-success">✓ Library loaded. Select Rich Text mode below for basic formatting.</span>';
                 statusEl.style.display = 'block';
-                if (modeRow) modeRow.style.display = 'flex';
-                if (modeSelect) {
-                    modeSelect.value = savedMode;
-                }
+                if (modeSelect) modeSelect.value = savedMode;
             } else if (window._tiptapLoading) {
                 statusEl.innerHTML = '<span class="status-warning">⏳ Loading editor...</span>';
                 statusEl.style.display = 'block';
-                if (modeRow) modeRow.style.display = 'none';
             } else if (FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled) {
-                statusEl.innerHTML = '<span class="status-error">⚠️ Failed to load - using plain text</span>';
+                statusEl.innerHTML = '<span class="status-error">⚠️ Failed to load - using plain text. Toggle off and on to retry.</span>';
                 statusEl.style.display = 'block';
-                if (modeRow) modeRow.style.display = 'none';
             } else {
                 statusEl.style.display = 'none';
-                if (modeRow) modeRow.style.display = 'none';
             }
             
             // Update badge in task form
@@ -6483,51 +6480,72 @@ function deleteFromArchive(taskId) {
                         }, 100);
                     });
                     
+                    // Wait for Tiptap to be available on window before loading extensions
+                    await new Promise(r => setTimeout(r, 300));
+                    
                     // Optionally load StarterKit for bold/italic/lists (same CDN base)
                     const base = cdnUrl.includes('jsdelivr') ? 'https://cdn.jsdelivr.net/npm' : 'https://unpkg.com';
-                    const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/starter-kit.umd.js`;
+                    
+                    // Load StarterKit
                     try {
+                        const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/starter-kit.umd.js`;
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = starterKitUrl;
-                            s.onload = () => { debugLog('✅ StarterKit loaded'); resolve(); };
+                            s.onload = () => {
+                                // Wait for StarterKit to register itself
+                                setTimeout(() => {
+                                    debugLog('✅ StarterKit script loaded');
+                                    resolve();
+                                }, 200);
+                            };
                             s.onerror = () => reject(new Error('StarterKit load failed'));
                             document.head.appendChild(s);
                         });
-                    } catch (_) {
-                        console.warn('StarterKit not loaded – editor may have limited formatting');
+                    } catch (e) {
+                        console.warn('StarterKit not loaded:', e.message);
                     }
                     
                     // Load Link extension for hyperlink support
-                    const linkUrl = `${base}/@tiptap/extension-link@2.1.13/dist/index.umd.js`;
                     try {
+                        const linkUrl = `${base}/@tiptap/extension-link@2.1.13/dist/index.umd.js`;
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = linkUrl;
-                            s.onload = () => { debugLog('✅ Link extension loaded'); resolve(); };
+                            s.onload = () => {
+                                setTimeout(() => {
+                                    debugLog('✅ Link extension loaded');
+                                    resolve();
+                                }, 200);
+                            };
                             s.onerror = () => reject(new Error('Link extension load failed'));
                             document.head.appendChild(s);
                         });
-                    } catch (_) {
-                        console.warn('Link extension not loaded');
+                    } catch (e) {
+                        console.warn('Link extension not loaded:', e.message);
                     }
                     
                     // Load Placeholder extension for placeholder text
-                    const placeholderUrl = `${base}/@tiptap/extension-placeholder@2.1.13/dist/index.umd.js`;
                     try {
+                        const placeholderUrl = `${base}/@tiptap/extension-placeholder@2.1.13/dist/index.umd.js`;
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = placeholderUrl;
-                            // TODO: Generate SRI hash for this resource
-                            // s.integrity = 'sha384-...';
-                            s.crossOrigin = 'anonymous';
-                            s.onload = () => { debugLog('✅ Placeholder extension loaded'); resolve(); };
+                            s.onload = () => {
+                                setTimeout(() => {
+                                    debugLog('✅ Placeholder extension loaded');
+                                    resolve();
+                                }, 200);
+                            };
                             s.onerror = () => reject(new Error('Placeholder extension load failed'));
                             document.head.appendChild(s);
                         });
-                    } catch (_) {
-                        console.warn('Placeholder extension not loaded');
+                    } catch (e) {
+                        console.warn('Placeholder extension not loaded:', e.message);
                     }
+                    
+                    // Final wait for all extensions to initialize
+                    await new Promise(r => setTimeout(r, 500));
                     
                     showNotification('Rich text editor loaded!', 'success');
                     
