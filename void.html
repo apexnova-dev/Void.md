@@ -6431,9 +6431,14 @@ function deleteFromArchive(taskId) {
                         // script.crossOrigin = 'anonymous';
                         
                         script.onload = async () => {
-                            debugLog(`✅ Core loaded: ${cdnUrl}`);
+                            debugLog(`✅ Core script loaded: ${cdnUrl}`);
                             // Wait for Tiptap to fully initialize
-                            await new Promise(r => setTimeout(r, 100));
+                            await new Promise(r => setTimeout(r, 500));
+                            // Debug: check what globals were created
+                            const globals = Object.keys(window).filter(k => k.toLowerCase().includes('tiptap') || k.toLowerCase().includes('tip'));
+                            console.log('[Tiptap] Globals after load:', globals);
+                            console.log('[Tiptap] window.Tiptap:', typeof window.Tiptap, window.Tiptap);
+                            console.log('[Tiptap] window.tiptap:', typeof window.tiptap, window.tiptap);
                             resolve({ success: true, url: cdnUrl });
                         };
                         
