@@ -5387,8 +5387,8 @@ function deleteFromArchive(taskId) {
                 if (actions) {
                     actions.innerHTML = `
                         <button class="btn btn-secondary" onclick="closeModal()">${t('taskDetail.close')}</button>
-                        <button class="btn btn-secondary" onclick="deleteCurrentTask()" style="background: #ef4444; color: white;">${t('taskDetail.delete')}</button>
-                        <button class="btn btn-secondary" onclick="archiveCurrentTask()" style="background: #f59e0b; color: white;">${t('taskDetail.archive')}</button>
+                        <button class="btn btn-secondary btn-danger" onclick="deleteCurrentTask()">${t('taskDetail.delete')}</button>
+                        <button class="btn btn-secondary btn-archive" onclick="archiveCurrentTask()">${t('taskDetail.archive')}</button>
                         <button class="btn btn-primary" id="editTaskBtnDetail" onclick="editCurrentTask()">${t('taskDetail.edit')}</button>
                     `;
                 }
