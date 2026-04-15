@@ -23,6 +23,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - Tiptap toolbar active buttons use dark text (#000) on neon gradients
   - Column count badges have darker background (rgba(0,0,0,0.6)) for better contrast
   - Secondary buttons (Clear Filters, Settings) remain cyan outline style for visual hierarchy
+- **Rich Text Editor Loading Feedback**: Added visual feedback in task modal
+  - Shows animated spinner with "Loading rich text editor..." message
+  - Auto-initializes editor once Tiptap loads from CDN
+  - Displays success notification when editor is ready
+  - Shows error notification and falls back to plain text if loading fails
+  - Handles three states: already loaded, loading in progress, and needs to load
 
 ---
 
