@@ -3401,23 +3401,29 @@ function populateExperimentalFeatures() {
     }
     
     // Build the feature list HTML
-    list.innerHTML = visibleFeatures.map(feature => `
+    // Note: feature.flagName is the full flag name (e.g., 'ENABLE_RICH_TEXT_EDITOR')
+    // feature.key is the short key (e.g., 'featureRichText') used for element IDs
+    list.innerHTML = visibleFeatures.map(feature => {
+        const flagName = feature.key; // This is actually the flag name from Object.entries
+        const shortKey = FEATURE_FLAGS[flagName]?.key || flagName; // Get the short key for ID
+        const isEnabled = FEATURE_FLAGS[flagName]?.enabled || false;
+        return `
         <div class="setting-row">
             <div class="setting-info">
                 <span>${feature.name}</span>
                 <small>${feature.description}</small>
             </div>
-            <div class="toggle-switch ${FEATURE_FLAGS[feature.key]?.enabled ? 'active' : ''}" 
-                 id="${feature.key}Switch" 
+            <div class="toggle-switch ${isEnabled ? 'active' : ''}" 
+                 id="${shortKey}Switch" 
                  role="switch" 
-                 aria-checked="${FEATURE_FLAGS[feature.key]?.enabled ? 'true' : 'false'}" 
+                 aria-checked="${isEnabled ? 'true' : 'false'}" 
                  aria-label="Toggle ${feature.name}"
                  tabindex="0"
-                 data-feature="${feature.key}">
+                 data-feature="${flagName}">
                 <div class="toggle-thumb"></div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 
     // Attach event listeners to toggle switches
     list.querySelectorAll('.toggle-switch').forEach(toggle => {
