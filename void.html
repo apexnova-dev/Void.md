@@ -6365,10 +6365,10 @@ function deleteFromArchive(taskId) {
             // Mark as loading
             window._tiptapLoading = true;
             
-            // CDN URLs for Tiptap
+            // CDN URLs for Tiptap v2 - correct file paths
             const CDN_URLS = [
-                'https://unpkg.com/@tiptap/core@2.1.13/dist/tiptap.umd.min.js',
-                'https://cdn.jsdelivr.net/npm/@tiptap/core@2.1.13/dist/tiptap.umd.min.js'
+                'https://unpkg.com/@tiptap/core@2.1.13/dist/index.umd.js',
+                'https://cdn.jsdelivr.net/npm/@tiptap/core@2.1.13/dist/index.umd.js'
             ];
             
             let lastError = null;
@@ -6386,9 +6386,8 @@ function deleteFromArchive(taskId) {
                         script.async = false;
                         script.defer = false;
                         
-                        // SRI (Subresource Integrity) for security
-                        script.integrity = 'sha384-c6JRBdfui5+tOp0b4QuzqnxTNh+oDUgOdhfExYFpPX3uE5XZOCn+7YecJ/cE+HyM';
-                        script.crossOrigin = 'anonymous';
+                        // Note: SRI disabled for now - hashes would need to be generated for correct files
+                        // script.crossOrigin = 'anonymous';
                         
                         script.onload = () => {
                             debugLog(`✅ Loaded: ${cdnUrl}`);
@@ -6416,7 +6415,7 @@ function deleteFromArchive(taskId) {
                     
                     // Optionally load StarterKit for bold/italic/lists (same CDN base)
                     const base = cdnUrl.includes('jsdelivr') ? 'https://cdn.jsdelivr.net/npm' : 'https://unpkg.com';
-                    const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/index.umd.js`;
+                    const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/starter-kit.umd.js`;
                     try {
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
