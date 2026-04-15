@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com/@tiptap/core@2.1.13 https://unpkg.com/@tiptap/starter-kit@2.1.13 https://cdn.jsdelivr.net/npm/@tiptap/core@2.1.13 https://cdn.jsdelivr.net/npm/@tiptap/starter-kit@2.1.13; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()">
     <title>Void.md</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script>
@@ -3401,6 +3404,201 @@ function stopFormAutoSave() {
  */
 function markFormDirty() {
     formIsDirty = true;
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+// Global keyboard shortcuts for power users
+
+const KeyboardShortcuts = {
+    // Track if any modal is open
+    isModalOpen() {
+        return document.querySelector('.modal.active') !== null;
+    },
+
+    // Check if user is typing in an input
+    isTyping(element) {
+        return element && (
+            element.tagName === 'INPUT' ||
+            element.tagName === 'TEXTAREA' ||
+            element.isContentEditable
+        );
+    },
+
+    // Initialize keyboard shortcuts
+    init() {
+        document.addEventListener('keydown', this.handleKeydown.bind(this));
+        debugLog('⌨️ Keyboard shortcuts initialized');
+    },
+
+    handleKeydown(e) {
+        const key = e.key.toLowerCase();
+        const ctrl = e.ctrlKey || e.metaKey;
+        const shift = e.shiftKey;
+
+        // Get active element
+        const activeElement = document.activeElement;
+        const typing = this.isTyping(activeElement);
+
+        // Global shortcuts (work even when typing if combined with Ctrl/Cmd)
+        if (ctrl) {
+            switch (key) {
+                case 'n':
+                    e.preventDefault();
+                    if (!this.isModalOpen()) {
+                        openTaskModal();
+                        showNotification('New task (Ctrl+N)', 'info', 1500);
+                    }
+                    return;
+
+                case 'k':
+                    e.preventDefault();
+                    const searchInput = document.getElementById('globalSearchInput');
+                    if (searchInput && !this.isModalOpen()) {
+                        searchInput.focus();
+                        showNotification('Search focused (Ctrl+K)', 'info', 1500);
+                    }
+                    return;
+
+                case 's':
+                    // Save task when in edit mode
+                    if (this.isModalOpen() && isEditMode) {
+                        e.preventDefault();
+                        saveTask();
+                        showNotification('Task saved (Ctrl+S)', 'success', 1500);
+                    }
+                    return;
+
+                case 'enter':
+                    // Save task in modal
+                    if (this.isModalOpen() && document.getElementById('newTaskModal')?.classList.contains('active')) {
+                        e.preventDefault();
+                        saveTask();
+                    }
+                    return;
+            }
+
+            // Ctrl+Shift shortcuts
+            if (shift) {
+                switch (key) {
+                    case 'a':
+                        e.preventDefault();
+                        if (!this.isModalOpen()) {
+                            openArchiveModal();
+                            showNotification('Archives (Ctrl+Shift+A)', 'info', 1500);
+                        }
+                        return;
+
+                    case 's':
+                        e.preventDefault();
+                        if (!this.isModalOpen()) {
+                            openSettingsModal();
+                            showNotification('Settings (Ctrl+Shift+S)', 'info', 1500);
+                        }
+                        return;
+                }
+            }
+        }
+
+        // Shortcuts that don't work while typing
+        if (!typing && !this.isModalOpen()) {
+            switch (key) {
+                case '?':
+                case '/':
+                    if (!ctrl) {
+                        e.preventDefault();
+                        this.showHelp();
+                    }
+                    return;
+
+                case 'n':
+                    e.preventDefault();
+                    openTaskModal();
+                    showNotification('New task (N)', 'info', 1500);
+                    return;
+
+                case 'a':
+                    e.preventDefault();
+                    openArchiveModal();
+                    showNotification('Archives (A)', 'info', 1500);
+                    return;
+
+                case 's':
+                    e.preventDefault();
+                    openSettingsModal();
+                    showNotification('Settings (S)', 'info', 1500);
+                    return;
+            }
+        }
+    },
+
+    // Show keyboard shortcuts help
+    showHelp() {
+        const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+        const mod = isMac ? 'Cmd' : 'Ctrl';
+
+        const shortcuts = [
+            { keys: [`${mod}+N`, 'N'], action: 'Create new task' },
+            { keys: [`${mod}+K`], action: 'Focus search box' },
+            { keys: [`${mod}+S`], action: 'Save task (in edit mode)' },
+            { keys: [`${mod}+Enter`], action: 'Save task (in modal)' },
+            { keys: [`${mod}+Shift+A`, 'A'], action: 'Open archives' },
+            { keys: [`${mod}+Shift+S`, 'S'], action: 'Open settings' },
+            { keys: ['?'], action: 'Show this help' },
+            { keys: ['Escape'], action: 'Close modal' }
+        ];
+
+        const html = `
+            <div style="max-width: 500px;">
+                <h3 style="margin-bottom: 1rem;">Keyboard Shortcuts</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    ${shortcuts.map(s => `
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.5rem; font-family: monospace; font-size: 0.9rem;">
+                                ${s.keys.join(' or ')}
+                            </td>
+                            <td style="padding: 0.5rem; text-align: right;">${s.action}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+                <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                    Tip: Use ${mod}+key for global shortcuts, ? for this help
+                </p>
+            </div>
+        `;
+
+        // Show in a simple modal
+        const modal = document.createElement('div');
+        modal.className = 'modal active';
+        modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5);';
+        modal.innerHTML = `
+            <div style="background: var(--surface-modal); padding: 2rem; border-radius: 12px; max-width: 90vw; max-height: 90vh; overflow: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);">
+                ${html}
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button onclick="this.closest('.modal').remove()" class="btn btn-primary">Close</button>
+                </div>
+            </div>
+        `;
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+        document.body.appendChild(modal);
+
+        // Close on Escape
+        const closeOnEscape = (e) => {
+            if (e.key === 'Escape') {
+                modal.remove();
+                document.removeEventListener('keydown', closeOnEscape);
+            }
+        };
+        document.addEventListener('keydown', closeOnEscape);
+    }
+};
+
+// Initialize keyboard shortcuts
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => KeyboardShortcuts.init());
+} else {
+    KeyboardShortcuts.init();
 }
 
 // Close topmost modal on Escape (accessibility)
