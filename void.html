@@ -3664,6 +3664,22 @@ function populateExperimentalFeatures() {
         const flagName = feature.flagName;  // Full flag name like 'ENABLE_RICH_TEXT_EDITOR'
         const shortKey = feature.key;        // Short key like 'featureRichText'
         const isEnabled = FEATURE_FLAGS[flagName]?.enabled || false;
+        
+        // Special HTML for Rich Text Editor (includes status and mode selector)
+        const extraHTML = flagName === 'ENABLE_RICH_TEXT_EDITOR' ? `
+            <div id="featureRichTextStatus" style="margin-top: 8px; font-size: 0.85rem; display: none;"></div>
+            <div id="editorModeRow" class="setting-row" style="margin-top: 12px; display: none;">
+                <div class="setting-info">
+                    <span>Editor Mode</span>
+                    <small>Choose plain text or rich text editor</small>
+                </div>
+                <select id="editorModeSelect" onchange="changeEditorMode(this.value)" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--surface-card); color: var(--text-primary);">
+                    <option value="plain">Plain Text</option>
+                    <option value="rich">Rich Text (Tiptap)</option>
+                </select>
+            </div>
+        ` : '';
+        
         return `
         <div class="setting-row">
             <div class="setting-info">
@@ -3680,6 +3696,7 @@ function populateExperimentalFeatures() {
                 <div class="toggle-thumb"></div>
             </div>
         </div>
+        ${extraHTML}
     `}).join('');
 
     // Attach event listeners to toggle switches
@@ -5805,11 +5822,15 @@ function deleteFromArchive(taskId) {
             }
             
             if (typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
-                statusEl.innerHTML = '<span class="status-success">✓ Rich text library loaded (basic formatting available)</span>';
+                statusEl.innerHTML = '<span class="status-success">✓ Rich text editor ready! Select "Rich" mode below, then open a task to use it.</span>';
                 statusEl.style.display = 'block';
                 if (modeRow) modeRow.style.display = 'flex';
                 if (modeSelect) {
                     modeSelect.value = savedMode;
+                }
+                // Show helpful notification
+                if (savedMode === 'plain') {
+                    showNotification('Rich Text Editor loaded! Switch Editor Mode to "Rich" to use it.', 'info', 5000);
                 }
             } else if (typeof window.Tiptap !== 'undefined') {
                 statusEl.innerHTML = '<span class="status-success">✓ Library loaded. Select Rich Text mode below for basic formatting.</span>';
