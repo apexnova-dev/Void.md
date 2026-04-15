@@ -4036,11 +4036,12 @@ function openTaskModal(task = null) {
     } catch (e) {
         console.warn('localStorage read failed:', e);
     }
+    const Tiptap = window.Tiptap || window['@tiptap/core'];
     const useRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled &&
         editorMode === 'rich' &&
-        typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
+        typeof Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
     
-    debugLog(`📝 Task modal opening: useRich=${useRich}, editorMode=${editorMode}, Tiptap=${typeof window.Tiptap}, TiptapEditor=${typeof window.TiptapEditor}`);
+    debugLog(`📝 Task modal opening: useRich=${useRich}, editorMode=${editorMode}, Tiptap=${typeof Tiptap}, TiptapEditor=${typeof window.TiptapEditor}`);
     
     if (taskNotesEl) taskNotesEl.style.display = useRich ? 'none' : 'block';
     if (richWrap) richWrap.style.display = useRich ? 'block' : 'none';
@@ -5826,7 +5827,7 @@ function deleteFromArchive(taskId) {
                 console.warn('localStorage read failed:', e);
             }
             
-            const Tiptap = window.Tiptap || window.tiptap;
+            const Tiptap = window.Tiptap || window['@tiptap/core'];
             if (typeof Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined') {
                 statusEl.innerHTML = '<span class="status-success">✓ Rich text editor ready! Select "Rich" mode below, then open a task to use it.</span>';
                 statusEl.style.display = 'block';
@@ -6138,16 +6139,16 @@ function deleteFromArchive(taskId) {
                 }
                 if (this._editor) { this.destroy(); }
                 
-                // Normalize Tiptap reference
-                const Tiptap = window.Tiptap || window.tiptap;
+                // Normalize Tiptap reference - v2 exports to window['@tiptap/core']
+                let Tiptap = window.Tiptap || window['@tiptap/core'];
                 if (typeof Tiptap === 'undefined' || !Tiptap.Editor) {
                     console.warn('TiptapEditor: Tiptap.Editor not available');
                     console.log('Window.Tiptap:', window.Tiptap);
-                    console.log('Window.tiptap:', window.tiptap);
+                    console.log('Window["@tiptap/core"]:', window['@tiptap/core']);
                     return false;
                 }
                 
-                // Ensure window.Tiptap is set for other code
+                // Ensure window.Tiptap is set for consistent access
                 if (!window.Tiptap) {
                     window.Tiptap = Tiptap;
                 }
@@ -6466,19 +6467,17 @@ function deleteFromArchive(taskId) {
                         let attempts = 0;
                         const checkInterval = setInterval(() => {
                             attempts++;
-                            // Check for Tiptap core - v2 exports as window.Tiptap or window.tiptap
-                            const tiptap = window.Tiptap || window.tiptap;
-                            if (typeof tiptap !== 'undefined' && (tiptap.Editor || tiptap.core)) {
+                            // Check for Tiptap core - v2 exports to window['@tiptap/core']
+                            const tiptapCore = window['@tiptap/core'];
+                            if (typeof tiptapCore !== 'undefined' && tiptapCore.Editor) {
                                 clearInterval(checkInterval);
-                                // Normalize to window.Tiptap
-                                if (!window.Tiptap && window.tiptap) {
-                                    window.Tiptap = window.tiptap;
-                                }
+                                // Normalize to window.Tiptap for easier access
+                                window.Tiptap = tiptapCore;
+                                debugLog('✅ Tiptap core initialized');
                                 resolve();
                             } else if (attempts > 50) { // 5 second timeout
                                 clearInterval(checkInterval);
-                                console.error('[Tiptap] Window.Tiptap:', window.Tiptap);
-                                console.error('[Tiptap] Window.tiptap:', window.tiptap);
+                                console.error('[Tiptap] window["@tiptap/core"]:', window['@tiptap/core']);
                                 reject(new Error('Tiptap core not initialized'));
                             }
                         }, 100);
