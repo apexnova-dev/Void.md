@@ -6415,8 +6415,10 @@ function deleteFromArchive(taskId) {
                         // Note: SRI disabled for now - hashes would need to be generated for correct files
                         // script.crossOrigin = 'anonymous';
                         
-                        script.onload = () => {
-                            debugLog(`✅ Loaded: ${cdnUrl}`);
+                        script.onload = async () => {
+                            debugLog(`✅ Core loaded: ${cdnUrl}`);
+                            // Wait for Tiptap to fully initialize
+                            await new Promise(r => setTimeout(r, 100));
                             resolve({ success: true, url: cdnUrl });
                         };
                         
@@ -6439,6 +6441,21 @@ function deleteFromArchive(taskId) {
                         document.head.appendChild(script);
                     });
                     
+                    // Wait for Tiptap core to be fully available before loading extensions
+                    await new Promise((resolve, reject) => {
+                        let attempts = 0;
+                        const checkInterval = setInterval(() => {
+                            attempts++;
+                            if (typeof window.Tiptap !== 'undefined' && window.Tiptap.Editor) {
+                                clearInterval(checkInterval);
+                                resolve();
+                            } else if (attempts > 50) { // 5 second timeout
+                                clearInterval(checkInterval);
+                                reject(new Error('Tiptap core not initialized'));
+                            }
+                        }, 100);
+                    });
+                    
                     // Optionally load StarterKit for bold/italic/lists (same CDN base)
                     const base = cdnUrl.includes('jsdelivr') ? 'https://cdn.jsdelivr.net/npm' : 'https://unpkg.com';
                     const starterKitUrl = `${base}/@tiptap/starter-kit@2.1.13/dist/starter-kit.umd.js`;
@@ -6446,9 +6463,6 @@ function deleteFromArchive(taskId) {
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = starterKitUrl;
-                            // SRI (Subresource Integrity) for security
-                            s.integrity = 'sha384-NWmaSF+fEoAkvY7fyUIIWWzgviNVIDWG/wQvTdZzaY9fQvBjijjQVnHlX/614pMg';
-                            s.crossOrigin = 'anonymous';
                             s.onload = () => { debugLog('✅ StarterKit loaded'); resolve(); };
                             s.onerror = () => reject(new Error('StarterKit load failed'));
                             document.head.appendChild(s);
@@ -6463,9 +6477,6 @@ function deleteFromArchive(taskId) {
                         await new Promise((resolve, reject) => {
                             const s = document.createElement('script');
                             s.src = linkUrl;
-                            // TODO: Generate SRI hash for this resource
-                            // s.integrity = 'sha384-...';
-                            s.crossOrigin = 'anonymous';
                             s.onload = () => { debugLog('✅ Link extension loaded'); resolve(); };
                             s.onerror = () => reject(new Error('Link extension load failed'));
                             document.head.appendChild(s);
