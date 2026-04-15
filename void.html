@@ -1978,6 +1978,67 @@
             font-size: 0.8rem;
             color: var(--text-secondary);
         }
+        .tiptap-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            align-items: center;
+        }
+        .tiptap-toolbar-btn {
+            padding: 0.35rem 0.6rem;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background: transparent;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .tiptap-toolbar-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-color);
+        }
+        .tiptap-toolbar-btn.is-active {
+            background: var(--accent);
+            color: white;
+        }
+        .tiptap-toolbar-separator {
+            width: 1px;
+            height: 1.5rem;
+            background: var(--border-color);
+            margin: 0 0.25rem;
+        }
+        .tiptap-toolbar-select {
+            padding: 0.35rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--surface-card);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .tiptap-toolbar-btn--link {
+            background: var(--accent-subtle);
+            border-color: var(--accent);
+        }
+        .tiptap-container {
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            min-height: 200px;
+            padding: 1rem;
+            background: var(--surface-card);
+        }
+        .tiptap-container p.is-editor-empty:first-child::before {
+            content: attr(data-placeholder);
+            float: left;
+            color: var(--text-muted);
+            pointer-events: none;
+            height: 0;
+        }
         .modal-content--columns {
             width: min(95%, 800px);
             max-width: 800px;
@@ -2574,11 +2635,42 @@ You can use Markdown:
                     <!-- Rich editor (visible when Editor Mode is Rich); toolbar + container -->
                     <div id="notesRichEditorWrap">
                         <div id="tiptapToolbar" class="tiptap-toolbar">
-                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold" aria-label="Bold">B</button>
-                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic" aria-label="Italic">I</button>
+                            <!-- History -->
+                            <button type="button" class="tiptap-toolbar-btn" data-action="undo" title="Undo (Ctrl+Z)" aria-label="Undo">↩️</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↪️</button>
+                            
+                            <span class="tiptap-toolbar-separator"></span>
+                            
+                            <!-- Headings -->
+                            <select class="tiptap-toolbar-select" data-action="heading" title="Heading style" aria-label="Heading style">
+                                <option value="paragraph">Paragraph</option>
+                                <option value="1">Heading 1</option>
+                                <option value="2">Heading 2</option>
+                                <option value="3">Heading 3</option>
+                            </select>
+                            
+                            <span class="tiptap-toolbar-separator"></span>
+                            
+                            <!-- Formatting -->
+                            <button type="button" class="tiptap-toolbar-btn" data-action="bold" title="Bold (Ctrl+B)" aria-label="Bold"><strong>B</strong></button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="italic" title="Italic (Ctrl+I)" aria-label="Italic"><em>I</em></button>
                             <button type="button" class="tiptap-toolbar-btn" data-action="code" title="Code" aria-label="Code">&lt;/&gt;</button>
+                            
+                            <span class="tiptap-toolbar-separator"></span>
+                            
+                            <!-- Lists -->
                             <button type="button" class="tiptap-toolbar-btn" data-action="bulletList" title="Bullet list" aria-label="Bullet list">• List</button>
                             <button type="button" class="tiptap-toolbar-btn" data-action="orderedList" title="Numbered list" aria-label="Numbered list">1. List</button>
+                            <button type="button" class="tiptap-toolbar-btn" data-action="blockquote" title="Quote" aria-label="Quote">❝</button>
+                            
+                            <span class="tiptap-toolbar-separator"></span>
+                            
+                            <!-- Link -->
+                            <button type="button" class="tiptap-toolbar-btn tiptap-toolbar-btn--link" data-action="link" title="Add link (Ctrl+K)" aria-label="Add link">🔗 Link</button>
+                            
+                            <span class="tiptap-toolbar-separator"></span>
+                            
+                            <!-- Clear -->
                             <button type="button" class="tiptap-toolbar-btn" data-action="clearFormatting" title="Clear formatting" aria-label="Clear formatting">Clear</button>
                         </div>
                         <div id="tiptapContainer" class="tiptap-container"></div>
@@ -5247,22 +5339,63 @@ function deleteFromArchive(taskId) {
                 }
                 el.innerHTML = '';
                 const extensions = [];
-                if (window.Tiptap.StarterKit) extensions.push(window.Tiptap.StarterKit);
-                else if (window.StarterKit) extensions.push(window.StarterKit);
-                const fallback = [window.Tiptap.Document, window.Tiptap.Paragraph, window.Tiptap.Text].filter(Boolean);
-                const ext = extensions.length ? extensions : fallback;
-                if (!ext.length) {
-                    console.warn('TiptapEditor: No extensions (need StarterKit or Document/Paragraph/Text)');
-                    return false;
+
+                // Add StarterKit with history support
+                if (window.Tiptap.StarterKit) {
+                    extensions.push(window.Tiptap.StarterKit.configure({
+                        history: {
+                            depth: 100,
+                            newGroupDelay: 500
+                        }
+                    }));
+                } else if (window.StarterKit) {
+                    extensions.push(window.StarterKit);
                 }
+
+                // Add Link extension if available
+                if (window.Tiptap.Link || window.LinkExtension) {
+                    const LinkExt = window.Tiptap.Link || window.LinkExtension;
+                    extensions.push(LinkExt.configure({
+                        openOnClick: false,
+                        linkOnPaste: true,
+                        validate: href => /^https?:\/\//.test(href)
+                    }));
+                }
+
+                // Add Placeholder extension if available
+                if (window.Tiptap.Placeholder || window.PlaceholderExtension) {
+                    const PlaceholderExt = window.Tiptap.Placeholder || window.PlaceholderExtension;
+                    extensions.push(PlaceholderExt.configure({
+                        placeholder: 'Enter notes here... Use formatting tools above or type Markdown'
+                    }));
+                }
+
+                // Fallback extensions
+                if (!extensions.length) {
+                    const fallback = [window.Tiptap.Document, window.Tiptap.Paragraph, window.Tiptap.Text].filter(Boolean);
+                    if (fallback.length) {
+                        extensions.push(...fallback);
+                    } else {
+                        console.warn('TiptapEditor: No extensions available');
+                        return false;
+                    }
+                }
+
                 try {
                     this._editor = new window.Tiptap.Editor({
                         element: el,
-                        extensions: ext,
+                        extensions: extensions,
                         content: '<p></p>',
-                        editorProps: { attributes: { class: 'ProseMirror' } }
+                        editorProps: {
+                            attributes: {
+                                class: 'ProseMirror',
+                                'data-placeholder': 'Enter notes here... Use formatting tools above or type Markdown'
+                            }
+                        }
                     });
                     this._setupToolbar();
+                    this._setupKeyboardShortcuts();
+                    this._updateToolbarState();
                     return true;
                 } catch (e) {
                     console.error('TiptapEditor.create:', e);
@@ -5306,7 +5439,7 @@ function deleteFromArchive(taskId) {
                 return !!this._editor;
             },
 
-            _run(action) {
+            _run(action, value = null) {
                 if (!this._editor) return;
                 const chain = this._editor.chain().focus();
                 switch (action) {
@@ -5315,17 +5448,116 @@ function deleteFromArchive(taskId) {
                     case 'code': chain.toggleCode().run(); break;
                     case 'bulletList': chain.toggleBulletList().run(); break;
                     case 'orderedList': chain.toggleOrderedList().run(); break;
+                    case 'blockquote': chain.toggleBlockquote().run(); break;
+                    case 'undo': chain.undo().run(); break;
+                    case 'redo': chain.redo().run(); break;
+                    case 'link': this._insertLink(); break;
+                    case 'heading':
+                        if (value) {
+                            chain.toggleHeading({ level: parseInt(value) }).run();
+                        } else {
+                            chain.setParagraph().run();
+                        }
+                        break;
                     case 'clearFormatting': chain.clearNodes().unsetAllMarks().run(); break;
                     default: break;
+                }
+                this._updateToolbarState();
+            },
+
+            _insertLink() {
+                if (!this._editor) return;
+                const { state } = this._editor;
+                const { selection } = state;
+                const selectedText = selection.empty ? '' : state.doc.textBetween(selection.from, selection.to);
+
+                const url = prompt('Enter URL:', 'https://');
+                if (url && url !== 'https://') {
+                    if (selectedText) {
+                        this._editor.chain().focus().setLink({ href: url }).run();
+                    } else {
+                        const text = prompt('Link text:', url);
+                        if (text) {
+                            this._editor.chain().focus().insertContent(`<a href="${url}">${text}</a>`).run();
+                        }
+                    }
                 }
             },
 
             _setupToolbar() {
                 const toolbar = document.getElementById('tiptapToolbar');
                 if (!toolbar) return;
+
+                // Button handlers
                 toolbar.querySelectorAll('.tiptap-toolbar-btn[data-action]').forEach(btn => {
-                    btn.onclick = () => this._run(btn.getAttribute('data-action'));
+                    btn.onclick = () => {
+                        const action = btn.getAttribute('data-action');
+                        this._run(action);
+                    };
                 });
+
+                // Select handler for headings
+                const headingSelect = toolbar.querySelector('.tiptap-toolbar-select[data-action="heading"]');
+                if (headingSelect) {
+                    headingSelect.onchange = (e) => {
+                        const value = e.target.value;
+                        if (value === 'paragraph') {
+                            this._run('heading', null);
+                        } else {
+                            this._run('heading', value);
+                        }
+                    };
+                }
+            },
+
+            _setupKeyboardShortcuts() {
+                if (!this._editor) return;
+
+                // Editor-level keyboard shortcuts
+                this._editor.view.dom.addEventListener('keydown', (e) => {
+                    const ctrl = e.ctrlKey || e.metaKey;
+
+                    if (ctrl && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        this._insertLink();
+                    }
+                });
+            },
+
+            _updateToolbarState() {
+                if (!this._editor) return;
+
+                const toolbar = document.getElementById('tiptapToolbar');
+                if (!toolbar) return;
+
+                // Update button active states
+                toolbar.querySelectorAll('.tiptap-toolbar-btn[data-action]').forEach(btn => {
+                    const action = btn.getAttribute('data-action');
+                    let isActive = false;
+
+                    switch (action) {
+                        case 'bold': isActive = this._editor.isActive('bold'); break;
+                        case 'italic': isActive = this._editor.isActive('italic'); break;
+                        case 'code': isActive = this._editor.isActive('code'); break;
+                        case 'bulletList': isActive = this._editor.isActive('bulletList'); break;
+                        case 'orderedList': isActive = this._editor.isActive('orderedList'); break;
+                        case 'blockquote': isActive = this._editor.isActive('blockquote'); break;
+                    }
+
+                    btn.classList.toggle('is-active', isActive);
+                });
+
+                // Update heading select
+                const headingSelect = toolbar.querySelector('.tiptap-toolbar-select[data-action="heading"]');
+                if (headingSelect) {
+                    for (let i = 1; i <= 3; i++) {
+                        if (this._editor.isActive('heading', { level: i })) {
+                            headingSelect.value = String(i);
+                            return;
+                        }
+                    }
+                    headingSelect.value = 'paragraph';
+                }
             }
         };
 
@@ -5424,6 +5656,40 @@ function deleteFromArchive(taskId) {
                         });
                     } catch (_) {
                         console.warn('StarterKit not loaded – editor may have limited formatting');
+                    }
+                    
+                    // Load Link extension for hyperlink support
+                    const linkUrl = `${base}/@tiptap/extension-link@2.1.13/dist/index.umd.js`;
+                    try {
+                        await new Promise((resolve, reject) => {
+                            const s = document.createElement('script');
+                            s.src = linkUrl;
+                            // TODO: Generate SRI hash for this resource
+                            // s.integrity = 'sha384-...';
+                            s.crossOrigin = 'anonymous';
+                            s.onload = () => { debugLog('✅ Link extension loaded'); resolve(); };
+                            s.onerror = () => reject(new Error('Link extension load failed'));
+                            document.head.appendChild(s);
+                        });
+                    } catch (_) {
+                        console.warn('Link extension not loaded');
+                    }
+                    
+                    // Load Placeholder extension for placeholder text
+                    const placeholderUrl = `${base}/@tiptap/extension-placeholder@2.1.13/dist/index.umd.js`;
+                    try {
+                        await new Promise((resolve, reject) => {
+                            const s = document.createElement('script');
+                            s.src = placeholderUrl;
+                            // TODO: Generate SRI hash for this resource
+                            // s.integrity = 'sha384-...';
+                            s.crossOrigin = 'anonymous';
+                            s.onload = () => { debugLog('✅ Placeholder extension loaded'); resolve(); };
+                            s.onerror = () => reject(new Error('Placeholder extension load failed'));
+                            document.head.appendChild(s);
+                        });
+                    } catch (_) {
+                        console.warn('Placeholder extension not loaded');
                     }
                     
                     showNotification('Rich text editor loaded!', 'success');

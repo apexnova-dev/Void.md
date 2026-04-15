@@ -10,23 +10,34 @@
 
 ```
 **v1.1 (Short term)**
-- [ ] Interactive Kanban ✅ DONE (prior to our work)
-- [ ] Complete task management ✅ DONE (prior)
-- [ ] Advanced filters ✅ DONE (prior)
-- [ ] Archive system ✅ DONE (prior)
-- [ ] Multi-project ✅ DONE (prior)
-- [ ] Auto-save ✅ DONE (prior)
-- [ ] AI integration ✅ DONE (prior)
+- [x] Interactive Kanban ✅ DONE (prior to our work)
+- [x] Complete task management ✅ DONE (prior)
+- [x] Advanced filters ✅ DONE (prior)
+- [x] Archive system ✅ DONE (prior)
+- [x] Multi-project ✅ DONE (prior)
+- [x] Auto-save ✅ DONE (prior)
+- [x] AI integration ✅ DONE (prior)
 
 **v1.1.1 (Specific Focus)**
-- [ ] Dark mode foundation ✅ DONE (prior to our work)
-- [ ] Change logging system ✅ DONE (prior)
-- [ ] Version management ✅ DONE (prior)
-- [ ] Developer documentation console ✅ DONE (prior)
+- [x] Dark mode foundation ✅ DONE (prior to our work)
+- [x] Change logging system ✅ DONE (prior)
+- [x] Version management ✅ DONE (prior)
+- [x] Developer documentation console ✅ DONE (prior)
 
 **v1.2 (Short term)**
-- [ ] UI/Ux Update
-- [ ] Keyboard shortcuts
+- [x] UI/Ux Update
+- [x] Keyboard shortcuts
+| Shortcut             | Action                        |
+|----------------------|-------------------------------|
+| Ctrl/Cmd + N         | Create new task               |
+| Ctrl/Cmd + K         | Focus search box              |
+| Ctrl/Cmd + S         | Save task (in edit mode)      |
+| Ctrl/Cmd + Enter     | Save task (in modal)          |
+| Ctrl/Cmd + Shift + A | Open archives                 |
+| Ctrl/Cmd + Shift + S | Open settings                 |
+| ?                    | Show keyboard shortcuts help  |
+| Escape               | Close modal (already existed) |
+
 - [ ] PDF/HTML export
 - [ ] Visual statistics (charts)
 

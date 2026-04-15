@@ -79,3 +79,18 @@ The [`../core-package/`](../core-package/) directory is a **minimal distribution
 - **Void.md** is the product name; legacy “Markdown Task Manager” may still appear in old paths or screenshots.
 - **Single-file app:** behavior lives in [`void.html`](../void.html) (mirrored under `core-package/`).
 - **AI edits to `kanban.md`:** always preserve column `**Columns**:` lines with `Name (id)` segments matching `##` headings — see [`AI_WORKFLOW.md`](AI_WORKFLOW.md).
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut             | Action                        |
+|----------------------|-------------------------------|
+| Ctrl/Cmd + N         | Create new task               |
+| Ctrl/Cmd + K         | Focus search box              |
+| Ctrl/Cmd + S         | Save task (in edit mode)      |
+| Ctrl/Cmd + Enter     | Save task (in modal)          |
+| Ctrl/Cmd + Shift + A | Open archives                 |
+| Ctrl/Cmd + Shift + S | Open settings                 |
+| ?                    | Show keyboard shortcuts help  |
+| Escape               | Close modal (already existed) |
