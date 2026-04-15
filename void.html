@@ -547,8 +547,114 @@
         }
 
         [data-theme="dark"] .kanban-column {
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
+            background: #0a0b10;
+            border: 1px solid #00f2ff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Neon gradient border effect */
+        [data-theme="dark"] .kanban-column::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00f2ff, #7b2eff, #ff00ea, #00f2ff);
+            background-size: 300% 100%;
+            animation: neonBorderFlow 3s linear infinite;
+        }
+
+        @keyframes neonBorderFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
+        [data-theme="dark"] .column-header {
+            background: linear-gradient(90deg, #00f2ff, #7b2eff);
+            color: #000;
+            padding: 10px 14px;
+            border-radius: 6px 6px 0 0;
+            margin: -1rem -1rem 1rem -1rem;
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle glow under header */
+        [data-theme="dark"] .column-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(180deg, rgba(0, 242, 255, 0.3), transparent);
+        }
+
+        [data-theme="dark"] .column-title {
+            color: #000;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] .column-title::before {
+            content: '> ';
+            opacity: 0.6;
+        }
+
+        [data-theme="dark"] .column-count {
+            background: rgba(0, 0, 0, 0.25);
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Enhanced task list scrollbar for dark mode */
+        [data-theme="dark"] .task-list {
+            background: transparent;
+        }
+
+        [data-theme="dark"] .task-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        [data-theme="dark"] .task-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            margin: 4px;
+        }
+
+        [data-theme="dark"] .task-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2ff, #7b2eff);
+            border-radius: 3px;
+            box-shadow: 0 0 8px rgba(0, 242, 255, 0.5);
+        }
+
+        [data-theme="dark"] .task-list::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #7b2eff, #ff00ea);
+            box-shadow: 0 0 12px rgba(123, 46, 255, 0.7);
+        }
+
+        /* Empty state in dark mode */
+        [data-theme="dark"] .empty-state {
+            color: #555;
+            font-style: italic;
+            text-align: center;
+            padding: 2rem 1rem;
+            border: 1px dashed #333;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .column-header {
@@ -602,15 +708,138 @@
             border-color: var(--accent);
         }
 
+        /* ========================================
+           NEON CITY - DARK MODE TASK CARDS
+           ======================================== */
         [data-theme="dark"] .task-card {
-            border: 1px solid var(--border-color);
+            background: #0f1117;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 12px;
+            cursor: move;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Neon border glow on hover */
         [data-theme="dark"] .task-card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-hover);
+            border-color: #00f2ff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3), 0 4px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
 
+        /* Subtle left border accent */
+        [data-theme="dark"] .task-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: transparent;
+            transition: background 0.2s ease;
+        }
+
+        [data-theme="dark"] .task-card:hover::before {
+            background: linear-gradient(180deg, #00f2ff, #7b2eff);
+        }
+
+        /* Dragging State - Neon glow effect */
+        [data-theme="dark"] .task-card.dragging {
+            opacity: 0.8;
+            border-color: #00f2ff;
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
+            transform: rotate(2deg) scale(1.02);
+        }
+
+        /* Focus State - Cyan outline glow */
+        [data-theme="dark"] .task-card:focus-visible {
+            outline: 2px solid #00f2ff;
+            outline-offset: 2px;
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        /* Task Card Header - Dark Mode */
+        [data-theme="dark"] .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        [data-theme="dark"] .task-title {
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Task Meta & Badges - Dark Mode */
+        [data-theme="dark"] .task-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        /* Priority badges with neon colors */
+        [data-theme="dark"] .badge-priority {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid;
+            background: transparent;
+        }
+
+        [data-theme="dark"] .badge-priority-high {
+            color: #ff00ea;
+            border-color: #ff00ea;
+            box-shadow: 0 0 5px rgba(255, 0, 234, 0.3);
+        }
+
+        [data-theme="dark"] .badge-priority-medium {
+            color: #00f2ff;
+            border-color: #00f2ff;
+            box-shadow: 0 0 5px rgba(0, 242, 255, 0.3);
+        }
+
+        [data-theme="dark"] .badge-priority-low {
+            color: #7b2eff;
+            border-color: #7b2eff;
+            box-shadow: 0 0 5px rgba(123, 46, 255, 0.3);
+        }
+
+        /* Category badge - Dark Mode */
+        [data-theme="dark"] .badge-category {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(123, 46, 255, 0.2);
+            color: #7b2eff;
+            border: 1px solid #7b2eff;
+        }
+
+        /* Tags - Dark Mode */
+        [data-theme="dark"] .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(0, 242, 255, 0.1);
+            color: #00f2ff;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+        }
+
+        /* ========================================
+           LIGHT MODE TASK CARDS (Preserve existing)
+           ======================================== */
         .task-card.dragging {
             opacity: 0.5;
         }
@@ -1544,11 +1773,18 @@
         }
 
         [data-theme="dark"] .modal-header h2 {
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin: 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] .modal-header h2::before {
+            content: '// ';
+            opacity: 0.7;
         }
 
         [data-theme="dark"] .modal-header .close-btn {
