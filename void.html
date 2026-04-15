@@ -4039,10 +4039,15 @@ function openTaskModal(task = null) {
     const useRich = FEATURE_FLAGS.ENABLE_RICH_TEXT_EDITOR.enabled &&
         editorMode === 'rich' &&
         typeof window.Tiptap !== 'undefined' && typeof window.TiptapEditor !== 'undefined';
+    
+    debugLog(`📝 Task modal opening: useRich=${useRich}, editorMode=${editorMode}, Tiptap=${typeof window.Tiptap}, TiptapEditor=${typeof window.TiptapEditor}`);
+    
     if (taskNotesEl) taskNotesEl.style.display = useRich ? 'none' : 'block';
     if (richWrap) richWrap.style.display = useRich ? 'block' : 'none';
     if (useRich && window.TiptapEditor) {
+        debugLog('📝 Creating Tiptap editor...');
         const created = window.TiptapEditor.create('tiptapContainer');
+        debugLog(`📝 Tiptap editor created: ${created}`);
         if (created) {
             const notesMd = (taskNotesEl && taskNotesEl.value) || (task && task.notes) || '';
             window.TiptapEditor.setMarkdown(notesMd);
