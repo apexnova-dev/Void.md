@@ -13,10 +13,13 @@
     <script>
         (function () {
             try {
-                var t = localStorage.getItem('preferredTheme');
-                // Support three themes: light, dark, neon
-                var validThemes = ['light', 'dark', 'neon'];
-                document.documentElement.setAttribute('data-theme', validThemes.includes(t) ? t : 'dark');
+                // Get base theme and neon mode
+                var base = localStorage.getItem('baseTheme') || 'dark';
+                var neon = localStorage.getItem('neonMode') === 'true';
+                
+                // Compute actual theme
+                var theme = neon ? 'neon' : base;
+                document.documentElement.setAttribute('data-theme', theme);
             } catch (e) {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
@@ -3084,10 +3087,19 @@
                     <h3>🎨 Appearance</h3>
                     <div class="setting-row">
                         <div class="setting-info">
-                            <span>Theme <span id="currentThemeLabel" style="color: var(--accent); font-weight: 600;">🌙 Dark</span></span>
-                            <small>Click toggle to cycle: Light → Dark → Neon City</small>
+                            <span>Base Theme <span id="currentThemeLabel" style="color: var(--accent); font-weight: 600;">🌙 Dark</span></span>
+                            <small>Toggle between Light and Dark mode</small>
                         </div>
-                        <div class="toggle-switch" id="themeToggleSwitch" role="switch" aria-checked="true" aria-label="Toggle theme" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThemeFromToggle();}" onclick="toggleThemeFromToggle()">
+                        <div class="toggle-switch" id="themeToggleSwitch" role="switch" aria-checked="true" aria-label="Toggle light/dark theme" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThemeFromToggle();}" onclick="toggleThemeFromToggle()">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <span>🌃 Neon City Mode</span>
+                            <small>Activate cyberpunk aesthetic with neon colors</small>
+                        </div>
+                        <div class="toggle-switch" id="neonModeToggleSwitch" role="switch" aria-checked="false" aria-label="Toggle Neon City mode" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleNeonMode();}" onclick="toggleNeonMode()">
                             <div class="toggle-thumb"></div>
                         </div>
                     </div>
@@ -4670,7 +4682,10 @@ function deleteFromArchive(taskId) {
         };
 
         // ===== THEME SYSTEM =====
-         let currentTheme = 'dark'; // Default to standard dark mode
+        // Two-part theme system: baseTheme (light/dark) + neonMode (boolean)
+        let baseTheme = 'dark';      // 'light' or 'dark'
+        let neonMode = false;        // true = apply Neon City styling
+        let currentTheme = 'dark';   // Computed: if neonMode then 'neon' else baseTheme
 
         // ===== TRANSLATION SYSTEM =====
         let currentLanguage = 'en'; // Default language
@@ -5508,13 +5523,11 @@ function deleteFromArchive(taskId) {
 
         // ===== THEME FUNCTIONS =====
         
-        // Toggle between light, dark, and neon themes (called from settings)
+        // Toggle between light and dark base themes
         function toggleTheme() {
-            const previousTheme = currentTheme;
-            const themeCycle = { 'light': 'dark', 'dark': 'neon', 'neon': 'light' };
-            const newTheme = themeCycle[previousTheme] || 'light';
-            setTheme(newTheme, true, { skipChangelog: true });
-            showNotification(`Theme: ${newTheme.toUpperCase()}`, 'success', 1500);
+            const newBaseTheme = baseTheme === 'light' ? 'dark' : 'light';
+            setBaseTheme(newBaseTheme, true);
+            showNotification(`Theme: ${getThemeDisplayName(newBaseTheme)}`, 'success', 1500);
         }
 
         // Toggle theme from settings modal toggle switch
@@ -5523,16 +5536,67 @@ function deleteFromArchive(taskId) {
             // Update aria-checked for accessibility
             const themeToggle = document.getElementById('themeToggleSwitch');
             if (themeToggle) {
-                const currentThemeValue = document.documentElement.getAttribute('data-theme');
-                themeToggle.setAttribute('aria-checked', (currentThemeValue !== 'light').toString());
-                // Update visual indicator
-                updateThemeToggle();
+                themeToggle.setAttribute('aria-checked', (baseTheme !== 'light').toString());
             }
+        }
+
+        // Toggle Neon City mode
+        function toggleNeonMode() {
+            neonMode = !neonMode;
+            try {
+                localStorage.setItem('neonMode', neonMode.toString());
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
+            
+            // Apply the computed theme
+            const computedTheme = neonMode ? 'neon' : baseTheme;
+            setTheme(computedTheme, true, { skipChangelog: true });
+            
+            // Update UI
+            updateNeonToggle();
+            showNotification(`Neon City: ${neonMode ? 'ACTIVATED' : 'OFF'}`, neonMode ? 'success' : 'info', 1500);
+        }
+
+        // Update Neon toggle appearance
+        function updateNeonToggle() {
+            const neonToggle = document.getElementById('neonModeToggleSwitch');
+            if (neonToggle) {
+                if (neonMode) {
+                    neonToggle.classList.add('active');
+                } else {
+                    neonToggle.classList.remove('active');
+                }
+                neonToggle.setAttribute('aria-checked', neonMode.toString());
+            }
+        }
+
+        // Set base theme (light/dark)
+        function setBaseTheme(theme, animate = true) {
+            if (theme !== 'light' && theme !== 'dark') {
+                console.warn(`Invalid base theme: ${theme}`);
+                return;
+            }
+            
+            baseTheme = theme;
+            try {
+                localStorage.setItem('baseTheme', baseTheme);
+            } catch (e) {
+                console.warn('localStorage write failed:', e);
+            }
+            
+            // Apply computed theme
+            const computedTheme = neonMode ? 'neon' : baseTheme;
+            setTheme(computedTheme, animate, { skipChangelog: true });
+            
+            // Update UI
+            updateThemeToggle();
         }
 
         // Get theme display name for UI
         function getThemeDisplayName(theme) {
-            const names = { 'light': '☀️ Light', 'dark': '🌙 Dark', 'neon': '🌃 Neon' };
+            if (neonMode) return '🌃 Neon City';
+            const names = { 'light': '☀️ Light', 'dark': '🌙 Dark' };
             return names[theme] || theme;
         }
 
@@ -6434,17 +6498,13 @@ function deleteFromArchive(taskId) {
         // Set theme and save to localStorage
         // options.skipChangelog: set true when caller logs (e.g. toggleTheme) to avoid duplicate entries
         function setTheme(theme, animate = true, options = {}) {
-            if (theme !== 'light' && theme !== 'dark') {
-                console.warn(`Invalid theme "${theme}", falling back to light mode`);
-                theme = 'light';
+            const validThemes = ['light', 'dark', 'neon'];
+            if (!validThemes.includes(theme)) {
+                console.warn(`Invalid theme "${theme}", falling back to dark mode`);
+                theme = 'dark';
             }
 
             currentTheme = theme;
-            try {
-                localStorage.setItem('preferredTheme', theme);
-            } catch (e) {
-                console.warn('localStorage write failed:', e);
-            }
 
             // Add transition class for smooth animation if requested
             if (animate) {
@@ -6456,6 +6516,7 @@ function deleteFromArchive(taskId) {
 
             // Update toggle button position
             updateThemeToggle();
+            updateNeonToggle();
 
             // Remove transition class after animation completes
             if (animate) {
@@ -6473,60 +6534,76 @@ function deleteFromArchive(taskId) {
             // Update the settings modal toggle switch
             const settingsToggle = document.getElementById('themeToggleSwitch');
             if (settingsToggle) {
-                // For three themes, use "active" for dark and neon, remove for light
-                if (currentTheme === 'light') {
+                // Active when baseTheme is dark
+                if (baseTheme === 'light') {
                     settingsToggle.classList.remove('active');
                 } else {
                     settingsToggle.classList.add('active');
                 }
+                settingsToggle.setAttribute('aria-checked', (baseTheme !== 'light').toString());
             }
             
             // Update theme label if it exists
             const themeLabel = document.getElementById('currentThemeLabel');
             if (themeLabel) {
-                themeLabel.textContent = getThemeDisplayName(currentTheme);
+                themeLabel.textContent = getThemeDisplayName(baseTheme);
             }
         }
 
         // Initialize theme from storage (or Dark default). Does not call setTheme() — avoids duplicate
         // ChangeLog entries and redundant localStorage writes; <head> script already set data-theme for first paint.
         function initTheme() {
-            let savedTheme = null;
+            // Load base theme
+            let savedBaseTheme = null;
             try {
-                savedTheme = localStorage.getItem('preferredTheme');
+                savedBaseTheme = localStorage.getItem('baseTheme');
             } catch (e) {
                 console.warn('localStorage read failed:', e);
             }
-            const validThemes = ['light', 'dark', 'neon'];
-            if (validThemes.includes(savedTheme)) {
-                currentTheme = savedTheme;
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                updateThemeToggle();
-                return;
-            }
-            // Default to dark (not neon)
-            currentTheme = 'dark';
-            document.documentElement.setAttribute('data-theme', 'dark');
+            
+            // Load neon mode
+            let savedNeonMode = null;
             try {
-                localStorage.setItem('preferredTheme', 'dark');
+                savedNeonMode = localStorage.getItem('neonMode');
             } catch (e) {
-                console.warn('localStorage write failed:', e);
+                console.warn('localStorage read failed:', e);
             }
+            
+            // Set base theme (default to dark)
+            if (savedBaseTheme === 'light' || savedBaseTheme === 'dark') {
+                baseTheme = savedBaseTheme;
+            } else {
+                baseTheme = 'dark';
+            }
+            
+            // Set neon mode (default to false)
+            neonMode = savedNeonMode === 'true';
+            
+            // Compute and apply the actual theme
+            currentTheme = neonMode ? 'neon' : baseTheme;
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            // Update UI
             updateThemeToggle();
+            updateNeonToggle();
+            
+            console.log(`Theme initialized: base=${baseTheme}, neon=${neonMode}, computed=${currentTheme}`);
         }
 
         // Listen for system theme changes
         if (window.matchMedia) {
             const themeChangeHandler = (e) => {
-                // Only change theme if user hasn't explicitly set one
-                let preferredTheme = null;
+                // Only change theme if user hasn't explicitly set base theme
+                let savedBaseTheme = null;
                 try {
-                    preferredTheme = localStorage.getItem('preferredTheme');
+                    savedBaseTheme = localStorage.getItem('baseTheme');
                 } catch (err) {
                     console.warn('localStorage read failed:', err);
                 }
-                if (!preferredTheme) {
-                    setTheme(e.matches ? 'dark' : 'light');
+                if (!savedBaseTheme) {
+                    // Use system preference
+                    const systemTheme = e.matches ? 'dark' : 'light';
+                    setBaseTheme(systemTheme);
                 }
             };
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
