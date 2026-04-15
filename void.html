@@ -3667,15 +3667,15 @@ function populateExperimentalFeatures() {
         
         // Special HTML for Rich Text Editor (includes status and mode selector)
         const extraHTML = flagName === 'ENABLE_RICH_TEXT_EDITOR' ? `
-            <div id="featureRichTextStatus" style="margin-top: 8px; font-size: 0.85rem; display: none;"></div>
-            <div id="editorModeRow" class="setting-row" style="margin-top: 12px; display: none;">
+            <div id="featureRichTextStatus" style="margin: 12px 0 8px 0; padding: 8px 12px; border-radius: 4px; font-size: 0.9rem; display: none;"></div>
+            <div id="editorModeRow" class="setting-row" style="margin: 12px 0; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 6px; display: none;">
                 <div class="setting-info">
-                    <span>Editor Mode</span>
-                    <small>Choose plain text or rich text editor</small>
+                    <span style="font-weight: 600;">📝 Editor Mode</span>
+                    <small>Choose how you want to edit task notes</small>
                 </div>
-                <select id="editorModeSelect" onchange="changeEditorMode(this.value)" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--surface-card); color: var(--text-primary);">
-                    <option value="plain">Plain Text</option>
-                    <option value="rich">Rich Text (Tiptap)</option>
+                <select id="editorModeSelect" onchange="changeEditorMode(this.value)" style="padding: 8px 16px; border-radius: 4px; border: 2px solid var(--border-color); background: var(--surface-card); color: var(--text-primary); font-size: 0.9rem; cursor: pointer;">
+                    <option value="plain">✏️ Plain Text (Markdown)</option>
+                    <option value="rich">🎨 Rich Text (Tiptap)</option>
                 </select>
             </div>
         ` : '';
