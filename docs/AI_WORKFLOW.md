@@ -1,6 +1,6 @@
 # Void.md — Markdown Task Protocol (AI)
 
-> **Local-first Kanban** with Neon City soul (dark theme, cyan/magenta accents).
+> **Local-first Kanban** with three visual themes: Light, Dark, and Neon City (cyberpunk aesthetic with cyan/magenta accents).
 
 **Data sovereignty:** No cloud — your Markdown files are the source of truth. **Void.md** is the local-first Kanban; open **`void.html`** in a supported browser to edit the same files live.
 
@@ -130,16 +130,102 @@ Fabricated notes undermine trust and make the audit trail meaningless.
 
 ---
 
+## ⌨️ Keyboard Shortcuts
+
+Void.md provides comprehensive keyboard shortcuts for power users. These are available system-wide when the app is focused:
+
+### Task Management
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + N` | Create new task (opens task modal) |
+| `Ctrl/Cmd + Enter` | Save task (when in task modal) |
+| `Ctrl/Cmd + K` | Open search/filter |
+| `Ctrl/Cmd + S` | Save current project |
+
+### Navigation
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + Shift + A` | Open archives |
+| `Ctrl/Cmd + Shift + S` | Open settings |
+| `?` or `Shift + /` | Show keyboard shortcuts help |
+
+### Rich Text Editor (when enabled)
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + Z` | Undo |
+| `Ctrl/Cmd + Shift + Z` | Redo |
+| `Ctrl/Cmd + B` | Bold |
+| `Ctrl/Cmd + I` | Italic |
+| `Ctrl/Cmd + K` | Insert/edit link (in editor) |
+
+**AI Note:** When documenting tasks that involve UI testing, mention if keyboard shortcuts were validated as part of the test coverage.
+
+---
+
+## 💾 Form Auto-Save
+
+The New Task modal implements automatic draft saving to prevent data loss:
+
+### How It Works
+- **Auto-save interval**: Every 3 seconds while typing
+- **Storage**: Draft saved to browser's localStorage
+- **Restoration**: Draft automatically restored when reopening New Task modal
+- **Clearing**: Draft cleared after successful task save or manual discard
+
+### User Experience
+1. User starts typing in New Task modal
+2. Draft is saved automatically (no manual action needed)
+3. If modal is closed accidentally, draft persists
+4. On reopening New Task, previous draft is restored
+5. After saving the task, draft is cleared
+
+**AI Note:** This feature is transparent to task management — no special handling needed in kanban.md structure. However, when testing task creation, be aware that draft restoration may affect test state.
+
+---
+
+## 🔒 Security Enhancements
+
+Void.md implements several security measures to protect user data:
+
+### XSS Protection
+- All user input is sanitized before DOM insertion
+- HTML content in task descriptions is escaped by default
+- Rich text content is processed through DOMPurify when Tiptap is enabled
+
+### Content Security Policy (CSP)
+- Enhanced CSP headers prevent inline script injection
+- External resource loading is restricted to trusted CDNs (Tiptap, etc.)
+- `unsafe-inline` and `unsafe-eval` are avoided where possible
+
+### Additional Security Headers
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY` (prevents clickjacking)
+- `Referrer-Policy: strict-origin-when-cross-origin`
+
+**AI Note:** When creating tasks related to security fixes, document:
+- The vulnerability type (XSS, CSP bypass, etc.)
+- Files modified with specific sanitization changes
+- Test cases that validate the fix (attempted injection vectors)
+
+---
+
 ### Core vs Full App
 
-The same `void.html` may contain **experimental features** (rich text editor, comments, slash commands). These are **disabled by default** in the core experience:
+The same `void.html` contains both core and enhanced features. Rich text editing is now fully complete; additional experimental features may be enabled by the user:
 
 | Mode | Features | How Enabled |
 |------|----------|-------------|
-| **Core** | Kanban, task CRUD, filters, archives, multi-project, themes, language | Default (out of box) |
-| **Experimental** | Rich text (Tiptap), comments, slash commands | User enables in Settings |
+| **Core** | Kanban, task CRUD, filters, archives, multi-project, themes (Light/Dark), keyboard shortcuts, form auto-save | Default (out of box) |
+| **Enhanced** | Rich text editor (Tiptap), Neon City theme, additional keyboard shortcuts | User enables in Settings or via keyboard |
+| **Experimental** | Comments, slash commands | Feature flags |
 
-The `core-package/` folder provides the portable core-only version. For this AI guide, treat the **default** experience as "core" — optional flags are **off** unless the user explicitly enables them.
+The `core-package/` folder provides the portable core-only version. For this AI guide, treat the **default** experience as "core" — optional features are **off** unless the user explicitly enables them.
+
+**Key Features Available:**
+- **Three-Theme System**: Light, Dark, and Neon City (toggle independently)
+- **Rich Text Editor**: Full Tiptap integration with toolbar, links, headings, blockquotes, undo/redo
+- **Keyboard Shortcuts**: Comprehensive shortcuts for common actions (see section below)
+- **Form Auto-Save**: Drafts auto-saved every 3 seconds, restored on modal reopen
 
 > **Note:** If working with just the portable `core-package/` folder (no full repo), see `AI_GUIDE.md` in that folder for a concise version of this guide.
 
@@ -316,6 +402,11 @@ Real-time notifications with WebSockets.
 ### TASK-003 | Completed task
 [...]
 ```
+
+**Configuration Notes:**
+- Column IDs in parentheses `(column-id)` are **required** for proper board parsing
+- Theme preferences are stored in browser localStorage, not in kanban.md
+- Rich text editor state is per-user preference (stored in localStorage)
 
 ### archive.md
 
