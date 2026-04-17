@@ -1656,6 +1656,111 @@
             max-height: 500px;
             overflow-y: auto;
         }
+        /* Documentation Modal */
+        .modal-content--docs {
+            width: min(95%, 900px);
+            max-width: 900px;
+            min-width: 320px;
+            height: 90vh;
+            max-height: 90vh;
+        }
+        .docs-modal-body {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 60px);
+            padding: 1rem;
+        }
+        .docs-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .docs-tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        .docs-tab:hover {
+            background: var(--bg-hover);
+        }
+        .docs-tab.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+        .docs-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            line-height: 1.6;
+        }
+        .docs-content h1, .docs-content h2, .docs-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .docs-content h1:first-child {
+            margin-top: 0;
+        }
+        .docs-content p {
+            margin-bottom: 1rem;
+        }
+        .docs-content code {
+            background: var(--bg-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .docs-content pre {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        .docs-content pre code {
+            padding: 0;
+            background: none;
+        }
+        .docs-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        .docs-content th, .docs-content td {
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .docs-content th {
+            background: var(--bg-primary);
+        }
+        .docs-content ul, .docs-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        .docs-content li {
+            margin-bottom: 0.5rem;
+        }
+        .docs-content blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 1rem 0;
+            padding-left: 1rem;
+            color: var(--text-secondary);
+        }
+        .docs-no-docs {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -1682,6 +1787,7 @@
                     <button id="settingsBtn" class="btn btn-secondary" onclick="openSettingsModal()" title="Settings" aria-label="Settings">⚙️ Settings</button>
                     <button id="selectFolderBtn" class="btn btn-primary" aria-label="Choose folder">📁 Folder</button>
                     <button id="reportProblemBtn" class="btn btn-secondary" onclick="reportProblem()" title="Report a problem" aria-label="Report a problem">🐛 Report</button>
+                    <button id="docsBtn" class="btn btn-secondary" onclick="openDocsModal()" title="Documentation" aria-label="Documentation">📖 Docs</button>
                 </div>
             </div>
         </div>
@@ -2072,6 +2178,20 @@ You can use Markdown:
         </div>
     </div>
 
+    <!-- Modal Documentation -->
+    <div id="docsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="docsModalTitle" aria-describedby="docsModalBody">
+        <div class="modal-content modal-content--docs">
+            <div class="modal-header">
+                <h2 id="docsModalTitle">📖 Documentation</h2>
+                <button type="button" class="close-btn" onclick="closeDocsModal()" aria-label="Close documentation">&times;</button>
+            </div>
+            <div id="docsModalBody" class="docs-modal-body">
+                <div class="docs-tabs" id="docsTabs"></div>
+                <div class="docs-content" id="docsContent"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="notification" class="notification" role="status" aria-live="polite">
         <span id="notificationText"></span>
     </div>
@@ -2101,6 +2221,7 @@ You can use Markdown:
         let formSubtasks = [];
         let archivedTasks = [];
         let archiveFileHandle = null;
+        let loadedDocs = {}; // Stores documentation files loaded from the project folder
 
         // ===== FILTER CACHE FOR PERFORMANCE =====
         // Cache filtered results to avoid O(n²) complexity on repeated filter operations
@@ -2255,6 +2376,117 @@ function closeSettingsModal() {
         setBodyModalOpen(false);
         returnFocus();
         debugLog('✅ Settings modal closed');
+    }
+}
+
+// Documentation modal functions
+function openDocsModal() {
+    const modal = document.getElementById('docsModal');
+    if (!modal) return;
+
+    const tabsContainer = document.getElementById('docsTabs');
+    const contentContainer = document.getElementById('docsContent');
+
+    if (!tabsContainer || !contentContainer) return;
+
+    const docFiles = Object.keys(loadedDocs);
+
+    if (docFiles.length === 0) {
+        contentContainer.innerHTML = '<div class="docs-no-docs">No documentation files found in this folder.<br><small>Place HOW-TO-RUN.md, AI_GUIDE.md, or README.md in your project folder.</small></div>';
+        tabsContainer.innerHTML = '';
+    } else {
+        // Create tabs
+        tabsContainer.innerHTML = docFiles.map((filename, index) =>
+            `<button class="docs-tab ${index === 0 ? 'active' : ''}" onclick="showDoc('${filename}', this)">${filename.replace('.md', '')}</button>`
+        ).join('');
+
+        // Show first doc
+        showDoc(docFiles[0], tabsContainer.querySelector('.docs-tab'));
+    }
+
+    modal.classList.add('active');
+    setBodyModalOpen(true);
+    trapFocus(modal);
+    setFocusToModal(modal);
+    debugLog('✅ Docs modal opened');
+}
+
+function showDoc(filename, tabButton) {
+    const contentContainer = document.getElementById('docsContent');
+    if (!contentContainer) return;
+
+    // Update active tab
+    document.querySelectorAll('.docs-tab').forEach(t => t.classList.remove('active'));
+    if (tabButton) tabButton.classList.add('active');
+
+    // Convert markdown to HTML and display
+    const mdContent = loadedDocs[filename] || '';
+    contentContainer.innerHTML = parseMarkdownDoc(mdContent);
+}
+
+function parseMarkdownDoc(md) {
+    // Simple markdown to HTML conversion
+    let html = md
+        // Escape HTML
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        // Headers
+        .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+        // Bold
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Italic
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Inline code
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        // Code blocks
+        .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+        // Links
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        // Images
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">')
+        // Horizontal rules
+        .replace(/^---$/gm, '<hr>')
+        // Lists
+        .replace(/^- (.*$)/gm, '<li>$1</li>')
+        .replace(/^(\d+)\. (.*$)/gm, '<li>$2</li>')
+        // Wrap lists
+        .replace(/(<li>.*<\/li>)+/g, '<ul>$&</ul>')
+        // Blockquotes
+        .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
+        // Tables (basic)
+        .replace(/\|(.+)\|/g, (match) => {
+            const cells = match.split('|').filter(c => c.trim());
+            if (cells.some(c => c.includes('---'))) return '';
+            const tag = match.includes('---') ? 'th' : 'td';
+            return '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+        })
+        .replace(/(<tr>.*<\/tr>)+/g, '<table>$&</table>')
+        // Paragraphs - replace double newlines with paragraphs
+        .replace(/\n\n/g, '</p><p>')
+        // Single line breaks within paragraphs
+        .replace(/\n/g, '<br>');
+
+    // Wrap in paragraph if not starting with HTML tag
+    if (!html.startsWith('<')) {
+        html = '<p>' + html + '</p>';
+    }
+
+    // Clean up empty paragraphs
+    html = html.replace(/<p>\s*<\/p>/g, '');
+
+    return html;
+}
+
+function closeDocsModal() {
+    const modal = document.getElementById('docsModal');
+    if (modal) {
+        modal.classList.remove('active');
+        setBodyModalOpen(false);
+        returnFocus();
+        debugLog('✅ Docs modal closed');
     }
 }
 
@@ -5323,6 +5555,9 @@ function deleteFromArchive(taskId) {
                     
                     const newTaskBtn = document.getElementById('newTaskBtn');
                     if (newTaskBtn) newTaskBtn.style.display = 'inline-flex';
+
+                    const docsBtn = document.getElementById('docsBtn');
+                    if (docsBtn) docsBtn.style.display = 'inline-flex';
                     
                     if (debugMode) {
                         console.log('✅ UI elements updated - Kanban view should now be visible');
@@ -5732,6 +5967,10 @@ function deleteFromArchive(taskId) {
                 console.log('  → Loading archive...');
                 await loadArchive(); // Load archive for historical autocomplete data
                 console.log('  ✅ Archive loaded');
+
+                console.log('  → Loading documentation...');
+                await loadDocumentationFiles();
+                console.log('  ✅ Documentation loaded');
 
                 console.log('  → Updating autocomplete...');
                 updateAutocomplete();
@@ -7214,6 +7453,31 @@ ${t('markdown.archiveSection')}
                 }
                 autoSave();
             }
+        }
+
+        // Documentation loading
+        async function loadDocumentationFiles() {
+            console.log('📖 === LOADING DOCUMENTATION FILES ===');
+            const docFiles = ['HOW-TO-RUN.md', 'AI_GUIDE.md', 'README.md'];
+            loadedDocs = {};
+
+            for (const filename of docFiles) {
+                try {
+                    const fileHandle = await directoryHandle.getFileHandle(filename);
+                    const file = await fileHandle.getFile();
+                    loadedDocs[filename] = await file.text();
+                    console.log(`  ✅ Loaded ${filename} (${file.size} bytes)`);
+                } catch (e) {
+                    console.log(`  ℹ️ ${filename} not found in folder, skipping`);
+                }
+            }
+
+            // Update docs button visibility
+            const docsBtn = document.getElementById('docsBtn');
+            if (docsBtn) {
+                docsBtn.style.display = Object.keys(loadedDocs).length > 0 ? 'inline-flex' : 'none';
+            }
+            console.log('📖 Documentation loaded:', Object.keys(loadedDocs));
         }
 
         // Archive functions
