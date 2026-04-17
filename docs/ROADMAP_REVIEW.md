@@ -101,6 +101,31 @@ Since the January 2026 review, Void.md has progressed from **v1.1.2 → v1.4.0**
 
 ---
 
+## 🧪 Testing Workflow
+
+### Tracking Experimental Features
+Use `docs/TESTING_TRACKER.md` to track features from experimental branch that need testing:
+
+| Tool | Purpose |
+|------|---------|
+| `docs/TESTING_TRACKER.md` | Main tracking document |
+| `.github/ISSUE_TEMPLATE/test_report.md` | GitHub issue template for test results |
+| Kanban board | Create testing tasks in project folder |
+
+### Testing Flow
+1. **Experimental** → Features developed and tested here
+2. **Testing** → Create test tasks, verify in TESTING_TRACKER
+3. **Production** → When tests pass, merge to production
+
+### Test Report Template
+Use the test report issue template to document results:
+```markdown
+title: '[TEST] Feature Name'
+labels: testing
+```
+
+---
+
 ## 🗺️ Updated Roadmap Assessment
 
 ### Original vs Actual
