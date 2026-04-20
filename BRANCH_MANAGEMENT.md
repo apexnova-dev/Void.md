@@ -12,233 +12,246 @@ Void.md is a local-first Kanban task manager that works with local Markdown file
 
 ## 🏗️ Three-Branch Architecture
 
-Void.md uses a **three-branch strategy** to manage development, testing, and releases:
+Void.md uses a **three-branch strategy** representing engine + two skin releases:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        BRANCH HIERARCHY                             │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
-│   experimental ──────────────► core ──────────────► production      │
-│                                                                     │
-│   ↑                              ↑                              ↑    │
-│   │                              │                              │    │
-│   │                              │                              │    │
-│   │    • New features            │   • Bug fixes               │    │
-│   │    • Testing ideas           │   • Development             │    │
-│   │    • Breaking changes        │   • Daily work              │    │
-│   │    • Experimental            │                              │    │
-│   │                              │                              │    │
-│   │                              │                              │    │
-│   │   Version: 1.3.1-exp        │   Version: 1.3.1-core       │    │
-│   │                              │                              │    │
-│   │                              │                              │    │
-│   │   "Testing new ideas"        │   "Working on features"      │    │
-│   │                              │                              │    │
-│   │                              │                              │    │
-│   │                              │                              │    │
-│   │                              │                              │    │
-│   └──────────────────────────────┴──────────────────────────────┘    │
-│                                                                     │
-│                              production                              │
-│                                                                     │
-│                              Version: 1.3.1                          │
-│                                                                     │
-│                         "Stable & Ready"                            │
+│   ┌──────────────────┐        ┌──────────────────┐                   │
+│   │  EXPERIMENTAL    │        │   PRODUCTION    │                    │
+│   │                  │        │                  │                   │
+│   │  • New features  │        │  • Stable       │                   │
+│   │  • Testing      │        │    release      │                   │
+│   │  • New ideas   │        │  • Production   │                   │
+│   │    (may break) │        │    skin         │                   │
+│   │                  │        │                  │                   │
+│   │  Version: -exp  │        │  Version: (none) │                   │
+│   │                  │        │                  │                   │
+│   │  "Testing"     │        │  "Production"  │                   │
+│   └────────┬───────┘        └────────┬───────┘                   │
+│            │                          │                             │
+│            │   (most changes)       │   (most changes)           │
+│            ▼                          ▼                             │
+│   ┌──────────────────────────────────────────────────┐               │
+│   │                      CORE                         │               │
+│   │                                                  │               │
+│   │  • Engine / core kanban functionality           │               │
+│   │  • Base kanban (no branding, no skin)           │               │
+│   │  • Bug fixes for the engine                     │               │
+│   │  • Changes rarely (mostly complete)            │               │
+│   │                                                  │               │
+│   │  Version: -core                                  │               │
+│   │                                                  │               │
+│   │  "Engine / Lite"                                │               │
+│   │                                                  │               │
+│   └──────────────────────────────────────────────────┘               │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Branch Definitions
 
-| Branch | Purpose | Who Uses It | Version | When to Merge |
-|--------|---------|--------------|---------|---------------|
-| `experimental` | **Testing ground** for new ideas, features that might fail, breaking changes | Developers testing concepts | `-exp` | When ready to share testing |
-| `core` | **Primary development** for bug fixes and approved features | All developers | `-core` | When work is stable |
-| `production` | **Stable releases** for end users | End users | *(none)* | When ready to ship |
+| Branch | Purpose | Role | Version Suffix | When to Use |
+|--------|---------|------|----------------|-------------|
+| `core` | **Engine** — core kanban functionality | Base engine + "lite" release | `-core` | Bug fixes or engine modifications (rare) |
+| `production` | **Stable release** | Core + production skin | *(none)* | End users |
+| `experimental` | **Testing ground** | Core + experimental skin | `-exp` | Testing new features |
+
+### Three Ways to Think About Core
+
+1. **Engine** — The core kanban functionality that makes the app work
+2. **Lite** — A minimal release for users who want just the basics
+3. **Reference** — Mostly static, only touched when engine needs fixing
 
 ---
 
-## 🔄 How the Branches Work Together
+## 🔄 Branch Relationships
 
-### The Flow
+### Relationship Diagram
 
 ```
-    ┌─────────────┐
-    │  IDEA       │  ← Someone has an idea
-    └──────┬──────┘
-           │
-           ▼
-    ┌─────────────┐
-    │ EXPERIMENTAL │  ← Build it, test it, break it
-    └──────┬──────┘
-           │  When stable & approved
-           ▼
-    ┌─────────────┐
-    │    CORE      │  ← Bug fixes & development
-    └──────┬──────┘
-           │  When ready to ship
-           ▼
-    ┌─────────────┐
-    │ PRODUCTION  │  ← Live for users
-    └─────────────┘
+                    ┌─────────────────┐
+                    │     IDEA        │  ← New feature or idea
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  EXPERIMENTAL    │
+                    │                 │
+                    │  Build & test   │
+                    │  new feature    │
+                    └────────┬────────┘
+                             │
+                             │  Feature ready?
+                             ▼
+                    ┌─────────────────┐
+                    │   PRODUCTION    │  ← Direct merge (no core touch)
+                    │                 │
+                    │  Release to     │
+                    │  users         │
+                    └─────────────────┘
 ```
 
-### Decision Rules
+### Engine Bug/Modification Flow
+
+```
+                    ┌─────────────────┐
+                    │     ISSUE       │  ← Bug in engine or core modification
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  EXPERIMENTAL    │
+                    │                 │
+                    │  Test fix first  │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │      CORE       │  ← Only for engine changes
+                    │                 │
+                    │  Update engine  │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │   PRODUCTION    │
+                    │                 │
+                    │  Get engine fix │
+                    └─────────────────┘
+```
+
+---
+
+## 📋 Decision Rules
 
 | Question | Answer | Action |
 |----------|--------|--------|
-| Is it a new experimental feature? | → | Build in `experimental` |
-| Is it a bug fix? | → | Fix in `core` |
-| Is it stable and ready for users? | → | Merge to `production` |
-| Want to test something risky? | → | Use `experimental` |
-| Is it a hotfix for production? | → | Fix in `core`, then sync |
+| Is it a **new feature**? | → | direct: `experimental → production` |
+| Is it an **engine bug fix**? | → | `experimental → core → production` |
+| Is it a **core modification**? | → | `experimental → core → production` |
+| Want to test something **risky**? | → | `experimental` only |
+| Is core already stable? | → | Skip core, go direct |
 
-### Version Suffix Rules
+### Quick Reference
 
-| Branch | Suffix | Example | Meaning |
-|--------|--------|---------|---------|
-| `production` | *(none)* | `v1.3.1` | Clean, official release |
-| `core` | `-core` | `v1.3.1-core` | Development build |
-| `experimental` | `-exp` | `v1.3.1-exp` | Experimental build |
+| Change Type | Flow |
+|-------------|------|
+| New feature | experimental → production (direct) |
+| Bug fix (engine) | experimental → core → production |
+| Core modification | experimental → core → production |
 
 ---
 
-## 🔄 Standard Merge Flow
+## 🔄 Merge Flows
+
+### Flow 1: Features (Direct)
+
+**Most common.** Features go experimental → production without touching core.
+
+```
+experimental → production (direct)
+```
+
+```bash
+# 1. Stay on experimental or merge feature branch to experimental
+git checkout experimental
+git merge feature/my-new-feature
+# Test thoroughly
+
+# 2. Merge to production (direct)
+git checkout production
+git merge experimental
+
+# 3. Update BRANCH_SUFFIX
+# Update void.html and core-package/void.html:
+# Change BRANCH_SUFFIX from '-core' to ''
+
+# 4. Commit and push
+git add -A
+git commit -m "chore: set BRANCH_SUFFIX='' for production release"
+git push origin production
+
+# 5. Return to experimental
+git checkout experimental
+```
+
+### Flow 2: Engine Changes (Via Core)
+
+**Rare.** Only when core/engine needs fixing or modification.
 
 ```
 experimental → core → production
 ```
 
-**Never merge in reverse (production → core → experimental) except for critical hotfixes.**
-
-### Step-by-Step Merge Checklist
-
-#### 1. Merging TO core (from experimental or hotfixes)
-
 ```bash
+# 1. Fix in experimental first
+git checkout experimental
+# Make your fix
+git commit -m "fix: engine issue description"
+
+# 2. Merge to core
 git checkout core
-git merge experimental  # or feature branch
-# Fix any conflicts
+git merge experimental
+git commit -m "fix: engine issue description"
 git push origin core
-```
 
-**AI Checklist:**
-- [ ] Resolve merge conflicts if any
-- [ ] Run tests (if applicable)
-- [ ] Verify BRANCH_SUFFIX is `-core`
-- [ ] Commit and push
-
-#### 2. Merging TO production (from core)
-
-```bash
+# 3. Merge to production
 git checkout production
 git merge core
-# Fix any conflicts
-```
+# Update BRANCH_SUFFIX to ''
 
-**⚠️ IMPORTANT - Required Changes BEFORE pushing:**
+# 4. Push
+git push origin production
 
-1. **Update BRANCH_SUFFIX** in both files:
-   - `void.html` line ~2520
-   - `core-package/void.html` line ~2520
-
-   ```javascript
-   // CHANGE FROM:
-   const BRANCH_SUFFIX = '-core';
-   
-   // TO:
-   const BRANCH_SUFFIX = '';
-   ```
-
-2. **Commit the suffix change:**
-   ```bash
-   git add -A
-   git commit -m "chore: set BRANCH_SUFFIX='' for production release"
-   git push origin production
-   ```
-
-**AI Checklist:**
-- [ ] Resolve merge conflicts
-- [ ] **Update BRANCH_SUFFIX = '' in void.html**
-- [ ] **Update BRANCH_SUFFIX = '' in core-package/void.html**
-- [ ] Commit suffix change
-- [ ] Push production
-
-#### 3. Merging TO experimental (from core)
-
-```bash
+# 5. Sync experimental back to core
 git checkout experimental
 git merge core
+# Update BRANCH_SUFFIX back to '-exp'
+git push origin experimental
 ```
-
-**⚠️ IMPORTANT - Required Changes BEFORE pushing:**
-
-1. **Update BRANCH_SUFFIX** in both files:
-   - `void.html` line ~2520
-   - `core-package/void.html` line ~2520
-
-   ```javascript
-   // CHANGE FROM:
-   const BRANCH_SUFFIX = '-core';
-   
-   // TO:
-   const BRANCH_SUFFIX = '-exp';
-   ```
-
-2. **Commit the suffix change:**
-   ```bash
-   git add -A
-   git commit -m "chore: set BRANCH_SUFFIX='-exp' for experimental"
-   git push origin experimental
-   ```
 
 ---
 
-## 📋 Bug Fix Sync Checklist
+## ⚠️ Important: BRANCH_SUFFIX
 
-When fixing bugs, ALL THREE branches should receive the fix:
+Every merge **TO production** requires updating BRANCH_SUFFIX in BOTH files:
 
-### Quick Sync (All Branches)
+| File | Line ~ | Change |
+|------|--------|--------|
+| `void.html` | 2520 | `BRANCH_SUFFIX` = '' for production |
+| `core-package/void.html` | 2520 | `BRANCH_SUFFIX` = '' for production |
 
+### BRANCH_SUFFIX Values
+
+| Branch | Value | Example Display |
+|--------|-------|-----------------|
+| production | `''` (empty) | `Void.md v. 1.3.1` |
+| core | `'-core'` | `Void.md v. 1.3.1-core` |
+| experimental | `'-exp'` | `Void.md v. 1.3.1-exp` |
+
+---
+
+## 🔧 Quick Reference Commands
+
+### Switch Branches
 ```bash
-# 1. Fix on core (primary branch)
-git checkout core
-# Make your fix
-git commit -m "fix: description"
-git push origin core
-
-# 2. Merge to production
-git checkout production
-git merge core
-# Update BRANCH_SUFFIX = '' (see above)
-git push origin production
-
-# 3. Merge to experimental
-git checkout experimental
-git merge core
-# Update BRANCH_SUFFIX = '-exp' (see above)
-git push origin experimental
-
-# 4. Return to core
-git checkout core
+git checkout core          # Engine work (rare)
+git checkout production   # Release
+git checkout experimental # Development/testing
 ```
 
-### Files That Need Branch-Specific Updates
-
-| File | What to Change | When |
-|------|---------------|------|
-| `void.html` | `BRANCH_SUFFIX` | Every merge |
-| `core-package/void.html` | `BRANCH_SUFFIX` | Every merge |
-
-### AI Prompt Template for Bug Fix Sync
-
+### Check Current Branch
+```bash
+git branch --show-current
 ```
-"When syncing bug fixes across branches, I need you to:
-1. Fix the bug on core branch
-2. Merge to production (update BRANCH_SUFFIX to '')
-3. Merge to experimental (update BRANCH_SUFFIX to '-exp')
-4. Return to core branch"
+
+### View Differences
+```bash
+git diff production..experimental   # What's different
+git log --oneline -5               # Recent history
 ```
 
 ---
@@ -251,8 +264,6 @@ git checkout core
 ```
 
 ### Version Bump Workflow
-
-When incrementing the version number (e.g., 1.3.1 → 1.3.2):
 
 1. **Update `currentVersion`** in BOTH files:
    - `void.html` line ~2522
@@ -267,92 +278,89 @@ When incrementing the version number (e.g., 1.3.1 → 1.3.2):
    git commit -m "chore: bump version to 1.3.2"
    ```
 
-3. **Sync to all branches** following the merge flow above.
-
-### Version Display Format
-
-| Branch | Display |
-|--------|---------|
-| production | `Void.md v. 1.3.1` |
-| core | `Void.md v. 1.3.1-core` |
-| experimental | `Void.md v. 1.3.1-exp` |
-
----
-
-## 🔧 Quick Reference Commands
-
-### Switch Branches
-```bash
-git checkout core      # Development
-git checkout production # Stable release
-git checkout experimental # Bleeding edge
-```
-
-### Check Current Branch
-```bash
-git branch --show-current
-```
-
-### View Branch Differences
-```bash
-git diff production..core  # What's in core but not production
-```
-
-### Force Sync All Branches
-```bash
-# Core is source of truth
-git checkout core
-git push --all origin
-```
+3. **Push to appropriate branch:**
+   - Feature: experimental → production
+   - Engine fix: experimental → core → production
 
 ---
 
 ## ⚠️ Common Mistakes to Avoid
 
-1. **Forgetting to update BRANCH_SUFFIX** before pushing
-   - Production will show wrong version
-   - Users may see "-core" or "-exp" in production
+1. **Touching core for features**
+   - Features: experimental → production (direct)
+   - Only use core for engine bugs/modifications
 
-2. **Pushing without testing**
-   - Always verify changes work before merging
+2. **Forgetting BRANCH_SUFFIX**
+   - Always update before pushing to production
+   - Check both void.html files
 
-3. **Merging in wrong order**
-   - Standard: experimental → core → production
-   - Never merge production → core (except for critical hotfixes)
+3. **Merging in reverse**
+   - Don't merge production → core or production → experimental
+   - Except for critical hotfixes
 
-4. **Leaving core with wrong suffix after merging**
-   - After merging to production, set core back to `-core`
-   - After merging to experimental, set core back to `-core`
+4. **Skipping testing**
+   - Always verify in experimental before production
 
 ---
 
 ## 🤖 AI Assistant Instructions
 
-When asked to merge branches or deploy, always:
+When asked to merge or deploy:
 
 1. **Read this file first**
-2. **Identify source and target branches**
-3. **Follow the checklist for the target branch**
-4. **Update BRANCH_SUFFIX in BOTH void.html files**
-5. **Commit the suffix change separately**
-6. **Verify the correct suffix after push**
+2. **Determine the change type** (feature vs engine fix)
+3. **Choose the correct flow** (direct vs via core)
+4. **Update BRANCH_SUFFIX** in BOTH files if merging to production
+5. **Verify after push**
 
-### Example AI Task
+### Example: New Feature
 
-**User:** "Merge the bug fix to production"
+**User:** "Ship the new filter feature to production"
 
 **AI Response:**
 ```
-I'll sync the bug fix to production following the workflow:
+I'll merge the feature to production (direct flow):
 
-1. ✅ Merge core to production
+1. ✅ Merge to production (experimental → production)
 2. ⚠️ Update BRANCH_SUFFIX = '' in void.html and core-package/void.html
 3. ✅ Commit suffix change
 4. ✅ Push production
-5. ✅ Return to core
+5. ✅ Return to experimental
 
-Would you like me to proceed?
+Is this correct?
 ```
+
+### Example: Engine Bug Fix
+
+**User:** "Fix the drag-drop bug and ship it"
+
+**AI Response:**
+```
+I'll fix the engine bug (via core flow):
+
+1. ✅ Fix in experimental first
+2. ✅ Merge to core (experimental → core)
+3. ✅ Merge to production (core → production)
+4. ⚠️ Update BRANCH_SUFFIX = '' in both files
+5. ✅ Commit and push
+6. ✅ Sync experimental back to core
+7. ✅ Return to experimental
+
+Is this correct?
+```
+
+---
+
+## 📝 Summary
+
+| When | Flow |
+|------|------|
+| New feature | experimental → production (direct) |
+| Engine bug fix | experimental → core → production |
+| Core modification | experimental → core → production |
+| Risky test | experimental only |
+
+**Core is mostly static. Most changes go direct.**
 
 ---
 
