@@ -1,12 +1,10 @@
-# Void.md
+# Void.md.
 
 <p align="center">
   <img src="./logo.svg" alt="Void.md" width="200" height="200" />
 </p>
 
 > **Visual Kanban. Plaintext Soul. No Cloud.**
-
-> **[🇫🇷 Version française / French version](./readmeFR.md)**
 
 **Local-first Kanban over Markdown** — your files are the database. No account, no cloud sync: open `void.html`, pick a folder, own your data.
 
