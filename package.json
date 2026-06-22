@@ -7,7 +7,7 @@
     "serve": "serve -s . -l 3000"
   },
   "devDependencies": {
-    "playwright": "^1.40.0",
+    "playwright": "^1.61.0",
     "serve": "^14.0.0",
     "eslint": "^10.4.0",
     "@html-eslint/parser": "^0.59.0",
