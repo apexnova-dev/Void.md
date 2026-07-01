@@ -130,6 +130,6 @@ To refresh from the repo:
 
 *Core package – Void.md. Single-file, local-only, Git-friendly.*
 
-*Version: 1.3.1*
+*Version: 1.3.3*
 
 *Licensed under MPL-2.0 - see LICENSE file*

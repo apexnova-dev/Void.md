@@ -224,3 +224,4 @@ Send outreach email about missing data.
 ---
 
 *Core package – Void.md. For full-repo agent conventions, see `AGENTS.md` and `.claude/skills/markdown-task-manager/SKILL.md`.*
+*Version: 1.3.3*
