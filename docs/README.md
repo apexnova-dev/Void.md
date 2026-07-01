@@ -13,7 +13,8 @@ This folder holds **technical and process documentation** for the repository. Th
 | **Everyone** | [`README.md`](../README.md) | Install, features, `kanban.md` format overview |
 | **AI assistants & editors** | [`AI_WORKFLOW.md`](AI_WORKFLOW.md) | **Canonical** task shape, column IDs, archive rules (root [`AI_WORKFLOW.md`](../AI_WORKFLOW.md) points here) |
 | **Developers / agents** | [`AGENTS.md`](../AGENTS.md) | Tests in browser, code style, modal/header behavior |
-| **Portable zip / minimal copy** | [`../core-package/AI_GUIDE.md`](../core-package/AI_GUIDE.md) | Short markdown contract; full protocol still in `AI_WORKFLOW.md` |
+| **Portable zip / minimal copy** | [`../core-package/README.md`](../core-package/README.md) | Standalone package overview; see also `AI_GUIDE.md` and `HOW-TO-RUN.md` in the same folder |
+| **AI assistants (portable)** | [`../core-package/AI_GUIDE.md`](../core-package/AI_GUIDE.md) | Short markdown contract; full protocol still in `AI_WORKFLOW.md` |
 
 ---
 

@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.4.0-exp] - 2026-07-01
+
+### Added
+
+- **Documentation creation on project init**: New projects now get HOW-TO-RUN.md, AI_GUIDE.md, and README.md created alongside kanban.md and archive.md
+- **Documentation viewer docs modal**: Tabbed modal for viewing the three documentation files in-app
+- **README.md in core-package**: Standalone package now includes its own README.md for portable use
+- **Branch-specific READMEs**: Each branch (core, production, experimental) now has a tailored README.md
+
+### Changed
+
+- **core-package**: HOW-TO-RUN.md updated to v1.3.3; AI_GUIDE.md versioned at 1.3.3
+- **i18n**: Notification strings updated to reflect documentation files in both EN and FR
+
+---
+
 ## [1.3.0] - 2026-03-31
 
 ### Added
@@ -327,14 +343,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Version History
 
 
-| Version | Date       | Status  |
-| ------- | ---------- | ------- |
-| [1.3.2] | 2026-04-09 | Current |
-| [1.3.1] | 2026-04-01 | Stable  |
-| [1.3.0] | 2026-03-31 | Stable  |
-| [1.1.2] | 2026-01-20 | Stable  |
-| [1.1.1] | 2025-01-15 | Stable  |
-| [1.1.0] | Prior      | Stable  |
+| Version | Date       | Status     |
+| ------- | ---------- | ---------- |
+| [1.4.0-exp] | 2026-07-01 | Experimental |
+| [1.3.3] | 2026-04-10 | Core       |
+| [1.3.2] | 2026-04-09 | Stable     |
+| [1.3.1] | 2026-04-01 | Stable     |
+| [1.3.0] | 2026-03-31 | Stable     |
+| [1.1.2] | 2026-01-20 | Stable     |
+| [1.1.1] | 2025-01-15 | Stable     |
+| [1.1.0] | Prior      | Stable     |
 
 
 ---
